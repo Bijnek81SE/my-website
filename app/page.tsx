@@ -1,16 +1,37 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-950 px-6">
-      <Image
-        src="/me-signed.jpg"
-        alt="Bijan"
-        width={500}
-        height={500}
-        priority
-        className="h-auto w-[min(500px,80vw)] rounded-2xl shadow-2xl"
-      />
-    </main>
+    <div className="mx-auto max-w-7xl px-6 py-24">
+      <h1 className="text-5xl font-bold text-slate-900">
+        Organic Chemistry Hub
+      </h1>
+
+      <p className="mt-6 max-w-2xl text-lg text-slate-600">
+        Learn organic chemistry through structured lessons, named reactions,
+        reagent guides, calculators, and practical resources.
+      </p>
+
+      <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="rounded-xl border p-6">
+          <h2 className="font-semibold">Learn</h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Step-by-step lessons.
+          </p>
+        </div>
+
+        <div className="rounded-xl border p-6">
+          <h2 className="font-semibold">Named Reactions</h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Comprehensive reaction database.
+          </p>
+        </div>
+
+        <div className="rounded-xl border p-6">
+          <h2 className="font-semibold">Reagents</h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Practical reagent reference.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
