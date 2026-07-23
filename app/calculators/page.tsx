@@ -1,11 +1,15 @@
-export default function Page() {
-  return (
-    <div className="mx-auto max-w-5xl px-6 py-20">
-      <h1 className="text-4xl font-bold text-slate-900">calculators</h1>
+import type { Metadata } from 'next';
+import SectionLanding from '@/components/ui/SectionLanding';
 
-      <p className="mt-4 text-slate-600">
-        This page is coming soon.
-      </p>
-    </div>
-  );
+export const metadata: Metadata = { title: 'Chemistry Calculators', description: 'Practical chemistry calculators for solution preparation, stoichiometry, yield, and laboratory planning.' };
+
+export default function CalculatorsPage() {
+  return <SectionLanding eyebrow="Practical tools" title="Calculate common laboratory quantities quickly" description="Interactive tools will be added one at a time and validated before publication." items={[
+    { title: 'Molecular weight calculator', description: 'Calculate molar mass from a molecular formula.' },
+    { title: 'Molarity and solution preparation', description: 'Determine solute mass, concentration, or final volume.' },
+    { title: 'Dilution calculator', description: 'Plan dilutions using initial and final concentration and volume.' },
+    { title: 'Stoichiometry calculator', description: 'Convert between mass, moles, equivalents, and reaction scale.' },
+    { title: 'Limiting reagent calculator', description: 'Identify the limiting reactant and theoretical product amount.' },
+    { title: 'Percent yield calculator', description: 'Compare isolated yield with theoretical yield.' },
+  ]} />;
 }
