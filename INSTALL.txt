@@ -1,0 +1,11 @@
+CHEMICAL BONDING FEATURE PACK
+
+1. Copy the included app folder into the root of your Next.js project.
+2. Copy the included public folder into the root of your project.
+3. Allow Windows to merge the folders.
+4. Start the development server with: cmd /c npm run dev
+5. Open: http://localhost:3000/learn/fundamentals/chemical-bonding
+6. Commit with:
+   git add .
+   git commit -m "feat(lesson): add chemical bonding lesson with diagrams"
+   git push origin main
