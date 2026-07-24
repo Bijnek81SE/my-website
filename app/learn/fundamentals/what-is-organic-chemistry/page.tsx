@@ -3,14 +3,13 @@ import Link from "next/link";
 import LessonHeader from "@/components/Lesson/LessonHeader";
 import LessonTableOfContents from "@/components/Lesson/LessonTableOfContents";
 import LessonSection from "@/components/Lesson/LessonSection";
+import LessonNavigation from "@/components/Lesson/LessonNavigation";
+
 export const metadata: Metadata = {
   title: "What Is Organic Chemistry? | Organic Chemistry Hub",
   description:
     "Learn what organic chemistry is, why carbon is unique, and why organic chemistry matters in medicine, biology, materials, and everyday life.",
 };
-
-const sectionHeading =
-  "mt-12 text-2xl font-bold tracking-tight text-slate-900";
 
 const tableOfContents = [
   { id: "overview", label: "Overview" },
@@ -52,10 +51,8 @@ export default function WhatIsOrganicChemistryPage() {
 
       <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_240px]">
         <article className="min-w-0 text-lg leading-8 text-slate-700">
-          <section id="overview" className="scroll-mt-24">
-            <h2 className={sectionHeading}>Overview</h2>
-
-            <p className="mt-5">
+          <LessonSection id="overview" title="Overview">
+            <p>
               Organic chemistry is the branch of chemistry concerned with the
               structure, properties, reactions, and synthesis of
               carbon-containing compounds. Carbon&apos;s ability to form stable
@@ -68,7 +65,7 @@ export default function WhatIsOrganicChemistryPage() {
               medicines, plastics, dyes, fragrances, carbohydrates, proteins,
               and DNA.
             </p>
-          </section>
+          </LessonSection>
 
           <section
             id="objectives"
@@ -99,10 +96,8 @@ export default function WhatIsOrganicChemistryPage() {
             </ul>
           </section>
 
-          <section id="carbon" className="scroll-mt-24">
-            <h2 className={sectionHeading}>What makes carbon unique?</h2>
-
-            <p className="mt-5">
+          <LessonSection id="carbon" title="What makes carbon unique?">
+            <p>
               Carbon is especially versatile because a neutral carbon atom can
               form four covalent bonds. It can bond strongly to other carbon
               atoms and to elements such as hydrogen, oxygen, nitrogen, sulfur,
@@ -121,14 +116,13 @@ export default function WhatIsOrganicChemistryPage() {
                 with different properties.
               </li>
             </ul>
-          </section>
+          </LessonSection>
 
-          <section id="organic-inorganic" className="scroll-mt-24">
-            <h2 className={sectionHeading}>
-              Organic and inorganic carbon compounds
-            </h2>
-
-            <p className="mt-5">
+          <LessonSection
+            id="organic-inorganic"
+            title="Organic and inorganic carbon compounds"
+          >
+            <p>
               Most carbon-containing compounds are studied in organic
               chemistry, but several classes are traditionally treated as
               inorganic. Common examples include carbon monoxide, carbon
@@ -168,14 +162,13 @@ export default function WhatIsOrganicChemistryPage() {
                 </tbody>
               </table>
             </div>
-          </section>
+          </LessonSection>
 
-          <section id="classes" className="scroll-mt-24">
-            <h2 className={sectionHeading}>
-              Major classes of organic compounds
-            </h2>
-
-            <p className="mt-5">
+          <LessonSection
+            id="classes"
+            title="Major classes of organic compounds"
+          >
+            <p>
               Organic compounds are commonly grouped according to their
               functional groups. A functional group is a specific arrangement
               of atoms that strongly influences a molecule&apos;s properties and
@@ -199,14 +192,13 @@ export default function WhatIsOrganicChemistryPage() {
                 </div>
               ))}
             </div>
-          </section>
+          </LessonSection>
 
-          <section id="importance" className="scroll-mt-24">
-            <h2 className={sectionHeading}>
-              Why organic chemistry matters
-            </h2>
-
-            <div className="mt-6 space-y-5">
+          <LessonSection
+            id="importance"
+            title="Why organic chemistry matters"
+          >
+            <div className="space-y-5">
               <div>
                 <h3 className="text-xl font-semibold text-slate-900">
                   Medicine
@@ -238,12 +230,10 @@ export default function WhatIsOrganicChemistryPage() {
                 </p>
               </div>
             </div>
-          </section>
+          </LessonSection>
 
-          <section id="misconceptions" className="scroll-mt-24">
-            <h2 className={sectionHeading}>Common misconceptions</h2>
-
-            <div className="mt-6 space-y-5">
+          <LessonSection id="misconceptions" title="Common misconceptions">
+            <div className="space-y-5">
               <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
                 <h3 className="font-semibold text-slate-900">
                   “Organic” always means natural
@@ -265,12 +255,10 @@ export default function WhatIsOrganicChemistryPage() {
                 </p>
               </div>
             </div>
-          </section>
+          </LessonSection>
 
-          <section id="summary" className="scroll-mt-24">
-            <h2 className={sectionHeading}>Summary</h2>
-
-            <div className="mt-5 rounded-2xl bg-slate-900 p-6 text-slate-100">
+          <LessonSection id="summary" title="Summary">
+            <div className="rounded-2xl bg-slate-900 p-6 text-slate-100">
               <p>
                 Organic chemistry studies carbon-containing compounds and their
                 structures, properties, reactions, and synthesis.
@@ -279,12 +267,10 @@ export default function WhatIsOrganicChemistryPage() {
                 life, medicine, energy, and materials.
               </p>
             </div>
-          </section>
+          </LessonSection>
 
-          <section id="practice" className="scroll-mt-24">
-            <h2 className={sectionHeading}>Practice questions</h2>
-
-            <ol className="mt-6 list-decimal space-y-4 pl-7 marker:font-semibold marker:text-blue-700">
+          <LessonSection id="practice" title="Practice questions">
+            <ol className="list-decimal space-y-4 pl-7 marker:font-semibold marker:text-blue-700">
               <li>What does organic chemistry study?</li>
               <li>Why can carbon form such a large variety of compounds?</li>
               <li>Name four major classes of organic compounds.</li>
@@ -297,12 +283,10 @@ export default function WhatIsOrganicChemistryPage() {
                 biology.
               </li>
             </ol>
-          </section>
+          </LessonSection>
 
-          <section id="references" className="scroll-mt-24">
-            <h2 className={sectionHeading}>References and further reading</h2>
-
-            <ul className="mt-6 list-disc space-y-3 pl-7">
+          <LessonSection id="references" title="References and further reading">
+            <ul className="list-disc space-y-3 pl-7">
               <li>
                 Clayden, J., Greeves, N., and Warren, S.{" "}
                 <em>Organic Chemistry</em>.
@@ -316,29 +300,18 @@ export default function WhatIsOrganicChemistryPage() {
               </li>
               <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
             </ul>
-          </section>
+          </LessonSection>
 
-          <section className="mt-14 border-t border-slate-200 pt-8">
-            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">
-              Next lesson
-            </p>
-
-            <h2 className="mt-2 text-2xl font-bold text-slate-900">
-              Atomic Structure
-            </h2>
-
-            <p className="mt-3">
-              Learn how protons, neutrons, and electrons determine the identity
-              and chemical behaviour of atoms.
-            </p>
-
-            <Link
-              href="/learn"
-              className="mt-6 inline-flex rounded-lg bg-blue-700 px-5 py-3 font-semibold text-white transition hover:bg-blue-800"
-            >
-              Return to the curriculum
-            </Link>
-          </section>
+          <LessonNavigation
+            previous={{
+              title: "Curriculum",
+              href: "/learn",
+            }}
+            next={{
+              title: "Atomic Structure",
+              href: "/learn/fundamentals/atomic-structure",
+            }}
+          />
         </article>
 
         <LessonTableOfContents items={tableOfContents} />
