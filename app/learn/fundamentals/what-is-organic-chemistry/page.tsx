@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import LessonHeader from "@/components/Lesson/LessonHeader";
 import LessonTableOfContents from "@/components/Lesson/LessonTableOfContents";
-
+import LessonSection from "@/components/Lesson/LessonSection";
 export const metadata: Metadata = {
   title: "What Is Organic Chemistry? | Organic Chemistry Hub",
   description:
