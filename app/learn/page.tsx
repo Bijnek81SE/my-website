@@ -1,308 +1,130 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import LessonHeader from "@/components/Lesson/LessonHeader";
 
 export const metadata: Metadata = {
-  title: "What Is Organic Chemistry? | Organic Chemistry Hub",
+  title: "Learn Organic Chemistry | Organic Chemistry Hub",
   description:
-    "Learn what organic chemistry is, why carbon is unique, and why organic chemistry matters in medicine, biology, materials, and everyday life.",
+    "Follow a structured organic chemistry curriculum covering fundamentals, stereochemistry, mechanisms, spectroscopy, laboratory methods, and synthesis.",
 };
 
-const sectionHeading =
-  "mt-12 text-2xl font-bold tracking-tight text-slate-900";
+const modules = [
+  {
+    title: "Fundamentals",
+    description:
+      "Begin with atoms, bonding, hybridization, resonance, acids and bases, and functional groups.",
+    href: "/learn/fundamentals/what-is-organic-chemistry",
+    status: "In progress",
+  },
+  {
+    title: "Stereochemistry",
+    description:
+      "Study chirality, enantiomers, diastereomers, conformations, and stereochemical nomenclature.",
+    href: "#",
+    status: "Coming soon",
+  },
+  {
+    title: "Reaction Mechanisms",
+    description:
+      "Learn curved-arrow notation, reactive intermediates, substitution, elimination, and addition reactions.",
+    href: "#",
+    status: "Coming soon",
+  },
+  {
+    title: "Spectroscopy",
+    description:
+      "Interpret IR, NMR, and mass spectra to identify organic structures.",
+    href: "#",
+    status: "Coming soon",
+  },
+  {
+    title: "Laboratory Methods",
+    description:
+      "Explore extraction, recrystallization, distillation, chromatography, and safe laboratory practice.",
+    href: "#",
+    status: "Coming soon",
+  },
+  {
+    title: "Organic Synthesis",
+    description:
+      "Develop retrosynthetic thinking, reagent selection, protecting-group strategies, and route design.",
+    href: "#",
+    status: "Coming soon",
+  },
+];
 
-export default function WhatIsOrganicChemistryPage() {
+export default function LearnPage() {
   return (
-    <main className="mx-auto max-w-4xl px-6 py-12 sm:py-16">
-      <nav
-        aria-label="Breadcrumb"
-        className="mb-8 flex items-center gap-2 text-sm text-slate-500"
-      >
-        <Link href="/learn" className="hover:text-blue-700">
-          Learn
-        </Link>
-
-        <span aria-hidden="true">/</span>
-
-        <span>Fundamentals</span>
-
-        <span aria-hidden="true">/</span>
-
-        <span className="text-slate-700">What Is Organic Chemistry?</span>
-      </nav>
-
-      <LessonHeader
-        category="Fundamentals"
-        title="What Is Organic Chemistry?"
-        description="Organic chemistry is the study of carbon-containing compounds, their structures, properties, reactions, and synthesis."
-        readingTime="8 min"
-      />
-
-      <article className="text-lg leading-8 text-slate-700">
-        <section>
-          <h2 className={sectionHeading}>Overview</h2>
-
-          <p className="mt-5">
-            Organic chemistry is the branch of chemistry concerned with the
-            structure, properties, reactions, and synthesis of carbon-containing
-            compounds. Carbon&apos;s ability to form stable covalent bonds with
-            itself and many other elements allows an extraordinary variety of
-            molecules to exist.
-          </p>
-
-          <p className="mt-5">
-            Organic compounds include many familiar substances, such as fuels,
-            medicines, plastics, dyes, fragrances, carbohydrates, proteins, and
-            DNA.
-          </p>
-        </section>
-
-        <section className="mt-12 rounded-2xl border border-blue-200 bg-blue-50 p-6">
-          <h2 className="text-xl font-bold text-slate-900">
-            Learning objectives
-          </h2>
-
-          <ul className="mt-4 space-y-3">
-            {[
-              "Define organic chemistry.",
-              "Explain why carbon can form so many different compounds.",
-              "Recognize major classes of organic compounds.",
-              "Distinguish organic compounds from common inorganic carbon compounds.",
-              "Describe why organic chemistry matters in science and everyday life.",
-            ].map((objective) => (
-              <li key={objective} className="flex gap-3">
-                <span className="font-bold text-blue-700" aria-hidden="true">
-                  ✓
-                </span>
-                <span>{objective}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section>
-          <h2 className={sectionHeading}>What makes carbon unique?</h2>
-
-          <p className="mt-5">
-            Carbon is especially versatile because a neutral carbon atom can
-            form four covalent bonds. It can bond strongly to other carbon atoms
-            and to elements such as hydrogen, oxygen, nitrogen, sulfur,
-            phosphorus, and the halogens.
-          </p>
-
-          <ul className="mt-6 list-disc space-y-3 pl-7 marker:text-blue-700">
-            <li>Carbon can form single, double, and triple bonds.</li>
-            <li>Carbon atoms can form chains, branches, and rings.</li>
-            <li>Carbon-carbon bonds are strong enough to create stable molecules.</li>
-            <li>
-              Different three-dimensional arrangements can produce compounds
-              with different properties.
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 className={sectionHeading}>
-            Organic and inorganic carbon compounds
-          </h2>
-
-          <p className="mt-5">
-            Most carbon-containing compounds are studied in organic chemistry,
-            but several classes are traditionally treated as inorganic. Common
-            examples include carbon monoxide, carbon dioxide, carbonates,
-            bicarbonates, and many carbides.
-          </p>
-
-          <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200">
-            <table className="w-full border-collapse text-left text-base">
-              <thead className="bg-slate-100 text-slate-900">
-                <tr>
-                  <th className="px-5 py-4 font-semibold">Organic examples</th>
-                  <th className="px-5 py-4 font-semibold">
-                    Traditionally inorganic examples
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody className="divide-y divide-slate-200">
-                <tr>
-                  <td className="px-5 py-4">Methane and ethanol</td>
-                  <td className="px-5 py-4">Carbon monoxide and carbon dioxide</td>
-                </tr>
-                <tr>
-                  <td className="px-5 py-4">Benzene and acetone</td>
-                  <td className="px-5 py-4">Carbonates and bicarbonates</td>
-                </tr>
-                <tr>
-                  <td className="px-5 py-4">Glucose and amino acids</td>
-                  <td className="px-5 py-4">Many metal carbides</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section>
-          <h2 className={sectionHeading}>Major classes of organic compounds</h2>
-
-          <p className="mt-5">
-            Organic compounds are commonly grouped according to their
-            functional groups. A functional group is a specific arrangement of
-            atoms that strongly influences a molecule&apos;s properties and
-            reactions.
-          </p>
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {[
-              "Alkanes, alkenes, and alkynes",
-              "Aromatic compounds",
-              "Alcohols and ethers",
-              "Aldehydes and ketones",
-              "Carboxylic acids and esters",
-              "Amines and amides",
-            ].map((group) => (
-              <div
-                key={group}
-                className="rounded-xl border border-slate-200 bg-white p-4 font-medium text-slate-900"
-              >
-                {group}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2 className={sectionHeading}>Why organic chemistry matters</h2>
-
-          <div className="mt-6 space-y-5">
-            <div>
-              <h3 className="text-xl font-semibold text-slate-900">Medicine</h3>
-              <p className="mt-2">
-                Most pharmaceutical drugs are organic molecules designed to
-                interact with specific biological targets.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold text-slate-900">Biology</h3>
-              <p className="mt-2">
-                Proteins, carbohydrates, lipids, DNA, and RNA are all based on
-                organic chemistry.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold text-slate-900">
-                Materials and industry
-              </h3>
-              <p className="mt-2">
-                Plastics, synthetic fibres, coatings, adhesives, dyes, fuels,
-                and many advanced materials are organic compounds or polymers.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 className={sectionHeading}>Common misconceptions</h2>
-
-          <div className="mt-6 space-y-5">
-            <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
-              <h3 className="font-semibold text-slate-900">
-                “Organic” always means natural
-              </h3>
-              <p className="mt-2">
-                In chemistry, organic compounds may be natural or synthetic.
-                The term does not mean that a substance was produced without
-                human intervention.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
-              <h3 className="font-semibold text-slate-900">
-                Every carbon compound is organic
-              </h3>
-              <p className="mt-2">
-                Several carbon compounds, including carbon dioxide and
-                carbonates, are conventionally classified as inorganic.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 className={sectionHeading}>Summary</h2>
-
-          <div className="mt-5 rounded-2xl bg-slate-900 p-6 text-slate-100">
-            <p>
-              Organic chemistry studies carbon-containing compounds and their
-              structures, properties, reactions, and synthesis. Carbon&apos;s
-              ability to form four bonds and connect into chains and rings
-              produces an enormous range of molecules essential to life,
-              medicine, energy, and materials.
-            </p>
-          </div>
-        </section>
-
-        <section>
-          <h2 className={sectionHeading}>Practice questions</h2>
-
-          <ol className="mt-6 list-decimal space-y-4 pl-7 marker:font-semibold marker:text-blue-700">
-            <li>What does organic chemistry study?</li>
-            <li>Why can carbon form such a large variety of compounds?</li>
-            <li>Name four major classes of organic compounds.</li>
-            <li>
-              Give three examples of carbon-containing compounds traditionally
-              classified as inorganic.
-            </li>
-            <li>
-              Explain one way organic chemistry contributes to medicine or
-              biology.
-            </li>
-          </ol>
-        </section>
-
-        <section>
-          <h2 className={sectionHeading}>References and further reading</h2>
-
-          <ul className="mt-6 list-disc space-y-3 pl-7">
-            <li>
-              Clayden, J., Greeves, N., and Warren, S.{" "}
-              <em>Organic Chemistry</em>.
-            </li>
-            <li>
-              McMurry, J. <em>Organic Chemistry</em>.
-            </li>
-            <li>
-              Solomons, T. W. G., Fryhle, C. B., and Snyder, S. A.{" "}
-              <em>Organic Chemistry</em>.
-            </li>
-            <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
-          </ul>
-        </section>
-
-        <section className="mt-14 border-t border-slate-200 pt-8">
+    <main>
+      <section className="border-b border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
           <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">
-            Next lesson
+            Structured curriculum
           </p>
 
-          <h2 className="mt-2 text-2xl font-bold text-slate-900">
-            Atomic Structure
-          </h2>
+          <h1 className="mt-4 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+            Learn organic chemistry step by step
+          </h1>
 
-          <p className="mt-3">
-            Learn how protons, neutrons, and electrons determine the identity
-            and chemical behaviour of atoms.
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+            Build a strong foundation before progressing to reaction
+            mechanisms, spectroscopy, laboratory methods, and multistep
+            synthesis.
           </p>
+        </div>
+      </section>
 
-          <Link
-            href="/learn"
-            className="mt-6 inline-flex rounded-lg bg-blue-700 px-5 py-3 font-semibold text-white transition hover:bg-blue-800"
-          >
-            Return to the curriculum
-          </Link>
-        </section>
-      </article>
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {modules.map((module) => {
+            const available = module.href !== "#";
+
+            const content = (
+              <>
+                <div className="flex items-start justify-between gap-4">
+                  <h2 className="text-xl font-bold text-slate-900">
+                    {module.title}
+                  </h2>
+
+                  <span
+                    className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
+                      available
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-slate-100 text-slate-500"
+                    }`}
+                  >
+                    {module.status}
+                  </span>
+                </div>
+
+                <p className="mt-4 leading-7 text-slate-600">
+                  {module.description}
+                </p>
+
+                <p className="mt-6 text-sm font-semibold text-blue-700">
+                  {available ? "Start module →" : "Content in development"}
+                </p>
+              </>
+            );
+
+            return available ? (
+              <Link
+                key={module.title}
+                href={module.href}
+                className="rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg"
+              >
+                {content}
+              </Link>
+            ) : (
+              <article
+                key={module.title}
+                className="rounded-2xl border border-slate-200 bg-white p-6 opacity-80"
+              >
+                {content}
+              </article>
+            );
+          })}
+        </div>
+      </section>
     </main>
   );
 }
