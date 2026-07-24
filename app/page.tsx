@@ -1,10 +1,19 @@
+<<<<<<< HEAD
 import Hero from "@/components/home/Hero";
 import CategoryGrid from "@/components/home/CategoryGrid";
+=======
+import CategoryGrid from '@/components/home/CategoryGrid';
+import FeaturedContent from '@/components/home/FeaturedContent';
+import Hero from '@/components/home/Hero';
+import Newsletter from '@/components/home/Newsletter';
+import TrustSection from '@/components/home/TrustSection';
+>>>>>>> fcac42748f801e5a306da04c34fb4714d263d715
 
 export default function Home() {
   return (
     <>
       <Hero />
+<<<<<<< HEAD
 
       <CategoryGrid />
 
@@ -46,3 +55,12 @@ export default function Home() {
     </>
   );
 }
+=======
+      <CategoryGrid />
+      <FeaturedContent />
+      <TrustSection />
+      <Newsletter />
+    </>
+  );
+}
+>>>>>>> fcac42748f801e5a306da04c34fb4714d263d715
