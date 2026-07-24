@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import LessonPage from "@/components/Lesson/LessonPage";
 import LessonSection from "@/components/Lesson/LessonSection";
 import LessonNavigation from "@/components/Lesson/LessonNavigation";
@@ -69,6 +70,21 @@ export default function AtomicStructurePage() {
           nucleus contains protons and neutrons, while electrons occupy regions
           of space called orbitals.
         </p>
+
+        <figure className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <Image
+            src="/images/atomic-structure/carbon-atom.svg"
+            alt="Simplified carbon atom showing a nucleus with protons and neutrons surrounded by two electron shells containing six electrons"
+            width={1200}
+            height={760}
+            priority
+            className="h-auto w-full"
+          />
+          <figcaption className="border-t border-slate-200 px-5 py-4 text-sm text-slate-600">
+            A simplified shell model of carbon. The first shell contains two
+            electrons, while the second shell contains four valence electrons.
+          </figcaption>
+        </figure>
       </LessonSection>
 
       <section
