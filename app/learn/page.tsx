@@ -1,128 +1,89 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import ModuleCard from "@/components/ui/ModuleCard";
 
 export const metadata: Metadata = {
-  title: "Learn Organic Chemistry | Organic Chemistry Hub",
-  description:
-    "Follow a structured organic chemistry curriculum covering fundamentals, stereochemistry, mechanisms, spectroscopy, laboratory methods, and synthesis.",
+  title: "Organic Chemistry Curriculum",
+  description: "Follow a structured, visual organic chemistry curriculum from foundations to synthesis.",
 };
 
 const modules = [
   {
-    title: "Fundamentals",
-    description:
-      "Begin with atoms, bonding, hybridization, resonance, acids and bases, and functional groups.",
+    number: "01",
+    title: "Foundations",
+    description: "Build the atomic and electronic foundation needed to understand structure and reactivity.",
+    lessons: 7,
+    duration: "about 80 min",
     href: "/learn/fundamentals/what-is-organic-chemistry",
-    status: "In progress",
+    status: "available" as const,
+    topics: ["Atomic structure", "Bonding", "Hybridisation", "Lewis structures", "Resonance"],
   },
   {
+    number: "02",
+    title: "Functional Groups",
+    description: "Recognise the structural patterns that control physical properties and common reactions.",
+    lessons: 10,
+    duration: "about 2 hours",
+    status: "coming-soon" as const,
+    topics: ["Hydrocarbons", "Alcohols", "Carbonyls", "Carboxylic acids", "Amines"],
+  },
+  {
+    number: "03",
+    title: "Acids, Bases & Reactivity",
+    description: "Connect pKa, equilibrium, nucleophilicity, electrophilicity, and curved-arrow notation.",
+    lessons: 9,
+    duration: "about 2 hours",
+    status: "coming-soon" as const,
+    topics: ["pKa", "Conjugate pairs", "Nucleophiles", "Electrophiles", "Arrow pushing"],
+  },
+  {
+    number: "04",
     title: "Stereochemistry",
-    description:
-      "Study chirality, enantiomers, diastereomers, conformations, and stereochemical nomenclature.",
-    href: "#",
-    status: "Coming soon",
+    description: "Understand three-dimensional structure, chirality, conformations, and stereochemical notation.",
+    lessons: 11,
+    duration: "about 3 hours",
+    status: "coming-soon" as const,
+    topics: ["Chirality", "R/S", "E/Z", "Conformations", "Cyclohexane"],
   },
   {
+    number: "05",
     title: "Reaction Mechanisms",
-    description:
-      "Learn curved-arrow notation, reactive intermediates, substitution, elimination, and addition reactions.",
-    href: "#",
-    status: "Coming soon",
+    description: "Use electron flow to understand substitution, elimination, addition, and rearrangements.",
+    lessons: 16,
+    duration: "about 4 hours",
+    status: "coming-soon" as const,
+    topics: ["SN1", "SN2", "E1", "E2", "Electrophilic addition"],
   },
   {
-    title: "Spectroscopy",
-    description:
-      "Interpret IR, NMR, and mass spectra to identify organic structures.",
-    href: "#",
-    status: "Coming soon",
-  },
-  {
-    title: "Laboratory Methods",
-    description:
-      "Explore extraction, recrystallization, distillation, chromatography, and safe laboratory practice.",
-    href: "#",
-    status: "Coming soon",
-  },
-  {
-    title: "Organic Synthesis",
-    description:
-      "Develop retrosynthetic thinking, reagent selection, protecting-group strategies, and route design.",
-    href: "#",
-    status: "Coming soon",
+    number: "06",
+    title: "Spectroscopy & Synthesis",
+    description: "Identify structures from spectra and combine reactions into efficient synthetic routes.",
+    lessons: 14,
+    duration: "about 4 hours",
+    status: "coming-soon" as const,
+    topics: ["IR", "NMR", "Mass spectrometry", "Retrosynthesis", "Route design"],
   },
 ];
 
 export default function LearnPage() {
   return (
     <main>
-      <section className="border-b border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
-          <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">
-            Structured curriculum
-          </p>
-
-          <h1 className="mt-4 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            Learn organic chemistry step by step
-          </h1>
-
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-            Build a strong foundation before progressing to reaction
-            mechanisms, spectroscopy, laboratory methods, and multistep
-            synthesis.
-          </p>
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-950 text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.22),transparent_30%),radial-gradient(circle_at_85%_10%,rgba(59,130,246,0.18),transparent_28%)]" />
+        <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-400">Course curriculum</p>
+          <h1 className="mt-5 max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl">A clear path through organic chemistry.</h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">Start with structure and bonding, then progress through reactivity, mechanisms, stereochemistry, spectroscopy, and synthesis.</p>
+          <div className="mt-9 flex flex-wrap gap-3 text-sm text-slate-300">
+            <span className="rounded-full border border-slate-700 bg-slate-900/70 px-4 py-2">67 planned lessons</span>
+            <span className="rounded-full border border-slate-700 bg-slate-900/70 px-4 py-2">6 structured modules</span>
+            <span className="rounded-full border border-slate-700 bg-slate-900/70 px-4 py-2">Visual-first explanations</span>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {modules.map((module) => {
-            const available = module.href !== "#";
-
-            const content = (
-              <>
-                <div className="flex items-start justify-between gap-4">
-                  <h2 className="text-xl font-bold text-slate-900">
-                    {module.title}
-                  </h2>
-
-                  <span
-                    className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
-                      available
-                        ? "bg-blue-100 text-blue-700"
-                        : "bg-slate-100 text-slate-500"
-                    }`}
-                  >
-                    {module.status}
-                  </span>
-                </div>
-
-                <p className="mt-4 leading-7 text-slate-600">
-                  {module.description}
-                </p>
-
-                <p className="mt-6 text-sm font-semibold text-blue-700">
-                  {available ? "Start module →" : "Content in development"}
-                </p>
-              </>
-            );
-
-            return available ? (
-              <Link
-                key={module.title}
-                href={module.href}
-                className="rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg"
-              >
-                {content}
-              </Link>
-            ) : (
-              <article
-                key={module.title}
-                className="rounded-2xl border border-slate-200 bg-white p-6 opacity-80"
-              >
-                {content}
-              </article>
-            );
-          })}
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="grid gap-6 lg:grid-cols-2">
+          {modules.map((module) => <ModuleCard key={module.number} {...module} />)}
         </div>
       </section>
     </main>

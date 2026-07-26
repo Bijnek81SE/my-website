@@ -5,64 +5,27 @@
   --foreground: #0f172a;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
-
-::selection {
-  background: #a7f3d0;
-  color: #064e3b;
-}
-
-a {
-  text-underline-offset: 3px;
-}
+::selection { background: #a7f3d0; color: #064e3b; }
+a { text-underline-offset: 3px; }
+button, a { -webkit-tap-highlight-color: transparent; }
 
 @keyframes soft-pulse {
   0%, 100% { opacity: 1; filter: drop-shadow(0 0 0 rgba(37,99,235,0)); }
   50% { opacity: 0.9; filter: drop-shadow(0 0 14px rgba(37,99,235,0.35)); }
 }
-
-@keyframes orbit-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes float-y {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes dash-flow {
-  to { stroke-dashoffset: -40; }
-}
-
-@keyframes draw-in {
-  from { stroke-dashoffset: var(--draw-length, 200); }
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes shimmer-sweep {
-  0% { transform: translateX(-120%); }
-  100% { transform: translateX(120%); }
-}
-
-@keyframes count-fade {
-  0%, 20% { opacity: 1; }
-  25%, 95% { opacity: 0; }
-  100% { opacity: 1; }
-}
+@keyframes orbit-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes float-y { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
+@keyframes dash-flow { to { stroke-dashoffset: -40; } }
+@keyframes draw-in { from { stroke-dashoffset: var(--draw-length, 200); } to { stroke-dashoffset: 0; } }
+@keyframes shimmer-sweep { 0% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
 
 .animate-soft-pulse { animation: soft-pulse 3.2s ease-in-out infinite; }
 .animate-orbit-spin { animation: orbit-spin 14s linear infinite; }
@@ -73,13 +36,7 @@ a {
 .animate-shimmer-sweep { animation: shimmer-sweep 2.6s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-soft-pulse,
-  .animate-orbit-spin,
-  .animate-orbit-spin-reverse,
-  .animate-float-y,
-  .animate-dash-flow,
-  .animate-draw-in,
-  .animate-shimmer-sweep {
-    animation: none;
-  }
+  html { scroll-behavior: auto; }
+  .animate-soft-pulse, .animate-orbit-spin, .animate-orbit-spin-reverse,
+  .animate-float-y, .animate-dash-flow, .animate-draw-in, .animate-shimmer-sweep { animation: none; }
 }
