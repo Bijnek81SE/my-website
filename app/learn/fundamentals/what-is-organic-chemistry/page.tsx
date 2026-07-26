@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import MethaneDiagram from "@/components/diagrams/MethaneDiagram";
 import LessonPage from "@/components/Lesson/LessonPage";
 import LessonSection from "@/components/Lesson/LessonSection";
 import LessonNavigation from "@/components/Lesson/LessonNavigation";
@@ -92,6 +93,16 @@ export default function WhatIsOrganicChemistryPage() {
             different properties.
           </li>
         </ul>
+
+        <figure className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <MethaneDiagram />
+          <figcaption className="border-t border-slate-200 px-5 py-4 text-sm text-slate-600">
+            Methane (CH₄), the simplest organic compound. Carbon forms four
+            single bonds arranged tetrahedrally—two in the plane of the page,
+            one wedge bond toward you, and one dashed bond away from you.
+            Hover an atom for details.
+          </figcaption>
+        </figure>
       </LessonSection>
 
       <LessonSection

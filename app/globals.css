@@ -28,3 +28,58 @@ body {
 a {
   text-underline-offset: 3px;
 }
+
+@keyframes soft-pulse {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 0 rgba(37,99,235,0)); }
+  50% { opacity: 0.9; filter: drop-shadow(0 0 14px rgba(37,99,235,0.35)); }
+}
+
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes dash-flow {
+  to { stroke-dashoffset: -40; }
+}
+
+@keyframes draw-in {
+  from { stroke-dashoffset: var(--draw-length, 200); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+@keyframes count-fade {
+  0%, 20% { opacity: 1; }
+  25%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-soft-pulse { animation: soft-pulse 3.2s ease-in-out infinite; }
+.animate-orbit-spin { animation: orbit-spin 14s linear infinite; }
+.animate-orbit-spin-reverse { animation: orbit-spin 18s linear infinite reverse; }
+.animate-float-y { animation: float-y 4s ease-in-out infinite; }
+.animate-dash-flow { animation: dash-flow 1.1s linear infinite; }
+.animate-draw-in { animation: draw-in 1.4s ease-out forwards; }
+.animate-shimmer-sweep { animation: shimmer-sweep 2.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-soft-pulse,
+  .animate-orbit-spin,
+  .animate-orbit-spin-reverse,
+  .animate-float-y,
+  .animate-dash-flow,
+  .animate-draw-in,
+  .animate-shimmer-sweep {
+    animation: none;
+  }
+}

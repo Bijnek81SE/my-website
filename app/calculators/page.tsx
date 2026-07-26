@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import SectionLanding from '@/components/ui/SectionLanding';
+import CalculatorsDiagram from '@/components/diagrams/CalculatorsDiagram';
 
 export const metadata: Metadata = { title: 'Chemistry Calculators', description: 'Practical chemistry calculators for solution preparation, stoichiometry, yield, and laboratory planning.' };
 
 export default function CalculatorsPage() {
-  return <SectionLanding eyebrow="Practical tools" title="Calculate common laboratory quantities quickly" description="Interactive tools will be added one at a time and validated before publication." items={[
+  return <SectionLanding eyebrow="Practical tools" title="Calculate common laboratory quantities quickly" description="Interactive tools will be added one at a time and validated before publication." heroContent={<CalculatorsDiagram />} heroCaption="Quick formulas behind the calculators in this section." items={[
     { title: 'Molecular weight calculator', description: 'Calculate molar mass from a molecular formula.' },
     { title: 'Molarity and solution preparation', description: 'Determine solute mass, concentration, or final volume.' },
     { title: 'Dilution calculator', description: 'Plan dilutions using initial and final concentration and volume.' },

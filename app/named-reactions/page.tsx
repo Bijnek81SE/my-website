@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import SectionLanding from '@/components/ui/SectionLanding';
+import NamedReactionsDiagram from '@/components/diagrams/NamedReactionsDiagram';
 
 export const metadata: Metadata = { title: 'Named Reactions', description: 'Explore organic named reactions by transformation, mechanism, and synthetic purpose.' };
 
 export default function NamedReactionsPage() {
-  return <SectionLanding eyebrow="Reaction reference" title="Named reactions, explained with purpose" description="Each entry will cover the transformation, mechanism, conditions, scope, limitations, and related alternatives." items={[
+  return <SectionLanding eyebrow="Reaction reference" title="Named reactions, explained with purpose" description="Each entry will cover the transformation, mechanism, conditions, scope, limitations, and related alternatives." heroContent={<NamedReactionsDiagram />} heroCaption="Every named reaction follows this pattern: substrate, reagent and conditions, product." items={[
     { title: 'Carbon–carbon bond formation', description: 'Aldol, Claisen, Michael, Wittig, Grignard, and related reactions.' },
     { title: 'Cross-coupling reactions', description: 'Suzuki, Heck, Sonogashira, Negishi, Stille, Buchwald–Hartwig, and more.' },
     { title: 'Cycloadditions and pericyclic reactions', description: 'Diels–Alder, electrocyclic reactions, sigmatropic rearrangements, and related chemistry.' },

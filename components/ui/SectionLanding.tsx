@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 
 type Item = {
@@ -11,16 +12,31 @@ type SectionLandingProps = {
   title: string;
   description: string;
   items: Item[];
+  heroContent?: ReactNode;
+  heroCaption?: string;
 };
 
-export default function SectionLanding({ eyebrow, title, description, items }: SectionLandingProps) {
+export default function SectionLanding({ eyebrow, title, description, items, heroContent, heroCaption }: SectionLandingProps) {
   return (
     <div className="bg-white">
       <section className="border-b border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-700">{eyebrow}</p>
-          <h1 className="mt-3 max-w-4xl text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">{title}</h1>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">{description}</p>
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-700">{eyebrow}</p>
+            <h1 className="mt-3 max-w-4xl text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">{title}</h1>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">{description}</p>
+          </div>
+
+          {heroContent && (
+            <figure className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              {heroContent}
+              {heroCaption && (
+                <figcaption className="mt-4 border-t border-slate-200 pt-3 text-xs text-slate-600">
+                  {heroCaption}
+                </figcaption>
+              )}
+            </figure>
+          )}
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
