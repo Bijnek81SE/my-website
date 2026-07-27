@@ -10,23 +10,6 @@ import {
   WorkedExample,
 } from "@/components/Lesson";
 
-export const tableOfContents = [
-  { id: "overview", label: "Overview" },
-  { id: "objectives", label: "Learning objectives" },
-  { id: "subatomic-particles", label: "Subatomic particles" },
-  { id: "atomic-number", label: "Atomic and mass numbers" },
-  { id: "worked-example", label: "Worked example" },
-  { id: "isotopes", label: "Isotopes" },
-  { id: "electrons", label: "Electrons and orbitals" },
-  { id: "valence-electrons", label: "Valence electrons" },
-  { id: "ions", label: "Ions" },
-  { id: "carbon", label: "Carbon atom" },
-  { id: "common-mistakes", label: "Common mistakes" },
-  { id: "summary", label: "Summary" },
-  { id: "practice", label: "Practice questions" },
-  { id: "references", label: "References" },
-];
-
 export const objectives = [
   "Identify the three main subatomic particles.",
   "Use atomic number and mass number correctly.",
@@ -125,40 +108,40 @@ export const practiceQuestions = [
 
   <div className="mt-6">
     <RememberBox title="Two relationships to remember">
-      <p className="font-semibold text-slate-900">
+      <div className="font-semibold text-slate-900">
         Mass number = protons + neutrons
-      </p>
-      <p className="mt-2">
+      </div>
+      <div className="mt-2">
         For a neutral atom, the number of electrons equals the number of protons.
-      </p>
+      </div>
     </RememberBox>
   </div>
 </LessonSection>
 
 <LessonSection id="worked-example" title="Worked example">
   <WorkedExample title="Determine the particles in oxygen-18">
-    <p>
+    <div>
       Oxygen has atomic number 8, so every oxygen atom has 8 protons. The isotope
       oxygen-18 has a mass number of 18.
-    </p>
+    </div>
     <div className="grid gap-3 sm:grid-cols-3">
       <div className="rounded-xl bg-emerald-50 p-4">
-        <p className="text-sm font-semibold text-emerald-800">Protons</p>
-        <p className="mt-1 text-xl font-bold text-slate-950">8</p>
+        <div className="text-sm font-semibold text-emerald-800">Protons</div>
+        <div className="mt-1 text-xl font-bold text-slate-950">8</div>
       </div>
       <div className="rounded-xl bg-emerald-50 p-4">
-        <p className="text-sm font-semibold text-emerald-800">Neutrons</p>
-        <p className="mt-1 text-xl font-bold text-slate-950">18 − 8 = 10</p>
+        <div className="text-sm font-semibold text-emerald-800">Neutrons</div>
+        <div className="mt-1 text-xl font-bold text-slate-950">18 − 8 = 10</div>
       </div>
       <div className="rounded-xl bg-emerald-50 p-4">
-        <p className="text-sm font-semibold text-emerald-800">Electrons</p>
-        <p className="mt-1 text-xl font-bold text-slate-950">8</p>
+        <div className="text-sm font-semibold text-emerald-800">Electrons</div>
+        <div className="mt-1 text-xl font-bold text-slate-950">8</div>
       </div>
     </div>
-    <p>
+    <div>
       A neutral oxygen-18 atom therefore contains 8 protons, 10 neutrons, and 8
       electrons.
-    </p>
+    </div>
   </WorkedExample>
 </LessonSection>
 
@@ -170,18 +153,18 @@ export const practiceQuestions = [
   <div className="mt-6 grid gap-4 sm:grid-cols-3">
     <div className="rounded-xl border border-slate-200 bg-white p-5">
       <h3 className="font-semibold text-slate-900">Carbon-12</h3>
-      <p className="mt-2 text-base">6 protons</p>
-      <p className="text-base">6 neutrons</p>
+      <div className="mt-2 text-base">6 protons</div>
+      <div className="text-base">6 neutrons</div>
     </div>
     <div className="rounded-xl border border-slate-200 bg-white p-5">
       <h3 className="font-semibold text-slate-900">Carbon-13</h3>
-      <p className="mt-2 text-base">6 protons</p>
-      <p className="text-base">7 neutrons</p>
+      <div className="mt-2 text-base">6 protons</div>
+      <div className="text-base">7 neutrons</div>
     </div>
     <div className="rounded-xl border border-slate-200 bg-white p-5">
       <h3 className="font-semibold text-slate-900">Carbon-14</h3>
-      <p className="mt-2 text-base">6 protons</p>
-      <p className="text-base">8 neutrons</p>
+      <div className="mt-2 text-base">6 protons</div>
+      <div className="text-base">8 neutrons</div>
     </div>
   </div>
 
@@ -258,23 +241,23 @@ export const practiceQuestions = [
   <div className="mt-6 grid gap-5 sm:grid-cols-2">
     <div className="rounded-xl border border-blue-200 bg-blue-50 p-5">
       <h3 className="font-semibold text-slate-900">Cation</h3>
-      <p className="mt-2">
+      <div className="mt-2">
         A positively charged ion formed when an atom loses one or more electrons.
-      </p>
+      </div>
     </div>
     <div className="rounded-xl border border-violet-200 bg-violet-50 p-5">
       <h3 className="font-semibold text-slate-900">Anion</h3>
-      <p className="mt-2">
+      <div className="mt-2">
         A negatively charged ion formed when an atom gains one or more electrons.
-      </p>
+      </div>
     </div>
   </div>
 
   <div className="mt-6">
     <RememberBox title="Calculating ion charge">
-      <p className="font-semibold text-slate-900">
+      <div className="font-semibold text-slate-900">
         Ion charge = number of protons − number of electrons
-      </p>
+      </div>
     </RememberBox>
   </div>
 </LessonSection>

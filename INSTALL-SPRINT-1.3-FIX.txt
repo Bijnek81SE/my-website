@@ -1,0 +1,8 @@
+Sprint 1.3 MDX pilot fix
+
+This patch fixes:
+1. TypeScript's inability to infer a named export from the generic *.mdx module declaration.
+2. Invalid nested <p> markup inside MDX custom components.
+
+Copy app/ and content/ into the project root and replace matching files.
+Then delete .next, run the Webpack dev server, and run npm run build.
