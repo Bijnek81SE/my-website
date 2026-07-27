@@ -40,3 +40,19 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .animate-soft-pulse, .animate-orbit-spin, .animate-orbit-spin-reverse,
   .animate-float-y, .animate-dash-flow, .animate-draw-in, .animate-shimmer-sweep { animation: none; }
 }
+
+/* Design-system foundation */
+:root {
+  --och-ink: #0f172a;
+  --och-muted: #475569;
+  --och-border: #cbd5e1;
+  --och-primary: #2563eb;
+  --och-accent: #7c3aed;
+  --och-surface: #f8fafc;
+  --och-radius-card: 1rem;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.45);
+  outline-offset: 3px;
+}

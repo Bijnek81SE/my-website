@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import LessonPage from "@/components/Lesson/LessonPage";
 import LessonSection from "@/components/Lesson/LessonSection";
 import LessonNavigation from "@/components/Lesson/LessonNavigation";
+import { LearningObjectives, PracticeQuestions, SummaryBox } from "@/components/Lesson";
+import { Callout, Card } from "@/components/ui";
+import { CurvedArrowGuide, ResonanceCarboxylateInteractive } from "@/components/chemistry";
 
 export const metadata: Metadata = {
   title: "Resonance | Organic Chemistry Hub",
@@ -42,44 +44,20 @@ export default function ResonancePage() {
           <strong> resonance contributors</strong>.
         </p>
 
-        <figure className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-          <Image
-            src="/images/resonance/resonance-overview.svg"
-            alt="Comparison of resonance contributors and the resonance hybrid"
-            width={1200}
-            height={720}
-            className="h-auto w-full"
-            priority
-          />
-          <figcaption className="border-t border-slate-200 px-5 py-4 text-sm text-slate-600">
-            Resonance contributors are alternative drawings of one real,
-            delocalised electronic structure.
-          </figcaption>
-        </figure>
+        <div className="mt-8">
+          <ResonanceCarboxylateInteractive />
+        </div>
       </LessonSection>
 
-      <section
-        id="objectives"
-        className="mt-12 scroll-mt-24 rounded-2xl border border-blue-200 bg-blue-50 p-6"
-      >
-        <h2 className="text-xl font-bold text-slate-900">Learning objectives</h2>
-        <ul className="mt-4 space-y-3">
-          {[
-            "Explain what resonance contributors represent.",
-            "Use curved arrows to move electron pairs correctly.",
-            "Recognise which atoms may change formal charge.",
-            "Compare major and minor resonance contributors.",
-            "Describe the resonance hybrid and electron delocalisation.",
-          ].map((objective) => (
-            <li key={objective} className="flex gap-3">
-              <span className="font-bold text-blue-700" aria-hidden="true">
-                ✓
-              </span>
-              <span>{objective}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <LearningObjectives
+        items={[
+          "Explain what resonance contributors represent.",
+          "Use curved arrows to move electron pairs correctly.",
+          "Recognise which atoms may change formal charge.",
+          "Compare major and minor resonance contributors.",
+          "Describe the resonance hybrid and electron delocalisation.",
+        ]}
+      />
 
       <LessonSection id="meaning" title="What resonance means">
         <p>
@@ -89,12 +67,13 @@ export default function ResonancePage() {
           bookkeeping models that help us represent delocalised electrons.
         </p>
 
-        <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-5">
-          <h3 className="font-semibold text-slate-900">Key idea</h3>
-          <p className="mt-2">
-            Atoms remain in the same positions. Only electrons move when one
-            resonance contributor is converted into another.
-          </p>
+        <div className="mt-6">
+          <Callout title="Key idea" tone="success">
+            <p>
+              Atoms remain in the same positions. Only electrons move when one
+              resonance contributor is converted into another.
+            </p>
+          </Callout>
         </div>
       </LessonSection>
 
@@ -116,34 +95,20 @@ export default function ResonancePage() {
           be placed.
         </p>
 
-        <figure className="mt-8 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-          <Image
-            src="/images/resonance/curved-arrows.svg"
-            alt="Curved-arrow rules for resonance structures"
-            width={1200}
-            height={720}
-            className="h-auto w-full"
-          />
-          <figcaption className="border-t border-slate-200 px-5 py-4 text-sm text-slate-600">
-            Arrow tails begin at electron pairs; arrowheads show their new
-            location.
-          </figcaption>
-        </figure>
+        <div className="mt-8">
+          <CurvedArrowGuide />
+        </div>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="font-semibold text-slate-900">Lone pair to bond</h3>
-            <p className="mt-2">
-              Start the arrow at a lone pair and point it toward an adjacent bond.
-            </p>
-          </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h3 className="font-semibold text-slate-900">Bond to atom</h3>
-            <p className="mt-2">
+          <Card title="Lone pair to bond">
+            <p>Start the arrow at a lone pair and point it toward an adjacent bond.</p>
+          </Card>
+          <Card title="Bond to atom">
+            <p>
               Start the arrow at a π bond and point it toward the atom that will
               receive the electron pair.
             </p>
-          </div>
+          </Card>
         </div>
       </LessonSection>
 
@@ -222,13 +187,14 @@ export default function ResonancePage() {
           charge may be shown with partial-charge symbols.
         </p>
 
-        <div className="mt-6 rounded-xl border border-violet-200 bg-violet-50 p-5">
-          <h3 className="font-semibold text-slate-900">Consequences of delocalisation</h3>
-          <ul className="mt-3 list-disc space-y-2 pl-6">
-            <li>Bond lengths may become intermediate between single and double bonds.</li>
-            <li>Charge may be spread over several atoms.</li>
-            <li>The molecule or ion is often more stable than any one contributor suggests.</li>
-          </ul>
+        <div className="mt-6">
+          <Callout title="Consequences of delocalisation" tone="violet">
+            <ul className="list-disc space-y-2 pl-6">
+              <li>Bond lengths may become intermediate between single and double bonds.</li>
+              <li>Charge may be spread over several atoms.</li>
+              <li>The molecule or ion is often more stable than any one contributor suggests.</li>
+            </ul>
+          </Callout>
         </div>
       </LessonSection>
 
@@ -260,25 +226,27 @@ export default function ResonancePage() {
       </LessonSection>
 
       <LessonSection id="summary" title="Summary">
-        <div className="rounded-2xl bg-slate-900 p-6 text-slate-100">
+        <SummaryBox>
           <p>
             Resonance contributors are alternative Lewis structures with the same
             atom connectivity but different electron placement. Curved arrows show
             electron-pair movement, and the real molecule is a resonance hybrid in
             which electrons and charge may be delocalised.
           </p>
-        </div>
+        </SummaryBox>
       </LessonSection>
 
       <LessonSection id="practice" title="Practice questions">
-        <ol className="list-decimal space-y-4 pl-7 marker:font-semibold marker:text-blue-700">
-          <li>What must remain unchanged between resonance contributors?</li>
-          <li>Where must the tail of a curved arrow begin?</li>
-          <li>Why are the two contributors of a carboxylate ion equivalent?</li>
-          <li>List three features of a major resonance contributor.</li>
-          <li>Explain why resonance does not describe rapid structural switching.</li>
-          <li>What effect can resonance have on bond length and molecular stability?</li>
-        </ol>
+        <PracticeQuestions
+          questions={[
+            "What must remain unchanged between resonance contributors?",
+            "Where must the tail of a curved arrow begin?",
+            "Why are the two contributors of a carboxylate ion equivalent?",
+            "List three features of a major resonance contributor.",
+            "Explain why resonance does not describe rapid structural switching.",
+            "What effect can resonance have on bond length and molecular stability?",
+          ]}
+        />
       </LessonSection>
 
       <LessonSection id="references" title="References and further reading">

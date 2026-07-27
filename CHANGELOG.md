@@ -17,3 +17,11 @@
 ### Notes
 - Existing lesson routes and content remain compatible.
 - This release is the first foundation step, not an MDX migration.
+
+## 0.3.0 - Design system and interactive resonance pilot
+
+- Added reusable UI and lesson components.
+- Added a reusable chemistry component namespace.
+- Replaced the static resonance overview with an interactive contributor/hybrid view.
+- Replaced the curved-arrow SVG with a geometry-aligned React figure.
+- Added implementation roadmap for MDX, graphics, and interactive chemistry.
