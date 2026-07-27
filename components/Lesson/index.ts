@@ -1,3 +1,12 @@
+export { default as CommonMistakes } from "./CommonMistakes";
 export { default as LearningObjectives } from "./LearningObjectives";
+export { default as LessonHeader } from "./LessonHeader";
+export { default as LessonNavigation } from "./LessonNavigation";
+export { default as LessonPage } from "./LessonPage";
+export { default as LessonSection } from "./LessonSection";
+export { default as LessonTableOfContents } from "./LessonTableOfContents";
 export { default as PracticeQuestions } from "./PracticeQuestions";
+export { default as References } from "./References";
+export { default as RememberBox } from "./RememberBox";
 export { default as SummaryBox } from "./SummaryBox";
+export { default as WorkedExample } from "./WorkedExample";

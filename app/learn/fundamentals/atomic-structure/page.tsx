@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import LessonPage from "@/components/Lesson/LessonPage";
-import LessonSection from "@/components/Lesson/LessonSection";
-import LessonNavigation from "@/components/Lesson/LessonNavigation";
+import {
+  CommonMistakes,
+  LearningObjectives,
+  LessonNavigation,
+  LessonPage,
+  LessonSection,
+  PracticeQuestions,
+  References,
+  RememberBox,
+  SummaryBox,
+  WorkedExample,
+} from "@/components/Lesson";
 
 export const metadata: Metadata = {
   title: "Atomic Structure | Organic Chemistry Hub",
@@ -15,11 +24,13 @@ const tableOfContents = [
   { id: "objectives", label: "Learning objectives" },
   { id: "subatomic-particles", label: "Subatomic particles" },
   { id: "atomic-number", label: "Atomic and mass numbers" },
+  { id: "worked-example", label: "Worked example" },
   { id: "isotopes", label: "Isotopes" },
   { id: "electrons", label: "Electrons and orbitals" },
   { id: "valence-electrons", label: "Valence electrons" },
   { id: "ions", label: "Ions" },
   { id: "carbon", label: "Carbon atom" },
+  { id: "common-mistakes", label: "Common mistakes" },
   { id: "summary", label: "Summary" },
   { id: "practice", label: "Practice questions" },
   { id: "references", label: "References" },
@@ -47,6 +58,24 @@ const particles = [
     relativeMass: "About 1/1836",
     location: "Orbitals around the nucleus",
   },
+];
+
+const objectives = [
+  "Identify the three main subatomic particles.",
+  "Use atomic number and mass number correctly.",
+  "Explain what isotopes are.",
+  "Describe how electrons occupy shells and orbitals.",
+  "Determine the number of valence electrons in a main-group atom.",
+  "Explain how atoms form positive and negative ions.",
+];
+
+const practiceQuestions = [
+  "What are the charge and approximate relative mass of a proton, neutron, and electron?",
+  "An atom has atomic number 8 and mass number 18. How many protons, neutrons, and electrons does the neutral atom contain?",
+  "How do isotopes of the same element differ?",
+  "What is the maximum number of electrons in a p subshell?",
+  "How many valence electrons does carbon have?",
+  "What happens to an atom's charge when it loses an electron?",
 ];
 
 export default function AtomicStructurePage() {
@@ -87,32 +116,7 @@ export default function AtomicStructurePage() {
         </figure>
       </LessonSection>
 
-      <section
-        id="objectives"
-        className="mt-12 scroll-mt-24 rounded-2xl border border-blue-200 bg-blue-50 p-6"
-      >
-        <h2 className="text-xl font-bold text-slate-900">
-          Learning objectives
-        </h2>
-
-        <ul className="mt-4 space-y-3">
-          {[
-            "Identify the three main subatomic particles.",
-            "Use atomic number and mass number correctly.",
-            "Explain what isotopes are.",
-            "Describe how electrons occupy shells and orbitals.",
-            "Determine the number of valence electrons in a main-group atom.",
-            "Explain how atoms form positive and negative ions.",
-          ].map((objective) => (
-            <li key={objective} className="flex gap-3">
-              <span className="font-bold text-blue-700" aria-hidden="true">
-                ✓
-              </span>
-              <span>{objective}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <LearningObjectives items={objectives} />
 
       <LessonSection id="subatomic-particles" title="Subatomic particles">
         <p>
@@ -132,7 +136,6 @@ export default function AtomicStructurePage() {
                 <th className="px-5 py-4 font-semibold">Location</th>
               </tr>
             </thead>
-
             <tbody className="divide-y divide-slate-200">
               {particles.map((particle) => (
                 <tr key={particle.particle}>
@@ -150,10 +153,7 @@ export default function AtomicStructurePage() {
         </div>
       </LessonSection>
 
-      <LessonSection
-        id="atomic-number"
-        title="Atomic number and mass number"
-      >
+      <LessonSection id="atomic-number" title="Atomic number and mass number">
         <p>
           The <strong>atomic number</strong>, written as <em>Z</em>, is the
           number of protons in the nucleus. It uniquely identifies an element.
@@ -165,15 +165,44 @@ export default function AtomicStructurePage() {
           number of protons and neutrons in the nucleus.
         </p>
 
-        <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5">
-          <p className="font-semibold text-slate-900">
-            Mass number = number of protons + number of neutrons
-          </p>
-          <p className="mt-2">
-            Therefore, the number of neutrons is equal to the mass number minus
-            the atomic number.
-          </p>
+        <div className="mt-6">
+          <RememberBox title="Two relationships to remember">
+            <p className="font-semibold text-slate-900">
+              Mass number = protons + neutrons
+            </p>
+            <p className="mt-2">
+              For a neutral atom, the number of electrons equals the number of
+              protons.
+            </p>
+          </RememberBox>
         </div>
+      </LessonSection>
+
+      <LessonSection id="worked-example" title="Worked example">
+        <WorkedExample title="Determine the particles in oxygen-18">
+          <p>
+            Oxygen has atomic number 8, so every oxygen atom has 8 protons. The
+            isotope oxygen-18 has a mass number of 18.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-xl bg-emerald-50 p-4">
+              <p className="text-sm font-semibold text-emerald-800">Protons</p>
+              <p className="mt-1 text-xl font-bold text-slate-950">8</p>
+            </div>
+            <div className="rounded-xl bg-emerald-50 p-4">
+              <p className="text-sm font-semibold text-emerald-800">Neutrons</p>
+              <p className="mt-1 text-xl font-bold text-slate-950">18 − 8 = 10</p>
+            </div>
+            <div className="rounded-xl bg-emerald-50 p-4">
+              <p className="text-sm font-semibold text-emerald-800">Electrons</p>
+              <p className="mt-1 text-xl font-bold text-slate-950">8</p>
+            </div>
+          </div>
+          <p>
+            A neutral oxygen-18 atom therefore contains 8 protons, 10 neutrons,
+            and 8 electrons.
+          </p>
+        </WorkedExample>
       </LessonSection>
 
       <LessonSection id="isotopes" title="Isotopes">
@@ -185,42 +214,27 @@ export default function AtomicStructurePage() {
 
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
           {[
-            {
-              name: "Carbon-12",
-              protons: "6 protons",
-              neutrons: "6 neutrons",
-            },
-            {
-              name: "Carbon-13",
-              protons: "6 protons",
-              neutrons: "7 neutrons",
-            },
-            {
-              name: "Carbon-14",
-              protons: "6 protons",
-              neutrons: "8 neutrons",
-            },
-          ].map((isotope) => (
+            ["Carbon-12", "6 protons", "6 neutrons"],
+            ["Carbon-13", "6 protons", "7 neutrons"],
+            ["Carbon-14", "6 protons", "8 neutrons"],
+          ].map(([name, protons, neutrons]) => (
             <div
-              key={isotope.name}
+              key={name}
               className="rounded-xl border border-slate-200 bg-white p-5"
             >
-              <h3 className="font-semibold text-slate-900">{isotope.name}</h3>
-              <p className="mt-2 text-base">{isotope.protons}</p>
-              <p className="text-base">{isotope.neutrons}</p>
+              <h3 className="font-semibold text-slate-900">{name}</h3>
+              <p className="mt-2 text-base">{protons}</p>
+              <p className="text-base">{neutrons}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-5">
-          <h3 className="font-semibold text-slate-900">
-            Isotopes and chemical behaviour
-          </h3>
-          <p className="mt-2">
+        <div className="mt-6">
+          <RememberBox title="Why isotopes react similarly">
             Isotopes usually have very similar chemical behaviour because they
             have the same electron arrangement. Their masses and nuclear
             stability, however, may differ.
-          </p>
+          </RememberBox>
         </div>
       </LessonSection>
 
@@ -241,36 +255,23 @@ export default function AtomicStructurePage() {
             <thead className="bg-slate-100 text-slate-900">
               <tr>
                 <th className="px-5 py-4 font-semibold">Subshell</th>
-                <th className="px-5 py-4 font-semibold">
-                  Number of orbitals
-                </th>
-                <th className="px-5 py-4 font-semibold">
-                  Maximum electrons
-                </th>
+                <th className="px-5 py-4 font-semibold">Number of orbitals</th>
+                <th className="px-5 py-4 font-semibold">Maximum electrons</th>
               </tr>
             </thead>
-
             <tbody className="divide-y divide-slate-200">
-              <tr>
-                <td className="px-5 py-4">s</td>
-                <td className="px-5 py-4">1</td>
-                <td className="px-5 py-4">2</td>
-              </tr>
-              <tr>
-                <td className="px-5 py-4">p</td>
-                <td className="px-5 py-4">3</td>
-                <td className="px-5 py-4">6</td>
-              </tr>
-              <tr>
-                <td className="px-5 py-4">d</td>
-                <td className="px-5 py-4">5</td>
-                <td className="px-5 py-4">10</td>
-              </tr>
-              <tr>
-                <td className="px-5 py-4">f</td>
-                <td className="px-5 py-4">7</td>
-                <td className="px-5 py-4">14</td>
-              </tr>
+              {[
+                ["s", "1", "2"],
+                ["p", "3", "6"],
+                ["d", "5", "10"],
+                ["f", "7", "14"],
+              ].map(([subshell, orbitals, electrons]) => (
+                <tr key={subshell}>
+                  <td className="px-5 py-4">{subshell}</td>
+                  <td className="px-5 py-4">{orbitals}</td>
+                  <td className="px-5 py-4">{electrons}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -329,7 +330,6 @@ export default function AtomicStructurePage() {
               electrons.
             </p>
           </div>
-
           <div className="rounded-xl border border-violet-200 bg-violet-50 p-5">
             <h3 className="font-semibold text-slate-900">Anion</h3>
             <p className="mt-2">
@@ -339,10 +339,12 @@ export default function AtomicStructurePage() {
           </div>
         </div>
 
-        <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5">
-          <p className="font-semibold text-slate-900">
-            Ion charge = number of protons − number of electrons
-          </p>
+        <div className="mt-6">
+          <RememberBox title="Calculating ion charge">
+            <p className="font-semibold text-slate-900">
+              Ion charge = number of protons − number of electrons
+            </p>
+          </RememberBox>
         </div>
       </LessonSection>
 
@@ -364,8 +366,30 @@ export default function AtomicStructurePage() {
         </p>
       </LessonSection>
 
+      <LessonSection id="common-mistakes" title="Common mistakes">
+        <CommonMistakes
+          items={[
+            {
+              title: "Confusing atomic number with mass number",
+              explanation:
+                "Atomic number counts protons only. Mass number counts protons and neutrons together.",
+            },
+            {
+              title: "Treating electron shells as fixed circular paths",
+              explanation:
+                "Shell diagrams are useful models, but electrons are described more accurately by orbitals and probability distributions.",
+            },
+            {
+              title: "Changing the element when electrons are gained or lost",
+              explanation:
+                "Changing electrons creates an ion. The element changes only if the number of protons changes.",
+            },
+          ]}
+        />
+      </LessonSection>
+
       <LessonSection id="summary" title="Summary">
-        <div className="rounded-2xl bg-slate-900 p-6 text-slate-100">
+        <SummaryBox>
           <p>
             Atomic identity is determined by the number of protons. Neutrons
             affect isotope mass and nuclear stability, while electrons control
@@ -373,42 +397,28 @@ export default function AtomicStructurePage() {
             important in organic chemistry because they determine how atoms
             connect to one another.
           </p>
-        </div>
+        </SummaryBox>
       </LessonSection>
 
       <LessonSection id="practice" title="Practice questions">
-        <ol className="list-decimal space-y-4 pl-7 marker:font-semibold marker:text-blue-700">
-          <li>
-            What are the charge and approximate relative mass of a proton,
-            neutron, and electron?
-          </li>
-          <li>
-            An atom has atomic number 8 and mass number 18. How many protons,
-            neutrons, and electrons does the neutral atom contain?
-          </li>
-          <li>How do isotopes of the same element differ?</li>
-          <li>What is the maximum number of electrons in a p subshell?</li>
-          <li>How many valence electrons does carbon have?</li>
-          <li>
-            What happens to an atom&apos;s charge when it loses an electron?
-          </li>
-        </ol>
+        <PracticeQuestions questions={practiceQuestions} />
       </LessonSection>
 
       <LessonSection id="references" title="References and further reading">
-        <ul className="list-disc space-y-3 pl-7">
-          <li>
-            Clayden, J., Greeves, N., and Warren, S.{" "}
-            <em>Organic Chemistry</em>.
-          </li>
-          <li>
-            McMurry, J. <em>Organic Chemistry</em>.
-          </li>
-          <li>
-            Atkins, P., and Jones, L. <em>Chemical Principles</em>.
-          </li>
-          <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
-        </ul>
+        <References
+          items={[
+            <span key="clayden">
+              Clayden, J., Greeves, N., and Warren, S. <em>Organic Chemistry</em>.
+            </span>,
+            <span key="mcmurry">
+              McMurry, J. <em>Organic Chemistry</em>.
+            </span>,
+            <span key="atkins">
+              Atkins, P., and Jones, L. <em>Chemical Principles</em>.
+            </span>,
+            "IUPAC Compendium of Chemical Terminology—the Gold Book.",
+          ]}
+        />
       </LessonSection>
 
       <LessonNavigation

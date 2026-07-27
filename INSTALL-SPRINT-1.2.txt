@@ -1,0 +1,25 @@
+ORGANIC CHEMISTRY HUB - SPRINT 1.2
+Reusable lesson framework pilot
+
+FILES ADDED
+- components/Lesson/WorkedExample.tsx
+- components/Lesson/RememberBox.tsx
+- components/Lesson/CommonMistakes.tsx
+- components/Lesson/References.tsx
+- docs/LESSON_STANDARD.md
+
+FILES UPDATED
+- components/Lesson/index.ts
+- app/learn/fundamentals/atomic-structure/page.tsx
+
+INSTALL
+1. Stop the development server.
+2. Copy app, components, and docs into the project root.
+3. Allow Windows to merge folders and replace matching files.
+4. Delete the .next folder if Next.js reports stale-cache problems.
+5. Start development with: cmd /c npx next dev --webpack
+6. Test /learn/fundamentals/atomic-structure
+7. Run: cmd /c npm run build
+
+SUGGESTED COMMIT
+refactor(lesson): add reusable lesson framework

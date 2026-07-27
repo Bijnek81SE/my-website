@@ -1,14 +1,5 @@
 # Changelog
 
-## 0.4.0 - Design system foundation
-
-- Added reusable `Button`, `Container`, `Badge`, `Section`, `Heading`, and `Grid` components.
-- Expanded `Card`, `Callout`, and `ButtonLink` with consistent variants and sizing.
-- Added complete exports from `components/ui/index.ts`.
-- Refactored the homepage and curriculum page to consume shared UI primitives.
-- Added named design tokens and updated design-system documentation.
-- Kept all lesson routes and chemistry components unchanged.
-
 ## 2.0.0-foundation
 
 ### Added
@@ -34,3 +25,10 @@
 - Replaced the static resonance overview with an interactive contributor/hybrid view.
 - Replaced the curved-arrow SVG with a geometry-aligned React figure.
 - Added implementation roadmap for MDX, graphics, and interactive chemistry.
+
+## Sprint 1.2 - Reusable lesson framework
+
+- Added worked-example, remember, common-mistakes, and references components.
+- Expanded the Lesson component barrel exports.
+- Refactored Atomic Structure as the first complete lesson-framework pilot.
+- Added the internal lesson writing and accessibility standard.
