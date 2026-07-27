@@ -1,2 +1,8 @@
+export { default as Atom } from "./Atom";
+export { default as Bond } from "./Bond";
+export { default as ChemistryCanvas } from "./ChemistryCanvas";
+export { default as CurvedArrow } from "./CurvedArrow";
 export { default as CurvedArrowGuide } from "./CurvedArrowGuide";
+export { default as LonePair } from "./LonePair";
+export { default as ResonanceArrow } from "./ResonanceArrow";
 export { default as ResonanceCarboxylateInteractive } from "./ResonanceCarboxylateInteractive";
