@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 - MDX lesson pilot
+
+- Added official Next.js MDX support.
+- Migrated Atomic Structure content from JSX into MDX.
+- Added a central lesson registry for shared metadata and navigation.
+- Added global MDX element styling.
+- Added MDX authoring documentation.
+
 ## 2.0.0-foundation
 
 ### Added

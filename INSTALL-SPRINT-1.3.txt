@@ -1,0 +1,31 @@
+ORGANIC CHEMISTRY HUB - SPRINT 1.3
+MDX PILOT
+
+1. Stop the development server with Ctrl + C.
+2. Copy all files and folders from this pack into the project root.
+3. Allow Windows to merge folders and replace matching files.
+4. Install the new MDX dependencies:
+
+   cmd /c npm install
+
+5. Delete the Next.js cache if it exists:
+
+   Remove-Item -Recurse -Force .next
+
+6. Start development with Webpack:
+
+   cmd /c npx next dev --webpack
+
+7. Test:
+
+   http://localhost:3000/learn/fundamentals/atomic-structure
+
+8. Stop the server and run:
+
+   cmd /c npm run build
+
+9. Commit only after the build passes:
+
+   git add .
+   git commit -m "refactor(content): add MDX lesson pilot"
+   git push origin main
