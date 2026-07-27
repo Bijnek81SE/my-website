@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 - Design system foundation
+
+- Added reusable `Button`, `Container`, `Badge`, `Section`, `Heading`, and `Grid` components.
+- Expanded `Card`, `Callout`, and `ButtonLink` with consistent variants and sizing.
+- Added complete exports from `components/ui/index.ts`.
+- Refactored the homepage and curriculum page to consume shared UI primitives.
+- Added named design tokens and updated design-system documentation.
+- Kept all lesson routes and chemistry components unchanged.
+
 ## 2.0.0-foundation
 
 ### Added
