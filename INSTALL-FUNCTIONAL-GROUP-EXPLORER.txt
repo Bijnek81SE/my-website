@@ -1,0 +1,18 @@
+Functional Group Explorer
+
+1. Stop the development server.
+2. Copy app, components, and docs into the project root.
+3. Allow Windows to merge folders and replace matching files.
+4. Clear .next:
+   Remove-Item -Recurse -Force .next
+5. Start:
+   cmd /c npx next dev --webpack
+6. Test:
+   http://localhost:3000/lab
+   http://localhost:3000/lab/functional-groups
+7. Build:
+   cmd /c npm run build
+8. Commit:
+   git add .
+   git commit -m "feat(lab): add functional group explorer"
+   git push origin main
