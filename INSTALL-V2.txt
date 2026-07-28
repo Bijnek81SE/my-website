@@ -1,9 +1,0 @@
-ORGANIC CHEMISTRY HUB 2.0 FOUNDATION INSTALL
-
-1. Extract this ZIP.
-2. Copy app, components, docs, CHANGELOG.md, and INSTALL-V2.txt.
-3. Paste them into the project root containing package.json.
-4. Allow Windows to merge folders and replace matching files.
-5. Run: cmd /c npm run dev
-6. Test: http://localhost:3000 and http://localhost:3000/learn
-7. Then run: cmd /c npm run build

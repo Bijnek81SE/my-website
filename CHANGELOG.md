@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.0.0 Baseline
+
+- Consolidated all completed design-system, lesson-framework, MDX, chemistry-graphics, Lewis Builder, and Lab Framework work.
+- Restored `/lab` and the Functional Group Quick Check.
+- Added Lab to the primary navigation.
+- Added a baseline manifest and one installation guide.
+
 ## 0.3.0 - MDX lesson pilot
 
 - Added official Next.js MDX support.

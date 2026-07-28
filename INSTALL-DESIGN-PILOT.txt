@@ -1,8 +1,0 @@
-ORGANIC CHEMISTRY HUB — DESIGN SYSTEM + INTERACTIVE RESONANCE PILOT
-
-1. Copy app, components, docs, and INSTALL-DESIGN-PILOT.txt into your project root.
-2. Allow Windows to merge folders and replace matching files.
-3. Run: cmd /c npm run dev
-4. Open: http://localhost:3000/learn/fundamentals/resonance
-5. Test both "Contributors" and "Real hybrid" buttons.
-6. Run: cmd /c npm run build
