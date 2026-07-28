@@ -9,3 +9,5 @@ export { default as ScoreBadge } from "./ScoreBadge";
 export { default as FunctionalGroupExplorer } from "./FunctionalGroupExplorer";
 export { default as HybridizationTrainer } from "./HybridizationTrainer";
 export { default as MolecularGeometryTrainer } from "./MolecularGeometryTrainer";
+
+export { default as MolecularPolarityExplorer } from "./MolecularPolarityExplorer";

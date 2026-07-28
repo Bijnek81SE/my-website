@@ -44,21 +44,28 @@ export default function LabPage() {
               <span className="font-semibold text-emerald-950">Molecular Geometry Trainer</span>
               <span className="mt-1 block text-sm text-emerald-800">Practise VSEPR shapes with SVG models.</span>
             </Link>
+            <Link
+              href="/lab/molecular-polarity"
+              className="block rounded-2xl border border-amber-200 bg-amber-50 p-4 transition hover:border-amber-400 hover:bg-amber-100"
+            >
+              <span className="font-semibold text-amber-950">Molecular Polarity Explorer</span>
+              <span className="mt-1 block text-sm text-amber-800">Combine bond dipoles and geometry.</span>
+            </Link>
           </div>
         </div>
       }
     >
-      <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-6 sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-700">New lab</p>
-        <h2 className="mt-2 text-2xl font-bold text-slate-950">Molecular Geometry Trainer</h2>
+      <div className="rounded-3xl border border-amber-200 bg-amber-50 p-6 sm:p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-amber-700">New lab</p>
+        <h2 className="mt-2 text-2xl font-bold text-slate-950">Molecular Polarity Explorer</h2>
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Count electron domains, account for lone pairs, and identify molecular shapes using responsive SVG models.
+          Inspect bond dipoles, apply molecular geometry, and decide whether vector cancellation leaves a net dipole.
         </p>
         <Link
-          href="/lab/molecular-geometry"
-          className="mt-5 inline-flex rounded-xl bg-emerald-700 px-5 py-3 font-semibold text-white transition hover:bg-emerald-800"
+          href="/lab/molecular-polarity"
+          className="mt-5 inline-flex rounded-xl bg-amber-600 px-5 py-3 font-semibold text-white transition hover:bg-amber-700"
         >
-          Open trainer →
+          Open explorer →
         </Link>
       </div>
       <FunctionalGroupQuickCheck />
