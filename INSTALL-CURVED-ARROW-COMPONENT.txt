@@ -1,0 +1,9 @@
+Copy app, components, and docs into the project root.
+
+Test route:
+http://localhost:3000/lab/curved-arrow-playground
+
+Commit:
+git add .
+git commit -m "feat(chemistry): add reusable curved arrow component"
+git push origin main
