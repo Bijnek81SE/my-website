@@ -1,0 +1,17 @@
+ORGANIC CHEMISTRY HUB - ATOM + MOLECULE ENGINE
+
+1. Stop the development server.
+2. Copy the app, components, and docs folders into the repository root.
+3. Allow Windows to merge folders.
+4. This pack requires the previously installed reusable Bond component at:
+   components/chemistry/bonds/Bond.tsx
+5. Run:
+   Remove-Item -Recurse -Force .next
+   cmd /c npm run build
+   cmd /c npx next dev --webpack
+6. Open:
+   http://localhost:3000/lab/molecule-playground
+7. Commit:
+   git add .
+   git commit -m "feat(chemistry): add atom and molecule engine"
+   git push origin main
