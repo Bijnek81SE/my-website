@@ -1,0 +1,10 @@
+Organic Chemistry Hub - Hybridization Trainer
+
+1. Stop the development server.
+2. Copy app, components, and docs into the project root.
+3. Allow Windows to merge folders and replace matching files.
+4. Remove the .next cache.
+5. Start with: cmd /c npx next dev --webpack
+6. Test /lab and /lab/hybridization.
+7. Run: cmd /c npm run build
+8. Commit and push after the build succeeds.

@@ -7,3 +7,5 @@ export { default as LabShell } from "./LabShell";
 export { default as ProgressBar } from "./ProgressBar";
 export { default as ScoreBadge } from "./ScoreBadge";
 export { default as FunctionalGroupExplorer } from "./FunctionalGroupExplorer";
+export { default as HybridizationTrainer } from "./HybridizationTrainer";
+export { default as MolecularGeometryTrainer } from "./MolecularGeometryTrainer";

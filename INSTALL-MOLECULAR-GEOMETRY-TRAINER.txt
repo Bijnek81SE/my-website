@@ -1,0 +1,24 @@
+MOLECULAR GEOMETRY TRAINER INSTALLATION
+
+1. Stop the development server.
+2. Copy the app, components, and docs folders into the project root.
+3. Allow Windows to merge folders and replace matching files.
+4. Run:
+
+   Remove-Item -Recurse -Force .next
+   cmd /c npm run build
+
+5. Start the site:
+
+   cmd /c npx next dev --webpack
+
+6. Test:
+
+   http://localhost:3000/lab
+   http://localhost:3000/lab/molecular-geometry
+
+7. Commit:
+
+   git add .
+   git commit -m "feat(lab): add molecular geometry trainer"
+   git push origin main
