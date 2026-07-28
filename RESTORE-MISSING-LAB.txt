@@ -1,0 +1,8 @@
+Organic Chemistry Hub recovery pack
+
+Restores only the files missing from the uploaded GitHub snapshot:
+- app/lab/page.tsx
+- components/lab/*
+- docs/LAB_FRAMEWORK.md
+
+Do not replace package.json or package-lock.json.
