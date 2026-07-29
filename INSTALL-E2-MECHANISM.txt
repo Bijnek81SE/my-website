@@ -1,0 +1,15 @@
+Copy the app and components folders into the project root and allow folder merging.
+
+The pack adds:
+- app/lab/e2-mechanism/page.tsx
+- components/chemistry/mechanism/E2MechanismPlayer.tsx
+- components/chemistry/mechanism/E2ReactionCanvas.tsx
+
+Add the E2 card to app/lab/page.tsx if you do not replace that file separately.
+
+Run:
+npm run build
+npm run dev
+
+Test:
+http://localhost:3000/lab/e2-mechanism
