@@ -402,24 +402,17 @@ export default function LewisStructureBuilder() {
                       if (event.key === "Enter" || event.key === " ") setSelectedAtomId(atom.id);
                     }}
                   >
-                    {selected ? (
-                      <circle
-                        cx={atom.position.x}
-                        cy={atom.position.y}
-                        r="39"
-                        fill="none"
-                        stroke="#10b981"
-                        strokeWidth="3"
-                        strokeDasharray="7 5"
-                      />
-                    ) : null}
+                    
                     <Atom
-                      x={atom.position.x}
-                      y={atom.position.y}
-                      element={atom.element}
-                      charge={formatCharge(result?.formalCharge ?? 0)}
-                      tone={atom.tone}
-                    />
+  x={atom.position.x}
+  y={atom.position.y}
+  element={atom.element}
+  charge={result?.formalCharge ?? 0}
+  selected={selected}
+  strokeColour={selected ? "#10b981" : undefined}
+  selectedColour="#10b981"
+/>
+                    
                   </g>
                 );
               })}

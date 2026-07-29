@@ -28,16 +28,52 @@ function Contributor({
 
   return (
     <g transform={`translate(${xOffset} 0)`}>
-      <Bond from={left} to={carbon} order={mirrored ? 1 : 2} />
-      <Bond from={carbon} to={right} order={mirrored ? 2 : 1} />
+      <Bond
+        from={left}
+        to={carbon}
+        order={mirrored ? 1 : 2}
+      />
 
-      <Atom x={left.x} y={left.y} element="O" charge={mirrored ? "−" : undefined} tone="oxygen" />
-      <Atom x={carbon.x} y={carbon.y} element="C" />
-      <Atom x={right.x} y={right.y} element="O" charge={mirrored ? undefined : "−"} tone="oxygen" />
+      <Bond
+        from={carbon}
+        to={right}
+        order={mirrored ? 2 : 1}
+      />
 
-      <LonePair x={negativeOxygen.x} y={103} />
-      <LonePair x={negativeOxygen.x} y={197} />
-      <LonePair x={negativeOxygen.x} y={218} />
+      <Atom
+        x={left.x}
+        y={left.y}
+        element="O"
+        charge={mirrored ? -1 : undefined}
+      />
+
+      <Atom
+        x={carbon.x}
+        y={carbon.y}
+        element="C"
+      />
+
+      <Atom
+        x={right.x}
+        y={right.y}
+        element="O"
+        charge={mirrored ? undefined : -1}
+      />
+
+      <LonePair
+        x={negativeOxygen.x}
+        y={103}
+      />
+
+      <LonePair
+        x={negativeOxygen.x}
+        y={197}
+      />
+
+      <LonePair
+        x={negativeOxygen.x}
+        y={218}
+      />
 
       {showElectronFlow && !mirrored ? (
         <>
@@ -47,6 +83,7 @@ function Contributor({
             end={{ x: 257, y: 139 }}
             label="A lone pair on the negatively charged oxygen forms a pi bond to carbon"
           />
+
           <CurvedArrow
             start={{ x: 145, y: 139 }}
             control={{ x: 102, y: 88 }}
@@ -70,7 +107,10 @@ export default function ResonanceCarboxylateInteractive() {
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-violet-700">
             Interactive figure
           </p>
-          <h3 className="mt-1 text-xl font-semibold text-slate-950">Carboxylate resonance</h3>
+
+          <h3 className="mt-1 text-xl font-semibold text-slate-950">
+            Carboxylate resonance
+          </h3>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -78,18 +118,26 @@ export default function ResonanceCarboxylateInteractive() {
             <button
               type="button"
               aria-pressed={showElectronFlow}
-              onClick={() => setShowElectronFlow((current) => !current)}
+              onClick={() =>
+                setShowElectronFlow((current) => !current)
+              }
               className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
                 showElectronFlow
                   ? "border-blue-600 bg-blue-50 text-blue-800"
                   : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
               }`}
             >
-              {showElectronFlow ? "Hide electron flow" : "Show electron flow"}
+              {showElectronFlow
+                ? "Hide electron flow"
+                : "Show electron flow"}
             </button>
           ) : null}
 
-          <div className="inline-flex rounded-xl bg-slate-100 p-1" role="group" aria-label="Choose resonance view">
+          <div
+            className="inline-flex rounded-xl bg-slate-100 p-1"
+            role="group"
+            aria-label="Choose resonance view"
+          >
             <button
               type="button"
               onClick={() => setView("contributors")}
@@ -101,6 +149,7 @@ export default function ResonanceCarboxylateInteractive() {
             >
               Contributors
             </button>
+
             <button
               type="button"
               onClick={() => setView("hybrid")}
@@ -123,13 +172,40 @@ export default function ResonanceCarboxylateInteractive() {
             title="Two equivalent carboxylate resonance contributors"
             description="The atom positions remain fixed while the pi bond and negative charge exchange sides. Optional arrows show electron movement from a lone pair and a pi bond."
           >
-            <Contributor xOffset={25} showElectronFlow={showElectronFlow} />
-            <ResonanceArrow x={430} y={150} />
-            <Contributor mirrored xOffset={460} />
-            <text x="215" y="270" textAnchor="middle" fontSize="17" fontWeight="600" fill="#475569">
+            <Contributor
+              xOffset={25}
+              showElectronFlow={showElectronFlow}
+            />
+
+            <ResonanceArrow
+              x={430}
+              y={150}
+            />
+
+            <Contributor
+              mirrored
+              xOffset={460}
+            />
+
+            <text
+              x="215"
+              y="270"
+              textAnchor="middle"
+              fontSize="17"
+              fontWeight="600"
+              fill="#475569"
+            >
               Contributor A
             </text>
-            <text x="675" y="270" textAnchor="middle" fontSize="17" fontWeight="600" fill="#475569">
+
+            <text
+              x="675"
+              y="270"
+              textAnchor="middle"
+              fontSize="17"
+              fontWeight="600"
+              fill="#475569"
+            >
               Contributor B
             </text>
           </ChemistryCanvas>
@@ -140,22 +216,124 @@ export default function ResonanceCarboxylateInteractive() {
             description="Both carbon oxygen bonds are equivalent and the negative charge is distributed over both oxygen atoms."
           >
             <defs>
-              <linearGradient id="electron-cloud" x1="0" x2="1">
-                <stop offset="0" stopColor="#c4b5fd" stopOpacity="0.25" />
-                <stop offset="0.5" stopColor="#8b5cf6" stopOpacity="0.5" />
-                <stop offset="1" stopColor="#c4b5fd" stopOpacity="0.25" />
+              <linearGradient
+                id="electron-cloud"
+                x1="0"
+                x2="1"
+              >
+                <stop
+                  offset="0"
+                  stopColor="#c4b5fd"
+                  stopOpacity="0.25"
+                />
+
+                <stop
+                  offset="0.5"
+                  stopColor="#8b5cf6"
+                  stopOpacity="0.5"
+                />
+
+                <stop
+                  offset="1"
+                  stopColor="#c4b5fd"
+                  stopOpacity="0.25"
+                />
               </linearGradient>
             </defs>
-            <ellipse cx="430" cy="150" rx="300" ry="78" fill="url(#electron-cloud)" />
-            <Bond from={{ x: 275, y: 150 }} to={{ x: 430, y: 150 }} dashed />
-            <Bond from={{ x: 430, y: 150 }} to={{ x: 585, y: 150 }} dashed />
-            <Atom x={275} y={150} element="O" charge="δ−" tone="oxygen" />
-            <Atom x={430} y={150} element="C" charge="δ+" />
-            <Atom x={585} y={150} element="O" charge="δ−" tone="oxygen" />
-            <text x="352" y="235" textAnchor="middle" fontSize="16" fontWeight="600" fill="#6d28d9">
+
+            <ellipse
+              cx="430"
+              cy="150"
+              rx="300"
+              ry="78"
+              fill="url(#electron-cloud)"
+            />
+
+            <Bond
+              from={{ x: 275, y: 150 }}
+              to={{ x: 430, y: 150 }}
+              dashed
+            />
+
+            <Bond
+              from={{ x: 430, y: 150 }}
+              to={{ x: 585, y: 150 }}
+              dashed
+            />
+
+            <Atom
+              x={275}
+              y={150}
+              element="O"
+            />
+
+            <Atom
+              x={430}
+              y={150}
+              element="C"
+            />
+
+            <Atom
+              x={585}
+              y={150}
+              element="O"
+            />
+
+            <text
+              x="300"
+              y="119"
+              textAnchor="middle"
+              fontSize="17"
+              fontWeight="700"
+              fill="#7c3aed"
+              pointerEvents="none"
+            >
+              δ−
+            </text>
+
+            <text
+              x="455"
+              y="119"
+              textAnchor="middle"
+              fontSize="17"
+              fontWeight="700"
+              fill="#7c3aed"
+              pointerEvents="none"
+            >
+              δ+
+            </text>
+
+            <text
+              x="610"
+              y="119"
+              textAnchor="middle"
+              fontSize="17"
+              fontWeight="700"
+              fill="#7c3aed"
+              pointerEvents="none"
+            >
+              δ−
+            </text>
+
+            <text
+              x="352"
+              y="235"
+              textAnchor="middle"
+              fontSize="16"
+              fontWeight="600"
+              fill="#6d28d9"
+            >
               bond order ≈ 1.5
             </text>
-            <text x="508" y="235" textAnchor="middle" fontSize="16" fontWeight="600" fill="#6d28d9">
+
+            <text
+              x="508"
+              y="235"
+              textAnchor="middle"
+              fontSize="16"
+              fontWeight="600"
+              fill="#6d28d9"
+            >
               bond order ≈ 1.5
             </text>
           </ChemistryCanvas>
