@@ -1,0 +1,19 @@
+Copy these folders into the project root:
+
+app
+components
+docs
+
+Then run:
+
+Remove-Item -Recurse -Force .next
+cmd /c npm run build
+cmd /c npx next dev --webpack
+
+Test:
+http://localhost:3000/lab/sn2-mechanism
+
+Commit:
+git add .
+git commit -m "feat(mechanism): add SN2 mechanism player"
+git push origin main
