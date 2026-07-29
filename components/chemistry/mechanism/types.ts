@@ -12,11 +12,19 @@ export type MechanismArrow = {
   label: string;
 };
 
+export type MechanismHighlight =
+  | "nucleophile"
+  | "substrate"
+  | "leaving-group"
+  | "carbocation"
+  | "deprotonation"
+  | "product";
+
 export type MechanismStep = {
   id: string;
   title: string;
   description: string;
   note: string;
   arrows: MechanismArrow[];
-  highlight: "nucleophile" | "substrate" | "leaving-group" | "product";
+  highlight: MechanismHighlight;
 };

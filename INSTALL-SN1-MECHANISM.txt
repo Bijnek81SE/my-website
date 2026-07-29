@@ -1,0 +1,3 @@
+Copy app, components, and docs into the project root.
+Merge folders and replace components/chemistry/mechanism/index.ts.
+The existing SN2 mechanism files must already be installed because this pack reuses MechanismArrow.tsx and types.ts.
