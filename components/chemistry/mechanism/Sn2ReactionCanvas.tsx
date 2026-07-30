@@ -1,3 +1,4 @@
+import Atom from "../Atom";
 import Bond from "../Bond";
 import MechanismArrow from "./MechanismArrow";
 import type { MechanismStep } from "./types";
@@ -58,16 +59,24 @@ export default function Sn2ReactionCanvas({
   stroke={step.highlight === "substrate" ? "#2563eb" : "#0f172a"}
   strokeWidth={step.highlight === "substrate" ? 7 : 5}
 />
-            <text
-              x="510"
-              y="225"
-              fontSize="42"
-              fontWeight="700"
-              fill={step.highlight === "leaving-group" ? "#dc2626" : "#b91c1c"}
-              className={step.highlight === "leaving-group" ? highlightClass : undefined}
-            >
-              Br
-            </text>
+            <Atom
+  x={535}
+  y={208}
+  element="Br"
+  radius={46}
+  showBackground={false}
+  labelColour={
+    step.highlight === "leaving-group"
+      ? "#dc2626"
+      : "#b91c1c"
+  }
+  className={
+    step.highlight === "leaving-group"
+      ? highlightClass
+      : undefined
+  }
+  ariaLabel="Bromine leaving group"
+/>
 
             {step.arrows.map((arrow) => (
               <MechanismArrow key={arrow.id} {...arrow} animated={animated} />
