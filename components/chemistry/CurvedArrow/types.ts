@@ -1,4 +1,8 @@
-export type CurvedArrowTone = "default" | "accent" | "success" | "danger";
+export type CurvedArrowTone =
+  | "default"
+  | "accent"
+  | "success"
+  | "danger";
 
 export interface Point {
   x: number;
@@ -10,6 +14,7 @@ export interface CurvedArrowProps {
   control: Point;
   end: Point;
   tone?: CurvedArrowTone;
+  colour?: string;
   width?: number;
   headSize?: number;
   dashed?: boolean;
@@ -17,6 +22,7 @@ export interface CurvedArrowProps {
   selected?: boolean;
   muted?: boolean;
   interactive?: boolean;
+  label?: string;
   ariaLabel?: string;
   onClick?: () => void;
   className?: string;
