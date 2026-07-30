@@ -18,6 +18,7 @@ export default function CurvedArrow({
   control,
   end,
   tone = "default",
+  head = "pair",
   colour,
   width = 3,
   headSize = 10,
@@ -45,12 +46,14 @@ export default function CurvedArrow({
   const accessibleLabel =
     ariaLabel ??
     label ??
-    "Curved electron-movement arrow";
+    (head === "fishhook"
+      ? "Curved single-electron movement arrow"
+      : "Curved electron-pair movement arrow");
+
+  const isInteractive = interactive || Boolean(onClick);
 
   function activate() {
-    if (onClick) {
-      onClick();
-    }
+    onClick?.();
   }
 
   function handleKeyDown(
@@ -65,8 +68,6 @@ export default function CurvedArrow({
       onClick();
     }
   }
-
-  const isInteractive = interactive || Boolean(onClick);
 
   return (
     <g
@@ -93,15 +94,30 @@ export default function CurvedArrow({
           orient="auto"
           markerUnits="userSpaceOnUse"
         >
-          <path
-            d={[
-              "M 0 0",
-              `L ${headSize} ${headSize / 2}`,
-              `L 0 ${headSize}`,
-              "z",
-            ].join(" ")}
-            fill={stroke}
-          />
+          {head === "fishhook" ? (
+            <path
+              d={[
+                `M 0 ${headSize / 2}`,
+                `L ${headSize} ${headSize / 2}`,
+                `L ${headSize * 0.35} 0`,
+              ].join(" ")}
+              fill="none"
+              stroke={stroke}
+              strokeWidth={Math.max(1.5, width * 0.7)}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          ) : (
+            <path
+              d={[
+                "M 0 0",
+                `L ${headSize} ${headSize / 2}`,
+                `L 0 ${headSize}`,
+                "z",
+              ].join(" ")}
+              fill={stroke}
+            />
+          )}
         </marker>
       </defs>
 
