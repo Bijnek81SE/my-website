@@ -25,15 +25,15 @@ const steps: E2MechanismStep[] = [
     arrows: [
       {
         id: "base-to-hydrogen",
-        start: { x: 193, y: 168 },
-        control: { x: 270, y: 72 },
-        end: { x: 328, y: 118 },
+        start: { x: 187, y: 150 },
+        control: { x: 230, y: 72 },
+        end: { x: 300, y: 170 },
         colour: "#2563eb",
         label: "Base lone pair removes the beta hydrogen",
       },
       {
         id: "ch-to-pi",
-        start: { x: 355, y: 137 },
+        start: { x: 355, y: 167 },
         control: { x: 407, y: 88 },
         end: { x: 445, y: 183 },
         colour: "#7c3aed",

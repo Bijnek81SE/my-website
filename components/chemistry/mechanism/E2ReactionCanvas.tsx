@@ -163,8 +163,8 @@ export default function E2ReactionCanvas({
             </g>
 
             <text
-              x="295"
-              y="205"
+              x="300"
+              y="188"
               fontSize="34"
               fontWeight="700"
               fill="#0f172a"
@@ -181,7 +181,15 @@ export default function E2ReactionCanvas({
             >
               CH₂
             </text>
-
+<text
+              x="515"
+              y="220"
+              fontSize="38"
+              fontWeight="700"
+              fill="#0f172a"
+            >
+              CH₂
+            </text>
             <text
               x="515"
               y="220"
