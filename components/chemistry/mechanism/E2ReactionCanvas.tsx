@@ -1,7 +1,9 @@
-import Bond from "../Bond";
-import MechanismArrow from "./MechanismArrow";
+import MoleculeCanvas from "../MoleculeCanvas";
 
-type Point = { x: number; y: number };
+type Point = {
+  x: number;
+  y: number;
+};
 
 type Arrow = {
   id: string;
@@ -26,11 +28,49 @@ type Props = {
   animated: boolean;
 };
 
-const glow = "drop-shadow-[0_0_10px_rgba(234,88,12,0.4)]";
+const glow =
+  "drop-shadow-[0_0_10px_rgba(234,88,12,0.4)]";
 
-export default function E2ReactionCanvas({ step, animated }: Props) {
+export default function E2ReactionCanvas({
+  step,
+  animated,
+}: Props) {
   const product = step.highlight === "products";
   const concerted = step.highlight === "concerted";
+
+  const bonds = [
+    {
+      id: "beta-hydrogen-bond",
+      from: { x: 306, y: 180 },
+      to: { x: 360, y: 200 },
+      stroke: "#0f172a",
+      strokeWidth: 4,
+    },
+    {
+      id: "carbon-carbon-bond",
+      from: { x: 420, y: 202 },
+      to: { x: 485, y: 202 },
+      stroke: concerted ? "#7c3aed" : "#0f172a",
+      strokeWidth: concerted ? 7 : 5,
+    },
+    {
+      id: "carbon-bromine-bond",
+      from: { x: 565, y: 202 },
+      to: { x: 620, y: 202 },
+      stroke: concerted ? "#dc2626" : "#0f172a",
+      strokeWidth: concerted ? 7 : 5,
+    },
+  ];
+
+  const arrows = step.arrows.map((arrow) => ({
+    id: arrow.id,
+    start: arrow.start,
+    control: arrow.control,
+    end: arrow.end,
+    colour: arrow.colour,
+    animated,
+    label: arrow.label,
+  }));
 
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
@@ -40,82 +80,158 @@ export default function E2ReactionCanvas({ step, animated }: Props) {
         role="img"
         aria-label={`E2 mechanism: ${step.title}`}
       >
-        <rect width="760" height="400" fill="#f8fafc" />
+        <rect
+          width="760"
+          height="400"
+          fill="#f8fafc"
+        />
 
         {product ? (
           <>
-            <text x="165" y="215" fontSize="38" fontWeight="700" fill="#2563eb">
+            <text
+              x="165"
+              y="215"
+              fontSize="38"
+              fontWeight="700"
+              fill="#2563eb"
+            >
               H–O–H
             </text>
-            <text x="315" y="215" fontSize="30" fontWeight="700" fill="#64748b">
+
+            <text
+              x="315"
+              y="215"
+              fontSize="30"
+              fontWeight="700"
+              fill="#64748b"
+            >
               +
             </text>
-            <text x="365" y="215" fontSize="42" fontWeight="700" fill="#0f172a">
+
+            <text
+              x="365"
+              y="215"
+              fontSize="42"
+              fontWeight="700"
+              fill="#0f172a"
+            >
               CH₃–CH=CH₂
             </text>
-            <text x="600" y="215" fontSize="30" fontWeight="700" fill="#64748b">
+
+            <text
+              x="600"
+              y="215"
+              fontSize="30"
+              fontWeight="700"
+              fill="#64748b"
+            >
               +
             </text>
-            <text x="645" y="215" fontSize="40" fontWeight="700" fill="#dc2626">
+
+            <text
+              x="645"
+              y="215"
+              fontSize="40"
+              fontWeight="700"
+              fill="#dc2626"
+            >
               Br⁻
             </text>
           </>
         ) : (
           <>
             <g className={concerted ? glow : undefined}>
-              <text x="72" y="205" fontSize="38" fontWeight="700" fill="#2563eb">
+              <text
+                x="72"
+                y="205"
+                fontSize="38"
+                fontWeight="700"
+                fill="#2563eb"
+              >
                 ⁻OH
               </text>
-              <circle cx="121" cy="154" r="5" fill="#2563eb" />
-              <circle cx="139" cy="154" r="5" fill="#2563eb" />
+
+              <circle
+                cx="121"
+                cy="154"
+                r="5"
+                fill="#2563eb"
+              />
+
+              <circle
+                cx="139"
+                cy="154"
+                r="5"
+                fill="#2563eb"
+              />
             </g>
 
-            <text x="270" y="205" fontSize="34" fontWeight="700" fill="#0f172a">
+            <text
+              x="270"
+              y="205"
+              fontSize="34"
+              fontWeight="700"
+              fill="#0f172a"
+            >
               H
             </text>
-            <Bond
-  from={{ x: 306, y: 180 }}
-  to={{ x: 360, y: 200 }}
-  atomRadius={0}
-  gap={0}
-  stroke="#0f172a"
-  strokeWidth={4}
-/>
 
-            <text x="350" y="220" fontSize="38" fontWeight="700" fill="#0f172a">
+            <text
+              x="350"
+              y="220"
+              fontSize="38"
+              fontWeight="700"
+              fill="#0f172a"
+            >
               CH₂
             </text>
-            <Bond
-  from={{ x: 420, y: 202 }}
-  to={{ x: 485, y: 202 }}
-  atomRadius={0}
-  gap={0}
-  stroke={concerted ? "#7c3aed" : "#0f172a"}
-  strokeWidth={concerted ? 7 : 5}
-/>
-            <text x="490" y="220" fontSize="38" fontWeight="700" fill="#0f172a">
+
+            <text
+              x="490"
+              y="220"
+              fontSize="38"
+              fontWeight="700"
+              fill="#0f172a"
+            >
               CH₂
             </text>
-            <Bond
-  from={{ x: 565, y: 202 }}
-  to={{ x: 620, y: 202 }}
-  atomRadius={0}
-  gap={0}
-  stroke={concerted ? "#dc2626" : "#0f172a"}
-  strokeWidth={concerted ? 7 : 5}
-/>
-            <text x="635" y="220" fontSize="38" fontWeight="700" fill="#dc2626">
+
+            <text
+              x="635"
+              y="220"
+              fontSize="38"
+              fontWeight="700"
+              fill="#dc2626"
+            >
               Br
             </text>
 
-            <text x="345" y="276" fontSize="24" fontWeight="700" fill="#64748b">
+            <MoleculeCanvas
+              bonds={bonds}
+              arrows={arrows}
+            />
+
+            <text
+              x="345"
+              y="276"
+              fontSize="24"
+              fontWeight="700"
+              fill="#64748b"
+            >
               β-carbon
             </text>
-            <text x="500" y="276" fontSize="24" fontWeight="700" fill="#64748b">
+
+            <text
+              x="500"
+              y="276"
+              fontSize="24"
+              fontWeight="700"
+              fill="#64748b"
+            >
               α-carbon
             </text>
 
-            {step.highlight === "alignment" && (
+            {step.highlight === "alignment" ? (
               <>
                 <line
                   x1="295"
@@ -126,6 +242,7 @@ export default function E2ReactionCanvas({ step, animated }: Props) {
                   strokeWidth="3"
                   strokeDasharray="10 8"
                 />
+
                 <text
                   x="472"
                   y="96"
@@ -137,15 +254,21 @@ export default function E2ReactionCanvas({ step, animated }: Props) {
                   H and Br aligned anti-periplanar
                 </text>
               </>
-            )}
+            ) : null}
           </>
         )}
 
-        {step.arrows.map((arrow) => (
-          <MechanismArrow key={arrow.id} {...arrow} animated={animated} />
-        ))}
+        {product ? (
+          <MoleculeCanvas arrows={arrows} />
+        ) : null}
 
-        <text x="380" y="355" textAnchor="middle" fontSize="17" fill="#475569">
+        <text
+          x="380"
+          y="355"
+          textAnchor="middle"
+          fontSize="17"
+          fill="#475569"
+        >
           {step.note}
         </text>
       </svg>
