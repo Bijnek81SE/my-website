@@ -1,3 +1,4 @@
+import Bond from "../Bond";
 import MechanismArrow from "./MechanismArrow";
 import type { MechanismStep } from "./types";
 
@@ -66,15 +67,14 @@ export default function Sn1ReactionCanvas({ step, animated }: Props) {
             >
               (CH₃)₃C
             </text>
-            <line
-              x1="430"
-              y1="205"
-              x2="505"
-              y2="205"
-              stroke={step.highlight === "leaving-group" ? "#dc2626" : "#0f172a"}
-              strokeWidth={step.highlight === "leaving-group" ? 7 : 5}
-              strokeLinecap="round"
-            />
+  <Bond
+  from={{ x: 430, y: 205 }}
+  to={{ x: 505, y: 205 }}
+  atomRadius={0}
+  gap={0}
+  stroke={step.highlight === "leaving-group" ? "#dc2626" : "#0f172a"}
+  strokeWidth={step.highlight === "leaving-group" ? 7 : 5}
+/>
             <text x="515" y="220" fontSize="44" fontWeight="700" fill="#dc2626">Br</text>
           </>
         )}
