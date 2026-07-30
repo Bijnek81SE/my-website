@@ -60,6 +60,19 @@ const steps: E2MechanismStep[] = [
   },
 ];
 
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  return (
+    target.isContentEditable ||
+    ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(
+      target.tagName,
+    )
+  );
+}
+
 export default function E2MechanismPlayer() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -75,7 +88,9 @@ export default function E2MechanismPlayer() {
   );
 
   useEffect(() => {
-    if (!playing) return;
+    if (!playing) {
+      return;
+    }
 
     const timer = window.setInterval(() => {
       setIndex((current) => {
@@ -90,6 +105,66 @@ export default function E2MechanismPlayer() {
 
     return () => window.clearInterval(timer);
   }, [playing]);
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (isEditableTarget(event.target)) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setPlaying(false);
+        setIndex((current) => Math.max(0, current - 1));
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setPlaying(false);
+        setIndex((current) =>
+          Math.min(steps.length - 1, current + 1),
+        );
+        return;
+      }
+
+      if (event.key === "Home") {
+        event.preventDefault();
+        setPlaying(false);
+        setIndex(0);
+        return;
+      }
+
+      if (event.key === "End") {
+        event.preventDefault();
+        setPlaying(false);
+        setIndex(steps.length - 1);
+        return;
+      }
+
+      if (event.key === " ") {
+        event.preventDefault();
+
+        setPlaying((currentPlaying) => {
+          if (currentPlaying) {
+            return false;
+          }
+
+          setIndex((currentIndex) =>
+            currentIndex === steps.length - 1 ? 0 : currentIndex,
+          );
+
+          return true;
+        });
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   function togglePlay() {
     if (isLast && !playing) {
@@ -162,6 +237,13 @@ export default function E2MechanismPlayer() {
         <p className="mt-2 leading-7 text-slate-700">
           {step.description}
         </p>
+      </div>
+
+      <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+        <span className="font-semibold text-slate-800">
+          Keyboard:
+        </span>{" "}
+        ← previous, → next, Space play/pause, Home first step, End last step
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
