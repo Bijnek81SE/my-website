@@ -1,16 +1,23 @@
 import EngineCurvedArrow from "./CurvedArrow/CurvedArrow";
 import type {
+  CurvedArrowHead,
   CurvedArrowProps,
   CurvedArrowTone,
   Point,
 } from "./CurvedArrow/types";
 
-export type { CurvedArrowProps, CurvedArrowTone, Point };
+export type {
+  CurvedArrowHead,
+  CurvedArrowProps,
+  CurvedArrowTone,
+  Point,
+};
 
 type LegacyProps = {
   start: Point;
   control: Point;
   end: Point;
+  head?: CurvedArrowHead;
   colour?: string;
   width?: number;
   label?: string;
@@ -26,6 +33,7 @@ export default function CurvedArrow({
   start,
   control,
   end,
+  head = "pair",
   colour,
   width = 3,
   label,
@@ -41,6 +49,7 @@ export default function CurvedArrow({
       start={start}
       control={control}
       end={end}
+      head={head}
       colour={colour}
       width={width}
       label={label}
