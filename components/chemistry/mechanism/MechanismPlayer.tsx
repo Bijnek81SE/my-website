@@ -91,6 +91,15 @@ export default function MechanismPlayer() {
   const [animated, setAnimated] = useState(true);
 
   const step = steps[index];
+
+  const displayedStep: MechanismStep =
+    mode === "practice"
+      ? {
+          ...step,
+          arrows: [],
+        }
+      : step;
+
   const isFirst = index === 0;
   const isLast = index === steps.length - 1;
 
@@ -179,6 +188,7 @@ export default function MechanismPlayer() {
   }, []);
 
   function changeMode(nextMode: PlayerMode) {
+    setPlaying(false);
     setMode(nextMode);
   }
 
@@ -290,7 +300,7 @@ export default function MechanismPlayer() {
       </div>
 
       <Sn2ReactionCanvas
-        step={step}
+        step={displayedStep}
         animated={animated}
       />
 
