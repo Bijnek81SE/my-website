@@ -1,3 +1,4 @@
+import Bond from "../Bond";
 import MechanismArrow from "./MechanismArrow";
 import type { MechanismStep } from "./types";
 
@@ -49,15 +50,14 @@ export default function Sn2ReactionCanvas({
             <text x="286" y="225" fontSize="42" fontWeight="700" fill="#0f172a">
               H₃C
             </text>
-            <line
-              x1="374"
-              y1="208"
-              x2="488"
-              y2="208"
-              stroke={step.highlight === "substrate" ? "#2563eb" : "#0f172a"}
-              strokeWidth={step.highlight === "substrate" ? 7 : 5}
-              strokeLinecap="round"
-            />
+            <Bond
+  from={{ x: 374, y: 208 }}
+  to={{ x: 488, y: 208 }}
+  atomRadius={0}
+  gap={0}
+  stroke={step.highlight === "substrate" ? "#2563eb" : "#0f172a"}
+  strokeWidth={step.highlight === "substrate" ? 7 : 5}
+/>
             <text
               x="510"
               y="225"
