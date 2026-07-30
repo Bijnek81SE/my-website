@@ -1,3 +1,4 @@
+import Bond from "../Bond";
 import MechanismArrow from "./MechanismArrow";
 
 type Point = { x: number; y: number };
@@ -72,40 +73,37 @@ export default function E2ReactionCanvas({ step, animated }: Props) {
             <text x="270" y="205" fontSize="34" fontWeight="700" fill="#0f172a">
               H
             </text>
-            <line
-              x1="306"
-              y1="180"
-              x2="360"
-              y2="200"
-              stroke="#0f172a"
-              strokeWidth="4"
-              strokeLinecap="round"
-            />
+            <Bond
+  from={{ x: 306, y: 180 }}
+  to={{ x: 360, y: 200 }}
+  atomRadius={0}
+  gap={0}
+  stroke="#0f172a"
+  strokeWidth={4}
+/>
 
             <text x="350" y="220" fontSize="38" fontWeight="700" fill="#0f172a">
               CH₂
             </text>
-            <line
-              x1="420"
-              y1="202"
-              x2="485"
-              y2="202"
-              stroke={concerted ? "#7c3aed" : "#0f172a"}
-              strokeWidth={concerted ? 7 : 5}
-              strokeLinecap="round"
-            />
+            <Bond
+  from={{ x: 420, y: 202 }}
+  to={{ x: 485, y: 202 }}
+  atomRadius={0}
+  gap={0}
+  stroke={concerted ? "#7c3aed" : "#0f172a"}
+  strokeWidth={concerted ? 7 : 5}
+/>
             <text x="490" y="220" fontSize="38" fontWeight="700" fill="#0f172a">
               CH₂
             </text>
-            <line
-              x1="565"
-              y1="202"
-              x2="620"
-              y2="202"
-              stroke={concerted ? "#dc2626" : "#0f172a"}
-              strokeWidth={concerted ? 7 : 5}
-              strokeLinecap="round"
-            />
+            <Bond
+  from={{ x: 565, y: 202 }}
+  to={{ x: 620, y: 202 }}
+  atomRadius={0}
+  gap={0}
+  stroke={concerted ? "#dc2626" : "#0f172a"}
+  strokeWidth={concerted ? 7 : 5}
+/>
             <text x="635" y="220" fontSize="38" fontWeight="700" fill="#dc2626">
               Br
             </text>
