@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Sn2ReactionCanvas from "./Sn2ReactionCanvas";
 import type { MechanismStep } from "./types";
 
+type PlayerMode = "learn" | "practice";
+
 const steps: MechanismStep[] = [
   {
     id: "identify-nucleophile",
@@ -83,6 +85,7 @@ function isEditableTarget(target: EventTarget | null): boolean {
 }
 
 export default function MechanismPlayer() {
+  const [mode, setMode] = useState<PlayerMode>("learn");
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [animated, setAnimated] = useState(true);
@@ -175,6 +178,10 @@ export default function MechanismPlayer() {
     };
   }, []);
 
+  function changeMode(nextMode: PlayerMode) {
+    setMode(nextMode);
+  }
+
   function previous() {
     setPlaying(false);
     setIndex((current) => Math.max(0, current - 1));
@@ -230,6 +237,38 @@ export default function MechanismPlayer() {
           className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-400"
         >
           Arrow animation: {animated ? "On" : "Off"}
+        </button>
+      </div>
+
+      <div
+        className="inline-flex rounded-xl border border-slate-200 bg-slate-100 p-1"
+        role="group"
+        aria-label="Mechanism player mode"
+      >
+        <button
+          type="button"
+          aria-pressed={mode === "learn"}
+          onClick={() => changeMode("learn")}
+          className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+            mode === "learn"
+              ? "bg-white text-blue-700 shadow-sm"
+              : "text-slate-600 hover:text-slate-950"
+          }`}
+        >
+          Learn
+        </button>
+
+        <button
+          type="button"
+          aria-pressed={mode === "practice"}
+          onClick={() => changeMode("practice")}
+          className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+            mode === "practice"
+              ? "bg-white text-blue-700 shadow-sm"
+              : "text-slate-600 hover:text-slate-950"
+          }`}
+        >
+          Practice
         </button>
       </div>
 
