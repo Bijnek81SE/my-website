@@ -71,6 +71,29 @@ const steps: MechanismStep[] = [
   },
 ];
 
+const practicePrompts = [
+  {
+    title: "Which species is the nucleophile?",
+    description:
+      "Identify the electron-rich species that donates an electron pair to the electrophilic carbon.",
+  },
+  {
+    title: "Where does the first curved arrow start?",
+    description:
+      "Remember that curved arrows begin at an electron source, such as a lone pair or a bond.",
+  },
+  {
+    title: "Which bond breaks during the reaction?",
+    description:
+      "Identify the bond whose electron pair moves onto the leaving group during the concerted step.",
+  },
+  {
+    title: "Which product is the leaving group?",
+    description:
+      "Identify the species that leaves with the electron pair from the original carbon–bromine bond.",
+  },
+];
+
 function isEditableTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) {
     return false;
@@ -91,6 +114,7 @@ export default function MechanismPlayer() {
   const [animated, setAnimated] = useState(true);
 
   const step = steps[index];
+  const practicePrompt = practicePrompts[index];
 
   const displayedStep: MechanismStep =
     mode === "practice"
@@ -325,12 +349,11 @@ export default function MechanismPlayer() {
             </p>
 
             <h3 className="mt-2 text-xl font-bold text-slate-950">
-              Click where the electron pair starts.
+              {practicePrompt.title}
             </h3>
 
             <p className="mt-3 leading-7 text-slate-700">
-              Find the atom that donates the electron pair to begin the SN2
-              mechanism.
+              {practicePrompt.description}
             </p>
           </>
         )}
