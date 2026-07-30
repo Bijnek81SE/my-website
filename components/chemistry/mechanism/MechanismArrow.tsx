@@ -1,4 +1,4 @@
-import { useId } from "react";
+import CurvedArrow from "../CurvedArrow";
 import type { MechanismArrow as MechanismArrowData } from "./types";
 
 type MechanismArrowProps = MechanismArrowData & {
@@ -13,35 +13,16 @@ export default function MechanismArrow({
   label,
   animated = true,
 }: MechanismArrowProps) {
-  const markerId = useId().replace(/:/g, "");
-  const path = `M ${start.x} ${start.y} Q ${control.x} ${control.y} ${end.x} ${end.y}`;
-
   return (
-    <g role="img" aria-label={label}>
-      <defs>
-        <marker
-          id={markerId}
-          markerWidth="7"
-          markerHeight="7"
-          refX="6.2"
-          refY="3.5"
-          orient="auto"
-          markerUnits="strokeWidth"
-        >
-          <path d="M 0 0 L 7 3.5 L 0 7 z" fill={colour} />
-        </marker>
-      </defs>
-
-      <path
-        d={path}
-        fill="none"
-        stroke={colour}
-        strokeWidth="4"
-        strokeLinecap="round"
-        markerEnd={`url(#${markerId})`}
-        strokeDasharray={animated ? "11 9" : undefined}
-        className={animated ? "mechanism-arrow-flow" : undefined}
-      />
-    </g>
+    <CurvedArrow
+      start={start}
+      control={control}
+      end={end}
+      colour={colour}
+      width={4}
+      label={label}
+      ariaLabel={label}
+      animated={animated}
+    />
   );
 }
