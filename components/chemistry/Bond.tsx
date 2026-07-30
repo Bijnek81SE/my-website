@@ -1,12 +1,63 @@
-type BondProps = {
-  from: { x: number; y: number };
-  to: { x: number; y: number };
-  order?: 1 | 2 | 3;
+import EngineBond, {
+  type BondOrder,
+  type BondPolarity,
+  type BondType,
+  type Point,
+} from "./bonds/Bond";
+
+type LegacyBondProps = {
+  from: Point;
+  to: Point;
+  order?: BondOrder;
   atomRadius?: number;
   gap?: number;
   dashed?: boolean;
   stroke?: string;
+  strokeWidth?: number;
+  spacing?: number;
+  selected?: boolean;
+  muted?: boolean;
+  animated?: boolean;
+  interactive?: boolean;
+  polarity?: BondPolarity;
+  type?: BondType;
+  selectedColour?: string;
+  className?: string;
+  ariaLabel?: string;
+  onClick?: () => void;
 };
+
+function insetBond(
+  from: Point,
+  to: Point,
+  inset: number,
+): {
+  start: Point;
+  end: Point;
+} | null {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const length = Math.hypot(dx, dy);
+
+  if (length === 0) {
+    return null;
+  }
+
+  const usableInset = Math.min(inset, length / 2);
+  const ux = dx / length;
+  const uy = dy / length;
+
+  return {
+    start: {
+      x: from.x + ux * usableInset,
+      y: from.y + uy * usableInset,
+    },
+    end: {
+      x: to.x - ux * usableInset,
+      y: to.y - uy * usableInset,
+    },
+  };
+}
 
 export default function Bond({
   from,
@@ -16,39 +67,43 @@ export default function Bond({
   gap = 5,
   dashed = false,
   stroke = "#0f172a",
-}: BondProps) {
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
-  const length = Math.hypot(dx, dy);
+  strokeWidth = 4,
+  spacing = 6,
+  selected = false,
+  muted = false,
+  animated = false,
+  interactive = false,
+  polarity = "none",
+  type,
+  selectedColour = "#2563eb",
+  className,
+  ariaLabel = "Chemical bond",
+  onClick,
+}: LegacyBondProps) {
+  const coordinates = insetBond(from, to, atomRadius + gap);
 
-  if (length === 0) return null;
-
-  const ux = dx / length;
-  const uy = dy / length;
-  const nx = -uy;
-  const ny = ux;
-  const inset = atomRadius + gap;
-  const start = { x: from.x + ux * inset, y: from.y + uy * inset };
-  const end = { x: to.x - ux * inset, y: to.y - uy * inset };
-  const spacing = 6;
-  const offsets =
-    order === 1 ? [0] : order === 2 ? [-spacing / 2, spacing / 2] : [-spacing, 0, spacing];
+  if (!coordinates) {
+    return null;
+  }
 
   return (
-    <g aria-hidden="true">
-      {offsets.map((offset) => (
-        <line
-          key={offset}
-          x1={start.x + nx * offset}
-          y1={start.y + ny * offset}
-          x2={end.x + nx * offset}
-          y2={end.y + ny * offset}
-          stroke={stroke}
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeDasharray={dashed ? "10 9" : undefined}
-        />
-      ))}
-    </g>
+    <EngineBond
+      start={coordinates.start}
+      end={coordinates.end}
+      order={order}
+      type={type ?? (dashed ? "aromatic" : "line")}
+      polarity={polarity}
+      selected={selected}
+      muted={muted}
+      animated={animated}
+      interactive={interactive}
+      strokeWidth={strokeWidth}
+      spacing={spacing}
+      colour={stroke}
+      selectedColour={selectedColour}
+      className={className}
+      ariaLabel={ariaLabel}
+      onClick={onClick}
+    />
   );
 }
