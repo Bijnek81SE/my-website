@@ -1,9 +1,13 @@
 import MoleculeCanvas from "../MoleculeCanvas";
 import type { MechanismStep } from "./types";
 
+type Sn2AtomId = "oxygen" | "carbon" | "bromine";
+
 type Sn2ReactionCanvasProps = {
   step: MechanismStep;
   animated: boolean;
+  interactive?: boolean;
+  onAtomClick?: (atomId: Sn2AtomId) => void;
 };
 
 const highlightClass =
@@ -12,6 +16,8 @@ const highlightClass =
 export default function Sn2ReactionCanvas({
   step,
   animated,
+  interactive = false,
+  onAtomClick,
 }: Sn2ReactionCanvasProps) {
   const showProduct = step.highlight === "product";
 
@@ -54,6 +60,26 @@ export default function Sn2ReactionCanvas({
     },
   ];
 
+  function selectAtom(atomId: Sn2AtomId) {
+    if (!interactive) {
+      return;
+    }
+
+    onAtomClick?.(atomId);
+  }
+
+  function handleAtomKeyDown(
+    event: React.KeyboardEvent<SVGCircleElement>,
+    atomId: Sn2AtomId,
+  ) {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    selectAtom(atomId);
+  }
+
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
       <svg
@@ -83,6 +109,7 @@ export default function Sn2ReactionCanvas({
                 fontSize="42"
                 fontWeight="700"
                 fill="#2563eb"
+                pointerEvents="none"
               >
                 ⁻OH
               </text>
@@ -97,6 +124,7 @@ export default function Sn2ReactionCanvas({
                     ? 1
                     : 0.45
                 }
+                pointerEvents="none"
               />
 
               <circle
@@ -109,6 +137,30 @@ export default function Sn2ReactionCanvas({
                     ? 1
                     : 0.45
                 }
+                pointerEvents="none"
+              />
+
+              <circle
+                cx="118"
+                cy="198"
+                r="58"
+                fill="transparent"
+                role={interactive ? "button" : undefined}
+                tabIndex={interactive ? 0 : undefined}
+                aria-label={
+                  interactive
+                    ? "Select the hydroxide oxygen"
+                    : undefined
+                }
+                className={
+                  interactive
+                    ? "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]"
+                    : undefined
+                }
+                onClick={() => selectAtom("oxygen")}
+                onKeyDown={(event) =>
+                  handleAtomKeyDown(event, "oxygen")
+                }
               />
             </g>
 
@@ -118,9 +170,33 @@ export default function Sn2ReactionCanvas({
               fontSize="42"
               fontWeight="700"
               fill="#0f172a"
+              pointerEvents="none"
             >
               H₃C
             </text>
+
+            <circle
+              cx="338"
+              cy="208"
+              r="54"
+              fill="transparent"
+              role={interactive ? "button" : undefined}
+              tabIndex={interactive ? 0 : undefined}
+              aria-label={
+                interactive
+                  ? "Select the electrophilic carbon"
+                  : undefined
+              }
+              className={
+                interactive
+                  ? "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]"
+                  : undefined
+              }
+              onClick={() => selectAtom("carbon")}
+              onKeyDown={(event) =>
+                handleAtomKeyDown(event, "carbon")
+              }
+            />
 
             <MoleculeCanvas
               bonds={bonds}
@@ -135,6 +211,29 @@ export default function Sn2ReactionCanvas({
               }
             >
               <MoleculeCanvas atoms={bromineAtoms} />
+
+              <circle
+                cx="535"
+                cy="208"
+                r="54"
+                fill="transparent"
+                role={interactive ? "button" : undefined}
+                tabIndex={interactive ? 0 : undefined}
+                aria-label={
+                  interactive
+                    ? "Select the bromine leaving group"
+                    : undefined
+                }
+                className={
+                  interactive
+                    ? "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]"
+                    : undefined
+                }
+                onClick={() => selectAtom("bromine")}
+                onKeyDown={(event) =>
+                  handleAtomKeyDown(event, "bromine")
+                }
+              />
             </g>
           </>
         ) : (
