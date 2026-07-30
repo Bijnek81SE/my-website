@@ -86,59 +86,59 @@ export default function E2ReactionCanvas({
           fill="#f8fafc"
         />
 
-        {product ? (
-          <>
-            <text
-              x="165"
-              y="215"
-              fontSize="38"
-              fontWeight="700"
-              fill="#2563eb"
-            >
-              H–O–H
-            </text>
+       {product ? (
+  <>
+    <text
+      x="120"
+      y="215"
+      fontSize="38"
+      fontWeight="700"
+      fill="#2563eb"
+    >
+      H–O–H
+    </text>
 
-            <text
-              x="315"
-              y="215"
-              fontSize="30"
-              fontWeight="700"
-              fill="#64748b"
-            >
-              +
-            </text>
+    <text
+      x="280"
+      y="215"
+      fontSize="30"
+      fontWeight="700"
+      fill="#64748b"
+    >
+      +
+    </text>
 
-            <text
-              x="365"
-              y="215"
-              fontSize="42"
-              fontWeight="700"
-              fill="#0f172a"
-            >
-              CH₃–CH=CH₂
-            </text>
+    <text
+      x="330"
+      y="215"
+      fontSize="38"
+      fontWeight="700"
+      fill="#0f172a"
+    >
+      CH₃–CH=CH₂
+    </text>
 
-            <text
-              x="600"
-              y="215"
-              fontSize="30"
-              fontWeight="700"
-              fill="#64748b"
-            >
-              +
-            </text>
+    <text
+      x="590"
+      y="215"
+      fontSize="30"
+      fontWeight="700"
+      fill="#64748b"
+    >
+      +
+    </text>
 
-            <text
-              x="645"
-              y="215"
-              fontSize="40"
-              fontWeight="700"
-              fill="#dc2626"
-            >
-              Br⁻
-            </text>
-          </>
-        ) : (
+    <text
+      x="640"
+      y="215"
+      fontSize="38"
+      fontWeight="700"
+      fill="#dc2626"
+    >
+      Br⁻
+    </text>
+  </>
+) : (
           <>
             <g className={concerted ? glow : undefined}>
               <text
