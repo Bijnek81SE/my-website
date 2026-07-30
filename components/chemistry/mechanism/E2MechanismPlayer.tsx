@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import E2ReactionCanvas, { type E2MechanismStep } from "./E2ReactionCanvas";
+import E2ReactionCanvas, {
+  type E2MechanismStep,
+} from "./E2ReactionCanvas";
 
 const steps: E2MechanismStep[] = [
   {
@@ -23,25 +25,25 @@ const steps: E2MechanismStep[] = [
     arrows: [
       {
         id: "base-to-hydrogen",
-        start: { x: 126, y: 168 },
-        control: { x: 212, y: 72 },
-        end: { x: 303, y: 118 },
+        start: { x: 193, y: 168 },
+        control: { x: 270, y: 72 },
+        end: { x: 328, y: 118 },
         colour: "#2563eb",
         label: "Base lone pair removes the beta hydrogen",
       },
       {
         id: "ch-to-pi",
-        start: { x: 330, y: 137 },
-        control: { x: 382, y: 88 },
-        end: { x: 420, y: 183 },
+        start: { x: 355, y: 137 },
+        control: { x: 407, y: 88 },
+        end: { x: 445, y: 183 },
         colour: "#7c3aed",
         label: "Carbon hydrogen bond electrons form the pi bond",
       },
       {
         id: "cbr-to-br",
-        start: { x: 500, y: 202 },
-        control: { x: 572, y: 112 },
-        end: { x: 620, y: 184 },
+        start: { x: 525, y: 202 },
+        control: { x: 597, y: 112 },
+        end: { x: 645, y: 184 },
         colour: "#dc2626",
         label: "Carbon bromine bond electrons move to bromine",
       },
@@ -66,6 +68,7 @@ export default function E2MechanismPlayer() {
   const step = steps[index];
   const isFirst = index === 0;
   const isLast = index === steps.length - 1;
+
   const progress = useMemo(
     () => Math.round(((index + 1) / steps.length) * 100),
     [index],
@@ -80,6 +83,7 @@ export default function E2MechanismPlayer() {
           setPlaying(false);
           return current;
         }
+
         return current + 1;
       });
     }, 3000);
@@ -104,16 +108,20 @@ export default function E2MechanismPlayer() {
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-orange-700">
             Reaction mechanism player
           </p>
+
           <h2 className="mt-1 text-2xl font-bold text-slate-950">
             E2 elimination
           </h2>
+
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-            Follow β-hydrogen abstraction, π-bond formation, and leaving-group departure in one concerted step.
+            Follow β-hydrogen abstraction, π-bond formation, and leaving-group
+            departure in one concerted step.
           </p>
         </div>
 
         <button
           type="button"
+          aria-pressed={animated}
           onClick={() => setAnimated((value) => !value)}
           className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-orange-400"
         >
@@ -126,8 +134,10 @@ export default function E2MechanismPlayer() {
           <span>
             Step {index + 1} of {steps.length}
           </span>
+
           <span>{progress}%</span>
         </div>
+
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200">
           <div
             className="h-full rounded-full bg-orange-600 transition-all duration-500"
@@ -136,14 +146,22 @@ export default function E2MechanismPlayer() {
         </div>
       </div>
 
-      <E2ReactionCanvas step={step} animated={animated} />
+      <E2ReactionCanvas
+        step={step}
+        animated={animated}
+      />
 
       <div
         className="rounded-2xl border border-orange-100 bg-orange-50 p-5"
         aria-live="polite"
       >
-        <h3 className="text-lg font-bold text-slate-950">{step.title}</h3>
-        <p className="mt-2 leading-7 text-slate-700">{step.description}</p>
+        <h3 className="text-lg font-bold text-slate-950">
+          {step.title}
+        </h3>
+
+        <p className="mt-2 leading-7 text-slate-700">
+          {step.description}
+        </p>
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
@@ -172,7 +190,9 @@ export default function E2MechanismPlayer() {
             type="button"
             onClick={() => {
               setPlaying(false);
-              setIndex((current) => Math.min(steps.length - 1, current + 1));
+              setIndex((current) =>
+                Math.min(steps.length - 1, current + 1),
+              );
             }}
             disabled={isLast}
             className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-orange-400 disabled:cursor-not-allowed disabled:opacity-40"
@@ -198,6 +218,7 @@ export default function E2MechanismPlayer() {
           from {
             stroke-dashoffset: 20;
           }
+
           to {
             stroke-dashoffset: 0;
           }

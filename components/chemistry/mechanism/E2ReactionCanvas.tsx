@@ -41,22 +41,22 @@ export default function E2ReactionCanvas({
   const bonds = [
     {
       id: "beta-hydrogen-bond",
-      from: { x: 306, y: 180 },
-      to: { x: 360, y: 200 },
+      from: { x: 331, y: 180 },
+      to: { x: 385, y: 200 },
       stroke: "#0f172a",
       strokeWidth: 4,
     },
     {
       id: "carbon-carbon-bond",
-      from: { x: 420, y: 202 },
-      to: { x: 485, y: 202 },
+      from: { x: 445, y: 202 },
+      to: { x: 510, y: 202 },
       stroke: concerted ? "#7c3aed" : "#0f172a",
       strokeWidth: concerted ? 7 : 5,
     },
     {
       id: "carbon-bromine-bond",
-      from: { x: 565, y: 202 },
-      to: { x: 620, y: 202 },
+      from: { x: 590, y: 202 },
+      to: { x: 645, y: 202 },
       stroke: concerted ? "#dc2626" : "#0f172a",
       strokeWidth: concerted ? 7 : 5,
     },
@@ -80,69 +80,65 @@ export default function E2ReactionCanvas({
         role="img"
         aria-label={`E2 mechanism: ${step.title}`}
       >
-        <rect
-          width="760"
-          height="400"
-          fill="#f8fafc"
-        />
+        <rect width="760" height="400" fill="#f8fafc" />
 
-       {product ? (
-  <>
-    <text
-      x="120"
-      y="215"
-      fontSize="38"
-      fontWeight="700"
-      fill="#2563eb"
-    >
-      H–O–H
-    </text>
+        {product ? (
+          <>
+            <text
+              x="120"
+              y="215"
+              fontSize="38"
+              fontWeight="700"
+              fill="#2563eb"
+            >
+              H–O–H
+            </text>
 
-    <text
-      x="280"
-      y="215"
-      fontSize="30"
-      fontWeight="700"
-      fill="#64748b"
-    >
-      +
-    </text>
+            <text
+              x="280"
+              y="215"
+              fontSize="30"
+              fontWeight="700"
+              fill="#64748b"
+            >
+              +
+            </text>
 
-    <text
-      x="330"
-      y="215"
-      fontSize="38"
-      fontWeight="700"
-      fill="#0f172a"
-    >
-      CH₃–CH=CH₂
-    </text>
+            <text
+              x="330"
+              y="215"
+              fontSize="38"
+              fontWeight="700"
+              fill="#0f172a"
+            >
+              CH₃–CH=CH₂
+            </text>
 
-    <text
-      x="590"
-      y="215"
-      fontSize="30"
-      fontWeight="700"
-      fill="#64748b"
-    >
-      +
-    </text>
+            <text
+              x="590"
+              y="215"
+              fontSize="30"
+              fontWeight="700"
+              fill="#64748b"
+            >
+              +
+            </text>
 
-    <text
-      x="640"
-      y="215"
-      fontSize="38"
-      fontWeight="700"
-      fill="#dc2626"
-    >
-      Br⁻
-    </text>
-  </>
-) : (
+            <text
+              x="640"
+              y="215"
+              fontSize="38"
+              fontWeight="700"
+              fill="#dc2626"
+            >
+              Br⁻
+            </text>
+          </>
+        ) : (
           <>
             <g className={concerted ? glow : undefined}>
               <text
-                x="72"
+                x="132"
                 y="205"
                 fontSize="38"
                 fontWeight="700"
@@ -152,14 +148,14 @@ export default function E2ReactionCanvas({
               </text>
 
               <circle
-                cx="121"
+                cx="181"
                 cy="154"
                 r="5"
                 fill="#2563eb"
               />
 
               <circle
-                cx="139"
+                cx="199"
                 cy="154"
                 r="5"
                 fill="#2563eb"
@@ -167,7 +163,7 @@ export default function E2ReactionCanvas({
             </g>
 
             <text
-              x="270"
+              x="295"
               y="205"
               fontSize="34"
               fontWeight="700"
@@ -177,7 +173,7 @@ export default function E2ReactionCanvas({
             </text>
 
             <text
-              x="350"
+              x="375"
               y="220"
               fontSize="38"
               fontWeight="700"
@@ -187,7 +183,7 @@ export default function E2ReactionCanvas({
             </text>
 
             <text
-              x="490"
+              x="515"
               y="220"
               fontSize="38"
               fontWeight="700"
@@ -197,7 +193,7 @@ export default function E2ReactionCanvas({
             </text>
 
             <text
-              x="635"
+              x="658"
               y="220"
               fontSize="38"
               fontWeight="700"
@@ -212,8 +208,8 @@ export default function E2ReactionCanvas({
             />
 
             <text
-              x="345"
-              y="276"
+              x="370"
+              y="266"
               fontSize="24"
               fontWeight="700"
               fill="#64748b"
@@ -222,8 +218,8 @@ export default function E2ReactionCanvas({
             </text>
 
             <text
-              x="500"
-              y="276"
+              x="525"
+              y="266"
               fontSize="24"
               fontWeight="700"
               fill="#64748b"
@@ -234,9 +230,9 @@ export default function E2ReactionCanvas({
             {step.highlight === "alignment" ? (
               <>
                 <line
-                  x1="295"
+                  x1="320"
                   y1="120"
-                  x2="650"
+                  x2="675"
                   y2="120"
                   stroke="#ea580c"
                   strokeWidth="3"
@@ -244,7 +240,7 @@ export default function E2ReactionCanvas({
                 />
 
                 <text
-                  x="472"
+                  x="497"
                   y="96"
                   textAnchor="middle"
                   fontSize="17"
