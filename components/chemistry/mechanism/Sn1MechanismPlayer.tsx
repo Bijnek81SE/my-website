@@ -96,6 +96,19 @@ const steps: MechanismStep[] = [
   },
 ];
 
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  return (
+    target.isContentEditable ||
+    ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(
+      target.tagName,
+    )
+  );
+}
+
 export default function Sn1MechanismPlayer() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -104,13 +117,16 @@ export default function Sn1MechanismPlayer() {
   const step = steps[index];
   const isFirst = index === 0;
   const isLast = index === steps.length - 1;
+
   const progress = useMemo(
     () => Math.round(((index + 1) / steps.length) * 100),
     [index],
   );
 
   useEffect(() => {
-    if (!playing) return;
+    if (!playing) {
+      return;
+    }
 
     const timer = window.setInterval(() => {
       setIndex((current) => {
@@ -118,6 +134,7 @@ export default function Sn1MechanismPlayer() {
           setPlaying(false);
           return current;
         }
+
         return current + 1;
       });
     }, 2800);
@@ -125,12 +142,73 @@ export default function Sn1MechanismPlayer() {
     return () => window.clearInterval(timer);
   }, [playing]);
 
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (isEditableTarget(event.target)) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setPlaying(false);
+        setIndex((current) => Math.max(0, current - 1));
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setPlaying(false);
+        setIndex((current) =>
+          Math.min(steps.length - 1, current + 1),
+        );
+        return;
+      }
+
+      if (event.key === "Home") {
+        event.preventDefault();
+        setPlaying(false);
+        setIndex(0);
+        return;
+      }
+
+      if (event.key === "End") {
+        event.preventDefault();
+        setPlaying(false);
+        setIndex(steps.length - 1);
+        return;
+      }
+
+      if (event.key === " ") {
+        event.preventDefault();
+
+        setPlaying((currentPlaying) => {
+          if (currentPlaying) {
+            return false;
+          }
+
+          setIndex((currentIndex) =>
+            currentIndex === steps.length - 1 ? 0 : currentIndex,
+          );
+
+          return true;
+        });
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   function togglePlay() {
     if (isLast && !playing) {
       setIndex(0);
       setPlaying(true);
       return;
     }
+
     setPlaying((value) => !value);
   }
 
@@ -141,14 +219,20 @@ export default function Sn1MechanismPlayer() {
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700">
             Reaction mechanism player
           </p>
-          <h2 className="mt-1 text-2xl font-bold text-slate-950">SN1 substitution</h2>
+
+          <h2 className="mt-1 text-2xl font-bold text-slate-950">
+            SN1 substitution
+          </h2>
+
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-            Follow ionisation, carbocation formation, nucleophile attack, and deprotonation.
+            Follow ionisation, carbocation formation, nucleophile attack, and
+            deprotonation.
           </p>
         </div>
 
         <button
           type="button"
+          aria-pressed={animated}
           onClick={() => setAnimated((value) => !value)}
           className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-violet-400"
         >
@@ -158,9 +242,13 @@ export default function Sn1MechanismPlayer() {
 
       <div>
         <div className="flex items-center justify-between text-sm font-semibold text-slate-600">
-          <span>Step {index + 1} of {steps.length}</span>
+          <span>
+            Step {index + 1} of {steps.length}
+          </span>
+
           <span>{progress}%</span>
         </div>
+
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200">
           <div
             className="h-full rounded-full bg-violet-600 transition-all duration-500"
@@ -169,11 +257,29 @@ export default function Sn1MechanismPlayer() {
         </div>
       </div>
 
-      <Sn1ReactionCanvas step={step} animated={animated} />
+      <Sn1ReactionCanvas
+        step={step}
+        animated={animated}
+      />
 
-      <div className="rounded-2xl border border-violet-100 bg-violet-50 p-5" aria-live="polite">
-        <h3 className="text-lg font-bold text-slate-950">{step.title}</h3>
-        <p className="mt-2 leading-7 text-slate-700">{step.description}</p>
+      <div
+        className="rounded-2xl border border-violet-100 bg-violet-50 p-5"
+        aria-live="polite"
+      >
+        <h3 className="text-lg font-bold text-slate-950">
+          {step.title}
+        </h3>
+
+        <p className="mt-2 leading-7 text-slate-700">
+          {step.description}
+        </p>
+      </div>
+
+      <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+        <span className="font-semibold text-slate-800">
+          Keyboard:
+        </span>{" "}
+        ← previous, → next, Space play/pause, Home first step, End last step
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
@@ -202,7 +308,9 @@ export default function Sn1MechanismPlayer() {
             type="button"
             onClick={() => {
               setPlaying(false);
-              setIndex((current) => Math.min(steps.length - 1, current + 1));
+              setIndex((current) =>
+                Math.min(steps.length - 1, current + 1),
+              );
             }}
             disabled={isLast}
             className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-violet-400 disabled:cursor-not-allowed disabled:opacity-40"
@@ -225,9 +333,15 @@ export default function Sn1MechanismPlayer() {
 
       <style jsx global>{`
         @keyframes mechanismArrowFlow {
-          from { stroke-dashoffset: 20; }
-          to { stroke-dashoffset: 0; }
+          from {
+            stroke-dashoffset: 20;
+          }
+
+          to {
+            stroke-dashoffset: 0;
+          }
         }
+
         .mechanism-arrow-flow {
           animation: mechanismArrowFlow 0.85s linear infinite;
         }
