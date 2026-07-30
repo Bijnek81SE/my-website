@@ -308,13 +308,32 @@ export default function MechanismPlayer() {
         className="rounded-2xl border border-blue-100 bg-blue-50 p-5"
         aria-live="polite"
       >
-        <h3 className="text-lg font-bold text-slate-950">
-          {step.title}
-        </h3>
+        {mode === "learn" ? (
+          <>
+            <h3 className="text-lg font-bold text-slate-950">
+              {step.title}
+            </h3>
 
-        <p className="mt-2 leading-7 text-slate-700">
-          {step.description}
-        </p>
+            <p className="mt-2 leading-7 text-slate-700">
+              {step.description}
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">
+              Practice
+            </p>
+
+            <h3 className="mt-2 text-xl font-bold text-slate-950">
+              Click where the electron pair starts.
+            </h3>
+
+            <p className="mt-3 leading-7 text-slate-700">
+              Find the atom that donates the electron pair to begin the SN2
+              mechanism.
+            </p>
+          </>
+        )}
       </div>
 
       <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
