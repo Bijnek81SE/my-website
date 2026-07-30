@@ -92,6 +92,7 @@ export default function MechanismPlayer() {
           setPlaying(false);
           return current;
         }
+
         return current + 1;
       });
     }, 2600);
@@ -106,12 +107,27 @@ export default function MechanismPlayer() {
 
   function next() {
     setPlaying(false);
-    setIndex((current) => Math.min(steps.length - 1, current + 1));
+    setIndex((current) =>
+      Math.min(steps.length - 1, current + 1),
+    );
   }
 
   function reset() {
     setPlaying(false);
     setIndex(0);
+  }
+
+  function togglePlayback() {
+    if (playing) {
+      setPlaying(false);
+      return;
+    }
+
+    if (isLast) {
+      setIndex(0);
+    }
+
+    setPlaying(true);
   }
 
   return (
@@ -121,14 +137,20 @@ export default function MechanismPlayer() {
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-700">
             Reaction mechanism player
           </p>
-          <h2 className="mt-1 text-2xl font-bold text-slate-950">SN2 substitution</h2>
+
+          <h2 className="mt-1 text-2xl font-bold text-slate-950">
+            SN2 substitution
+          </h2>
+
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-            Follow the electron movement from nucleophile attack to leaving-group departure.
+            Follow the electron movement from nucleophile attack to
+            leaving-group departure.
           </p>
         </div>
 
         <button
           type="button"
+          aria-pressed={animated}
           onClick={() => setAnimated((value) => !value)}
           className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-400"
         >
@@ -141,8 +163,10 @@ export default function MechanismPlayer() {
           <span>
             Step {index + 1} of {steps.length}
           </span>
+
           <span>{progress}%</span>
         </div>
+
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200">
           <div
             className="h-full rounded-full bg-blue-600 transition-all duration-500"
@@ -151,11 +175,22 @@ export default function MechanismPlayer() {
         </div>
       </div>
 
-      <Sn2ReactionCanvas step={step} animated={animated} />
+      <Sn2ReactionCanvas
+        step={step}
+        animated={animated}
+      />
 
-      <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5" aria-live="polite">
-        <h3 className="text-lg font-bold text-slate-950">{step.title}</h3>
-        <p className="mt-2 leading-7 text-slate-700">{step.description}</p>
+      <div
+        className="rounded-2xl border border-blue-100 bg-blue-50 p-5"
+        aria-live="polite"
+      >
+        <h3 className="text-lg font-bold text-slate-950">
+          {step.title}
+        </h3>
+
+        <p className="mt-2 leading-7 text-slate-700">
+          {step.description}
+        </p>
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
@@ -171,7 +206,7 @@ export default function MechanismPlayer() {
 
           <button
             type="button"
-            onClick={() => setPlaying((value) => !value)}
+            onClick={togglePlayback}
             className="rounded-xl bg-slate-950 px-5 py-2 font-semibold text-white transition hover:bg-slate-800"
           >
             {playing ? "Pause" : isLast ? "Replay" : "Play"}
@@ -201,6 +236,7 @@ export default function MechanismPlayer() {
           from {
             stroke-dashoffset: 20;
           }
+
           to {
             stroke-dashoffset: 0;
           }
