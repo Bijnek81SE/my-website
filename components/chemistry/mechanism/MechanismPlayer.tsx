@@ -5,6 +5,8 @@ import Sn2ReactionCanvas from "./Sn2ReactionCanvas";
 import type { MechanismStep } from "./types";
 
 type PlayerMode = "learn" | "practice";
+type PracticeFeedback = "idle" | "correct" | "incorrect";
+type Sn2AtomId = "oxygen" | "carbon" | "bromine";
 
 const steps: MechanismStep[] = [
   {
@@ -112,6 +114,9 @@ export default function MechanismPlayer() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [animated, setAnimated] = useState(true);
+  const [feedback, setFeedback] =
+    useState<PracticeFeedback>("idle");
+  const [answered, setAnswered] = useState(false);
 
   const step = steps[index];
   const practicePrompt = practicePrompts[index];
@@ -120,7 +125,10 @@ export default function MechanismPlayer() {
     mode === "practice"
       ? {
           ...step,
-          arrows: [],
+          arrows:
+            index === 0 && answered
+              ? steps[1].arrows
+              : [],
         }
       : step;
 
@@ -152,6 +160,11 @@ export default function MechanismPlayer() {
   }, [playing]);
 
   useEffect(() => {
+    setFeedback("idle");
+    setAnswered(false);
+  }, [index]);
+
+  useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (isEditableTarget(event.target)) {
         return;
@@ -166,6 +179,15 @@ export default function MechanismPlayer() {
 
       if (event.key === "ArrowRight") {
         event.preventDefault();
+
+        if (
+          mode === "practice" &&
+          index === 0 &&
+          !answered
+        ) {
+          return;
+        }
+
         setPlaying(false);
         setIndex((current) =>
           Math.min(steps.length - 1, current + 1),
@@ -209,11 +231,31 @@ export default function MechanismPlayer() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [answered, index, mode]);
+
+  function handlePracticeAnswer(atom: Sn2AtomId) {
+    if (mode !== "practice") {
+      return;
+    }
+
+    if (index !== 0) {
+      return;
+    }
+
+    if (atom === "oxygen") {
+      setFeedback("correct");
+      setAnswered(true);
+      return;
+    }
+
+    setFeedback("incorrect");
+  }
 
   function changeMode(nextMode: PlayerMode) {
     setPlaying(false);
     setMode(nextMode);
+    setFeedback("idle");
+    setAnswered(false);
   }
 
   function previous() {
@@ -231,6 +273,8 @@ export default function MechanismPlayer() {
   function reset() {
     setPlaying(false);
     setIndex(0);
+    setFeedback("idle");
+    setAnswered(false);
   }
 
   function togglePlayback() {
@@ -326,6 +370,8 @@ export default function MechanismPlayer() {
       <Sn2ReactionCanvas
         step={displayedStep}
         animated={animated}
+        interactive={mode === "practice"}
+        onAtomClick={handlePracticeAnswer}
       />
 
       <div
@@ -353,8 +399,45 @@ export default function MechanismPlayer() {
             </h3>
 
             <p className="mt-3 leading-7 text-slate-700">
-              {practicePrompt.description}
+              {answered
+                ? step.description
+                : practicePrompt.description}
             </p>
+
+            {index === 0 ? (
+              <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4">
+                {feedback === "idle" ? (
+                  <p className="text-slate-700">
+                    Click the atom that acts as the nucleophile.
+                  </p>
+                ) : null}
+
+                {feedback === "incorrect" ? (
+                  <p className="font-semibold text-red-600">
+                    Not quite. Remember that the nucleophile donates
+                    an electron pair.
+                  </p>
+                ) : null}
+
+                {feedback === "correct" ? (
+                  <div className="space-y-3">
+                    <p className="font-semibold text-green-700">
+                      ✓ Correct!
+                    </p>
+
+                    <p className="text-slate-700">
+                      Hydroxide is the nucleophile because it donates
+                      its lone pair to the electrophilic carbon.
+                    </p>
+
+                    <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">
+                      The curved arrow is now shown on the reaction
+                      diagram.
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
           </>
         )}
       </div>
@@ -389,7 +472,12 @@ export default function MechanismPlayer() {
           <button
             type="button"
             onClick={next}
-            disabled={isLast}
+            disabled={
+              isLast ||
+              (mode === "practice" &&
+                index === 0 &&
+                !answered)
+            }
             className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-blue-400 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Next →
