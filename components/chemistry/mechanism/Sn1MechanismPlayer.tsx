@@ -6,6 +6,7 @@ import Sn1ReactionCanvas, {
 } from "./Sn1ReactionCanvas";
 import type { MechanismStep } from "./types";
 import { sn1Questions } from "./MechanismQuestions";
+import { sn1ReactionData } from "./MechanismReactionData";
 
 
 const steps: MechanismStep[] = [
@@ -109,6 +110,20 @@ export default function Sn1MechanismPlayer() {
       accent="violet"
       steps={steps}
       questions={sn1Questions}
+      validation={{
+        id: "sn1",
+        reactionData: sn1ReactionData,
+        getSceneForStep: (step) =>
+          step.highlight === "product"
+            ? "products"
+            : step.highlight === "deprotonation"
+              ? "deprotonation"
+              : step.highlight === "nucleophile"
+                ? "nucleophile"
+                : ["carbocation"].includes(step.highlight)
+                  ? "carbocation"
+                  : "substrate",
+      }}
       playbackInterval={2800}
       getRevealMessage={(step, index) =>
         step.arrows.length > 0

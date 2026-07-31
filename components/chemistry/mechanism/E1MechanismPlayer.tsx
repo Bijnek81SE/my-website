@@ -6,6 +6,7 @@ import E1ReactionCanvas, {
   type E1PracticeTarget,
 } from "./E1ReactionCanvas";
 import { e1Questions } from "./MechanismQuestions";
+import { e1ReactionData } from "./MechanismReactionData";
 
 
 const steps: E1MechanismStep[] = [
@@ -91,6 +92,18 @@ export default function E1MechanismPlayer() {
       accent="emerald"
       steps={steps}
       questions={e1Questions}
+      validation={{
+        id: "e1",
+        reactionData: e1ReactionData,
+        getSceneForStep: (step) =>
+          step.highlight === "products"
+            ? "products"
+            : step.highlight === "carbocation"
+              ? "carbocation"
+              : step.highlight === "deprotonation"
+                ? "deprotonation"
+                : "substrate",
+      }}
       playbackInterval={3000}
       getRevealMessage={(step, index) =>
         step.arrows.length > 0

@@ -6,6 +6,7 @@ import Sn2ReactionCanvas, {
 } from "./Sn2ReactionCanvas";
 import type { MechanismStep } from "./types";
 import { sn2Questions } from "./MechanismQuestions";
+import { sn2ReactionData } from "./MechanismReactionData";
 
 
 const steps: MechanismStep[] = [
@@ -82,6 +83,12 @@ export default function MechanismPlayer() {
       accent="blue"
       steps={steps}
       questions={sn2Questions}
+      validation={{
+        id: "sn2",
+        reactionData: sn2ReactionData,
+        getSceneForStep: (step) =>
+          step.highlight === "product" ? "products" : "reactants",
+      }}
       playbackInterval={2600}
       getRevealMessage={(_step, index) =>
         index === steps.length - 1

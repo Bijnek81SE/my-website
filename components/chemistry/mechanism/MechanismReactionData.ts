@@ -53,10 +53,10 @@ export const e1ReactionData = defineReactionData<E1PracticeTarget>({
   focusClassName:
     "cursor-pointer outline-none focus-visible:stroke-emerald-600 focus-visible:stroke-[4]",
   hotspots: [
-    { id: "e1-water", target: "water-base", label: "Select the water molecule acting as a base", scenes: ["reactants"], geometry: { shape: "rect", x: 50, y: 75, width: 100, height: 65, rx: 16 } },
-    { id: "e1-substrate", target: "tertiary-substrate", label: "Select the tertiary substrate", scenes: ["reactants"], geometry: { shape: "rect", x: 225, y: 125, width: 420, height: 175, rx: 16 } },
+    { id: "e1-water", target: "water-base", label: "Select the water molecule acting as a base", scenes: ["deprotonation"], geometry: { shape: "rect", x: 50, y: 75, width: 100, height: 65, rx: 16 } },
+    { id: "e1-substrate", target: "tertiary-substrate", label: "Select the tertiary substrate", scenes: ["substrate"], geometry: { shape: "rect", x: 225, y: 125, width: 420, height: 175, rx: 16 } },
     { id: "e1-cbr", target: "carbon-bromine-bond", label: "Select the carbon bromine bond", scenes: ["substrate"], geometry: { shape: "rect", x: 450, y: 178, width: 115, height: 55, rx: 16 } },
-    { id: "e1-beta-h", target: "beta-hydrogen", label: "Select the beta hydrogen", scenes: ["reactants"], geometry: { shape: "rect", x: 335, y: 70, width: 85, height: 70, rx: 16 } },
+    { id: "e1-beta-h", target: "beta-hydrogen", label: "Select the beta hydrogen", scenes: ["deprotonation"], geometry: { shape: "rect", x: 335, y: 70, width: 85, height: 70, rx: 16 } },
     { id: "e1-carbocation", target: "carbocation", label: "Select the carbocation intermediate", scenes: ["carbocation"], geometry: { shape: "rect", x: 375, y: 170, width: 100, height: 85, rx: 16 } },
     { id: "e1-alkene", target: "alkene-product", label: "Select the alkene product", scenes: ["products"], geometry: { shape: "rect", x: 90, y: 160, width: 250, height: 85, rx: 16 } },
     { id: "e1-bromide", target: "bromide-product", label: "Select the bromide product", scenes: ["products"], geometry: { shape: "rect", x: 590, y: 160, width: 100, height: 85, rx: 16 } },

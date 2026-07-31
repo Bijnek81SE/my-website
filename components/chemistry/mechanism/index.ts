@@ -22,3 +22,17 @@ export {
   sn1ReactionData,
   sn2ReactionData,
 } from "./MechanismReactionData";
+
+export {
+  assertValidMechanismDefinition,
+  validateMechanismDefinition,
+  MechanismValidationError,
+} from "./MechanismValidationEngine";
+export type {
+  MechanismValidationDefinition,
+  MechanismValidationIssue,
+  MechanismValidationReport,
+  MechanismValidationSeverity,
+  ValidatableMechanismArrow,
+  ValidatableMechanismStep,
+} from "./MechanismValidationEngine";

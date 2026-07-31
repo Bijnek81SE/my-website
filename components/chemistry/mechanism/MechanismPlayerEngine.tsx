@@ -7,6 +7,8 @@ import {
   type ReactNode,
 } from "react";
 import PracticeEngine from "./PracticeEngine";
+import type { ReactionDataDefinition } from "./ReactionDataEngine";
+import { assertValidMechanismDefinition } from "./MechanismValidationEngine";
 import type {
   PracticeQuestion,
   PracticeSessionMode,
@@ -49,6 +51,11 @@ type MechanismPlayerEngineProps<
   renderCanvas: (
     state: CanvasRenderState<TStep, TTarget>,
   ) => ReactNode;
+  validation: {
+    id: string;
+    reactionData: ReactionDataDefinition<TTarget>;
+    getSceneForStep: (step: TStep, index: number) => string;
+  };
 };
 
 const accentClasses = {
@@ -111,7 +118,20 @@ export default function MechanismPlayerEngine<
   playbackInterval = 2800,
   getRevealMessage,
   renderCanvas,
+  validation,
 }: MechanismPlayerEngineProps<TStep, TTarget>) {
+  useMemo(
+    () =>
+      assertValidMechanismDefinition({
+        id: validation.id,
+        title,
+        steps,
+        questions,
+        reactionData: validation.reactionData,
+        getSceneForStep: validation.getSceneForStep,
+      }),
+    [questions, steps, title, validation],
+  );
   const [mode, setMode] = useState<MechanismPlayerMode>("learn");
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);

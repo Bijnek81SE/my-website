@@ -6,6 +6,7 @@ import E2ReactionCanvas, {
   type E2PracticeTarget,
 } from "./E2ReactionCanvas";
 import { e2Questions } from "./MechanismQuestions";
+import { e2ReactionData } from "./MechanismReactionData";
 
 
 const steps: E2MechanismStep[] = [
@@ -72,6 +73,12 @@ export default function E2MechanismPlayer() {
       accent="orange"
       steps={steps}
       questions={e2Questions}
+      validation={{
+        id: "e2",
+        reactionData: e2ReactionData,
+        getSceneForStep: (step) =>
+          step.highlight === "products" ? "products" : "reactants",
+      }}
       playbackInterval={3000}
       getRevealMessage={(step, index) =>
         step.arrows.length > 0

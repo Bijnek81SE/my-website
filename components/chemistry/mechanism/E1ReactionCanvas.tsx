@@ -45,9 +45,11 @@ export default function E1ReactionCanvas({
 
   const scene = products
     ? "products"
-    : carbocation || deprotonation
+    : carbocation
       ? "carbocation"
-      : step.highlight === "substrate" || step.highlight === "ionisation"
+      : deprotonation
+        ? "deprotonation"
+        : step.highlight === "substrate" || step.highlight === "ionisation"
         ? "substrate"
         : "reactants";
 
