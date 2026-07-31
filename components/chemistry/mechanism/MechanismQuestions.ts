@@ -1,3 +1,4 @@
+import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditionReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -258,6 +259,75 @@ export const e1Questions =
         "Not quite. Look for the neutral product containing a C=C bond.",
       correctExplanation:
         "2-Methylpropene is the E1 product formed after β-deprotonation of the carbocation.",
+      topic: "Products",
+    },
+  ]);
+
+export const electrophilicAdditionQuestions =
+  defineMechanismQuestions<ElectrophilicAdditionPracticeTarget>([
+    {
+      id: "identify-pi-bond",
+      title: "Which bond acts as the nucleophile?",
+      description:
+        "The electron-rich part of the alkene begins the electrophilic addition mechanism.",
+      instruction: "Click the alkene π bond.",
+      correctTarget: "pi-bond",
+      incorrectFeedback:
+        "Not quite. Look for the electron-rich carbon–carbon double bond.",
+      correctExplanation:
+        "The alkene π bond is the nucleophile because its electrons form the first new bond.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "identify-electrophile",
+      title: "Which atom is attacked first?",
+      description:
+        "The alkene reacts with the electron-poor atom in hydrogen bromide.",
+      instruction: "Click the electrophilic hydrogen.",
+      correctTarget: "electrophilic-hydrogen",
+      incorrectFeedback:
+        "Not quite. Select the positively polarized atom in HBr.",
+      correctExplanation:
+        "Hydrogen is electrophilic because the H–Br bond is polarized toward bromine.",
+      topic: "Mechanism fundamentals",
+    },
+    {
+      id: "identify-carbocation",
+      title: "Which intermediate controls regioselectivity?",
+      description:
+        "Protonation produces the more stable positively charged intermediate.",
+      instruction: "Click the secondary carbocation.",
+      correctTarget: "carbocation",
+      incorrectFeedback:
+        "Not quite. Look for the positively charged carbon intermediate.",
+      correctExplanation:
+        "The secondary carbocation is favored over a primary carbocation and leads to Markovnikov addition.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "identify-bromide",
+      title: "Which species attacks the carbocation?",
+      description:
+        "The nucleophile formed during protonation completes the addition.",
+      instruction: "Click the bromide ion.",
+      correctTarget: "bromide",
+      incorrectFeedback:
+        "Not quite. Select the negatively charged species with available lone pairs.",
+      correctExplanation:
+        "Bromide donates a lone pair to the carbocation and forms the carbon–bromine bond.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "identify-markovnikov-product",
+      title: "Which structure is the Markovnikov product?",
+      description:
+        "Bromine ends up on the more substituted carbon of the original double bond.",
+      instruction: "Click the 2-bromopropane product.",
+      correctTarget: "markovnikov-product",
+      incorrectFeedback:
+        "Not quite. Choose the product with bromine on the central carbon.",
+      correctExplanation:
+        "2-Bromopropane is the Markovnikov product because bromine adds to the more substituted carbon.",
       topic: "Products",
     },
   ]);

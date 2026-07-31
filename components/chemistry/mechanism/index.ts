@@ -3,12 +3,19 @@ export { default as Sn1MechanismPlayer } from "./Sn1MechanismPlayer";
 export type { MechanismArrow, MechanismPoint, MechanismStep } from "./types";
 export { default as MechanismPlayerEngine } from "./MechanismPlayerEngine";
 export { default as E1MechanismPlayer } from "./E1MechanismPlayer";
+export { default as ElectrophilicAdditionMechanismPlayer } from "./ElectrophilicAdditionMechanismPlayer";
 
 export { default as ReactionCanvasEngine } from "./ReactionCanvasEngine";
 
 export { defineMechanismQuestions } from "./QuestionEngine";
 export type { MechanismQuestion, MechanismQuestionTopic } from "./QuestionEngine";
-export { e1Questions, e2Questions, sn1Questions, sn2Questions } from "./MechanismQuestions";
+export {
+  e1Questions,
+  e2Questions,
+  electrophilicAdditionQuestions,
+  sn1Questions,
+  sn2Questions,
+} from "./MechanismQuestions";
 
 export { defineReactionData, ReactionHotspotLayer } from "./ReactionDataEngine";
 export type {
@@ -19,6 +26,7 @@ export type {
 export {
   e1ReactionData,
   e2ReactionData,
+  electrophilicAdditionReactionData,
   sn1ReactionData,
   sn2ReactionData,
 } from "./MechanismReactionData";

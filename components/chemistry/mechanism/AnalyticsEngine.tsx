@@ -67,6 +67,13 @@ function getMechanismIdentity(): {
     };
   }
 
+  if (pathname.includes("electrophilic-addition")) {
+    return {
+      id: "electrophilic-addition",
+      title: "Electrophilic addition to alkenes",
+    };
+  }
+
   return {
     id:
       pathname

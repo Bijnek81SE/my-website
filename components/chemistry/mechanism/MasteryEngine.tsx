@@ -81,6 +81,10 @@ function getMechanismId(): string {
     return "e1";
   }
 
+  if (pathname.includes("electrophilic-addition")) {
+    return "electrophilic-addition";
+  }
+
   const segments = pathname.split("/").filter(Boolean);
 
   return segments[segments.length - 1] ?? "mechanism";

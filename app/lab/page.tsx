@@ -69,6 +69,12 @@ const tools = [
     "Follow carbocation formation, β-deprotonation, and alkene formation.",
     "emerald",
   ],
+  [
+    "Electrophilic Addition",
+    "/lab/electrophilic-addition",
+    "Explore Markovnikov addition of HBr to an alkene.",
+    "rose",
+  ],
 ] as const;
 
 const toneClasses = {
@@ -115,23 +121,23 @@ export default function LabPage() {
         </div>
       }
     >
-      <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-6 sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-700">
-          New lab
+      <div className="rounded-3xl border border-rose-200 bg-rose-50 p-6 sm:p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-rose-700">
+          New mechanism
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          E1 Mechanism Player
+          Electrophilic Addition to Alkenes
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow leaving-group ionisation, carbocation formation, β-deprotonation,
-          and alkene formation in a stepwise elimination.
+          Follow the alkene π bond as it attacks HBr, forms a secondary carbocation,
+          and gives the Markovnikov addition product.
         </p>
 
         <Link
-          href="/lab/e1-mechanism"
-          className="mt-5 inline-flex rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700"
+          href="/lab/electrophilic-addition"
+          className="mt-5 inline-flex rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white transition hover:bg-rose-700"
         >
           Open mechanism →
         </Link>
