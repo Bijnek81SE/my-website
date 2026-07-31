@@ -1,98 +1,132 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Sn1ReactionCanvas from "./Sn1ReactionCanvas";
+import PracticeEngine from "./PracticeEngine";
+import Sn2ReactionCanvas, {
+  type Sn2PracticeTarget,
+} from "./Sn2ReactionCanvas";
+import type { PracticeQuestion } from "./PracticeTypes";
 import type { MechanismStep } from "./types";
+
+type PlayerMode = "learn" | "practice";
 
 const steps: MechanismStep[] = [
   {
-    id: "substrate",
-    title: "Identify the tertiary substrate",
+    id: "identify-nucleophile",
+    title: "Identify the nucleophile",
     description:
-      "tert-Butyl bromide contains a tertiary carbon attached to a good leaving group. The polar C–Br bond can ionise in a polar protic solvent.",
-    note: "Tertiary carbocations are stabilised by alkyl substitution and hyperconjugation.",
-    highlight: "substrate",
+      "Hydroxide carries a negative charge and a lone pair, making it electron-rich and able to attack the electrophilic carbon.",
+    note: "The lone pair on oxygen is the electron source.",
+    highlight: "nucleophile",
     arrows: [],
   },
   {
-    id: "ionisation",
-    title: "The leaving group departs",
+    id: "backside-attack",
+    title: "Backside attack begins",
     description:
-      "The C–Br bond breaks heterolytically. Both bonding electrons move onto bromine, producing bromide and a tertiary carbocation.",
-    note: "This slow ionisation step controls the SN1 reaction rate.",
+      "The hydroxide lone pair attacks the carbon from the side opposite bromine. The new C–O bond begins forming.",
+    note: "SN2 reactions use backside attack at the electrophilic carbon.",
+    highlight: "substrate",
+    arrows: [
+      {
+        id: "attack",
+        start: { x: 132, y: 176 },
+        control: { x: 230, y: 58 },
+        end: { x: 325, y: 190 },
+        colour: "#2563eb",
+        label: "Hydroxide lone pair attacks the methyl carbon",
+      },
+    ],
+  },
+  {
+    id: "bond-breaking",
+    title: "The leaving-group bond breaks",
+    description:
+      "As the C–O bond forms, the C–Br bond electrons move onto bromine. Bond formation and bond breaking occur together.",
+    note: "SN2 is concerted: both electron movements happen in one step.",
     highlight: "leaving-group",
     arrows: [
       {
+        id: "attack",
+        start: { x: 132, y: 176 },
+        control: { x: 230, y: 58 },
+        end: { x: 325, y: 190 },
+        colour: "#2563eb",
+        label: "Hydroxide lone pair attacks the methyl carbon",
+      },
+      {
         id: "departure",
-        start: { x: 462, y: 205 },
-        control: { x: 495, y: 94 },
-        end: { x: 545, y: 172 },
+        start: { x: 420, y: 190 },
+        control: { x: 490, y: 96 },
+        end: { x: 532, y: 174 },
         colour: "#dc2626",
         label: "Carbon bromine bond electrons move to bromine",
       },
     ],
   },
   {
-    id: "carbocation",
-    title: "A carbocation intermediate forms",
-    description:
-      "The carbon is now positively charged and trigonal planar. Because it is planar, a nucleophile can attack from either face.",
-    note: "SN1 reactions proceed through a discrete carbocation intermediate.",
-    highlight: "carbocation",
-    arrows: [],
-  },
-  {
-    id: "nucleophile-attack",
-    title: "Water attacks the carbocation",
-    description:
-      "A lone pair on water attacks the electron-deficient carbocation, forming a new C–O bond and an oxonium ion.",
-    note: "The nucleophile attacks after the rate-determining ionisation step.",
-    highlight: "nucleophile",
-    arrows: [
-      {
-        id: "attack",
-        start: { x: 132, y: 174 },
-        control: { x: 235, y: 58 },
-        end: { x: 338, y: 188 },
-        colour: "#2563eb",
-        label: "Water lone pair attacks the carbocation",
-      },
-    ],
-  },
-  {
-    id: "deprotonation",
-    title: "Deprotonation gives the alcohol",
-    description:
-      "A second water molecule removes a proton from the oxonium ion. The O–H bond electrons remain on oxygen, producing tert-butanol.",
-    note: "A fast proton-transfer step neutralises the oxonium intermediate.",
-    highlight: "deprotonation",
-    arrows: [
-      {
-        id: "base",
-        start: { x: 142, y: 252 },
-        control: { x: 230, y: 312 },
-        end: { x: 328, y: 246 },
-        colour: "#2563eb",
-        label: "Water removes a proton",
-      },
-      {
-        id: "oh-bond",
-        start: { x: 390, y: 228 },
-        control: { x: 438, y: 282 },
-        end: { x: 470, y: 214 },
-        colour: "#7c3aed",
-        label: "O H bond electrons return to oxygen",
-      },
-    ],
-  },
-  {
     id: "products",
-    title: "The substitution product forms",
+    title: "Products form",
     description:
-      "tert-Butanol is produced together with hydronium and bromide. The nucleophile has replaced the leaving group.",
-    note: "Overall: (CH₃)₃CBr + H₂O → (CH₃)₃COH + H₃O⁺ + Br⁻",
+      "Methanol is formed and bromide leaves with the electron pair from the original C–Br bond.",
+    note: "Overall: HO⁻ + CH₃Br → CH₃OH + Br⁻",
     highlight: "product",
     arrows: [],
+  },
+];
+
+const practiceQuestions: PracticeQuestion<Sn2PracticeTarget>[] = [
+  {
+    id: "identify-nucleophile",
+    title: "Which species is the nucleophile?",
+    description:
+      "Identify the electron-rich species that donates an electron pair to the electrophilic carbon.",
+    instruction:
+      "Click the atom that belongs to the nucleophile.",
+    correctTarget: "oxygen",
+    incorrectFeedback:
+      "Not quite. The nucleophile must be able to donate an electron pair.",
+    correctExplanation:
+      "Hydroxide is the nucleophile because oxygen donates a lone pair to the electrophilic carbon.",
+  },
+  {
+    id: "identify-arrow-source",
+    title: "Where does the first curved arrow start?",
+    description:
+      "Curved arrows begin at electrons, such as a lone pair or a bond.",
+    instruction:
+      "Click the atom whose lone pair supplies the electrons.",
+    correctTarget: "oxygen",
+    incorrectFeedback:
+      "Not quite. Look for the atom that owns the donating lone pair.",
+    correctExplanation:
+      "The first curved arrow starts at the oxygen lone pair. Those electrons form the new carbon–oxygen bond.",
+  },
+  {
+    id: "identify-breaking-bond",
+    title: "Which bond breaks during the reaction?",
+    description:
+      "SN2 bond formation and bond breaking happen together in one concerted step.",
+    instruction:
+      "Click the bond whose electrons move onto the leaving group.",
+    correctTarget: "carbon-bromine-bond",
+    incorrectFeedback:
+      "Not quite. Identify the bond connecting the electrophilic carbon to the leaving group.",
+    correctExplanation:
+      "The carbon–bromine bond breaks, and its electron pair moves onto bromine.",
+  },
+  {
+    id: "identify-leaving-group-product",
+    title: "Which product is the leaving group?",
+    description:
+      "The leaving group departs with the electron pair from its original bond.",
+    instruction:
+      "Click the leaving-group product.",
+    correctTarget: "product-bromide",
+    incorrectFeedback:
+      "Not quite. The leaving group is the species that departed from carbon with the bonding electron pair.",
+    correctExplanation:
+      "Bromide is the leaving-group product. It leaves with the electron pair from the original C–Br bond.",
   },
 ];
 
@@ -109,12 +143,18 @@ function isEditableTarget(target: EventTarget | null): boolean {
   );
 }
 
-export default function Sn1MechanismPlayer() {
+export default function MechanismPlayer() {
+  const [mode, setMode] = useState<PlayerMode>("learn");
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [animated, setAnimated] = useState(true);
+  const [practiceAnswered, setPracticeAnswered] =
+    useState(false);
+  const [practiceSessionKey, setPracticeSessionKey] =
+    useState(0);
 
   const step = steps[index];
+
   const isFirst = index === 0;
   const isLast = index === steps.length - 1;
 
@@ -124,7 +164,7 @@ export default function Sn1MechanismPlayer() {
   );
 
   useEffect(() => {
-    if (!playing) {
+    if (!playing || mode === "practice") {
       return;
     }
 
@@ -137,10 +177,14 @@ export default function Sn1MechanismPlayer() {
 
         return current + 1;
       });
-    }, 2800);
+    }, 2600);
 
     return () => window.clearInterval(timer);
-  }, [playing]);
+  }, [mode, playing]);
+
+  useEffect(() => {
+    setPracticeAnswered(false);
+  }, [index]);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -157,6 +201,11 @@ export default function Sn1MechanismPlayer() {
 
       if (event.key === "ArrowRight") {
         event.preventDefault();
+
+        if (mode === "practice" && !practiceAnswered) {
+          return;
+        }
+
         setPlaying(false);
         setIndex((current) =>
           Math.min(steps.length - 1, current + 1),
@@ -173,12 +222,17 @@ export default function Sn1MechanismPlayer() {
 
       if (event.key === "End") {
         event.preventDefault();
+
+        if (mode === "practice") {
+          return;
+        }
+
         setPlaying(false);
         setIndex(steps.length - 1);
         return;
       }
 
-      if (event.key === " ") {
+      if (event.key === " " && mode === "learn") {
         event.preventDefault();
 
         setPlaying((currentPlaying) => {
@@ -187,7 +241,9 @@ export default function Sn1MechanismPlayer() {
           }
 
           setIndex((currentIndex) =>
-            currentIndex === steps.length - 1 ? 0 : currentIndex,
+            currentIndex === steps.length - 1
+              ? 0
+              : currentIndex,
           );
 
           return true;
@@ -200,33 +256,77 @@ export default function Sn1MechanismPlayer() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [mode, practiceAnswered]);
 
-  function togglePlay() {
-    if (isLast && !playing) {
-      setIndex(0);
-      setPlaying(true);
+  function changeMode(nextMode: PlayerMode) {
+    setPlaying(false);
+    setIndex(0);
+    setPracticeAnswered(false);
+    setMode(nextMode);
+
+    if (nextMode === "practice") {
+      setPracticeSessionKey((current) => current + 1);
+    }
+  }
+
+  function previous() {
+    setPlaying(false);
+    setIndex((current) => Math.max(0, current - 1));
+  }
+
+  function next() {
+    if (mode === "practice" && !practiceAnswered) {
       return;
     }
 
-    setPlaying((value) => !value);
+    setPlaying(false);
+    setIndex((current) =>
+      Math.min(steps.length - 1, current + 1),
+    );
+  }
+
+  function reset() {
+    setPlaying(false);
+    setIndex(0);
+    setPracticeAnswered(false);
+
+    if (mode === "practice") {
+      setPracticeSessionKey((current) => current + 1);
+    }
+  }
+
+  function togglePlayback() {
+    if (mode === "practice") {
+      return;
+    }
+
+    if (playing) {
+      setPlaying(false);
+      return;
+    }
+
+    if (isLast) {
+      setIndex(0);
+    }
+
+    setPlaying(true);
   }
 
   return (
     <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-violet-700">
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-700">
             Reaction mechanism player
           </p>
 
           <h2 className="mt-1 text-2xl font-bold text-slate-950">
-            SN1 substitution
+            SN2 substitution
           </h2>
 
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-            Follow ionisation, carbocation formation, nucleophile attack, and
-            deprotonation.
+            Follow the electron movement from nucleophile attack to
+            leaving-group departure.
           </p>
         </div>
 
@@ -234,9 +334,41 @@ export default function Sn1MechanismPlayer() {
           type="button"
           aria-pressed={animated}
           onClick={() => setAnimated((value) => !value)}
-          className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-violet-400"
+          className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-400"
         >
           Arrow animation: {animated ? "On" : "Off"}
+        </button>
+      </div>
+
+      <div
+        className="inline-flex rounded-xl border border-slate-200 bg-slate-100 p-1"
+        role="group"
+        aria-label="Mechanism player mode"
+      >
+        <button
+          type="button"
+          aria-pressed={mode === "learn"}
+          onClick={() => changeMode("learn")}
+          className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+            mode === "learn"
+              ? "bg-white text-blue-700 shadow-sm"
+              : "text-slate-600 hover:text-slate-950"
+          }`}
+        >
+          Learn
+        </button>
+
+        <button
+          type="button"
+          aria-pressed={mode === "practice"}
+          onClick={() => changeMode("practice")}
+          className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+            mode === "practice"
+              ? "bg-white text-blue-700 shadow-sm"
+              : "text-slate-600 hover:text-slate-950"
+          }`}
+        >
+          Practice
         </button>
       </div>
 
@@ -251,69 +383,110 @@ export default function Sn1MechanismPlayer() {
 
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200">
           <div
-            className="h-full rounded-full bg-violet-600 transition-all duration-500"
+            className="h-full rounded-full bg-blue-600 transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
-      <Sn1ReactionCanvas
-        step={step}
-        animated={animated}
-      />
+      {mode === "learn" ? (
+        <>
+          <Sn2ReactionCanvas
+            step={step}
+            animated={animated}
+          />
 
-      <div
-        className="rounded-2xl border border-violet-100 bg-violet-50 p-5"
-        aria-live="polite"
-      >
-        <h3 className="text-lg font-bold text-slate-950">
-          {step.title}
-        </h3>
+          <div
+            className="rounded-2xl border border-blue-100 bg-blue-50 p-5"
+            aria-live="polite"
+          >
+            <h3 className="text-lg font-bold text-slate-950">
+              {step.title}
+            </h3>
 
-        <p className="mt-2 leading-7 text-slate-700">
-          {step.description}
-        </p>
-      </div>
+            <p className="mt-2 leading-7 text-slate-700">
+              {step.description}
+            </p>
+          </div>
+        </>
+      ) : (
+        <PracticeEngine
+          key={practiceSessionKey}
+          questions={practiceQuestions}
+          currentIndex={index}
+          stepDescription={step.description}
+          revealMessage={
+            index === steps.length - 1
+              ? "You have identified the correct product."
+              : "The correct electron movement is now shown on the reaction diagram."
+          }
+          onAnsweredChange={setPracticeAnswered}
+          renderCanvas={({ answered, onTargetClick }) => {
+            const practiceStep: MechanismStep = {
+              ...step,
+              arrows: answered
+                ? index === 0
+                  ? steps[1].arrows
+                  : step.arrows
+                : [],
+            };
+
+            return (
+              <Sn2ReactionCanvas
+                step={practiceStep}
+                animated={animated}
+                interactive={!answered}
+                onTargetClick={onTargetClick}
+              />
+            );
+          }}
+        />
+      )}
 
       <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
         <span className="font-semibold text-slate-800">
           Keyboard:
         </span>{" "}
-        ← previous, → next, Space play/pause, Home first step, End last step
+        ← previous, → next
+        {mode === "learn"
+          ? ", Space play/pause, Home first step, End last step"
+          : ", Home first step"}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={() => {
-              setPlaying(false);
-              setIndex((current) => Math.max(0, current - 1));
-            }}
+            onClick={previous}
             disabled={isFirst}
-            className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-violet-400 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-blue-400 disabled:cursor-not-allowed disabled:opacity-40"
           >
             ← Previous
           </button>
 
           <button
             type="button"
-            onClick={togglePlay}
-            className="rounded-xl bg-slate-950 px-5 py-2 font-semibold text-white transition hover:bg-slate-800"
+            onClick={togglePlayback}
+            disabled={mode === "practice"}
+            className="rounded-xl bg-slate-950 px-5 py-2 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {playing ? "Pause" : isLast ? "Replay" : "Play"}
+            {mode === "practice"
+              ? "Practice active"
+              : playing
+                ? "Pause"
+                : isLast
+                  ? "Replay"
+                  : "Play"}
           </button>
 
           <button
             type="button"
-            onClick={() => {
-              setPlaying(false);
-              setIndex((current) =>
-                Math.min(steps.length - 1, current + 1),
-              );
-            }}
-            disabled={isLast}
-            className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-violet-400 disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={next}
+            disabled={
+              isLast ||
+              (mode === "practice" && !practiceAnswered)
+            }
+            className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-blue-400 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Next →
           </button>
@@ -321,11 +494,8 @@ export default function Sn1MechanismPlayer() {
 
         <button
           type="button"
-          onClick={() => {
-            setPlaying(false);
-            setIndex(0);
-          }}
-          className="text-sm font-semibold text-violet-700 transition hover:text-violet-900"
+          onClick={reset}
+          className="text-sm font-semibold text-blue-700 transition hover:text-blue-900"
         >
           Reset mechanism
         </button>
