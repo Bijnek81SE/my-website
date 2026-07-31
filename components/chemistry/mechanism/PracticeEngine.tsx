@@ -13,6 +13,7 @@ import AnalyticsEngine from "./AnalyticsEngine";
 import ExamPanel from "./ExamPanel";
 import HintPanel from "./HintPanel";
 import type { HintState, PracticeHint } from "./HintTypes";
+import MasteryEngine from "./MasteryEngine";
 import PracticePanel from "./PracticePanel";
 import PracticeProgress from "./PracticeProgress";
 import PracticeScore from "./PracticeScore";
@@ -512,11 +513,19 @@ export default function PracticeEngine<
           />
 
           {stats.completed ? (
-            <AnalyticsEngine
-              sessionId={sessionId}
-              mode={sessionMode}
-              stats={stats}
-            />
+            <>
+              <AnalyticsEngine
+                sessionId={sessionId}
+                mode={sessionMode}
+                stats={stats}
+              />
+
+              <MasteryEngine
+                sessionId={sessionId}
+                mode={sessionMode}
+                stats={stats}
+              />
+            </>
           ) : null}
         </>
       ) : showExamResults ? (
@@ -533,6 +542,12 @@ export default function PracticeEngine<
           />
 
           <AnalyticsEngine
+            sessionId={sessionId}
+            mode={sessionMode}
+            stats={stats}
+          />
+
+          <MasteryEngine
             sessionId={sessionId}
             mode={sessionMode}
             stats={stats}
