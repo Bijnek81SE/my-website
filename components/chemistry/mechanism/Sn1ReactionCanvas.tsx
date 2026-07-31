@@ -1,6 +1,7 @@
-import type { KeyboardEvent } from "react";
 import MoleculeCanvas from "../MoleculeCanvas";
+import { sn1ReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
+import { ReactionHotspotLayer } from "./ReactionDataEngine";
 import type { MechanismStep } from "./types";
 
 export type Sn1PracticeTarget =
@@ -22,8 +23,6 @@ type Sn1ReactionCanvasProps = {
 const glow =
   "drop-shadow-[0_0_10px_rgba(124,58,237,0.35)]";
 
-const interactiveClass =
-  "cursor-pointer outline-none focus-visible:stroke-violet-600 focus-visible:stroke-[4]";
 
 export default function Sn1ReactionCanvas({
   step,
@@ -56,25 +55,7 @@ export default function Sn1ReactionCanvas({
   ];
 
 
-  function selectTarget(target: Sn1PracticeTarget) {
-    if (!interactive) {
-      return;
-    }
-
-    onTargetClick?.(target);
-  }
-
-  function handleTargetKeyDown(
-    event: KeyboardEvent<SVGElement>,
-    target: Sn1PracticeTarget,
-  ) {
-    if (event.key !== "Enter" && event.key !== " ") {
-      return;
-    }
-
-    event.preventDefault();
-    selectTarget(target);
-  }
+  const scene = product ? "products" : oxonium ? "deprotonation" : step.highlight === "nucleophile" ? "nucleophile" : carbocation ? "carbocation" : "substrate";
 
   return (
     <ReactionCanvasEngine
@@ -97,34 +78,6 @@ export default function Sn1ReactionCanvas({
               (CH₃)₃COH
             </text>
 
-            <rect
-              x="170"
-              y="165"
-              width="245"
-              height="85"
-              rx="18"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the tert-butanol product"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("alcohol-product")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "alcohol-product",
-                )
-              }
-            />
-
             <text
               x="445"
               y="220"
@@ -146,34 +99,6 @@ export default function Sn1ReactionCanvas({
             >
               Br⁻
             </text>
-
-            <rect
-              x="485"
-              y="170"
-              width="105"
-              height="75"
-              rx="18"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the bromide product"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("bromide-product")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "bromide-product",
-                )
-              }
-            />
           </>
         ) : carbocation ? (
           <>
@@ -205,32 +130,6 @@ export default function Sn1ReactionCanvas({
                   fill="#2563eb"
                   pointerEvents="none"
                 />
-
-                <circle
-                  cx="120"
-                  cy="190"
-                  r="62"
-                  fill="transparent"
-                  role={interactive ? "button" : undefined}
-                  tabIndex={interactive ? 0 : undefined}
-                  aria-label={
-                    interactive
-                      ? "Select the water nucleophile"
-                      : undefined
-                  }
-                  className={
-                    interactive ? interactiveClass : undefined
-                  }
-                  onClick={() =>
-                    selectTarget("water-nucleophile")
-                  }
-                  onKeyDown={(event) =>
-                    handleTargetKeyDown(
-                      event,
-                      "water-nucleophile",
-                    )
-                  }
-                />
               </g>
             ) : null}
 
@@ -257,32 +156,6 @@ export default function Sn1ReactionCanvas({
                 >
                   H₂O
                 </text>
-
-                <circle
-                  cx="120"
-                  cy="270"
-                  r="58"
-                  fill="transparent"
-                  role={interactive ? "button" : undefined}
-                  tabIndex={interactive ? 0 : undefined}
-                  aria-label={
-                    interactive
-                      ? "Select the water acting as a base"
-                      : undefined
-                  }
-                  className={
-                    interactive ? interactiveClass : undefined
-                  }
-                  onClick={() =>
-                    selectTarget("base-water")
-                  }
-                  onKeyDown={(event) =>
-                    handleTargetKeyDown(
-                      event,
-                      "base-water",
-                    )
-                  }
-                />
               </>
             ) : (
               <>
@@ -301,34 +174,6 @@ export default function Sn1ReactionCanvas({
                 >
                   (CH₃)₃C⁺
                 </text>
-
-                <rect
-                  x="280"
-                  y="160"
-                  width="230"
-                  height="90"
-                  rx="18"
-                  fill="transparent"
-                  role={interactive ? "button" : undefined}
-                  tabIndex={interactive ? 0 : undefined}
-                  aria-label={
-                    interactive
-                      ? "Select the tertiary carbocation"
-                      : undefined
-                  }
-                  className={
-                    interactive ? interactiveClass : undefined
-                  }
-                  onClick={() =>
-                    selectTarget("carbocation")
-                  }
-                  onKeyDown={(event) =>
-                    handleTargetKeyDown(
-                      event,
-                      "carbocation",
-                    )
-                  }
-                />
               </>
             )}
 
@@ -365,63 +210,7 @@ export default function Sn1ReactionCanvas({
               (CH₃)₃C
             </text>
 
-            <rect
-              x="250"
-              y="160"
-              width="215"
-              height="95"
-              rx="18"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the tertiary substrate"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("tertiary-substrate")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "tertiary-substrate",
-                )
-              }
-            />
-
             <MoleculeCanvas bonds={bonds} />
-
-            <line
-              x1="430"
-              y1="205"
-              x2="505"
-              y2="205"
-              stroke="transparent"
-              strokeWidth="34"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the carbon bromine bond"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("carbon-bromine-bond")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "carbon-bromine-bond",
-                )
-              }
-            />
 
             <text
               x="515"
@@ -437,6 +226,13 @@ export default function Sn1ReactionCanvas({
         )}
 
 
+
+        <ReactionHotspotLayer
+          data={sn1ReactionData}
+          scene={scene}
+          interactive={interactive}
+          onTargetClick={onTargetClick}
+        />
 
         <text
           x="380"

@@ -1,6 +1,7 @@
-import type { KeyboardEvent } from "react";
 import MoleculeCanvas from "../MoleculeCanvas";
+import { e2ReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
+import { ReactionHotspotLayer } from "./ReactionDataEngine";
 
 type Point = {
   x: number;
@@ -45,8 +46,6 @@ type E2ReactionCanvasProps = {
 const glow =
   "drop-shadow-[0_0_10px_rgba(234,88,12,0.4)]";
 
-const interactiveClass =
-  "cursor-pointer outline-none focus-visible:stroke-orange-600 focus-visible:stroke-[4]";
 
 export default function E2ReactionCanvas({
   step,
@@ -82,25 +81,7 @@ export default function E2ReactionCanvas({
   ];
 
 
-  function selectTarget(target: E2PracticeTarget) {
-    if (!interactive) {
-      return;
-    }
-
-    onTargetClick?.(target);
-  }
-
-  function handleTargetKeyDown(
-    event: KeyboardEvent<SVGElement>,
-    target: E2PracticeTarget,
-  ) {
-    if (event.key !== "Enter" && event.key !== " ") {
-      return;
-    }
-
-    event.preventDefault();
-    selectTarget(target);
-  }
+  const scene = product ? "products" : "reactants";
 
   return (
     <ReactionCanvasEngine
@@ -122,34 +103,6 @@ export default function E2ReactionCanvas({
             >
               H–O–H
             </text>
-
-            <rect
-              x="100"
-              y="165"
-              width="145"
-              height="80"
-              rx="18"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the water product"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("water-product")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "water-product",
-                )
-              }
-            />
 
             <text
               x="280"
@@ -173,34 +126,6 @@ export default function E2ReactionCanvas({
               CH₃–CH=CH₂
             </text>
 
-            <rect
-              x="315"
-              y="165"
-              width="245"
-              height="80"
-              rx="18"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the alkene product"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("alkene-product")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "alkene-product",
-                )
-              }
-            />
-
             <text
               x="590"
               y="215"
@@ -222,34 +147,6 @@ export default function E2ReactionCanvas({
             >
               Br⁻
             </text>
-
-            <rect
-              x="625"
-              y="165"
-              width="105"
-              height="80"
-              rx="18"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the bromide product"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("bromide-product")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "bromide-product",
-                )
-              }
-            />
           </>
         ) : (
           <>
@@ -280,27 +177,6 @@ export default function E2ReactionCanvas({
                 fill="#2563eb"
                 pointerEvents="none"
               />
-
-              <circle
-                cx="170"
-                cy="190"
-                r="58"
-                fill="transparent"
-                role={interactive ? "button" : undefined}
-                tabIndex={interactive ? 0 : undefined}
-                aria-label={
-                  interactive
-                    ? "Select the hydroxide base"
-                    : undefined
-                }
-                className={
-                  interactive ? interactiveClass : undefined
-                }
-                onClick={() => selectTarget("base")}
-                onKeyDown={(event) =>
-                  handleTargetKeyDown(event, "base")
-                }
-              />
             </g>
 
             <text
@@ -313,32 +189,6 @@ export default function E2ReactionCanvas({
             >
               H
             </text>
-
-            <circle
-              cx="315"
-              cy="172"
-              r="38"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the beta hydrogen"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("beta-hydrogen")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "beta-hydrogen",
-                )
-              }
-            />
 
             <text
               x="375"
@@ -375,90 +225,6 @@ export default function E2ReactionCanvas({
 
             <MoleculeCanvas
               bonds={bonds}
-            />
-
-            <line
-              x1="331"
-              y1="180"
-              x2="385"
-              y2="200"
-              stroke="transparent"
-              strokeWidth="32"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the beta carbon hydrogen bond"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("carbon-hydrogen-bond")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "carbon-hydrogen-bond",
-                )
-              }
-            />
-
-            <line
-              x1="445"
-              y1="202"
-              x2="510"
-              y2="202"
-              stroke="transparent"
-              strokeWidth="34"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the carbon carbon bond"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("carbon-carbon-bond")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "carbon-carbon-bond",
-                )
-              }
-            />
-
-            <line
-              x1="590"
-              y1="202"
-              x2="645"
-              y2="202"
-              stroke="transparent"
-              strokeWidth="34"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the carbon bromine bond"
-                  : undefined
-              }
-              className={
-                interactive ? interactiveClass : undefined
-              }
-              onClick={() =>
-                selectTarget("carbon-bromine-bond")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "carbon-bromine-bond",
-                )
-              }
             />
 
             <text
@@ -512,6 +278,13 @@ export default function E2ReactionCanvas({
           </>
         )}
 
+
+        <ReactionHotspotLayer
+          data={e2ReactionData}
+          scene={scene}
+          interactive={interactive}
+          onTargetClick={onTargetClick}
+        />
 
         <text
           x="380"

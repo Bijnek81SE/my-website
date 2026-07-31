@@ -9,3 +9,16 @@ export { default as ReactionCanvasEngine } from "./ReactionCanvasEngine";
 export { defineMechanismQuestions } from "./QuestionEngine";
 export type { MechanismQuestion, MechanismQuestionTopic } from "./QuestionEngine";
 export { e1Questions, e2Questions, sn1Questions, sn2Questions } from "./MechanismQuestions";
+
+export { defineReactionData, ReactionHotspotLayer } from "./ReactionDataEngine";
+export type {
+  ReactionDataDefinition,
+  ReactionHotspotDefinition,
+  ReactionHotspotShape,
+} from "./ReactionDataEngine";
+export {
+  e1ReactionData,
+  e2ReactionData,
+  sn1ReactionData,
+  sn2ReactionData,
+} from "./MechanismReactionData";

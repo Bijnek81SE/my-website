@@ -1,5 +1,7 @@
 import MoleculeCanvas from "../MoleculeCanvas";
+import { sn2ReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
+import { ReactionHotspotLayer } from "./ReactionDataEngine";
 import type { MechanismStep } from "./types";
 
 export type Sn2PracticeTarget =
@@ -57,29 +59,8 @@ export default function Sn2ReactionCanvas({
     },
   ];
 
-  function selectTarget(target: Sn2PracticeTarget) {
-    if (!interactive) {
-      return;
-    }
 
-    onTargetClick?.(target);
-  }
-
-  function handleTargetKeyDown(
-    event: React.KeyboardEvent<SVGElement>,
-    target: Sn2PracticeTarget,
-  ) {
-    if (event.key !== "Enter" && event.key !== " ") {
-      return;
-    }
-
-    event.preventDefault();
-    selectTarget(target);
-  }
-
-  const interactiveClass = interactive
-    ? "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]"
-    : undefined;
+  const scene = showProduct ? "products" : "reactants";
 
   return (
     <ReactionCanvasEngine
@@ -134,25 +115,6 @@ export default function Sn2ReactionCanvas({
                 }
                 pointerEvents="none"
               />
-
-              <circle
-                cx="118"
-                cy="198"
-                r="58"
-                fill="transparent"
-                role={interactive ? "button" : undefined}
-                tabIndex={interactive ? 0 : undefined}
-                aria-label={
-                  interactive
-                    ? "Select the hydroxide oxygen"
-                    : undefined
-                }
-                className={interactiveClass}
-                onClick={() => selectTarget("oxygen")}
-                onKeyDown={(event) =>
-                  handleTargetKeyDown(event, "oxygen")
-                }
-              />
             </g>
 
             <text
@@ -166,53 +128,8 @@ export default function Sn2ReactionCanvas({
               H₃C
             </text>
 
-            <circle
-              cx="338"
-              cy="208"
-              r="54"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the electrophilic carbon"
-                  : undefined
-              }
-              className={interactiveClass}
-              onClick={() => selectTarget("carbon")}
-              onKeyDown={(event) =>
-                handleTargetKeyDown(event, "carbon")
-              }
-            />
-
             <MoleculeCanvas
               bonds={bonds}
-            />
-
-            <line
-              x1="374"
-              y1="208"
-              x2="488"
-              y2="208"
-              stroke="transparent"
-              strokeWidth="34"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the carbon bromine bond"
-                  : undefined
-              }
-              className={interactiveClass}
-              onClick={() =>
-                selectTarget("carbon-bromine-bond")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "carbon-bromine-bond",
-                )
-              }
             />
 
             <g
@@ -223,25 +140,6 @@ export default function Sn2ReactionCanvas({
               }
             >
               <MoleculeCanvas atoms={bromineAtoms} />
-
-              <circle
-                cx="535"
-                cy="208"
-                r="54"
-                fill="transparent"
-                role={interactive ? "button" : undefined}
-                tabIndex={interactive ? 0 : undefined}
-                aria-label={
-                  interactive
-                    ? "Select the bromine leaving group"
-                    : undefined
-                }
-                className={interactiveClass}
-                onClick={() => selectTarget("bromine")}
-                onKeyDown={(event) =>
-                  handleTargetKeyDown(event, "bromine")
-                }
-              />
             </g>
           </>
         ) : (
@@ -279,32 +177,6 @@ export default function Sn2ReactionCanvas({
               Br⁻
             </text>
 
-            <rect
-              x="445"
-              y="165"
-              width="115"
-              height="80"
-              rx="18"
-              fill="transparent"
-              role={interactive ? "button" : undefined}
-              tabIndex={interactive ? 0 : undefined}
-              aria-label={
-                interactive
-                  ? "Select the bromide product"
-                  : undefined
-              }
-              className={interactiveClass}
-              onClick={() =>
-                selectTarget("product-bromide")
-              }
-              onKeyDown={(event) =>
-                handleTargetKeyDown(
-                  event,
-                  "product-bromide",
-                )
-              }
-            />
-
             <text
               x="380"
               y="285"
@@ -317,6 +189,13 @@ export default function Sn2ReactionCanvas({
             </text>
           </>
         )}
+
+        <ReactionHotspotLayer
+          data={sn2ReactionData}
+          scene={scene}
+          interactive={interactive}
+          onTargetClick={onTargetClick}
+        />
 
         <text
           x="380"
