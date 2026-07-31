@@ -1,3 +1,4 @@
+import type { PracticeAchievement } from "./AchievementTypes";
 import type { PracticeHint } from "./HintTypes";
 
 export type PracticeFeedback =
@@ -29,4 +30,5 @@ export type PracticeSessionStats = {
   score: number;
   stars: number;
   completed: boolean;
+  achievements: PracticeAchievement[];
 };

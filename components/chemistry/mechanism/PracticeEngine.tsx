@@ -6,6 +6,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import AchievementPanel from "./AchievementPanel";
+import type { PracticeAchievement } from "./AchievementTypes";
 import HintPanel from "./HintPanel";
 import type { HintState, PracticeHint } from "./HintTypes";
 import PracticePanel from "./PracticePanel";
@@ -83,6 +85,70 @@ function calculateStars(
   }
 
   return 1;
+}
+
+function createAchievements({
+  correctAnswers,
+  incorrectAnswers,
+  hintsUsed,
+  revealedAnswers,
+  completed,
+  score,
+}: {
+  correctAnswers: number;
+  incorrectAnswers: number;
+  hintsUsed: number;
+  revealedAnswers: number;
+  completed: boolean;
+  score: number;
+}): PracticeAchievement[] {
+  return [
+    {
+      id: "first-correct",
+      title: "First Correct",
+      description: "Answer one mechanism question correctly.",
+      icon: "✓",
+      unlocked: correctAnswers >= 1,
+    },
+    {
+      id: "perfect-run",
+      title: "Perfect Run",
+      description:
+        "Complete the session without an incorrect answer.",
+      icon: "🏆",
+      unlocked:
+        completed &&
+        incorrectAnswers === 0 &&
+        revealedAnswers === 0,
+    },
+    {
+      id: "no-hints",
+      title: "Independent",
+      description:
+        "Complete the session without using any hints.",
+      icon: "🧠",
+      unlocked:
+        completed &&
+        hintsUsed === 0 &&
+        revealedAnswers === 0,
+    },
+    {
+      id: "persistence",
+      title: "Persistent",
+      description:
+        "Keep working after making three incorrect attempts.",
+      icon: "💪",
+      unlocked: incorrectAnswers >= 3,
+    },
+    {
+      id: "mastery",
+      title: "Mechanism Mastery",
+      description:
+        "Complete the session with a score of at least 90.",
+      icon: "⭐",
+      unlocked: completed && score >= 90,
+    },
+  ];
 }
 
 export default function PracticeEngine<
@@ -171,6 +237,15 @@ export default function PracticeEngine<
       totalQuestions > 0 &&
       completedQuestions === totalQuestions;
 
+    const achievements = createAchievements({
+      correctAnswers,
+      incorrectAnswers,
+      hintsUsed,
+      revealedAnswers: revealedQuestionIds.length,
+      completed,
+      score,
+    });
+
     return {
       totalQuestions,
       completedQuestions,
@@ -183,6 +258,7 @@ export default function PracticeEngine<
       score,
       stars: calculateStars(score, completed),
       completed,
+      achievements,
     };
   }, [
     attempts,
@@ -296,6 +372,10 @@ export default function PracticeEngine<
       />
 
       <PracticeScore stats={stats} />
+
+      <AchievementPanel
+        achievements={stats.achievements}
+      />
     </div>
   );
 }
