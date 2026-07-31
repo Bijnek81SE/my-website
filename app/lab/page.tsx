@@ -63,6 +63,12 @@ const tools = [
     "Explore β-hydrogen removal, π-bond formation, and leaving-group departure.",
     "orange",
   ],
+  [
+    "E1 Mechanism Player",
+    "/lab/e1-mechanism",
+    "Follow carbocation formation, β-deprotonation, and alkene formation.",
+    "emerald",
+  ],
 ] as const;
 
 const toneClasses = {
@@ -109,23 +115,23 @@ export default function LabPage() {
         </div>
       }
     >
-      <div className="rounded-3xl border border-orange-200 bg-orange-50 p-6 sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-orange-700">
+      <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-6 sm:p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-700">
           New lab
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          E2 Mechanism Player
+          E1 Mechanism Player
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow β-hydrogen removal, π-bond formation, and leaving-group
-          departure in one concerted elimination step.
+          Follow leaving-group ionisation, carbocation formation, β-deprotonation,
+          and alkene formation in a stepwise elimination.
         </p>
 
         <Link
-          href="/lab/e2-mechanism"
-          className="mt-5 inline-flex rounded-xl bg-orange-600 px-5 py-3 font-semibold text-white transition hover:bg-orange-700"
+          href="/lab/e1-mechanism"
+          className="mt-5 inline-flex rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700"
         >
           Open mechanism →
         </Link>

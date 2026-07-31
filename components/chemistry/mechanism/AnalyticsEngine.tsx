@@ -60,6 +60,13 @@ function getMechanismIdentity(): {
     };
   }
 
+  if (pathname.includes("e1")) {
+    return {
+      id: "e1",
+      title: "E1 elimination",
+    };
+  }
+
   return {
     id:
       pathname

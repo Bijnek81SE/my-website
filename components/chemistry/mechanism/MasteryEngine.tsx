@@ -77,6 +77,10 @@ function getMechanismId(): string {
     return "e2";
   }
 
+  if (pathname.includes("e1")) {
+    return "e1";
+  }
+
   const segments = pathname.split("/").filter(Boolean);
 
   return segments[segments.length - 1] ?? "mechanism";
