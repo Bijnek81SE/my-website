@@ -1,12 +1,32 @@
-
 import { ReactionHotspot } from "./ReactionCanvasEngine";
 
 export type ReactionHotspotShape =
-  | { shape: "rect"; x: number; y: number; width: number; height: number; rx?: number }
-  | { shape: "circle"; cx: number; cy: number; r: number }
-  | { shape: "line"; x1: number; y1: number; x2: number; y2: number; strokeWidth: number };
+  | {
+      shape: "rect";
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      rx?: number;
+    }
+  | {
+      shape: "circle";
+      cx: number;
+      cy: number;
+      r: number;
+    }
+  | {
+      shape: "line";
+      x1: number;
+      y1: number;
+      x2: number;
+      y2: number;
+      strokeWidth: number;
+    };
 
-export type ReactionHotspotDefinition<TTarget extends string> = {
+export type ReactionHotspotDefinition<
+  TTarget extends string,
+> = {
   id: string;
   target: TTarget;
   label: string;
@@ -14,20 +34,26 @@ export type ReactionHotspotDefinition<TTarget extends string> = {
   geometry: ReactionHotspotShape;
 };
 
-export type ReactionDataDefinition<TTarget extends string> = {
+export type ReactionDataDefinition<
+  TTarget extends string,
+> = {
   id: string;
   focusClassName: string;
   hotspots: readonly ReactionHotspotDefinition<TTarget>[];
 };
 
-export function defineReactionData<TTarget extends string>(
+export function defineReactionData<
+  TTarget extends string,
+>(
   definition: ReactionDataDefinition<TTarget>,
 ): ReactionDataDefinition<TTarget> {
   const ids = new Set<string>();
 
   for (const hotspot of definition.hotspots) {
     if (ids.has(hotspot.id)) {
-      throw new Error(`Duplicate reaction hotspot id: ${hotspot.id}`);
+      throw new Error(
+        `Duplicate reaction hotspot id: ${hotspot.id}`,
+      );
     }
 
     ids.add(hotspot.id);
@@ -36,14 +62,18 @@ export function defineReactionData<TTarget extends string>(
   return definition;
 }
 
-type ReactionHotspotLayerProps<TTarget extends string> = {
+type ReactionHotspotLayerProps<
+  TTarget extends string,
+> = {
   data: ReactionDataDefinition<TTarget>;
   scene: string;
   interactive: boolean;
   onTargetClick?: (target: TTarget) => void;
 };
 
-export function ReactionHotspotLayer<TTarget extends string>({
+export function ReactionHotspotLayer<
+  TTarget extends string,
+>({
   data,
   scene,
   interactive,
@@ -52,10 +82,11 @@ export function ReactionHotspotLayer<TTarget extends string>({
   return (
     <>
       {data.hotspots
-        .filter((hotspot) => hotspot.scenes.includes(scene))
+        .filter((hotspot) =>
+          hotspot.scenes.includes(scene),
+        )
         .map((hotspot) => {
           const common = {
-            key: hotspot.id,
             target: hotspot.target,
             label: hotspot.label,
             interactive,
@@ -64,42 +95,46 @@ export function ReactionHotspotLayer<TTarget extends string>({
             fill: "transparent",
           };
 
-          if (hotspot.geometry.shape === "circle") {
+          const geometry = hotspot.geometry;
+
+          if (geometry.shape === "circle") {
             return (
               <ReactionHotspot
+                key={hotspot.id}
                 {...common}
                 shape="circle"
-                cx={hotspot.geometry.cx}
-                cy={hotspot.geometry.cy}
-                r={hotspot.geometry.r}
+                cx={geometry.cx}
+                cy={geometry.cy}
+                r={geometry.r}
               />
             );
           }
 
-          if (hotspot.geometry.shape === "line") {
+          if (geometry.shape === "rect") {
             return (
               <ReactionHotspot
+                key={hotspot.id}
                 {...common}
-                shape="line"
-                x1={hotspot.geometry.x1}
-                y1={hotspot.geometry.y1}
-                x2={hotspot.geometry.x2}
-                y2={hotspot.geometry.y2}
-                stroke="transparent"
-                strokeWidth={hotspot.geometry.strokeWidth}
+                shape="rect"
+                x={geometry.x}
+                y={geometry.y}
+                width={geometry.width}
+                height={geometry.height}
+                rx={geometry.rx}
               />
             );
           }
 
           return (
             <ReactionHotspot
+              key={hotspot.id}
               {...common}
-              shape="rect"
-              x={hotspot.geometry.x}
-              y={hotspot.geometry.y}
-              width={hotspot.geometry.width}
-              height={hotspot.geometry.height}
-              rx={hotspot.geometry.rx ?? 18}
+              shape="line"
+              x1={geometry.x1}
+              y1={geometry.y1}
+              x2={geometry.x2}
+              y2={geometry.y2}
+              strokeWidth={geometry.strokeWidth}
             />
           );
         })}
