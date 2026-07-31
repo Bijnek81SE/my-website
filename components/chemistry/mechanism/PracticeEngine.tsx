@@ -9,6 +9,7 @@ import {
 } from "react";
 import AchievementPanel from "./AchievementPanel";
 import type { PracticeAchievement } from "./AchievementTypes";
+import AnalyticsEngine from "./AnalyticsEngine";
 import ExamPanel from "./ExamPanel";
 import HintPanel from "./HintPanel";
 import type { HintState, PracticeHint } from "./HintTypes";
@@ -69,6 +70,19 @@ const defaultHints: PracticeHint[] = [
       "The correct answer has been revealed. Review it before continuing.",
   },
 ];
+
+function createSessionId(): string {
+  if (
+    typeof crypto !== "undefined" &&
+    "randomUUID" in crypto
+  ) {
+    return crypto.randomUUID();
+  }
+
+  return `${Date.now()}-${Math.random()
+    .toString(36)
+    .slice(2)}`;
+}
 
 function calculateStars(
   score: number,
@@ -174,6 +188,10 @@ export default function PracticeEngine<
   onRetryExam,
   renderCanvas,
 }: PracticeEngineProps<TTarget>) {
+  const [sessionId, setSessionId] = useState(
+    createSessionId,
+  );
+
   const [feedback, setFeedback] =
     useState<PracticeFeedback>("idle");
 
@@ -326,6 +344,7 @@ export default function PracticeEngine<
   ]);
 
   const resetSession = useCallback(() => {
+    setSessionId(createSessionId());
     setFeedback("idle");
     setCompletedQuestionIds([]);
     setRevealedQuestionIds([]);
@@ -491,6 +510,14 @@ export default function PracticeEngine<
           <AchievementPanel
             achievements={stats.achievements}
           />
+
+          {stats.completed ? (
+            <AnalyticsEngine
+              sessionId={sessionId}
+              mode={sessionMode}
+              stats={stats}
+            />
+          ) : null}
         </>
       ) : showExamResults ? (
         <>
@@ -503,6 +530,12 @@ export default function PracticeEngine<
           <ReviewEngine
             review={review}
             onRetryExam={resetSession}
+          />
+
+          <AnalyticsEngine
+            sessionId={sessionId}
+            mode={sessionMode}
+            stats={stats}
           />
         </>
       ) : (
