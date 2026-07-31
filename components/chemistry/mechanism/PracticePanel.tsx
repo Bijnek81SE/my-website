@@ -43,14 +43,20 @@ export default function PracticePanel({
         ) : null}
 
         {feedback === "incorrect" && !answered ? (
-          <p className="font-semibold text-red-600">
-            {question.incorrectFeedback}
-          </p>
+          <div className="space-y-2">
+            <p className="font-semibold text-rose-700">
+              Not quite — try again.
+            </p>
+
+            <p className="text-slate-700">
+              {question.incorrectFeedback}
+            </p>
+          </div>
         ) : null}
 
         {answered ? (
           <div className="space-y-3">
-            <p className="font-semibold text-green-700">
+            <p className="font-semibold text-emerald-700">
               ✓ Correct!
             </p>
 
@@ -58,7 +64,7 @@ export default function PracticePanel({
               {question.correctExplanation}
             </p>
 
-            <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">
+            <div className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800">
               {revealMessage ??
                 "You have identified the correct answer."}
             </div>
