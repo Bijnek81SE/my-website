@@ -5,7 +5,7 @@ import E2ReactionCanvas, {
   type E2MechanismStep,
   type E2PracticeTarget,
 } from "./E2ReactionCanvas";
-import type { PracticeQuestion } from "./PracticeTypes";
+import { e2Questions } from "./MechanismQuestions";
 
 const steps: E2MechanismStep[] = [
   {
@@ -62,48 +62,6 @@ const steps: E2MechanismStep[] = [
   },
 ];
 
-const practiceQuestions: PracticeQuestion<E2PracticeTarget>[] = [
-  {
-    id: "identify-beta-hydrogen",
-    title: "Which hydrogen can the base remove?",
-    description:
-      "The removable hydrogen must be on the β-carbon and anti-periplanar to the leaving group.",
-    instruction:
-      "Click the correctly aligned β-hydrogen.",
-    correctTarget: "beta-hydrogen",
-    incorrectFeedback:
-      "Not quite. Look for the hydrogen on the carbon adjacent to the carbon bearing bromine.",
-    correctExplanation:
-      "This β-hydrogen is anti-periplanar to bromine, allowing the required orbital overlap for E2 elimination.",
-  },
-  {
-    id: "identify-base",
-    title: "Which species removes the β-hydrogen?",
-    description:
-      "E2 reactions require a base that can abstract the β-hydrogen.",
-    instruction:
-      "Click the species acting as the base.",
-    correctTarget: "base",
-    incorrectFeedback:
-      "Not quite. Select the electron-rich species that accepts the proton.",
-    correctExplanation:
-      "Hydroxide acts as the base by donating a lone pair to the β-hydrogen.",
-  },
-  {
-    id: "identify-alkene-product",
-    title: "Which product contains the new π bond?",
-    description:
-      "The E2 reaction forms an alkene as the β-hydrogen and leaving group are removed.",
-    instruction:
-      "Click the alkene product.",
-    correctTarget: "alkene-product",
-    incorrectFeedback:
-      "Not quite. Look for the product containing a carbon–carbon double bond.",
-    correctExplanation:
-      "The alkene is the elimination product formed when the new carbon–carbon π bond is created.",
-  },
-];
-
 export default function E2MechanismPlayer() {
   return (
     <MechanismPlayerEngine<E2MechanismStep, E2PracticeTarget>
@@ -111,7 +69,7 @@ export default function E2MechanismPlayer() {
       description="Follow β-hydrogen abstraction, π-bond formation, and leaving-group departure in one concerted step."
       accent="orange"
       steps={steps}
-      questions={practiceQuestions}
+      questions={e2Questions}
       playbackInterval={3000}
       getRevealMessage={(step, index) =>
         step.arrows.length > 0

@@ -1,9 +1,9 @@
 import type {
   ReviewAnswer,
   ReviewSession,
-  ReviewTopic,
   ReviewTopicResult,
 } from "./ReviewTypes";
+import type { MechanismQuestionTopic } from "./QuestionEngine";
 
 type ReviewEngineProps<
   TTarget extends string,
@@ -141,67 +141,13 @@ function AnswerReview<
   );
 }
 
-export function inferReviewTopic(
-  questionId: string,
-  title: string,
-): ReviewTopic {
-  const text = `${questionId} ${title}`.toLowerCase();
-
-  if (
-    text.includes("nucleophile") ||
-    text.includes("base") ||
-    text.includes("hydrogen")
-  ) {
-    return "Nucleophiles and bases";
-  }
-
-  if (
-    text.includes("leaving") ||
-    text.includes("bromide")
-  ) {
-    return "Leaving groups";
-  }
-
-  if (
-    text.includes("carbocation") ||
-    text.includes("intermediate")
-  ) {
-    return "Reaction intermediates";
-  }
-
-  if (
-    text.includes("arrow") ||
-    text.includes("electron")
-  ) {
-    return "Curved arrows";
-  }
-
-  if (
-    text.includes("bond") ||
-    text.includes("breaking") ||
-    text.includes("forming")
-  ) {
-    return "Bond changes";
-  }
-
-  if (
-    text.includes("product") ||
-    text.includes("alkene") ||
-    text.includes("alcohol")
-  ) {
-    return "Products";
-  }
-
-  return "Mechanism fundamentals";
-}
-
 export function createReviewSession<
   TTarget extends string,
 >(
   answers: ReviewAnswer<TTarget>[],
 ): ReviewSession<TTarget> {
   const topicMap = new Map<
-    ReviewTopic,
+    MechanismQuestionTopic,
     {
       correctAnswers: number;
       totalQuestions: number;

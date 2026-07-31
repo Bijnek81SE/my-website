@@ -25,7 +25,6 @@ import type {
 } from "./PracticeTypes";
 import ReviewEngine, {
   createReviewSession,
-  inferReviewTopic,
 } from "./ReviewEngine";
 import type { ReviewAnswer } from "./ReviewTypes";
 
@@ -399,10 +398,7 @@ export default function PracticeEngine<
         selectedTarget: target,
         correctTarget: question.correctTarget,
         correct,
-        topic: inferReviewTopic(
-          question.id,
-          question.title,
-        ),
+        topic: question.topic,
       },
     ]);
 

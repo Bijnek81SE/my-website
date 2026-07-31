@@ -1,5 +1,6 @@
 import type { PracticeAchievement } from "./AchievementTypes";
 import type { PracticeHint } from "./HintTypes";
+import type { MechanismQuestionTopic } from "./QuestionEngine";
 
 export type PracticeSessionMode = "practice" | "exam";
 
@@ -17,6 +18,7 @@ export type PracticeQuestion<TTarget extends string = string> = {
   correctTarget: TTarget;
   incorrectFeedback: string;
   correctExplanation: string;
+  topic: MechanismQuestionTopic;
   hints?: PracticeHint[];
 };
 
