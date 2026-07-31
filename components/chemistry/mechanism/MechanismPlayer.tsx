@@ -1,12 +1,22 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Sn2ReactionCanvas from "./Sn2ReactionCanvas";
+import Sn2ReactionCanvas, {
+  type Sn2PracticeTarget,
+} from "./Sn2ReactionCanvas";
 import type { MechanismStep } from "./types";
 
 type PlayerMode = "learn" | "practice";
 type PracticeFeedback = "idle" | "correct" | "incorrect";
-type Sn2AtomId = "oxygen" | "carbon" | "bromine";
+
+type PracticeQuestion = {
+  title: string;
+  description: string;
+  instruction: string;
+  correctTarget: Sn2PracticeTarget;
+  incorrectFeedback: string;
+  correctExplanation: string;
+};
 
 const steps: MechanismStep[] = [
   {
@@ -73,26 +83,54 @@ const steps: MechanismStep[] = [
   },
 ];
 
-const practicePrompts = [
+const practiceQuestions: PracticeQuestion[] = [
   {
     title: "Which species is the nucleophile?",
     description:
       "Identify the electron-rich species that donates an electron pair to the electrophilic carbon.",
+    instruction:
+      "Click the atom that belongs to the nucleophile.",
+    correctTarget: "oxygen",
+    incorrectFeedback:
+      "Not quite. The nucleophile must be able to donate an electron pair.",
+    correctExplanation:
+      "Hydroxide is the nucleophile because oxygen donates a lone pair to the electrophilic carbon.",
   },
   {
     title: "Where does the first curved arrow start?",
     description:
-      "Remember that curved arrows begin at an electron source, such as a lone pair or a bond.",
+      "Curved arrows begin at electrons, such as a lone pair or a bond.",
+    instruction:
+      "Click the atom whose lone pair supplies the electrons.",
+    correctTarget: "oxygen",
+    incorrectFeedback:
+      "Not quite. Look for the atom that owns the donating lone pair.",
+    correctExplanation:
+      "The first curved arrow starts at the oxygen lone pair. Those electrons form the new carbon–oxygen bond.",
   },
   {
     title: "Which bond breaks during the reaction?",
     description:
-      "Identify the bond whose electron pair moves onto the leaving group during the concerted step.",
+      "SN2 bond formation and bond breaking happen together in one concerted step.",
+    instruction:
+      "Click the bond whose electrons move onto the leaving group.",
+    correctTarget: "carbon-bromine-bond",
+    incorrectFeedback:
+      "Not quite. Identify the bond connecting the electrophilic carbon to the leaving group.",
+    correctExplanation:
+      "The carbon–bromine bond breaks, and its electron pair moves onto bromine.",
   },
   {
     title: "Which product is the leaving group?",
     description:
-      "Identify the species that leaves with the electron pair from the original carbon–bromine bond.",
+      "The leaving group departs with the electron pair from its original bond.",
+    instruction:
+      "Click the leaving-group product.",
+    correctTarget: "product-bromide",
+    incorrectFeedback:
+      "Not quite. The leaving group is the species that departed from carbon with the bonding electron pair.",
+    correctExplanation:
+      "Bromide is the leaving-group product. It leaves with the electron pair from the original C–Br bond.",
   },
 ];
 
@@ -116,19 +154,23 @@ export default function MechanismPlayer() {
   const [animated, setAnimated] = useState(true);
   const [feedback, setFeedback] =
     useState<PracticeFeedback>("idle");
-  const [answered, setAnswered] = useState(false);
+  const [completedSteps, setCompletedSteps] = useState<number[]>(
+    [],
+  );
 
   const step = steps[index];
-  const practicePrompt = practicePrompts[index];
+  const practiceQuestion = practiceQuestions[index];
+  const answered = completedSteps.includes(index);
 
   const displayedStep: MechanismStep =
     mode === "practice"
       ? {
           ...step,
-          arrows:
-            index === 0 && answered
+          arrows: answered
+            ? index === 0
               ? steps[1].arrows
-              : [],
+              : step.arrows
+            : [],
         }
       : step;
 
@@ -141,7 +183,7 @@ export default function MechanismPlayer() {
   );
 
   useEffect(() => {
-    if (!playing) {
+    if (!playing || mode === "practice") {
       return;
     }
 
@@ -157,11 +199,10 @@ export default function MechanismPlayer() {
     }, 2600);
 
     return () => window.clearInterval(timer);
-  }, [playing]);
+  }, [mode, playing]);
 
   useEffect(() => {
     setFeedback("idle");
-    setAnswered(false);
   }, [index]);
 
   useEffect(() => {
@@ -180,11 +221,7 @@ export default function MechanismPlayer() {
       if (event.key === "ArrowRight") {
         event.preventDefault();
 
-        if (
-          mode === "practice" &&
-          index === 0 &&
-          !answered
-        ) {
+        if (mode === "practice" && !answered) {
           return;
         }
 
@@ -204,12 +241,17 @@ export default function MechanismPlayer() {
 
       if (event.key === "End") {
         event.preventDefault();
+
+        if (mode === "practice") {
+          return;
+        }
+
         setPlaying(false);
         setIndex(steps.length - 1);
         return;
       }
 
-      if (event.key === " ") {
+      if (event.key === " " && mode === "learn") {
         event.preventDefault();
 
         setPlaying((currentPlaying) => {
@@ -218,7 +260,9 @@ export default function MechanismPlayer() {
           }
 
           setIndex((currentIndex) =>
-            currentIndex === steps.length - 1 ? 0 : currentIndex,
+            currentIndex === steps.length - 1
+              ? 0
+              : currentIndex,
           );
 
           return true;
@@ -231,20 +275,22 @@ export default function MechanismPlayer() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [answered, index, mode]);
+  }, [answered, mode]);
 
-  function handlePracticeAnswer(atom: Sn2AtomId) {
-    if (mode !== "practice") {
+  function handlePracticeAnswer(
+    target: Sn2PracticeTarget,
+  ) {
+    if (mode !== "practice" || answered) {
       return;
     }
 
-    if (index !== 0) {
-      return;
-    }
-
-    if (atom === "oxygen") {
+    if (target === practiceQuestion.correctTarget) {
       setFeedback("correct");
-      setAnswered(true);
+      setCompletedSteps((current) =>
+        current.includes(index)
+          ? current
+          : [...current, index],
+      );
       return;
     }
 
@@ -253,9 +299,13 @@ export default function MechanismPlayer() {
 
   function changeMode(nextMode: PlayerMode) {
     setPlaying(false);
-    setMode(nextMode);
+    setIndex(0);
     setFeedback("idle");
-    setAnswered(false);
+    setMode(nextMode);
+
+    if (nextMode === "practice") {
+      setCompletedSteps([]);
+    }
   }
 
   function previous() {
@@ -264,6 +314,10 @@ export default function MechanismPlayer() {
   }
 
   function next() {
+    if (mode === "practice" && !answered) {
+      return;
+    }
+
     setPlaying(false);
     setIndex((current) =>
       Math.min(steps.length - 1, current + 1),
@@ -274,10 +328,17 @@ export default function MechanismPlayer() {
     setPlaying(false);
     setIndex(0);
     setFeedback("idle");
-    setAnswered(false);
+
+    if (mode === "practice") {
+      setCompletedSteps([]);
+    }
   }
 
   function togglePlayback() {
+    if (mode === "practice") {
+      return;
+    }
+
     if (playing) {
       setPlaying(false);
       return;
@@ -370,8 +431,8 @@ export default function MechanismPlayer() {
       <Sn2ReactionCanvas
         step={displayedStep}
         animated={animated}
-        interactive={mode === "practice"}
-        onAtomClick={handlePracticeAnswer}
+        interactive={mode === "practice" && !answered}
+        onTargetClick={handlePracticeAnswer}
       />
 
       <div
@@ -395,49 +456,51 @@ export default function MechanismPlayer() {
             </p>
 
             <h3 className="mt-2 text-xl font-bold text-slate-950">
-              {practicePrompt.title}
+              {practiceQuestion.title}
             </h3>
 
             <p className="mt-3 leading-7 text-slate-700">
               {answered
                 ? step.description
-                : practicePrompt.description}
+                : practiceQuestion.description}
             </p>
 
-            {index === 0 ? (
-              <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4">
-                {feedback === "idle" ? (
+            <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4">
+              {feedback === "idle" && !answered ? (
+                <p className="text-slate-700">
+                  {practiceQuestion.instruction}
+                </p>
+              ) : null}
+
+              {feedback === "incorrect" && !answered ? (
+                <p className="font-semibold text-red-600">
+                  {practiceQuestion.incorrectFeedback}
+                </p>
+              ) : null}
+
+              {answered ? (
+                <div className="space-y-3">
+                  <p className="font-semibold text-green-700">
+                    ✓ Correct!
+                  </p>
+
                   <p className="text-slate-700">
-                    Click the atom that acts as the nucleophile.
+                    {practiceQuestion.correctExplanation}
                   </p>
-                ) : null}
 
-                {feedback === "incorrect" ? (
-                  <p className="font-semibold text-red-600">
-                    Not quite. Remember that the nucleophile donates
-                    an electron pair.
-                  </p>
-                ) : null}
-
-                {feedback === "correct" ? (
-                  <div className="space-y-3">
-                    <p className="font-semibold text-green-700">
-                      ✓ Correct!
-                    </p>
-
-                    <p className="text-slate-700">
-                      Hydroxide is the nucleophile because it donates
-                      its lone pair to the electrophilic carbon.
-                    </p>
-
+                  {displayedStep.arrows.length > 0 ? (
                     <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">
-                      The curved arrow is now shown on the reaction
-                      diagram.
+                      The correct electron movement is now shown on
+                      the reaction diagram.
                     </div>
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
+                  ) : (
+                    <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">
+                      You have identified the correct product.
+                    </div>
+                  )}
+                </div>
+              ) : null}
+            </div>
           </>
         )}
       </div>
@@ -446,8 +509,10 @@ export default function MechanismPlayer() {
         <span className="font-semibold text-slate-800">
           Keyboard:
         </span>{" "}
-        ← previous, → next, Space play/pause, Home first step, End
-        last step
+        ← previous, → next
+        {mode === "learn"
+          ? ", Space play/pause, Home first step, End last step"
+          : ", Home first step"}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
@@ -464,9 +529,16 @@ export default function MechanismPlayer() {
           <button
             type="button"
             onClick={togglePlayback}
-            className="rounded-xl bg-slate-950 px-5 py-2 font-semibold text-white transition hover:bg-slate-800"
+            disabled={mode === "practice"}
+            className="rounded-xl bg-slate-950 px-5 py-2 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {playing ? "Pause" : isLast ? "Replay" : "Play"}
+            {mode === "practice"
+              ? "Practice active"
+              : playing
+                ? "Pause"
+                : isLast
+                  ? "Replay"
+                  : "Play"}
           </button>
 
           <button
@@ -474,9 +546,7 @@ export default function MechanismPlayer() {
             onClick={next}
             disabled={
               isLast ||
-              (mode === "practice" &&
-                index === 0 &&
-                !answered)
+              (mode === "practice" && !answered)
             }
             className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-blue-400 disabled:cursor-not-allowed disabled:opacity-40"
           >

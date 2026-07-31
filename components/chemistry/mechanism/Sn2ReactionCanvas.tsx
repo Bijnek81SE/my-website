@@ -1,13 +1,18 @@
 import MoleculeCanvas from "../MoleculeCanvas";
 import type { MechanismStep } from "./types";
 
-type Sn2AtomId = "oxygen" | "carbon" | "bromine";
+export type Sn2PracticeTarget =
+  | "oxygen"
+  | "carbon"
+  | "bromine"
+  | "carbon-bromine-bond"
+  | "product-bromide";
 
 type Sn2ReactionCanvasProps = {
   step: MechanismStep;
   animated: boolean;
   interactive?: boolean;
-  onAtomClick?: (atomId: Sn2AtomId) => void;
+  onTargetClick?: (target: Sn2PracticeTarget) => void;
 };
 
 const highlightClass =
@@ -17,7 +22,7 @@ export default function Sn2ReactionCanvas({
   step,
   animated,
   interactive = false,
-  onAtomClick,
+  onTargetClick,
 }: Sn2ReactionCanvasProps) {
   const showProduct = step.highlight === "product";
 
@@ -60,25 +65,29 @@ export default function Sn2ReactionCanvas({
     },
   ];
 
-  function selectAtom(atomId: Sn2AtomId) {
+  function selectTarget(target: Sn2PracticeTarget) {
     if (!interactive) {
       return;
     }
 
-    onAtomClick?.(atomId);
+    onTargetClick?.(target);
   }
 
-  function handleAtomKeyDown(
-    event: React.KeyboardEvent<SVGCircleElement>,
-    atomId: Sn2AtomId,
+  function handleTargetKeyDown(
+    event: React.KeyboardEvent<SVGElement>,
+    target: Sn2PracticeTarget,
   ) {
     if (event.key !== "Enter" && event.key !== " ") {
       return;
     }
 
     event.preventDefault();
-    selectAtom(atomId);
+    selectTarget(target);
   }
+
+  const interactiveClass = interactive
+    ? "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]"
+    : undefined;
 
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
@@ -152,14 +161,10 @@ export default function Sn2ReactionCanvas({
                     ? "Select the hydroxide oxygen"
                     : undefined
                 }
-                className={
-                  interactive
-                    ? "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]"
-                    : undefined
-                }
-                onClick={() => selectAtom("oxygen")}
+                className={interactiveClass}
+                onClick={() => selectTarget("oxygen")}
                 onKeyDown={(event) =>
-                  handleAtomKeyDown(event, "oxygen")
+                  handleTargetKeyDown(event, "oxygen")
                 }
               />
             </g>
@@ -187,20 +192,42 @@ export default function Sn2ReactionCanvas({
                   ? "Select the electrophilic carbon"
                   : undefined
               }
-              className={
-                interactive
-                  ? "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]"
-                  : undefined
-              }
-              onClick={() => selectAtom("carbon")}
+              className={interactiveClass}
+              onClick={() => selectTarget("carbon")}
               onKeyDown={(event) =>
-                handleAtomKeyDown(event, "carbon")
+                handleTargetKeyDown(event, "carbon")
               }
             />
 
             <MoleculeCanvas
               bonds={bonds}
               arrows={arrows}
+            />
+
+            <line
+              x1="374"
+              y1="208"
+              x2="488"
+              y2="208"
+              stroke="transparent"
+              strokeWidth="34"
+              role={interactive ? "button" : undefined}
+              tabIndex={interactive ? 0 : undefined}
+              aria-label={
+                interactive
+                  ? "Select the carbon bromine bond"
+                  : undefined
+              }
+              className={interactiveClass}
+              onClick={() =>
+                selectTarget("carbon-bromine-bond")
+              }
+              onKeyDown={(event) =>
+                handleTargetKeyDown(
+                  event,
+                  "carbon-bromine-bond",
+                )
+              }
             />
 
             <g
@@ -224,14 +251,10 @@ export default function Sn2ReactionCanvas({
                     ? "Select the bromine leaving group"
                     : undefined
                 }
-                className={
-                  interactive
-                    ? "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]"
-                    : undefined
-                }
-                onClick={() => selectAtom("bromine")}
+                className={interactiveClass}
+                onClick={() => selectTarget("bromine")}
                 onKeyDown={(event) =>
-                  handleAtomKeyDown(event, "bromine")
+                  handleTargetKeyDown(event, "bromine")
                 }
               />
             </g>
@@ -244,6 +267,7 @@ export default function Sn2ReactionCanvas({
               fontSize="46"
               fontWeight="700"
               fill="#0f172a"
+              pointerEvents="none"
             >
               CH₃OH
             </text>
@@ -254,6 +278,7 @@ export default function Sn2ReactionCanvas({
               fontSize="34"
               fontWeight="700"
               fill="#64748b"
+              pointerEvents="none"
             >
               +
             </text>
@@ -264,9 +289,36 @@ export default function Sn2ReactionCanvas({
               fontSize="46"
               fontWeight="700"
               fill="#dc2626"
+              pointerEvents="none"
             >
               Br⁻
             </text>
+
+            <rect
+              x="445"
+              y="165"
+              width="115"
+              height="80"
+              rx="18"
+              fill="transparent"
+              role={interactive ? "button" : undefined}
+              tabIndex={interactive ? 0 : undefined}
+              aria-label={
+                interactive
+                  ? "Select the bromide product"
+                  : undefined
+              }
+              className={interactiveClass}
+              onClick={() =>
+                selectTarget("product-bromide")
+              }
+              onKeyDown={(event) =>
+                handleTargetKeyDown(
+                  event,
+                  "product-bromide",
+                )
+              }
+            />
 
             <text
               x="380"
@@ -274,6 +326,7 @@ export default function Sn2ReactionCanvas({
               textAnchor="middle"
               fontSize="18"
               fill="#475569"
+              pointerEvents="none"
             >
               Substitution product and bromide leaving group
             </text>
@@ -286,6 +339,7 @@ export default function Sn2ReactionCanvas({
           textAnchor="middle"
           fontSize="17"
           fill="#475569"
+          pointerEvents="none"
         >
           {step.note}
         </text>
