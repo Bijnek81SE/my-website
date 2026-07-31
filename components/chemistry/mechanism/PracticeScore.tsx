@@ -41,7 +41,7 @@ export default function PracticeScore({
         </div>
       </div>
 
-      <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         <div className="rounded-xl border border-slate-200 bg-white p-3">
           <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
             Accuracy
@@ -79,6 +79,26 @@ export default function PracticeScore({
 
           <dd className="mt-1 text-xl font-bold text-rose-700">
             {stats.incorrectAnswers}
+          </dd>
+        </div>
+
+        <div className="rounded-xl border border-slate-200 bg-white p-3">
+          <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Hints
+          </dt>
+
+          <dd className="mt-1 text-xl font-bold text-amber-700">
+            {stats.hintsUsed}
+          </dd>
+        </div>
+
+        <div className="rounded-xl border border-slate-200 bg-white p-3">
+          <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Revealed
+          </dt>
+
+          <dd className="mt-1 text-xl font-bold text-violet-700">
+            {stats.revealedAnswers}
           </dd>
         </div>
       </dl>

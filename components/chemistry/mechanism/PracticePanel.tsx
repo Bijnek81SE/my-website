@@ -54,7 +54,23 @@ export default function PracticePanel({
           </div>
         ) : null}
 
-        {answered ? (
+        {feedback === "revealed" ? (
+          <div className="space-y-3">
+            <p className="font-semibold text-amber-800">
+              Answer revealed
+            </p>
+
+            <p className="text-slate-700">
+              {question.correctExplanation}
+            </p>
+
+            <div className="rounded-lg bg-amber-50 p-3 text-sm text-amber-900">
+              Review the highlighted target before moving to the next step.
+            </div>
+          </div>
+        ) : null}
+
+        {feedback === "correct" && answered ? (
           <div className="space-y-3">
             <p className="font-semibold text-emerald-700">
               ✓ Correct!

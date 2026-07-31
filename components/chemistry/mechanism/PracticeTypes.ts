@@ -1,4 +1,10 @@
-export type PracticeFeedback = "idle" | "correct" | "incorrect";
+import type { PracticeHint } from "./HintTypes";
+
+export type PracticeFeedback =
+  | "idle"
+  | "correct"
+  | "incorrect"
+  | "revealed";
 
 export type PracticeQuestion<TTarget extends string = string> = {
   id: string;
@@ -8,6 +14,7 @@ export type PracticeQuestion<TTarget extends string = string> = {
   correctTarget: TTarget;
   incorrectFeedback: string;
   correctExplanation: string;
+  hints?: PracticeHint[];
 };
 
 export type PracticeSessionStats = {
@@ -16,6 +23,8 @@ export type PracticeSessionStats = {
   attempts: number;
   correctAnswers: number;
   incorrectAnswers: number;
+  hintsUsed: number;
+  revealedAnswers: number;
   accuracy: number;
   score: number;
   stars: number;
