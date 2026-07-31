@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -8,6 +9,7 @@ import {
 } from "react";
 import AchievementPanel from "./AchievementPanel";
 import type { PracticeAchievement } from "./AchievementTypes";
+import ExamPanel from "./ExamPanel";
 import HintPanel from "./HintPanel";
 import type { HintState, PracticeHint } from "./HintTypes";
 import PracticePanel from "./PracticePanel";
@@ -16,8 +18,14 @@ import PracticeScore from "./PracticeScore";
 import type {
   PracticeFeedback,
   PracticeQuestion,
+  PracticeSessionMode,
   PracticeSessionStats,
 } from "./PracticeTypes";
+import ReviewEngine, {
+  createReviewSession,
+  inferReviewTopic,
+} from "./ReviewEngine";
+import type { ReviewAnswer } from "./ReviewTypes";
 
 type PracticeRenderState<TTarget extends string> = {
   answered: boolean;
@@ -31,7 +39,9 @@ type PracticeEngineProps<TTarget extends string> = {
   currentIndex: number;
   stepDescription: string;
   revealMessage?: string;
+  sessionMode?: PracticeSessionMode;
   onAnsweredChange: (answered: boolean) => void;
+  onRetryExam?: () => void;
   renderCanvas: (
     state: PracticeRenderState<TTarget>,
   ) => ReactNode;
@@ -106,7 +116,8 @@ function createAchievements({
     {
       id: "first-correct",
       title: "First Correct",
-      description: "Answer one mechanism question correctly.",
+      description:
+        "Answer one mechanism question correctly.",
       icon: "✓",
       unlocked: correctAnswers >= 1,
     },
@@ -158,7 +169,9 @@ export default function PracticeEngine<
   currentIndex,
   stepDescription,
   revealMessage,
+  sessionMode = "practice",
   onAnsweredChange,
+  onRetryExam,
   renderCanvas,
 }: PracticeEngineProps<TTarget>) {
   const [feedback, setFeedback] =
@@ -172,6 +185,10 @@ export default function PracticeEngine<
 
   const [attemptsByQuestion, setAttemptsByQuestion] =
     useState<Record<string, number>>({});
+
+  const [examAnswers, setExamAnswers] = useState<
+    ReviewAnswer<TTarget>[]
+  >([]);
 
   const [attempts, setAttempts] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
@@ -193,20 +210,31 @@ export default function PracticeEngine<
       : defaultHints;
 
   const activeHint = useMemo(() => {
+    if (sessionMode === "exam") {
+      return undefined;
+    }
+
     return [...hints]
       .sort((a, b) => b.afterAttempt - a.afterAttempt)
       .find(
         (hint) =>
           attemptsForQuestion >= hint.afterAttempt,
       );
-  }, [attemptsForQuestion, hints]);
+  }, [
+    attemptsForQuestion,
+    hints,
+    sessionMode,
+  ]);
 
   const hintState: HintState = {
     attemptsForQuestion,
     activeHint,
     shouldHighlightTarget:
-      attemptsForQuestion >= 3 && !answered,
-    shouldRevealAnswer: revealed,
+      sessionMode === "practice" &&
+      attemptsForQuestion >= 3 &&
+      !answered,
+    shouldRevealAnswer:
+      sessionMode === "practice" && revealed,
   };
 
   const stats = useMemo<PracticeSessionStats>(() => {
@@ -216,7 +244,9 @@ export default function PracticeEngine<
     const accuracy =
       attempts === 0
         ? 100
-        : Math.round((correctAnswers / attempts) * 100);
+        : Math.round(
+            (correctAnswers / attempts) * 100,
+          );
 
     const completionRatio =
       totalQuestions === 0
@@ -270,13 +300,47 @@ export default function PracticeEngine<
     revealedQuestionIds.length,
   ]);
 
+  const review = useMemo(
+    () => createReviewSession(examAnswers),
+    [examAnswers],
+  );
+
   useEffect(() => {
+    if (sessionMode === "exam") {
+      setFeedback("idle");
+      return;
+    }
+
     setFeedback(answered ? "correct" : "idle");
-  }, [answered, currentIndex]);
+  }, [
+    answered,
+    currentIndex,
+    sessionMode,
+  ]);
 
   useEffect(() => {
     onAnsweredChange(answered);
-  }, [answered, onAnsweredChange]);
+  }, [
+    answered,
+    onAnsweredChange,
+  ]);
+
+  const resetSession = useCallback(() => {
+    setFeedback("idle");
+    setCompletedQuestionIds([]);
+    setRevealedQuestionIds([]);
+    setAttemptsByQuestion({});
+    setExamAnswers([]);
+    setAttempts(0);
+    setCorrectAnswers(0);
+    setIncorrectAnswers(0);
+    setHintsUsed(0);
+    onAnsweredChange(false);
+    onRetryExam?.();
+  }, [
+    onAnsweredChange,
+    onRetryExam,
+  ]);
 
   function completeQuestion() {
     setCompletedQuestionIds((current) =>
@@ -298,12 +362,42 @@ export default function PracticeEngine<
     completeQuestion();
   }
 
-  function handleTargetClick(target: TTarget) {
-    if (answered) {
-      return;
+  function handleExamAnswer(target: TTarget) {
+    const correct = target === question.correctTarget;
+
+    setAttempts((current) => current + 1);
+
+    setAttemptsByQuestion((current) => ({
+      ...current,
+      [question.id]: 1,
+    }));
+
+    setExamAnswers((current) => [
+      ...current,
+      {
+        question,
+        selectedTarget: target,
+        correctTarget: question.correctTarget,
+        correct,
+        topic: inferReviewTopic(
+          question.id,
+          question.title,
+        ),
+      },
+    ]);
+
+    if (correct) {
+      setCorrectAnswers((current) => current + 1);
+    } else {
+      setIncorrectAnswers((current) => current + 1);
     }
 
-    const nextQuestionAttempts = attemptsForQuestion + 1;
+    completeQuestion();
+  }
+
+  function handlePracticeAnswer(target: TTarget) {
+    const nextQuestionAttempts =
+      attemptsForQuestion + 1;
 
     setAttempts((current) => current + 1);
 
@@ -335,7 +429,8 @@ export default function PracticeEngine<
     if (nextHintCount > previousHintCount) {
       setHintsUsed(
         (current) =>
-          current + (nextHintCount - previousHintCount),
+          current +
+          (nextHintCount - previousHintCount),
       );
     }
 
@@ -344,38 +439,81 @@ export default function PracticeEngine<
     }
   }
 
+  function handleTargetClick(target: TTarget) {
+    if (answered) {
+      return;
+    }
+
+    if (sessionMode === "exam") {
+      handleExamAnswer(target);
+      return;
+    }
+
+    handlePracticeAnswer(target);
+  }
+
+  const showExamResults =
+    sessionMode === "exam" && stats.completed;
+
   return (
     <div className="space-y-5">
       <PracticeProgress stats={stats} />
 
-      {renderCanvas({
-        answered,
-        revealed,
-        highlightedTarget:
-          hintState.shouldHighlightTarget
-            ? question.correctTarget
-            : undefined,
-        onTargetClick: handleTargetClick,
-      })}
+      {!showExamResults
+        ? renderCanvas({
+            answered,
+            revealed,
+            highlightedTarget:
+              hintState.shouldHighlightTarget
+                ? question.correctTarget
+                : undefined,
+            onTargetClick: handleTargetClick,
+          })
+        : null}
 
-      <HintPanel
-        hintState={hintState}
-        answered={answered && !revealed}
-      />
+      {sessionMode === "practice" ? (
+        <>
+          <HintPanel
+            hintState={hintState}
+            answered={answered && !revealed}
+          />
 
-      <PracticePanel
-        question={question}
-        feedback={feedback}
-        answered={answered}
-        stepDescription={stepDescription}
-        revealMessage={revealMessage}
-      />
+          <PracticePanel
+            question={question}
+            feedback={feedback}
+            answered={answered}
+            stepDescription={stepDescription}
+            revealMessage={revealMessage}
+          />
 
-      <PracticeScore stats={stats} />
+          <PracticeScore stats={stats} />
 
-      <AchievementPanel
-        achievements={stats.achievements}
-      />
+          <AchievementPanel
+            achievements={stats.achievements}
+          />
+        </>
+      ) : showExamResults ? (
+        <>
+          <PracticeScore stats={stats} />
+
+          <AchievementPanel
+            achievements={stats.achievements}
+          />
+
+          <ReviewEngine
+            review={review}
+            onRetryExam={resetSession}
+          />
+        </>
+      ) : (
+        <ExamPanel
+          question={question}
+          answered={answered}
+          currentIndex={currentIndex}
+          totalQuestions={questions.length}
+          completed={stats.completed}
+        />
+      )}
     </div>
   );
 }

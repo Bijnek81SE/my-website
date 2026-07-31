@@ -1,6 +1,8 @@
 import type { PracticeAchievement } from "./AchievementTypes";
 import type { PracticeHint } from "./HintTypes";
 
+export type PracticeSessionMode = "practice" | "exam";
+
 export type PracticeFeedback =
   | "idle"
   | "correct"

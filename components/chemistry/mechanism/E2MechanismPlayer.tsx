@@ -8,7 +8,7 @@ import E2ReactionCanvas, {
 } from "./E2ReactionCanvas";
 import type { PracticeQuestion } from "./PracticeTypes";
 
-type PlayerMode = "learn" | "practice";
+type PlayerMode = "learn" | "practice" | "exam";
 
 const steps: E2MechanismStep[] = [
   {
@@ -125,13 +125,14 @@ export default function E2MechanismPlayer() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [animated, setAnimated] = useState(true);
-  const [practiceAnswered, setPracticeAnswered] =
+  const [sessionAnswered, setSessionAnswered] =
     useState(false);
-  const [practiceSessionKey, setPracticeSessionKey] =
-    useState(0);
+  const [sessionKey, setSessionKey] = useState(0);
 
   const step = steps[index];
 
+  const isLearnMode = mode === "learn";
+  const isExamMode = mode === "exam";
   const isFirst = index === 0;
   const isLast = index === steps.length - 1;
 
@@ -141,7 +142,7 @@ export default function E2MechanismPlayer() {
   );
 
   useEffect(() => {
-    if (!playing || mode === "practice") {
+    if (!playing || !isLearnMode) {
       return;
     }
 
@@ -157,10 +158,10 @@ export default function E2MechanismPlayer() {
     }, 3000);
 
     return () => window.clearInterval(timer);
-  }, [mode, playing]);
+  }, [isLearnMode, playing]);
 
   useEffect(() => {
-    setPracticeAnswered(false);
+    setSessionAnswered(false);
   }, [index]);
 
   useEffect(() => {
@@ -171,6 +172,11 @@ export default function E2MechanismPlayer() {
 
       if (event.key === "ArrowLeft") {
         event.preventDefault();
+
+        if (isExamMode) {
+          return;
+        }
+
         setPlaying(false);
         setIndex((current) => Math.max(0, current - 1));
         return;
@@ -179,7 +185,7 @@ export default function E2MechanismPlayer() {
       if (event.key === "ArrowRight") {
         event.preventDefault();
 
-        if (mode === "practice" && !practiceAnswered) {
+        if (!isLearnMode && !sessionAnswered) {
           return;
         }
 
@@ -192,6 +198,11 @@ export default function E2MechanismPlayer() {
 
       if (event.key === "Home") {
         event.preventDefault();
+
+        if (isExamMode) {
+          return;
+        }
+
         setPlaying(false);
         setIndex(0);
         return;
@@ -200,7 +211,7 @@ export default function E2MechanismPlayer() {
       if (event.key === "End") {
         event.preventDefault();
 
-        if (mode === "practice") {
+        if (!isLearnMode) {
           return;
         }
 
@@ -209,7 +220,7 @@ export default function E2MechanismPlayer() {
         return;
       }
 
-      if (event.key === " " && mode === "learn") {
+      if (event.key === " " && isLearnMode) {
         event.preventDefault();
 
         setPlaying((currentPlaying) => {
@@ -233,26 +244,31 @@ export default function E2MechanismPlayer() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [mode, practiceAnswered]);
+  }, [
+    isExamMode,
+    isLearnMode,
+    sessionAnswered,
+  ]);
 
   function changeMode(nextMode: PlayerMode) {
     setPlaying(false);
     setIndex(0);
-    setPracticeAnswered(false);
+    setSessionAnswered(false);
     setMode(nextMode);
-
-    if (nextMode === "practice") {
-      setPracticeSessionKey((current) => current + 1);
-    }
+    setSessionKey((current) => current + 1);
   }
 
   function previous() {
+    if (isExamMode) {
+      return;
+    }
+
     setPlaying(false);
     setIndex((current) => Math.max(0, current - 1));
   }
 
   function next() {
-    if (mode === "practice" && !practiceAnswered) {
+    if (!isLearnMode && !sessionAnswered) {
       return;
     }
 
@@ -265,15 +281,18 @@ export default function E2MechanismPlayer() {
   function reset() {
     setPlaying(false);
     setIndex(0);
-    setPracticeAnswered(false);
+    setSessionAnswered(false);
+    setSessionKey((current) => current + 1);
+  }
 
-    if (mode === "practice") {
-      setPracticeSessionKey((current) => current + 1);
-    }
+  function retryExam() {
+    setPlaying(false);
+    setIndex(0);
+    setSessionAnswered(false);
   }
 
   function togglePlay() {
-    if (mode === "practice") {
+    if (!isLearnMode) {
       return;
     }
 
@@ -315,35 +334,27 @@ export default function E2MechanismPlayer() {
       </div>
 
       <div
-        className="inline-flex rounded-xl border border-slate-200 bg-slate-100 p-1"
+        className="inline-flex flex-wrap rounded-xl border border-slate-200 bg-slate-100 p-1"
         role="group"
         aria-label="Mechanism player mode"
       >
-        <button
-          type="button"
-          aria-pressed={mode === "learn"}
-          onClick={() => changeMode("learn")}
-          className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-            mode === "learn"
-              ? "bg-white text-orange-700 shadow-sm"
-              : "text-slate-600 hover:text-slate-950"
-          }`}
-        >
-          Learn
-        </button>
-
-        <button
-          type="button"
-          aria-pressed={mode === "practice"}
-          onClick={() => changeMode("practice")}
-          className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-            mode === "practice"
-              ? "bg-white text-orange-700 shadow-sm"
-              : "text-slate-600 hover:text-slate-950"
-          }`}
-        >
-          Practice
-        </button>
+        {(["learn", "practice", "exam"] as PlayerMode[]).map(
+          (playerMode) => (
+            <button
+              key={playerMode}
+              type="button"
+              aria-pressed={mode === playerMode}
+              onClick={() => changeMode(playerMode)}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold capitalize transition ${
+                mode === playerMode
+                  ? "bg-white text-orange-700 shadow-sm"
+                  : "text-slate-600 hover:text-slate-950"
+              }`}
+            >
+              {playerMode}
+            </button>
+          ),
+        )}
       </div>
 
       <div>
@@ -363,7 +374,7 @@ export default function E2MechanismPlayer() {
         </div>
       </div>
 
-      {mode === "learn" ? (
+      {isLearnMode ? (
         <>
           <E2ReactionCanvas
             step={step}
@@ -385,10 +396,11 @@ export default function E2MechanismPlayer() {
         </>
       ) : (
         <PracticeEngine
-          key={practiceSessionKey}
+          key={sessionKey}
           questions={practiceQuestions}
           currentIndex={index}
           stepDescription={step.description}
+          sessionMode={mode}
           revealMessage={
             step.arrows.length > 0
               ? "The three concerted electron movements are now shown on the reaction diagram."
@@ -396,11 +408,15 @@ export default function E2MechanismPlayer() {
                 ? "You have identified the alkene product."
                 : "You have identified the correctly aligned β-hydrogen."
           }
-          onAnsweredChange={setPracticeAnswered}
+          onRetryExam={retryExam}
+          onAnsweredChange={setSessionAnswered}
           renderCanvas={({ answered, onTargetClick }) => {
+            const showAnswer =
+              mode === "practice" && answered;
+
             const practiceStep: E2MechanismStep = {
               ...step,
-              arrows: answered
+              arrows: showAnswer
                 ? index === 0
                   ? steps[1].arrows
                   : step.arrows
@@ -423,10 +439,11 @@ export default function E2MechanismPlayer() {
         <span className="font-semibold text-slate-800">
           Keyboard:
         </span>{" "}
-        ← previous, → next
-        {mode === "learn"
-          ? ", Space play/pause, Home first step, End last step"
-          : ", Home first step"}
+        {isLearnMode
+          ? "← previous, → next, Space play/pause, Home first step, End last step"
+          : isExamMode
+            ? "→ next after answering"
+            : "← previous, → next, Home first step"}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
@@ -434,7 +451,7 @@ export default function E2MechanismPlayer() {
           <button
             type="button"
             onClick={previous}
-            disabled={isFirst}
+            disabled={isFirst || isExamMode}
             className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-orange-400 disabled:cursor-not-allowed disabled:opacity-40"
           >
             ← Previous
@@ -443,16 +460,18 @@ export default function E2MechanismPlayer() {
           <button
             type="button"
             onClick={togglePlay}
-            disabled={mode === "practice"}
+            disabled={!isLearnMode}
             className="rounded-xl bg-slate-950 px-5 py-2 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {mode === "practice"
-              ? "Practice active"
-              : playing
+            {isLearnMode
+              ? playing
                 ? "Pause"
                 : isLast
                   ? "Replay"
-                  : "Play"}
+                  : "Play"
+              : isExamMode
+                ? "Exam active"
+                : "Practice active"}
           </button>
 
           <button
@@ -460,7 +479,7 @@ export default function E2MechanismPlayer() {
             onClick={next}
             disabled={
               isLast ||
-              (mode === "practice" && !practiceAnswered)
+              (!isLearnMode && !sessionAnswered)
             }
             className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-orange-400 disabled:cursor-not-allowed disabled:opacity-40"
           >
