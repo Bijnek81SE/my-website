@@ -1,22 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import PracticeEngine from "./PracticeEngine";
 import Sn2ReactionCanvas, {
   type Sn2PracticeTarget,
 } from "./Sn2ReactionCanvas";
+import type { PracticeQuestion } from "./PracticeTypes";
 import type { MechanismStep } from "./types";
 
 type PlayerMode = "learn" | "practice";
-type PracticeFeedback = "idle" | "correct" | "incorrect";
-
-type PracticeQuestion = {
-  title: string;
-  description: string;
-  instruction: string;
-  correctTarget: Sn2PracticeTarget;
-  incorrectFeedback: string;
-  correctExplanation: string;
-};
 
 const steps: MechanismStep[] = [
   {
@@ -83,8 +75,9 @@ const steps: MechanismStep[] = [
   },
 ];
 
-const practiceQuestions: PracticeQuestion[] = [
+const practiceQuestions: PracticeQuestion<Sn2PracticeTarget>[] = [
   {
+    id: "identify-nucleophile",
     title: "Which species is the nucleophile?",
     description:
       "Identify the electron-rich species that donates an electron pair to the electrophilic carbon.",
@@ -97,6 +90,7 @@ const practiceQuestions: PracticeQuestion[] = [
       "Hydroxide is the nucleophile because oxygen donates a lone pair to the electrophilic carbon.",
   },
   {
+    id: "identify-arrow-source",
     title: "Where does the first curved arrow start?",
     description:
       "Curved arrows begin at electrons, such as a lone pair or a bond.",
@@ -109,6 +103,7 @@ const practiceQuestions: PracticeQuestion[] = [
       "The first curved arrow starts at the oxygen lone pair. Those electrons form the new carbon–oxygen bond.",
   },
   {
+    id: "identify-breaking-bond",
     title: "Which bond breaks during the reaction?",
     description:
       "SN2 bond formation and bond breaking happen together in one concerted step.",
@@ -121,6 +116,7 @@ const practiceQuestions: PracticeQuestion[] = [
       "The carbon–bromine bond breaks, and its electron pair moves onto bromine.",
   },
   {
+    id: "identify-leaving-group-product",
     title: "Which product is the leaving group?",
     description:
       "The leaving group departs with the electron pair from its original bond.",
@@ -152,27 +148,12 @@ export default function MechanismPlayer() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [animated, setAnimated] = useState(true);
-  const [feedback, setFeedback] =
-    useState<PracticeFeedback>("idle");
-  const [completedSteps, setCompletedSteps] = useState<number[]>(
-    [],
-  );
+  const [practiceAnswered, setPracticeAnswered] =
+    useState(false);
+  const [practiceSessionKey, setPracticeSessionKey] =
+    useState(0);
 
   const step = steps[index];
-  const practiceQuestion = practiceQuestions[index];
-  const answered = completedSteps.includes(index);
-
-  const displayedStep: MechanismStep =
-    mode === "practice"
-      ? {
-          ...step,
-          arrows: answered
-            ? index === 0
-              ? steps[1].arrows
-              : step.arrows
-            : [],
-        }
-      : step;
 
   const isFirst = index === 0;
   const isLast = index === steps.length - 1;
@@ -202,7 +183,7 @@ export default function MechanismPlayer() {
   }, [mode, playing]);
 
   useEffect(() => {
-    setFeedback("idle");
+    setPracticeAnswered(false);
   }, [index]);
 
   useEffect(() => {
@@ -221,7 +202,7 @@ export default function MechanismPlayer() {
       if (event.key === "ArrowRight") {
         event.preventDefault();
 
-        if (mode === "practice" && !answered) {
+        if (mode === "practice" && !practiceAnswered) {
           return;
         }
 
@@ -275,36 +256,16 @@ export default function MechanismPlayer() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [answered, mode]);
-
-  function handlePracticeAnswer(
-    target: Sn2PracticeTarget,
-  ) {
-    if (mode !== "practice" || answered) {
-      return;
-    }
-
-    if (target === practiceQuestion.correctTarget) {
-      setFeedback("correct");
-      setCompletedSteps((current) =>
-        current.includes(index)
-          ? current
-          : [...current, index],
-      );
-      return;
-    }
-
-    setFeedback("incorrect");
-  }
+  }, [mode, practiceAnswered]);
 
   function changeMode(nextMode: PlayerMode) {
     setPlaying(false);
     setIndex(0);
-    setFeedback("idle");
+    setPracticeAnswered(false);
     setMode(nextMode);
 
     if (nextMode === "practice") {
-      setCompletedSteps([]);
+      setPracticeSessionKey((current) => current + 1);
     }
   }
 
@@ -314,7 +275,7 @@ export default function MechanismPlayer() {
   }
 
   function next() {
-    if (mode === "practice" && !answered) {
+    if (mode === "practice" && !practiceAnswered) {
       return;
     }
 
@@ -327,10 +288,10 @@ export default function MechanismPlayer() {
   function reset() {
     setPlaying(false);
     setIndex(0);
-    setFeedback("idle");
+    setPracticeAnswered(false);
 
     if (mode === "practice") {
-      setCompletedSteps([]);
+      setPracticeSessionKey((current) => current + 1);
     }
   }
 
@@ -428,19 +389,17 @@ export default function MechanismPlayer() {
         </div>
       </div>
 
-      <Sn2ReactionCanvas
-        step={displayedStep}
-        animated={animated}
-        interactive={mode === "practice" && !answered}
-        onTargetClick={handlePracticeAnswer}
-      />
+      {mode === "learn" ? (
+        <>
+          <Sn2ReactionCanvas
+            step={step}
+            animated={animated}
+          />
 
-      <div
-        className="rounded-2xl border border-blue-100 bg-blue-50 p-5"
-        aria-live="polite"
-      >
-        {mode === "learn" ? (
-          <>
+          <div
+            className="rounded-2xl border border-blue-100 bg-blue-50 p-5"
+            aria-live="polite"
+          >
             <h3 className="text-lg font-bold text-slate-950">
               {step.title}
             </h3>
@@ -448,62 +407,41 @@ export default function MechanismPlayer() {
             <p className="mt-2 leading-7 text-slate-700">
               {step.description}
             </p>
-          </>
-        ) : (
-          <>
-            <p className="text-sm font-semibold uppercase tracking-wide text-blue-700">
-              Practice
-            </p>
+          </div>
+        </>
+      ) : (
+        <PracticeEngine
+          key={practiceSessionKey}
+          questions={practiceQuestions}
+          currentIndex={index}
+          stepDescription={step.description}
+          revealMessage={
+            index === steps.length - 1
+              ? "You have identified the correct product."
+              : "The correct electron movement is now shown on the reaction diagram."
+          }
+          onAnsweredChange={setPracticeAnswered}
+          renderCanvas={({ answered, onTargetClick }) => {
+            const practiceStep: MechanismStep = {
+              ...step,
+              arrows: answered
+                ? index === 0
+                  ? steps[1].arrows
+                  : step.arrows
+                : [],
+            };
 
-            <h3 className="mt-2 text-xl font-bold text-slate-950">
-              {practiceQuestion.title}
-            </h3>
-
-            <p className="mt-3 leading-7 text-slate-700">
-              {answered
-                ? step.description
-                : practiceQuestion.description}
-            </p>
-
-            <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4">
-              {feedback === "idle" && !answered ? (
-                <p className="text-slate-700">
-                  {practiceQuestion.instruction}
-                </p>
-              ) : null}
-
-              {feedback === "incorrect" && !answered ? (
-                <p className="font-semibold text-red-600">
-                  {practiceQuestion.incorrectFeedback}
-                </p>
-              ) : null}
-
-              {answered ? (
-                <div className="space-y-3">
-                  <p className="font-semibold text-green-700">
-                    ✓ Correct!
-                  </p>
-
-                  <p className="text-slate-700">
-                    {practiceQuestion.correctExplanation}
-                  </p>
-
-                  {displayedStep.arrows.length > 0 ? (
-                    <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">
-                      The correct electron movement is now shown on
-                      the reaction diagram.
-                    </div>
-                  ) : (
-                    <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">
-                      You have identified the correct product.
-                    </div>
-                  )}
-                </div>
-              ) : null}
-            </div>
-          </>
-        )}
-      </div>
+            return (
+              <Sn2ReactionCanvas
+                step={practiceStep}
+                animated={animated}
+                interactive={!answered}
+                onTargetClick={onTargetClick}
+              />
+            );
+          }}
+        />
+      )}
 
       <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
         <span className="font-semibold text-slate-800">
@@ -546,7 +484,7 @@ export default function MechanismPlayer() {
             onClick={next}
             disabled={
               isLast ||
-              (mode === "practice" && !answered)
+              (mode === "practice" && !practiceAnswered)
             }
             className="rounded-xl border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:border-blue-400 disabled:cursor-not-allowed disabled:opacity-40"
           >
