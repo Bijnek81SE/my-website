@@ -1,5 +1,6 @@
 import type { KeyboardEvent } from "react";
 import MoleculeCanvas from "../MoleculeCanvas";
+import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import type { MechanismStep } from "./types";
 
 export type Sn1PracticeTarget =
@@ -54,15 +55,6 @@ export default function Sn1ReactionCanvas({
     },
   ];
 
-  const arrows = step.arrows.map((arrow) => ({
-    id: arrow.id,
-    start: arrow.start,
-    control: arrow.control,
-    end: arrow.end,
-    colour: arrow.colour,
-    animated,
-    label: arrow.label,
-  }));
 
   function selectTarget(target: Sn1PracticeTarget) {
     if (!interactive) {
@@ -85,18 +77,12 @@ export default function Sn1ReactionCanvas({
   }
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
-      <svg
-        viewBox="0 0 760 400"
-        className="h-auto w-full"
-        role="img"
-        aria-label={`SN1 mechanism: ${step.title}`}
-      >
-        <rect
-          width="760"
-          height="400"
-          fill="#f8fafc"
-        />
+    <ReactionCanvasEngine
+      viewBox="0 0 760 400"
+      ariaLabel={`SN1 mechanism: ${step.title}`}
+      arrows={step.arrows}
+      animated={animated}
+    >
 
         {product ? (
           <>
@@ -450,7 +436,7 @@ export default function Sn1ReactionCanvas({
           </>
         )}
 
-        <MoleculeCanvas arrows={arrows} />
+
 
         <text
           x="380"
@@ -462,7 +448,6 @@ export default function Sn1ReactionCanvas({
         >
           {step.note}
         </text>
-      </svg>
-    </div>
+    </ReactionCanvasEngine>
   );
 }

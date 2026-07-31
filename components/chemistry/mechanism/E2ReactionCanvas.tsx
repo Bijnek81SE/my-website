@@ -1,5 +1,6 @@
 import type { KeyboardEvent } from "react";
 import MoleculeCanvas from "../MoleculeCanvas";
+import ReactionCanvasEngine from "./ReactionCanvasEngine";
 
 type Point = {
   x: number;
@@ -80,15 +81,6 @@ export default function E2ReactionCanvas({
     },
   ];
 
-  const arrows = step.arrows.map((arrow) => ({
-    id: arrow.id,
-    start: arrow.start,
-    control: arrow.control,
-    end: arrow.end,
-    colour: arrow.colour,
-    animated,
-    label: arrow.label,
-  }));
 
   function selectTarget(target: E2PracticeTarget) {
     if (!interactive) {
@@ -111,18 +103,12 @@ export default function E2ReactionCanvas({
   }
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
-      <svg
-        viewBox="0 0 760 400"
-        className="h-auto w-full"
-        role="img"
-        aria-label={`E2 mechanism: ${step.title}`}
-      >
-        <rect
-          width="760"
-          height="400"
-          fill="#f8fafc"
-        />
+    <ReactionCanvasEngine
+      viewBox="0 0 760 400"
+      ariaLabel={`E2 mechanism: ${step.title}`}
+      arrows={step.arrows}
+      animated={animated}
+    >
 
         {product ? (
           <>
@@ -389,7 +375,6 @@ export default function E2ReactionCanvas({
 
             <MoleculeCanvas
               bonds={bonds}
-              arrows={arrows}
             />
 
             <line
@@ -527,9 +512,6 @@ export default function E2ReactionCanvas({
           </>
         )}
 
-        {product ? (
-          <MoleculeCanvas arrows={arrows} />
-        ) : null}
 
         <text
           x="380"
@@ -541,7 +523,6 @@ export default function E2ReactionCanvas({
         >
           {step.note}
         </text>
-      </svg>
-    </div>
+    </ReactionCanvasEngine>
   );
 }

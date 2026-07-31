@@ -1,4 +1,5 @@
 import MoleculeCanvas from "../MoleculeCanvas";
+import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import type { MechanismStep } from "./types";
 
 export type Sn2PracticeTarget =
@@ -40,15 +41,6 @@ export default function Sn2ReactionCanvas({
     },
   ];
 
-  const arrows = step.arrows.map((arrow) => ({
-    id: arrow.id,
-    start: arrow.start,
-    control: arrow.control,
-    end: arrow.end,
-    colour: arrow.colour,
-    animated,
-    label: arrow.label,
-  }));
 
   const bromineAtoms = [
     {
@@ -90,18 +82,12 @@ export default function Sn2ReactionCanvas({
     : undefined;
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
-      <svg
-        viewBox="0 0 760 390"
-        className="h-auto w-full"
-        role="img"
-        aria-label={`SN2 mechanism: ${step.title}`}
-      >
-        <rect
-          width="760"
-          height="390"
-          fill="#f8fafc"
-        />
+    <ReactionCanvasEngine
+      viewBox="0 0 760 390"
+      ariaLabel={`SN2 mechanism: ${step.title}`}
+      arrows={step.arrows}
+      animated={animated}
+    >
 
         {!showProduct ? (
           <>
@@ -201,7 +187,6 @@ export default function Sn2ReactionCanvas({
 
             <MoleculeCanvas
               bonds={bonds}
-              arrows={arrows}
             />
 
             <line
@@ -343,7 +328,6 @@ export default function Sn2ReactionCanvas({
         >
           {step.note}
         </text>
-      </svg>
-    </div>
+    </ReactionCanvasEngine>
   );
 }

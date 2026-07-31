@@ -1,5 +1,5 @@
 import type { KeyboardEvent } from "react";
-import MechanismArrow from "./MechanismArrow";
+import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import type { MechanismArrow as MechanismArrowData } from "./types";
 
 export type E1MechanismStep = {
@@ -90,14 +90,12 @@ export default function E1ReactionCanvas({
   }
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
-      <svg
-        viewBox="0 0 760 400"
-        className="h-auto w-full"
-        role="img"
-        aria-label={`E1 mechanism: ${step.title}`}
-      >
-        <rect width="760" height="400" fill="#f8fafc" />
+    <ReactionCanvasEngine
+      viewBox="0 0 760 400"
+      ariaLabel={`E1 mechanism: ${step.title}`}
+      arrows={step.arrows}
+      animated={animated}
+    >
 
         {products ? (
           <>
@@ -240,14 +238,6 @@ export default function E1ReactionCanvas({
           </>
         )}
 
-        {step.arrows.map((arrow) => (
-          <MechanismArrow
-            key={arrow.id}
-            {...arrow}
-            animated={animated}
-          />
-        ))}
-      </svg>
-    </div>
+    </ReactionCanvasEngine>
   );
 }
