@@ -5,7 +5,7 @@ import E1ReactionCanvas, {
   type E1MechanismStep,
   type E1PracticeTarget,
 } from "./E1ReactionCanvas";
-import { e1Questions } from "./MechanismQuestions";
+import type { PracticeQuestion } from "./PracticeTypes";
 
 const steps: E1MechanismStep[] = [
   {
@@ -81,6 +81,69 @@ const steps: E1MechanismStep[] = [
   },
 ];
 
+const practiceQuestions: PracticeQuestion<E1PracticeTarget>[] = [
+  {
+    id: "identify-tertiary-substrate",
+    title: "Which structure is the tertiary substrate?",
+    description:
+      "Identify the alkyl halide whose carbon bearing bromine is attached to three carbon groups.",
+    instruction: "Click the tertiary substrate.",
+    correctTarget: "tertiary-substrate",
+    incorrectFeedback:
+      "Not quite. Look for the carbon bonded to bromine and three methyl groups.",
+    correctExplanation:
+      "tert-Butyl bromide is tertiary, so ionisation produces a relatively stable tertiary carbocation.",
+  },
+  {
+    id: "identify-ionising-bond",
+    title: "Which bond breaks during ionisation?",
+    description:
+      "The slow first step forms the carbocation and the leaving-group anion.",
+    instruction: "Click the bond that breaks heterolytically.",
+    correctTarget: "carbon-bromine-bond",
+    incorrectFeedback:
+      "Not quite. Select the bond between the tertiary carbon and bromine.",
+    correctExplanation:
+      "The carbon–bromine bond breaks, and both bonding electrons move onto bromine.",
+  },
+  {
+    id: "identify-carbocation",
+    title: "Which species is the E1 intermediate?",
+    description:
+      "E1 elimination proceeds through a discrete positively charged intermediate.",
+    instruction: "Click the carbocation intermediate.",
+    correctTarget: "carbocation",
+    incorrectFeedback:
+      "Not quite. Look for the positively charged carbon after bromide leaves.",
+    correctExplanation:
+      "The tertiary carbocation is the intermediate shared by competing E1 and SN1 pathways.",
+  },
+  {
+    id: "identify-beta-hydrogen",
+    title: "Which hydrogen is removed?",
+    description:
+      "The base removes a hydrogen from a carbon adjacent to the carbocation.",
+    instruction: "Click the β-hydrogen.",
+    correctTarget: "beta-hydrogen",
+    incorrectFeedback:
+      "Not quite. Choose a hydrogen on a carbon next to the positively charged carbon.",
+    correctExplanation:
+      "Removal of the β-hydrogen allows the C–H bond electrons to form the alkene π bond.",
+  },
+  {
+    id: "identify-alkene-product",
+    title: "Which species is the elimination product?",
+    description:
+      "Identify the product containing the new carbon–carbon double bond.",
+    instruction: "Click the alkene product.",
+    correctTarget: "alkene-product",
+    incorrectFeedback:
+      "Not quite. Look for the neutral product containing a C=C bond.",
+    correctExplanation:
+      "2-Methylpropene is the E1 product formed after β-deprotonation of the carbocation.",
+  },
+];
+
 export default function E1MechanismPlayer() {
   return (
     <MechanismPlayerEngine<E1MechanismStep, E1PracticeTarget>
@@ -88,7 +151,7 @@ export default function E1MechanismPlayer() {
       description="Follow ionisation, carbocation formation, β-deprotonation, and alkene formation in a stepwise elimination."
       accent="emerald"
       steps={steps}
-      questions={e1Questions}
+      questions={practiceQuestions}
       playbackInterval={3000}
       getRevealMessage={(step, index) =>
         step.arrows.length > 0

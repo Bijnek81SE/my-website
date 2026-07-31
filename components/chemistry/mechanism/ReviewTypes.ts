@@ -1,5 +1,13 @@
 import type { PracticeQuestion } from "./PracticeTypes";
-import type { MechanismQuestionTopic } from "./QuestionEngine";
+
+export type ReviewTopic =
+  | "Nucleophiles and bases"
+  | "Leaving groups"
+  | "Reaction intermediates"
+  | "Curved arrows"
+  | "Bond changes"
+  | "Products"
+  | "Mechanism fundamentals";
 
 export type ReviewAnswer<
   TTarget extends string = string,
@@ -8,11 +16,11 @@ export type ReviewAnswer<
   selectedTarget: TTarget;
   correctTarget: TTarget;
   correct: boolean;
-  topic: MechanismQuestionTopic;
+  topic: ReviewTopic;
 };
 
 export type ReviewTopicResult = {
-  topic: MechanismQuestionTopic;
+  topic: ReviewTopic;
   correctAnswers: number;
   totalQuestions: number;
   accuracy: number;

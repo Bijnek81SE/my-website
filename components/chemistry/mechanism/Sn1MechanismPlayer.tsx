@@ -4,7 +4,7 @@ import MechanismPlayerEngine from "./MechanismPlayerEngine";
 import Sn1ReactionCanvas, {
   type Sn1PracticeTarget,
 } from "./Sn1ReactionCanvas";
-import { sn1Questions } from "./MechanismQuestions";
+import type { PracticeQuestion } from "./PracticeTypes";
 import type { MechanismStep } from "./types";
 
 const steps: MechanismStep[] = [
@@ -99,6 +99,87 @@ const steps: MechanismStep[] = [
   },
 ];
 
+const practiceQuestions: PracticeQuestion<Sn1PracticeTarget>[] = [
+  {
+    id: "identify-tertiary-substrate",
+    title: "Which structure is the tertiary substrate?",
+    description:
+      "Identify the carbon skeleton containing the carbon bonded to bromine.",
+    instruction:
+      "Click the tert-butyl portion of the substrate.",
+    correctTarget: "tertiary-substrate",
+    incorrectFeedback:
+      "Not quite. Look for the carbon attached to three methyl groups and the leaving group.",
+    correctExplanation:
+      "tert-Butyl bromide is a tertiary substrate because the carbon bonded to bromine is attached to three carbon groups.",
+  },
+  {
+    id: "identify-ionising-bond",
+    title: "Which bond breaks during ionisation?",
+    description:
+      "The rate-determining step begins when the leaving-group bond breaks heterolytically.",
+    instruction:
+      "Click the bond whose electrons move onto bromine.",
+    correctTarget: "carbon-bromine-bond",
+    incorrectFeedback:
+      "Not quite. Select the bond between the tertiary carbon and bromine.",
+    correctExplanation:
+      "The carbon–bromine bond breaks heterolytically, and both bonding electrons move onto bromine.",
+  },
+  {
+    id: "identify-carbocation",
+    title: "Which species is the reaction intermediate?",
+    description:
+      "SN1 reactions contain a discrete, positively charged intermediate.",
+    instruction:
+      "Click the carbocation intermediate.",
+    correctTarget: "carbocation",
+    incorrectFeedback:
+      "Not quite. Look for the positively charged carbon species.",
+    correctExplanation:
+      "The tertiary carbocation is the intermediate formed after bromide leaves.",
+  },
+  {
+    id: "identify-nucleophile",
+    title: "Which species attacks the carbocation?",
+    description:
+      "The nucleophile donates a lone pair to the electron-deficient carbon.",
+    instruction:
+      "Click the water molecule acting as the nucleophile.",
+    correctTarget: "water-nucleophile",
+    incorrectFeedback:
+      "Not quite. Look for the neutral species with a lone pair that can attack the carbocation.",
+    correctExplanation:
+      "Water acts as the nucleophile by donating a lone pair to the carbocation.",
+  },
+  {
+    id: "identify-base",
+    title: "Which species removes the proton?",
+    description:
+      "The oxonium intermediate must lose a proton to form the neutral alcohol.",
+    instruction:
+      "Click the water molecule acting as a base.",
+    correctTarget: "base-water",
+    incorrectFeedback:
+      "Not quite. Select the second water molecule that accepts the proton.",
+    correctExplanation:
+      "A second water molecule acts as a base and removes a proton from the oxonium intermediate.",
+  },
+  {
+    id: "identify-product",
+    title: "Which species is the substitution product?",
+    description:
+      "Identify the neutral alcohol formed after deprotonation.",
+    instruction:
+      "Click the tert-butanol product.",
+    correctTarget: "alcohol-product",
+    incorrectFeedback:
+      "Not quite. The substitution product is the alcohol formed when OH replaces bromine.",
+    correctExplanation:
+      "tert-Butanol is the substitution product because the hydroxyl group has replaced bromine.",
+  },
+];
+
 export default function Sn1MechanismPlayer() {
   return (
     <MechanismPlayerEngine<MechanismStep, Sn1PracticeTarget>
@@ -106,7 +187,7 @@ export default function Sn1MechanismPlayer() {
       description="Follow ionisation, carbocation formation, nucleophile attack, and deprotonation."
       accent="violet"
       steps={steps}
-      questions={sn1Questions}
+      questions={practiceQuestions}
       playbackInterval={2800}
       getRevealMessage={(step, index) =>
         step.arrows.length > 0

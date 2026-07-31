@@ -4,7 +4,7 @@ import MechanismPlayerEngine from "./MechanismPlayerEngine";
 import Sn2ReactionCanvas, {
   type Sn2PracticeTarget,
 } from "./Sn2ReactionCanvas";
-import { sn2Questions } from "./MechanismQuestions";
+import type { PracticeQuestion } from "./PracticeTypes";
 import type { MechanismStep } from "./types";
 
 const steps: MechanismStep[] = [
@@ -72,6 +72,61 @@ const steps: MechanismStep[] = [
   },
 ];
 
+const practiceQuestions: PracticeQuestion<Sn2PracticeTarget>[] = [
+  {
+    id: "identify-nucleophile",
+    title: "Which species is the nucleophile?",
+    description:
+      "Identify the electron-rich species that donates an electron pair to the electrophilic carbon.",
+    instruction:
+      "Click the atom that belongs to the nucleophile.",
+    correctTarget: "oxygen",
+    incorrectFeedback:
+      "Not quite. The nucleophile must be able to donate an electron pair.",
+    correctExplanation:
+      "Hydroxide is the nucleophile because oxygen donates a lone pair to the electrophilic carbon.",
+  },
+  {
+    id: "identify-arrow-source",
+    title: "Where does the first curved arrow start?",
+    description:
+      "Curved arrows begin at electrons, such as a lone pair or a bond.",
+    instruction:
+      "Click the atom whose lone pair supplies the electrons.",
+    correctTarget: "oxygen",
+    incorrectFeedback:
+      "Not quite. Look for the atom that owns the donating lone pair.",
+    correctExplanation:
+      "The first curved arrow starts at the oxygen lone pair. Those electrons form the new carbon–oxygen bond.",
+  },
+  {
+    id: "identify-breaking-bond",
+    title: "Which bond breaks during the reaction?",
+    description:
+      "SN2 bond formation and bond breaking happen together in one concerted step.",
+    instruction:
+      "Click the bond whose electrons move onto the leaving group.",
+    correctTarget: "carbon-bromine-bond",
+    incorrectFeedback:
+      "Not quite. Identify the bond connecting the electrophilic carbon to the leaving group.",
+    correctExplanation:
+      "The carbon–bromine bond breaks, and its electron pair moves onto bromine.",
+  },
+  {
+    id: "identify-leaving-group-product",
+    title: "Which product is the leaving group?",
+    description:
+      "The leaving group departs with the electron pair from its original bond.",
+    instruction:
+      "Click the leaving-group product.",
+    correctTarget: "product-bromide",
+    incorrectFeedback:
+      "Not quite. The leaving group is the species that departed from carbon with the bonding electron pair.",
+    correctExplanation:
+      "Bromide is the leaving-group product. It leaves with the electron pair from the original C–Br bond.",
+  },
+];
+
 export default function MechanismPlayer() {
   return (
     <MechanismPlayerEngine<MechanismStep, Sn2PracticeTarget>
@@ -79,7 +134,7 @@ export default function MechanismPlayer() {
       description="Follow the electron movement from nucleophile attack to leaving-group departure."
       accent="blue"
       steps={steps}
-      questions={sn2Questions}
+      questions={practiceQuestions}
       playbackInterval={2600}
       getRevealMessage={(_step, index) =>
         index === steps.length - 1
