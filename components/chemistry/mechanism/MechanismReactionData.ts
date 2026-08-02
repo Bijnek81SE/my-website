@@ -3,6 +3,7 @@ import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactio
 import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
 import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
 import type { HydrogenationPracticeTarget } from "./HydrogenationReactionCanvas";
+import type { HydroborationOxidationPracticeTarget } from "./HydroborationOxidationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -149,5 +150,21 @@ export const hydrogenationReactionData =
       { id: "hydrogenation-syn-hydrogens", target: "same-face-hydrogens", label: "Select the two hydrogens delivered from the same face", scenes: ["syn-addition"], geometry: { shape: "rect", x: 250, y: 220, width: 260, height: 75, rx: 18 } },
       { id: "hydrogenation-product", target: "alkane-product", label: "Select cyclohexane, the saturated product", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 105, width: 330, height: 170, rx: 22 } },
       { id: "hydrogenation-unchanged", target: "unchanged-alkene", label: "Select the unchanged cyclohexene", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 105, width: 330, height: 170, rx: 22 } },
+    ],
+  });
+
+
+export const hydroborationOxidationReactionData =
+  defineReactionData<HydroborationOxidationPracticeTarget>({
+    id: "hydroboration-oxidation",
+    focusClassName:
+      "cursor-pointer outline-none focus-visible:stroke-cyan-600 focus-visible:stroke-[4]",
+    hotspots: [
+      { id: "hydroboration-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 205, y: 145, width: 135, height: 90, rx: 18 } },
+      { id: "hydroboration-terminal", target: "terminal-carbon", label: "Select the terminal carbon that receives boron", scenes: ["hydroboration"], geometry: { shape: "circle", cx: 308, cy: 230, r: 48 } },
+      { id: "hydroboration-organoborane", target: "organoborane-intermediate", label: "Select the organoborane intermediate", scenes: ["organoborane"], geometry: { shape: "rect", x: 225, y: 105, width: 330, height: 190, rx: 24 } },
+      { id: "hydroboration-cb", target: "carbon-boron-bond", label: "Select the carbon boron bond replaced during oxidation", scenes: ["oxidation"], geometry: { shape: "line", x1: 380, y1: 226, x2: 430, y2: 170, strokeWidth: 34 } },
+      { id: "hydroboration-anti-product", target: "anti-markovnikov-alcohol", label: "Select the anti-Markovnikov alcohol", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 92, width: 330, height: 190, rx: 22 } },
+      { id: "hydroboration-mark-product", target: "markovnikov-alcohol", label: "Select the Markovnikov alcohol", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 92, width: 330, height: 190, rx: 22 } },
     ],
   });

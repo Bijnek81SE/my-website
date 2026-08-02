@@ -99,6 +99,12 @@ const tools = [
     "Reduce an alkene with H₂ and a metal catalyst through syn addition.",
     "emerald",
   ],
+  [
+    "Hydroboration–Oxidation",
+    "/lab/hydroboration-oxidation",
+    "Form an anti-Markovnikov alcohol through syn hydroboration and oxidation.",
+    "cyan",
+  ],
 ] as const;
 
 const toneClasses = {
@@ -151,16 +157,15 @@ export default function LabPage() {
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Catalytic Hydrogenation of Alkenes
+          Hydroboration–Oxidation of Alkenes
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow alkene adsorption, hydrogen activation on platinum, and syn
-          addition to form a saturated alkane.
+          Follow concerted syn hydroboration and oxidation to form the anti-Markovnikov alcohol.
         </p>
 
         <Link
-          href="/lab/hydrogenation"
+          href="/lab/hydroboration-oxidation"
           className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
         >
           Open mechanism →

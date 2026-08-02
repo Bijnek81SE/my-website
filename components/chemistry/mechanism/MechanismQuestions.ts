@@ -3,6 +3,7 @@ import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactio
 import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
 import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
 import type { HydrogenationPracticeTarget } from "./HydrogenationReactionCanvas";
+import type { HydroborationOxidationPracticeTarget } from "./HydroborationOxidationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -623,6 +624,75 @@ export const hydrogenationQuestions =
         "Not quite. Choose the molecule without a carbon–carbon double bond.",
       correctExplanation:
         "Cyclohexane forms because the C=C bond is reduced to a C–C single bond by addition of H₂.",
+      topic: "Products",
+    },
+  ]);
+
+export const hydroborationOxidationQuestions =
+  defineMechanismQuestions<HydroborationOxidationPracticeTarget>([
+    {
+      id: "identify-pi-bond",
+      title: "Which bond starts hydroboration?",
+      description:
+        "The alkene supplies the electron pair that begins the concerted addition to borane.",
+      instruction: "Click the alkene pi bond.",
+      correctTarget: "pi-bond",
+      incorrectFeedback:
+        "Not quite. Choose the carbon–carbon double bond.",
+      correctExplanation:
+        "The alkene pi bond donates electron density toward electron-deficient boron.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "predict-boron-regiochemistry",
+      title: "Which carbon receives boron?",
+      description:
+        "Hydroboration places boron on the less substituted carbon and hydrogen on the more substituted carbon.",
+      instruction: "Click the terminal carbon that receives boron.",
+      correctTarget: "terminal-carbon",
+      incorrectFeedback:
+        "Not quite. Boron adds to the less substituted terminal carbon.",
+      correctExplanation:
+        "The transition state favours B at the terminal carbon, giving anti-Markovnikov regiochemistry.",
+      topic: "Bond changes",
+    },
+    {
+      id: "identify-organoborane",
+      title: "Which intermediate records the regiochemistry?",
+      description:
+        "After hydroboration, the carbon–boron bond identifies where hydroxyl will appear after oxidation.",
+      instruction: "Click the organoborane intermediate.",
+      correctTarget: "organoborane-intermediate",
+      incorrectFeedback:
+        "Not quite. Look for the intermediate containing a carbon–boron bond.",
+      correctExplanation:
+        "The organoborane has boron on the terminal carbon and hydrogen on the adjacent carbon.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "identify-oxidised-bond",
+      title: "Which bond is replaced during oxidation?",
+      description:
+        "Hydrogen peroxide converts the organoborane into an alcohol without changing the carbon skeleton.",
+      instruction: "Click the carbon–boron bond.",
+      correctTarget: "carbon-boron-bond",
+      incorrectFeedback:
+        "Not quite. Select the bond connecting the terminal carbon to boron.",
+      correctExplanation:
+        "Oxidation replaces the carbon–boron bond with a carbon–oxygen bond.",
+      topic: "Bond changes",
+    },
+    {
+      id: "predict-anti-markovnikov-product",
+      title: "Which alcohol is the major product?",
+      description:
+        "Use the hydroboration regiochemistry to place OH after oxidation.",
+      instruction: "Click the anti-Markovnikov alcohol.",
+      correctTarget: "anti-markovnikov-alcohol",
+      incorrectFeedback:
+        "Not quite. OH belongs on the less substituted terminal carbon.",
+      correctExplanation:
+        "1-Propanol forms because boron first added to the terminal carbon and was then replaced by OH.",
       topic: "Products",
     },
   ]);

@@ -97,6 +97,11 @@ function getMechanismId(): string {
     return "halogenation";
   }
 
+
+  if (pathname.includes("hydroboration-oxidation")) {
+    return "hydroboration-oxidation";
+  }
+
   if (pathname.includes("hydrogenation")) {
     return "hydrogenation";
   }

@@ -95,6 +95,14 @@ function getMechanismIdentity(): {
     };
   }
 
+
+  if (pathname.includes("hydroboration-oxidation")) {
+    return {
+      id: "hydroboration-oxidation",
+      title: "Hydroboration–oxidation of alkenes",
+    };
+  }
+
   if (pathname.includes("hydrogenation")) {
     return {
       id: "hydrogenation",
