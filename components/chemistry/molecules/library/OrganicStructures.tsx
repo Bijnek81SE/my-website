@@ -404,16 +404,16 @@ export function AntiMarkovnikovPropaneStructure({
       <line
         x1="30"
         y1="28"
-        x2="62"
-        y2="-12"
+        x2="86"
+        y2="0"
         stroke={defaultStroke}
         strokeWidth="5"
         strokeLinecap="round"
       />
 
       <text
-        x="80"
-        y="-18"
+        x="108"
+        y="-2"
         textAnchor="middle"
         fontSize="27"
         fontWeight="700"
