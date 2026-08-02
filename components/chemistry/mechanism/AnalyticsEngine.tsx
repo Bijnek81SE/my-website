@@ -103,6 +103,13 @@ function getMechanismIdentity(): {
     };
   }
 
+  if (pathname.includes("radical-hbr-addition")) {
+    return {
+      id: "radical-hbr-addition",
+      title: "Radical HBr addition to alkenes",
+    };
+  }
+
   if (pathname.includes("oxymercuration-demercuration")) {
     return {
       id: "oxymercuration-demercuration",

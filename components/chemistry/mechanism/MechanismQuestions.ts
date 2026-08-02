@@ -5,6 +5,7 @@ import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
 import type { HydrogenationPracticeTarget } from "./HydrogenationReactionCanvas";
 import type { HydroborationOxidationPracticeTarget } from "./HydroborationOxidationReactionCanvas";
 import type { OxymercurationDemercurationPracticeTarget } from "./OxymercurationDemercurationReactionCanvas";
+import type { RadicalHBrPracticeTarget } from "./RadicalHBrReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -777,6 +778,89 @@ export const oxymercurationDemercurationQuestions =
         "Not quite. OH belongs on the more substituted internal carbon.",
       correctExplanation:
         "2-Propanol forms because water attacks the internal carbon of the mercurinium ion.",
+      topic: "Products",
+    },
+  ]);
+
+
+export const radicalHBrQuestions =
+  defineMechanismQuestions<RadicalHBrPracticeTarget>([
+    {
+      id: "identify-peroxide-bond",
+      title: "Which bond breaks during initiation?",
+      description:
+        "The radical initiator begins the chain when its weakest bond undergoes homolysis.",
+      instruction: "Click the peroxide oxygen–oxygen bond.",
+      correctTarget: "peroxide-bond",
+      incorrectFeedback:
+        "Not quite. Look for the weak bond joining the two peroxide oxygens.",
+      correctExplanation:
+        "The O–O bond breaks homolytically, giving one electron to each oxygen and forming two alkoxy radicals.",
+      topic: "Bond changes",
+    },
+    {
+      id: "identify-bromine-radical",
+      title: "Which species carries the radical chain?",
+      description:
+        "The initiator converts HBr into the radical that adds to the alkene.",
+      instruction: "Click the bromine radical.",
+      correctTarget: "bromine-radical",
+      incorrectFeedback:
+        "Not quite. Select the bromine species with one unpaired electron.",
+      correctExplanation:
+        "Br• is the chain-carrying radical that adds to the alkene during the first propagation step.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "identify-terminal-carbon",
+      title: "Where does Br• add?",
+      description:
+        "Choose the alkene carbon that gives the more stable carbon-radical intermediate.",
+      instruction: "Click the carbon that receives bromine.",
+      correctTarget: "terminal-carbon",
+      incorrectFeedback:
+        "Not quite. Bromine adds so that the remaining radical is on the more substituted carbon.",
+      correctExplanation:
+        "Br• adds to the terminal carbon, leaving a secondary radical on the internal carbon.",
+      topic: "Mechanism fundamentals",
+    },
+    {
+      id: "identify-carbon-radical",
+      title: "Which intermediate controls regiochemistry?",
+      description:
+        "The preferred pathway forms the more stable carbon radical.",
+      instruction: "Click the carbon-radical intermediate.",
+      correctTarget: "carbon-radical",
+      incorrectFeedback:
+        "Not quite. Look for the carbon bearing the unpaired electron.",
+      correctExplanation:
+        "The secondary carbon radical is more stable than a primary radical, so it controls the anti-Markovnikov orientation.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "identify-hbr",
+      title: "Which molecule supplies hydrogen?",
+      description:
+        "The carbon radical abstracts hydrogen during the second propagation step.",
+      instruction: "Click the HBr molecule.",
+      correctTarget: "hbr",
+      incorrectFeedback:
+        "Not quite. Select the hydrogen bromide molecule that donates H.",
+      correctExplanation:
+        "The carbon radical abstracts H from HBr, forming product and regenerating Br•.",
+      topic: "Bond changes",
+    },
+    {
+      id: "identify-anti-markovnikov-product",
+      title: "Which product is formed with peroxide?",
+      description:
+        "Peroxide changes HBr addition from the ionic Markovnikov pathway to a radical anti-Markovnikov pathway.",
+      instruction: "Click the anti-Markovnikov alkyl bromide.",
+      correctTarget: "anti-markovnikov-bromide",
+      incorrectFeedback:
+        "Not quite. In the radical pathway bromine ends up on the less substituted carbon.",
+      correctExplanation:
+        "1-Bromopropane is the anti-Markovnikov product because Br adds to the terminal carbon.",
       topic: "Products",
     },
   ]);

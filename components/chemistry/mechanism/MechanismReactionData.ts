@@ -5,6 +5,7 @@ import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
 import type { HydrogenationPracticeTarget } from "./HydrogenationReactionCanvas";
 import type { HydroborationOxidationPracticeTarget } from "./HydroborationOxidationReactionCanvas";
 import type { OxymercurationDemercurationPracticeTarget } from "./OxymercurationDemercurationReactionCanvas";
+import type { RadicalHBrPracticeTarget } from "./RadicalHBrReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -185,5 +186,22 @@ export const oxymercurationDemercurationReactionData =
       { id: "oxymercuration-c-hg", target: "carbon-mercury-bond", label: "Select the carbon mercury bond", scenes: ["demercuration"], geometry: { shape: "line", x1: 395, y1: 230, x2: 455, y2: 195, strokeWidth: 38 } },
       { id: "oxymercuration-markovnikov-product", target: "markovnikov-alcohol", label: "Select the Markovnikov alcohol", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 92, width: 330, height: 190, rx: 22 } },
       { id: "oxymercuration-anti-product", target: "anti-markovnikov-alcohol", label: "Select the anti-Markovnikov alcohol", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 92, width: 330, height: 190, rx: 22 } },
+    ],
+  });
+
+
+export const radicalHBrReactionData =
+  defineReactionData<RadicalHBrPracticeTarget>({
+    id: "radical-hbr-addition",
+    focusClassName:
+      "cursor-pointer outline-none focus-visible:stroke-rose-600 focus-visible:stroke-[4]",
+    hotspots: [
+      { id: "radical-hbr-peroxide", target: "peroxide-bond", label: "Select the peroxide oxygen oxygen bond", scenes: ["initiation"], geometry: { shape: "line", x1: 300, y1: 190, x2: 460, y2: 190, strokeWidth: 34 } },
+      { id: "radical-hbr-bromine-radical", target: "bromine-radical", label: "Select the bromine radical", scenes: ["bromine-radical"], geometry: { shape: "circle", cx: 620, cy: 190, r: 58 } },
+      { id: "radical-hbr-terminal-carbon", target: "terminal-carbon", label: "Select the terminal alkene carbon", scenes: ["propagation-one"], geometry: { shape: "circle", cx: 345, cy: 220, r: 48 } },
+      { id: "radical-hbr-carbon-radical", target: "carbon-radical", label: "Select the secondary carbon radical", scenes: ["radical-intermediate"], geometry: { shape: "circle", cx: 320, cy: 160, r: 62 } },
+      { id: "radical-hbr-hbr", target: "hbr", label: "Select hydrogen bromide", scenes: ["propagation-two"], geometry: { shape: "rect", x: 560, y: 145, width: 150, height: 90, rx: 18 } },
+      { id: "radical-hbr-anti-product", target: "anti-markovnikov-bromide", label: "Select the anti Markovnikov bromide", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 92, width: 330, height: 190, rx: 22 } },
+      { id: "radical-hbr-markovnikov-product", target: "markovnikov-bromide", label: "Select the Markovnikov bromide", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 92, width: 330, height: 190, rx: 22 } },
     ],
   });

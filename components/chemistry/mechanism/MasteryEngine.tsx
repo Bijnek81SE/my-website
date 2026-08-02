@@ -102,6 +102,10 @@ function getMechanismId(): string {
     return "hydroboration-oxidation";
   }
 
+  if (pathname.includes("radical-hbr-addition")) {
+    return "radical-hbr-addition";
+  }
+
   if (pathname.includes("oxymercuration-demercuration")) {
     return "oxymercuration-demercuration";
   }

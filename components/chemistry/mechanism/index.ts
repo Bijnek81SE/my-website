@@ -10,6 +10,7 @@ export { default as HalogenationMechanismPlayer } from "./HalogenationMechanismP
 export { default as HydrogenationMechanismPlayer } from "./HydrogenationMechanismPlayer";
 export { default as HydroborationOxidationMechanismPlayer } from "./HydroborationOxidationMechanismPlayer";
 export { default as OxymercurationDemercurationMechanismPlayer } from "./OxymercurationDemercurationMechanismPlayer";
+export { default as RadicalHBrMechanismPlayer } from "./RadicalHBrMechanismPlayer";
 
 export { default as ReactionCanvasEngine } from "./ReactionCanvasEngine";
 
@@ -25,6 +26,7 @@ export {
   hydrogenationQuestions,
   hydroborationOxidationQuestions,
   oxymercurationDemercurationQuestions,
+  radicalHBrQuestions,
   sn1Questions,
   sn2Questions,
 } from "./MechanismQuestions";
@@ -45,6 +47,7 @@ export {
   hydrogenationReactionData,
   hydroborationOxidationReactionData,
   oxymercurationDemercurationReactionData,
+  radicalHBrReactionData,
   sn1ReactionData,
   sn2ReactionData,
 } from "./MechanismReactionData";
