@@ -8,7 +8,6 @@ import E1ReactionCanvas, {
 import { e1Questions } from "./MechanismQuestions";
 import { e1ReactionData } from "./MechanismReactionData";
 
-
 const steps: E1MechanismStep[] = [
   {
     id: "substrate",
@@ -56,19 +55,20 @@ const steps: E1MechanismStep[] = [
     arrows: [
       {
         id: "base-to-hydrogen",
-        start: { x: 110, y: 105 },
-        control: { x: 225, y: 40 },
-        end: { x: 365, y: 92 },
+        start: { x: 292, y: 108 },
+        control: { x: 390, y: 55 },
+        end: { x: 499, y: 102 },
         colour: "#2563eb",
-        label: "Water removes the beta hydrogen",
+        label: "A water lone pair removes the beta hydrogen",
       },
       {
         id: "ch-to-pi",
-        start: { x: 398, y: 145 },
-        control: { x: 345, y: 170 },
-        end: { x: 365, y: 205 },
+        start: { x: 488, y: 121 },
+        control: { x: 400, y: 127 },
+        end: { x: 423, y: 177 },
         colour: "#7c3aed",
-        label: "Carbon hydrogen bond electrons form the pi bond",
+        label:
+          "The carbon hydrogen bond electrons form the carbon carbon pi bond",
       },
     ],
   },
@@ -82,7 +82,6 @@ const steps: E1MechanismStep[] = [
     arrows: [],
   },
 ];
-
 
 export default function E1MechanismPlayer() {
   return (
@@ -121,6 +120,7 @@ export default function E1MechanismPlayer() {
         onTargetClick,
       }) => {
         const showAnswer = mode === "practice" && answered;
+
         const practiceStep: E1MechanismStep = {
           ...step,
           arrows:

@@ -96,6 +96,24 @@ export const tertButylOxoniumMolecule = tertButylDefinition({
   substituent: "OH₂",
 });
 
+export const e1BetaHydrogenCarbocationMolecule = molecule(
+  "e1-beta-hydrogen-carbocation",
+  "tert-Butyl carbocation with an explicit beta hydrogen",
+  [
+    { id: "centre", element: "C", showLabel: true, charge: 1, position: { x: 0, y: 0 } },
+    { id: "m1", element: "C", label: "CH₃", showLabel: true, position: { x: -92, y: 0 } },
+    { id: "m2", element: "C", label: "CH₂", showLabel: true, position: { x: 58, y: -58 } },
+    { id: "m3", element: "C", label: "CH₃", showLabel: true, position: { x: 58, y: 58 } },
+    { id: "beta-h", element: "H", label: "H", showLabel: true, colour: "#2563eb", position: { x: 112, y: -112 } },
+  ],
+  [
+    { id: "c-m1", from: "centre", to: "m1" },
+    { id: "c-m2", from: "centre", to: "m2" },
+    { id: "c-m3", from: "centre", to: "m3" },
+    { id: "m2-h", from: "m2", to: "beta-h", colour: "#2563eb" },
+  ],
+);
+
 export const twoMethylpropeneMolecule = molecule(
   "two-methylpropene",
   "2-Methylpropene",

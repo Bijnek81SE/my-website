@@ -5,6 +5,7 @@ export {
   CyclohexaneStructure,
   CyclohexeneStructure,
   DibromocyclohexaneStructure,
+  E1BetaHydrogenCarbocationStructure,
   E2AntiPeriplanarSubstrate,
   IsobutylChlorideStructure,
   MarkovnikovPropaneStructure,

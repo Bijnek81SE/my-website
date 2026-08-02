@@ -24,6 +24,7 @@ export {
   but2eneMolecule,
   carbonRadicalIntermediateMolecule,
   cisDibromocyclohexaneMolecule,
+  e1BetaHydrogenCarbocationMolecule,
   e2AntiPeriplanarMolecule,
   isobuteneMolecule,
   isobutylChlorideMolecule,

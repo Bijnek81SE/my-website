@@ -6,6 +6,7 @@ import {
   cisDibromocyclohexaneMolecule,
   cyclohexaneMolecule,
   cyclohexeneMolecule,
+  e1BetaHydrogenCarbocationMolecule,
   e2AntiPeriplanarMolecule,
   isobutylChlorideMolecule,
   mercuriniumIonMolecule,
@@ -140,6 +141,10 @@ export function IsobutylChlorideStructure(props: StructureProps) {
 
 export function TertButylCarbocationStructure(props: StructureProps) {
   return <SimpleStructure molecule={tertButylCarbocationMolecule} {...props} />;
+}
+
+export function E1BetaHydrogenCarbocationStructure(props: StructureProps) {
+  return <SimpleStructure molecule={e1BetaHydrogenCarbocationMolecule} {...props} />;
 }
 
 export function TertButanolStructure(props: StructureProps) {
