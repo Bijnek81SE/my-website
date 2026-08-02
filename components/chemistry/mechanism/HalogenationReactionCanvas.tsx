@@ -1,4 +1,7 @@
-import { CyclohexeneStructure } from "../molecules";
+import {
+  CyclohexeneStructure,
+  DibromocyclohexaneStructure,
+} from "../molecules";
 import { halogenationReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
@@ -36,125 +39,6 @@ type HalogenationReactionCanvasProps = {
     target: HalogenationPracticeTarget,
   ) => void;
 };
-
-type DibromocyclohexaneStructureProps = {
-  x: number;
-  y: number;
-  scale?: number;
-  stereochemistry: "trans" | "cis";
-  muted?: boolean;
-};
-
-function DibromocyclohexaneStructure({
-  x,
-  y,
-  scale = 1,
-  stereochemistry,
-  muted = false,
-}: DibromocyclohexaneStructureProps) {
-  const ringStroke = muted ? "#64748b" : "#0f172a";
-  const bromineStroke = muted ? "#64748b" : "#7c3aed";
-
-  const ringPoints = [
-    [0, -62],
-    [54, -31],
-    [54, 31],
-    [0, 62],
-    [-54, 31],
-    [-54, -31],
-    [0, -62],
-  ];
-
-  return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points={ringPoints
-          .map(([pointX, pointY]) => `${pointX},${pointY}`)
-          .join(" ")}
-        fill="none"
-        stroke={ringStroke}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
-      {/* Solid wedge: bromine above the ring plane */}
-      <polygon
-        points="54,-31 70,-38 91,-63"
-        fill={bromineStroke}
-      />
-
-      <text
-        x="108"
-        y="-67"
-        textAnchor="middle"
-        fontSize="25"
-        fontWeight="700"
-        fill={bromineStroke}
-        pointerEvents="none"
-      >
-        Br
-      </text>
-
-      {stereochemistry === "trans" ? (
-        <>
-          {/* Hashed wedge: bromine below the ring plane */}
-          {[0, 1, 2, 3, 4].map((index) => {
-            const progress = (index + 1) / 6;
-            const centerX = 54 + (92 - 54) * progress;
-            const centerY = 31 + (64 - 31) * progress;
-            const halfWidth = 1.5 + index * 1.2;
-
-            return (
-              <line
-                key={index}
-                x1={centerX - halfWidth}
-                y1={centerY + halfWidth}
-                x2={centerX + halfWidth}
-                y2={centerY - halfWidth}
-                stroke={bromineStroke}
-                strokeWidth="3.5"
-                strokeLinecap="round"
-              />
-            );
-          })}
-
-          <text
-            x="109"
-            y="78"
-            textAnchor="middle"
-            fontSize="25"
-            fontWeight="700"
-            fill={bromineStroke}
-            pointerEvents="none"
-          >
-            Br
-          </text>
-        </>
-      ) : (
-        <>
-          {/* Second solid wedge: both bromines on the same face */}
-          <polygon
-            points="54,31 70,38 91,63"
-            fill={bromineStroke}
-          />
-
-          <text
-            x="108"
-            y="78"
-            textAnchor="middle"
-            fontSize="25"
-            fontWeight="700"
-            fill={bromineStroke}
-            pointerEvents="none"
-          >
-            Br
-          </text>
-        </>
-      )}
-    </g>
-  );
-}
 
 export default function HalogenationReactionCanvas({
   step,

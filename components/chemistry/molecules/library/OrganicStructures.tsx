@@ -1,14 +1,31 @@
 import type { ReactNode } from "react";
 import SkeletalMoleculeEngine from "../../skeletal/SkeletalMoleculeEngine";
 import {
+  but2eneMolecule,
+  carbonRadicalIntermediateMolecule,
+  cisDibromocyclohexaneMolecule,
   cyclohexaneMolecule,
   cyclohexeneMolecule,
+  e2AntiPeriplanarMolecule,
+  isobutylChlorideMolecule,
+  mercuriniumIonMolecule,
+  methanolMolecule,
+  methylBromideMolecule,
   oneBromopropaneMolecule,
   onePropanolMolecule,
+  organoboraneMolecule,
+  organomercuryAlcoholMolecule,
   propeneMolecule,
+  tertButanolMolecule,
+  tertButylBromideMolecule,
+  tertButylCarbocationMolecule,
+  tertButylChlorideMolecule,
+  tertButylOxoniumMolecule,
+  transDibromocyclohexaneMolecule,
   twoBromopropaneMolecule,
+  twoMethylpropeneMolecule,
   twoPropanolMolecule,
-} from "../../skeletal/presets";
+} from "../../skeletal";
 import type { SkeletalMoleculeDefinition } from "../../skeletal/types";
 
 type StructureProps = {
@@ -36,16 +53,43 @@ function withBondColour(
   };
 }
 
-function withSubstituentColour(
+function withAtomColour(
   molecule: SkeletalMoleculeDefinition,
+  atomId: string,
   colour: string,
 ): SkeletalMoleculeDefinition {
   return {
     ...molecule,
     atoms: molecule.atoms.map((atom) =>
-      atom.id === "x" ? { ...atom, colour } : atom,
+      atom.id === atomId ? { ...atom, colour } : atom,
     ),
   };
+}
+
+function SimpleStructure({
+  molecule,
+  x,
+  y,
+  scale = 1,
+  stroke = defaultStroke,
+  children,
+  className,
+}: StructureProps & {
+  molecule: SkeletalMoleculeDefinition;
+  className?: string;
+}) {
+  return (
+    <SkeletalMoleculeEngine
+      molecule={molecule}
+      x={x}
+      y={y}
+      scale={scale}
+      stroke={stroke}
+      className={className}
+    >
+      {children}
+    </SkeletalMoleculeEngine>
+  );
 }
 
 export function CyclohexeneStructure({
@@ -60,48 +104,65 @@ export function CyclohexeneStructure({
     ? withBondColour(cyclohexeneMolecule, "b4", "#059669", 7)
     : cyclohexeneMolecule;
 
-  return (
-    <SkeletalMoleculeEngine
-      molecule={molecule}
-      x={x}
-      y={y}
-      scale={scale}
-      stroke={stroke}
-    >
-      {children}
-    </SkeletalMoleculeEngine>
-  );
+  return <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} stroke={stroke}>{children}</SimpleStructure>;
 }
 
-export function CyclohexaneStructure({
+export function CyclohexaneStructure(props: StructureProps) {
+  return <SimpleStructure molecule={cyclohexaneMolecule} {...props} />;
+}
+
+export function MethylBromideStructure(props: StructureProps & { highlightBond?: boolean }) {
+  const molecule = props.highlightBond
+    ? withBondColour(methylBromideMolecule, "c-br", "#2563eb", 7)
+    : methylBromideMolecule;
+  return <SimpleStructure molecule={molecule} {...props} />;
+}
+
+export function MethanolStructure(props: StructureProps) {
+  return <SimpleStructure molecule={methanolMolecule} {...props} />;
+}
+
+export function TertButylBromideStructure(props: StructureProps & { highlightBond?: boolean }) {
+  const molecule = props.highlightBond
+    ? withBondColour(tertButylBromideMolecule, "c-x", "#dc2626", 7)
+    : tertButylBromideMolecule;
+  return <SimpleStructure molecule={molecule} {...props} />;
+}
+
+export function TertButylChlorideStructure(props: StructureProps) {
+  return <SimpleStructure molecule={tertButylChlorideMolecule} {...props} />;
+}
+
+
+export function IsobutylChlorideStructure(props: StructureProps) {
+  return <SimpleStructure molecule={isobutylChlorideMolecule} {...props} />;
+}
+
+export function TertButylCarbocationStructure(props: StructureProps) {
+  return <SimpleStructure molecule={tertButylCarbocationMolecule} {...props} />;
+}
+
+export function TertButanolStructure(props: StructureProps) {
+  return <SimpleStructure molecule={tertButanolMolecule} {...props} />;
+}
+
+export function TertButylOxoniumStructure(props: StructureProps) {
+  return <SimpleStructure molecule={tertButylOxoniumMolecule} {...props} />;
+}
+
+export function TwoMethylpropeneStructure({
   x,
   y,
   scale = 1,
   stroke = defaultStroke,
+  highlightBond = false,
   children,
 }: StructureProps) {
-  return (
-    <SkeletalMoleculeEngine
-      molecule={cyclohexaneMolecule}
-      x={x}
-      y={y}
-      scale={scale}
-      stroke={stroke}
-    >
-      {children}
-    </SkeletalMoleculeEngine>
-  );
+  const molecule = highlightBond
+    ? withBondColour(twoMethylpropeneMolecule, "c1-c2", "#0891b2", 7)
+    : twoMethylpropeneMolecule;
+  return <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} stroke={stroke}>{children}</SimpleStructure>;
 }
-
-type E2AntiPeriplanarSubstrateProps = {
-  x?: number;
-  y?: number;
-  scale?: number;
-  stroke?: string;
-  highlightBreakingBonds?: boolean;
-  highlightFormingBond?: boolean;
-  showLabels?: boolean;
-};
 
 export function E2AntiPeriplanarSubstrate({
   x = 0,
@@ -111,121 +172,33 @@ export function E2AntiPeriplanarSubstrate({
   highlightBreakingBonds = false,
   highlightFormingBond = false,
   showLabels = false,
-}: E2AntiPeriplanarSubstrateProps) {
-  const betaCarbon = { x: 360, y: 205 };
-  const alphaCarbon = { x: 455, y: 205 };
-  const betaHydrogen = { x: 338, y: 118 };
-  const bromine = { x: 486, y: 294 };
-
-  const breakingHydrogenColour = highlightBreakingBonds
-    ? "#2563eb"
-    : stroke;
-  const breakingBromineColour = highlightBreakingBonds
-    ? "#dc2626"
-    : stroke;
+}: {
+  x?: number;
+  y?: number;
+  scale?: number;
+  stroke?: string;
+  highlightBreakingBonds?: boolean;
+  highlightFormingBond?: boolean;
+  showLabels?: boolean;
+}) {
+  let molecule = e2AntiPeriplanarMolecule;
+  if (highlightBreakingBonds) {
+    molecule = withBondColour(molecule, "beta-h", "#2563eb", 7);
+    molecule = withBondColour(molecule, "alpha-br", "#dc2626", 7);
+  }
+  if (highlightFormingBond) {
+    molecule = withBondColour(molecule, "beta-alpha", "#7c3aed", 7);
+  }
 
   return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points="245,236 300,188 360,205 455,205 520,166"
-        fill="none"
-        stroke={stroke}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
-      <polygon
-        points="360,205 346,145 330,126"
-        fill={breakingHydrogenColour}
-      />
-
-      <text
-        x={betaHydrogen.x}
-        y={betaHydrogen.y}
-        textAnchor="middle"
-        fontSize="30"
-        fontWeight="700"
-        fill={stroke}
-        pointerEvents="none"
-      >
-        H
-      </text>
-
-      {[0, 1, 2, 3, 4].map((index) => {
-        const progress = (index + 1) / 6;
-        const centerX =
-          alphaCarbon.x + (bromine.x - alphaCarbon.x) * progress;
-        const centerY =
-          alphaCarbon.y + (bromine.y - alphaCarbon.y) * progress;
-        const halfWidth = 2 + index * 1.6;
-
-        return (
-          <line
-            key={index}
-            x1={centerX - halfWidth}
-            y1={centerY}
-            x2={centerX + halfWidth}
-            y2={centerY}
-            stroke={breakingBromineColour}
-            strokeWidth="4"
-            strokeLinecap="round"
-          />
-        );
-      })}
-
-      <text
-        x={bromine.x}
-        y={bromine.y + 18}
-        textAnchor="middle"
-        fontSize="30"
-        fontWeight="700"
-        fill="#dc2626"
-        pointerEvents="none"
-      >
-        Br
-      </text>
-
-      {highlightFormingBond ? (
-        <line
-          x1="368"
-          y1="194"
-          x2="447"
-          y2="194"
-          stroke="#7c3aed"
-          strokeWidth="6"
-          strokeLinecap="round"
-        />
-      ) : null}
-
+    <SimpleStructure molecule={molecule} x={x + 415} y={y + 205} scale={scale} stroke={stroke}>
       {showLabels ? (
         <>
-          <text
-            x={betaCarbon.x}
-            y="262"
-            textAnchor="middle"
-            fontSize="18"
-            fontWeight="700"
-            fill="#64748b"
-            pointerEvents="none"
-          >
-            β-carbon
-          </text>
-
-          <text
-            x={alphaCarbon.x}
-            y="262"
-            textAnchor="middle"
-            fontSize="18"
-            fontWeight="700"
-            fill="#64748b"
-            pointerEvents="none"
-          >
-            α-carbon
-          </text>
+          <text x="-55" y="57" textAnchor="middle" fontSize="18" fontWeight="700" fill="#64748b">β-carbon</text>
+          <text x="40" y="57" textAnchor="middle" fontSize="18" fontWeight="700" fill="#64748b">α-carbon</text>
         </>
       ) : null}
-    </g>
+    </SimpleStructure>
   );
 }
 
@@ -242,38 +215,11 @@ export function But2EneStructure({
   stroke?: string;
   piStroke?: string;
 }) {
-  return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points="-92,28 -35,-4 35,-4 92,28"
-        fill="none"
-        stroke={stroke}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
-      <line
-        x1="-31"
-        y1="8"
-        x2="31"
-        y2="8"
-        stroke={piStroke ?? stroke}
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-    </g>
-  );
+  const molecule = piStroke
+    ? withBondColour(but2eneMolecule, "c2-c3", piStroke)
+    : but2eneMolecule;
+  return <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} stroke={stroke} />;
 }
-
-type PropeneStructureProps = {
-  x: number;
-  y: number;
-  scale?: number;
-  stroke?: string;
-  piStroke?: string;
-  showCarbonLabels?: boolean;
-};
 
 export function PropeneStructure({
   x,
@@ -282,44 +228,27 @@ export function PropeneStructure({
   stroke = defaultStroke,
   piStroke,
   showCarbonLabels = false,
-}: PropeneStructureProps) {
+}: {
+  x: number;
+  y: number;
+  scale?: number;
+  stroke?: string;
+  piStroke?: string;
+  showCarbonLabels?: boolean;
+}) {
   const molecule = piStroke
     ? withBondColour(propeneMolecule, "c2-c3", piStroke)
     : propeneMolecule;
 
   return (
-    <SkeletalMoleculeEngine
-      molecule={molecule}
-      x={x}
-      y={y}
-      scale={scale}
-      stroke={stroke}
-    >
+    <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} stroke={stroke}>
       {showCarbonLabels ? (
         <>
-          <text
-            x="-35"
-            y="-30"
-            textAnchor="middle"
-            fontSize="15"
-            fontWeight="700"
-            fill="#64748b"
-          >
-            internal C
-          </text>
-          <text
-            x="30"
-            y="58"
-            textAnchor="middle"
-            fontSize="15"
-            fontWeight="700"
-            fill="#64748b"
-          >
-            terminal C
-          </text>
+          <text x="-35" y="-30" textAnchor="middle" fontSize="15" fontWeight="700" fill="#64748b">internal C</text>
+          <text x="30" y="58" textAnchor="middle" fontSize="15" fontWeight="700" fill="#64748b">terminal C</text>
         </>
       ) : null}
-    </SkeletalMoleculeEngine>
+    </SimpleStructure>
   );
 }
 
@@ -339,15 +268,7 @@ export function MarkovnikovPropaneStructure({
   substituentStroke = substituent === "Br" ? "#dc2626" : "#2563eb",
 }: SubstitutedPropaneProps) {
   const base = substituent === "Br" ? twoBromopropaneMolecule : twoPropanolMolecule;
-
-  return (
-    <SkeletalMoleculeEngine
-      molecule={withSubstituentColour(base, substituentStroke)}
-      x={x}
-      y={y}
-      scale={scale}
-    />
-  );
+  return <SimpleStructure molecule={withAtomColour(base, "x", substituentStroke)} x={x} y={y} scale={scale} />;
 }
 
 export function AntiMarkovnikovPropaneStructure({
@@ -358,13 +279,47 @@ export function AntiMarkovnikovPropaneStructure({
   substituentStroke = substituent === "Br" ? "#dc2626" : "#2563eb",
 }: SubstitutedPropaneProps) {
   const base = substituent === "Br" ? oneBromopropaneMolecule : onePropanolMolecule;
+  return <SimpleStructure molecule={withAtomColour(base, "x", substituentStroke)} x={x} y={y} scale={scale} />;
+}
 
-  return (
-    <SkeletalMoleculeEngine
-      molecule={withSubstituentColour(base, substituentStroke)}
-      x={x}
-      y={y}
-      scale={scale}
-    />
-  );
+export function OrganoboraneStructure(props: StructureProps) {
+  return <SimpleStructure molecule={organoboraneMolecule} {...props} />;
+}
+
+export function CarbonRadicalIntermediateStructure(props: StructureProps) {
+  return <SimpleStructure molecule={carbonRadicalIntermediateMolecule} {...props} />;
+}
+
+export function MercuriniumIonStructure(props: StructureProps) {
+  return <SimpleStructure molecule={mercuriniumIonMolecule} {...props} />;
+}
+
+export function OrganomercuryAlcoholStructure(props: StructureProps) {
+  return <SimpleStructure molecule={organomercuryAlcoholMolecule} {...props} />;
+}
+
+export function DibromocyclohexaneStructure({
+  x,
+  y,
+  scale = 1,
+  stereochemistry,
+  muted = false,
+}: {
+  x: number;
+  y: number;
+  scale?: number;
+  stereochemistry: "trans" | "cis";
+  muted?: boolean;
+}) {
+  const base = stereochemistry === "trans"
+    ? transDibromocyclohexaneMolecule
+    : cisDibromocyclohexaneMolecule;
+  const molecule = muted
+    ? {
+        ...base,
+        atoms: base.atoms.map((atom) => ({ ...atom, colour: atom.colour ? "#64748b" : atom.colour })),
+        bonds: base.bonds.map((bond) => ({ ...bond, colour: bond.colour ? "#64748b" : bond.colour })),
+      }
+    : base;
+  return <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} />;
 }

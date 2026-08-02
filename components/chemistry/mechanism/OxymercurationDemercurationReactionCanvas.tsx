@@ -1,6 +1,8 @@
 import {
   AntiMarkovnikovPropaneStructure,
   MarkovnikovPropaneStructure,
+  MercuriniumIonStructure,
+  OrganomercuryAlcoholStructure,
   PropeneStructure,
 } from "../molecules";
 import { oxymercurationDemercurationReactionData } from "./MechanismReactionData";
@@ -41,62 +43,6 @@ type Props = {
     target: OxymercurationDemercurationPracticeTarget,
   ) => void;
 };
-
-function MercuriniumIon() {
-  return (
-    <g>
-      <polyline
-        points="235,225 310,185 390,225"
-        fill="none"
-        stroke="#0f172a"
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M 310 185 Q 350 110 390 225"
-        fill="none"
-        stroke="#7c3aed"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-      <text x="352" y="132" textAnchor="middle" fontSize="30" fontWeight="700" fill="#7c3aed">
-        HgOAc⁺
-      </text>
-      <text x="352" y="278" textAnchor="middle" fontSize="17" fontWeight="700" fill="#6d28d9">
-        bridged mercurinium ion
-      </text>
-    </g>
-  );
-}
-
-function OrganomercuryAlcohol({ showWater = false }: { showWater?: boolean }) {
-  return (
-    <g>
-      <polyline
-        points="220,230 305,185 395,230"
-        fill="none"
-        stroke="#0f172a"
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <line x1="305" y1="185" x2="305" y2="125" stroke="#0f172a" strokeWidth="5" strokeLinecap="round" />
-      <text x="305" y="105" textAnchor="middle" fontSize="28" fontWeight="700" fill="#2563eb">
-        OH
-      </text>
-      <line x1="395" y1="230" x2="455" y2="195" stroke="#0f172a" strokeWidth="5" strokeLinecap="round" />
-      <text x="505" y="194" textAnchor="middle" fontSize="27" fontWeight="700" fill="#7c3aed">
-        HgOAc
-      </text>
-      {showWater ? (
-        <text x="595" y="165" textAnchor="middle" fontSize="31" fontWeight="700" fill="#2563eb">
-          H₂O
-        </text>
-      ) : null}
-    </g>
-  );
-}
 
 export default function OxymercurationDemercurationReactionCanvas({
   step,
@@ -143,10 +89,10 @@ export default function OxymercurationDemercurationReactionCanvas({
           </>
         )
       ) : step.highlight === "mercurinium" ? (
-        <MercuriniumIon />
+        <MercuriniumIonStructure x={350} y={195} scale={1.05} />
       ) : step.highlight === "water-attack" ? (
         <>
-          <MercuriniumIon />
+          <MercuriniumIonStructure x={350} y={195} scale={1.05} />
           <text x="575" y="190" textAnchor="middle" fontSize="36" fontWeight="700" fill="#2563eb">
             H₂O
           </text>
@@ -157,14 +103,14 @@ export default function OxymercurationDemercurationReactionCanvas({
       ) : step.highlight === "organomercury" ? (
         <>
           <circle cx="380" cy="195" r="125" fill="#ede9fe" opacity="0.72" />
-          <OrganomercuryAlcohol />
+          <OrganomercuryAlcoholStructure x={365} y={195} scale={1.1} />
           <text x="380" y="305" textAnchor="middle" fontSize="17" fontWeight="700" fill="#6d28d9">
             organomercury alcohol · OH on the internal carbon
           </text>
         </>
       ) : step.highlight === "demercuration" ? (
         <>
-          <OrganomercuryAlcohol showWater />
+          <OrganomercuryAlcoholStructure x={350} y={195} scale={1.05} />
           <text x="575" y="235" textAnchor="middle" fontSize="28" fontWeight="700" fill="#059669">
             NaBH₄
           </text>

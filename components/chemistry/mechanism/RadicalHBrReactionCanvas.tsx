@@ -1,5 +1,6 @@
 import {
   AntiMarkovnikovPropaneStructure,
+  CarbonRadicalIntermediateStructure,
   MarkovnikovPropaneStructure,
   PropeneStructure,
 } from "../molecules";
@@ -42,29 +43,6 @@ type Props = {
 
 function RadicalDot({ x, y, colour = "#e11d48" }: { x: number; y: number; colour?: string }) {
   return <circle cx={x} cy={y} r="5" fill={colour} />;
-}
-
-function CarbonRadicalIntermediate({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
-  return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points="-92,28 -34,-4 30,28"
-        fill="none"
-        stroke="#0f172a"
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-      <line x1="30" y1="28" x2="84" y2="-4" stroke="#0f172a" strokeWidth="5" strokeLinecap="round" />
-      <text x="112" y="-8" textAnchor="middle" fontSize="27" fontWeight="700" fill="#dc2626">
-        Br
-      </text>
-      <RadicalDot x={-34} y={-30} />
-      <text x="112" y="76" textAnchor="middle" fontSize="15" fontWeight="700" fill="#be123c">
-        secondary radical
-      </text>
-    </g>
-  );
 }
 
 export default function RadicalHBrReactionCanvas({
@@ -131,14 +109,14 @@ export default function RadicalHBrReactionCanvas({
       ) : step.highlight === "radical-intermediate" ? (
         <>
           <circle cx="309" cy="191" r="7" fill="#ffe4e6" opacity="0.72" />
-          <CarbonRadicalIntermediate x={365} y={195} scale={1.3} />
+          <CarbonRadicalIntermediateStructure x={365} y={195} scale={1.3} />
           <text x="380" y="305" textAnchor="middle" fontSize="17" fontWeight="700" fill="#be123c">
             the more stable secondary radical intermediate
           </text>
         </>
       ) : step.highlight === "propagation-two" ? (
         <>
-          <CarbonRadicalIntermediate x={315} y={195} scale={1.1} />
+          <CarbonRadicalIntermediateStructure x={315} y={195} scale={1.1} />
           <text x="520" y="205" textAnchor="middle" fontSize="31" fontWeight="700" fill="#64748b">
             +
           </text>

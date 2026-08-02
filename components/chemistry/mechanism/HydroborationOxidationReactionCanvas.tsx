@@ -1,6 +1,7 @@
 import {
   AntiMarkovnikovPropaneStructure,
   MarkovnikovPropaneStructure,
+  OrganoboraneStructure,
   PropeneStructure,
 } from "../molecules";
 import { hydroborationOxidationReactionData } from "./MechanismReactionData";
@@ -37,28 +38,6 @@ type Props = {
   showProductChoices?: boolean;
   onTargetClick?: (target: HydroborationOxidationPracticeTarget) => void;
 };
-
-function OrganoboraneStructure({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
-  return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points="-92,28 -34,-4 30,28"
-        fill="none"
-        stroke="#0f172a"
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-      <line x1="30" y1="28" x2="80" y2="-4" stroke="#0f172a" strokeWidth="5" strokeLinecap="round" />
-      <text x="92" y="-22" textAnchor="middle" fontSize="27" fontWeight="700" fill="#0891b2">
-        BH₂
-      </text>
-      <text x="-34" y="-36" textAnchor="middle" fontSize="22" fontWeight="700" fill="#059669">
-        H
-      </text>
-    </g>
-  );
-}
 
 export default function HydroborationOxidationReactionCanvas({
   step,
