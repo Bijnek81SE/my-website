@@ -3,6 +3,7 @@ export { default as Bond } from "./Bond";
 export { default as ChemistryCanvas } from "./ChemistryCanvas";
 export { default as CurvedArrow } from "./CurvedArrow";
 export { default as CurvedArrowGuide } from "./CurvedArrowGuide";
+export { default as CurvedArrowDesigner } from "./CurvedArrowDesigner";
 export { default as LewisStructureBuilder } from "./LewisStructureBuilder";
 export { default as LonePair } from "./LonePair";
 export { default as ResonanceArrow } from "./ResonanceArrow";

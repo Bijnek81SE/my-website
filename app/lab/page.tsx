@@ -46,6 +46,12 @@ const tools = [
     "rose",
   ],
   [
+    "Curved Arrow Designer",
+    "/lab/curved-arrow-designer",
+    "Drag arrow handles and copy precise mechanism coordinates.",
+    "violet",
+  ],
+  [
     "SN2 Mechanism Player",
     "/lab/sn2-mechanism",
     "Step through a concerted substitution reaction.",

@@ -31,7 +31,9 @@ type HydrohalogenationReactionCanvasProps = {
   animated: boolean;
   interactive?: boolean;
   showProductChoices?: boolean;
-  onTargetClick?: (target: HydrohalogenationPracticeTarget) => void;
+  onTargetClick?: (
+    target: HydrohalogenationPracticeTarget,
+  ) => void;
 };
 
 export default function HydrohalogenationReactionCanvas({
@@ -42,6 +44,7 @@ export default function HydrohalogenationReactionCanvas({
   onTargetClick,
 }: HydrohalogenationReactionCanvasProps) {
   const products = step.highlight === "products";
+
   const carbocation =
     step.highlight === "carbocation" ||
     step.highlight === "halide-attack";
@@ -86,6 +89,7 @@ export default function HydrohalogenationReactionCanvas({
                 stroke="#67e8f9"
                 strokeWidth="3"
               />
+
               <text
                 x="200"
                 y="176"
@@ -96,6 +100,7 @@ export default function HydrohalogenationReactionCanvas({
               >
                 (CH₃)₃C–Cl
               </text>
+
               <text
                 x="200"
                 y="218"
@@ -106,6 +111,7 @@ export default function HydrohalogenationReactionCanvas({
               >
                 2-chloro-2-methylpropane
               </text>
+
               <text
                 x="200"
                 y="244"
@@ -129,6 +135,7 @@ export default function HydrohalogenationReactionCanvas({
                 stroke="#cbd5e1"
                 strokeWidth="3"
               />
+
               <text
                 x="560"
                 y="176"
@@ -139,6 +146,7 @@ export default function HydrohalogenationReactionCanvas({
               >
                 (CH₃)₂CH–CH₂Cl
               </text>
+
               <text
                 x="560"
                 y="218"
@@ -149,6 +157,7 @@ export default function HydrohalogenationReactionCanvas({
               >
                 1-chloro-2-methylpropane
               </text>
+
               <text
                 x="560"
                 y="244"
@@ -169,7 +178,8 @@ export default function HydrohalogenationReactionCanvas({
               fontWeight="600"
               fill="#475569"
             >
-              Choose the product formed through the tertiary carbocation.
+              Choose the product formed through the tertiary
+              carbocation.
             </text>
           </>
         ) : (
@@ -184,6 +194,7 @@ export default function HydrohalogenationReactionCanvas({
               stroke="#06b6d4"
               strokeWidth="3"
             />
+
             <text
               x="380"
               y="190"
@@ -194,6 +205,7 @@ export default function HydrohalogenationReactionCanvas({
             >
               (CH₃)₃C–Cl
             </text>
+
             <text
               x="380"
               y="238"
@@ -215,6 +227,7 @@ export default function HydrohalogenationReactionCanvas({
             fill="#cffafe"
             opacity="0.62"
           />
+
           <text
             x="350"
             y="214"
@@ -257,52 +270,65 @@ export default function HydrohalogenationReactionCanvas({
         </>
       ) : (
         <>
+          {/* Central substituted alkene carbon */}
           <text
-            x="92"
-            y="205"
-            fontSize="31"
-            fontWeight="700"
-            fill="#0f172a"
-          >
-            CH₃
-          </text>
-          <line
-            x1="160"
-            y1="196"
-            x2="255"
-            y2="196"
-            stroke="#0f172a"
-            strokeWidth="5"
-            strokeLinecap="round"
-          />
-          <text
-            x="275"
-            y="210"
+            x="284"
+            y="211"
+            textAnchor="middle"
             fontSize="39"
             fontWeight="700"
             fill="#0f172a"
           >
             C
           </text>
+
+          {/* Upper methyl substituent */}
           <line
-            x1="300"
-            y1="168"
-            x2="255"
-            y2="125"
+            x1="267"
+            y1="178"
+            x2="210"
+            y2="130"
             stroke="#0f172a"
-            strokeWidth="4"
+            strokeWidth="5"
+            strokeLinecap="round"
           />
+
           <text
-            x="165"
-            y="120"
-            fontSize="29"
+            x="162"
+            y="125"
+            textAnchor="middle"
+            fontSize="30"
             fontWeight="700"
             fill="#0f172a"
           >
             CH₃
           </text>
+
+          {/* Lower methyl substituent */}
           <line
-            x1="315"
+            x1="267"
+            y1="211"
+            x2="210"
+            y2="258"
+            stroke="#0f172a"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+
+          <text
+            x="162"
+            y="276"
+            textAnchor="middle"
+            fontSize="30"
+            fontWeight="700"
+            fill="#0f172a"
+          >
+            CH₃
+          </text>
+
+          {/* Carbon-carbon double bond */}
+          <line
+            x1="310"
             y1="184"
             x2="430"
             y2="184"
@@ -310,8 +336,9 @@ export default function HydrohalogenationReactionCanvas({
             strokeWidth="5"
             strokeLinecap="round"
           />
+
           <line
-            x1="315"
+            x1="310"
             y1="205"
             x2="430"
             y2="205"
@@ -319,9 +346,10 @@ export default function HydrohalogenationReactionCanvas({
             strokeWidth="5"
             strokeLinecap="round"
           />
+
           <text
             x="444"
-            y="210"
+            y="211"
             fontSize="39"
             fontWeight="700"
             fill="#0f172a"
@@ -329,15 +357,17 @@ export default function HydrohalogenationReactionCanvas({
             CH₂
           </text>
 
+          {/* Hydrogen chloride */}
           <text
             x="535"
-            y="210"
+            y="211"
             fontSize="37"
             fontWeight="700"
             fill="#dc2626"
           >
             H
           </text>
+
           <line
             x1="568"
             y1="196"
@@ -347,9 +377,10 @@ export default function HydrohalogenationReactionCanvas({
             strokeWidth="5"
             strokeLinecap="round"
           />
+
           <text
             x="628"
-            y="210"
+            y="211"
             fontSize="37"
             fontWeight="700"
             fill="#15803d"
@@ -359,7 +390,7 @@ export default function HydrohalogenationReactionCanvas({
 
           <text
             x="365"
-            y="285"
+            y="310"
             textAnchor="middle"
             fontSize="17"
             fontWeight="600"

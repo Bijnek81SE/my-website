@@ -295,10 +295,10 @@ export function PropeneStructure({
       />
 
       <line
-        x1="-29"
-        y1="3"
-        x2="24"
-        y2="32"
+        x1="-27"
+        y1="2"
+        x2="20"
+        y2="26"
         stroke={piStroke ?? stroke}
         strokeWidth="5"
         strokeLinecap="round"
@@ -404,8 +404,8 @@ export function AntiMarkovnikovPropaneStructure({
       <line
         x1="30"
         y1="28"
-        x2="84"
-        y2="-4"
+        x2="62"
+        y2="-12"
         stroke={defaultStroke}
         strokeWidth="5"
         strokeLinecap="round"

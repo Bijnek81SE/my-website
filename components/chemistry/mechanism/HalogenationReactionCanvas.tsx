@@ -1,3 +1,4 @@
+import { CyclohexeneStructure } from "../molecules";
 import { halogenationReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
@@ -31,8 +32,129 @@ type HalogenationReactionCanvasProps = {
   animated: boolean;
   interactive?: boolean;
   showProductChoices?: boolean;
-  onTargetClick?: (target: HalogenationPracticeTarget) => void;
+  onTargetClick?: (
+    target: HalogenationPracticeTarget,
+  ) => void;
 };
+
+type DibromocyclohexaneStructureProps = {
+  x: number;
+  y: number;
+  scale?: number;
+  stereochemistry: "trans" | "cis";
+  muted?: boolean;
+};
+
+function DibromocyclohexaneStructure({
+  x,
+  y,
+  scale = 1,
+  stereochemistry,
+  muted = false,
+}: DibromocyclohexaneStructureProps) {
+  const ringStroke = muted ? "#64748b" : "#0f172a";
+  const bromineStroke = muted ? "#64748b" : "#7c3aed";
+
+  const ringPoints = [
+    [0, -62],
+    [54, -31],
+    [54, 31],
+    [0, 62],
+    [-54, 31],
+    [-54, -31],
+    [0, -62],
+  ];
+
+  return (
+    <g transform={`translate(${x} ${y}) scale(${scale})`}>
+      <polyline
+        points={ringPoints
+          .map(([pointX, pointY]) => `${pointX},${pointY}`)
+          .join(" ")}
+        fill="none"
+        stroke={ringStroke}
+        strokeWidth="5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+
+      {/* Solid wedge: bromine above the ring plane */}
+      <polygon
+        points="54,-31 70,-38 91,-63"
+        fill={bromineStroke}
+      />
+
+      <text
+        x="108"
+        y="-67"
+        textAnchor="middle"
+        fontSize="25"
+        fontWeight="700"
+        fill={bromineStroke}
+        pointerEvents="none"
+      >
+        Br
+      </text>
+
+      {stereochemistry === "trans" ? (
+        <>
+          {/* Hashed wedge: bromine below the ring plane */}
+          {[0, 1, 2, 3, 4].map((index) => {
+            const progress = (index + 1) / 6;
+            const centerX = 54 + (92 - 54) * progress;
+            const centerY = 31 + (64 - 31) * progress;
+            const halfWidth = 1.5 + index * 1.2;
+
+            return (
+              <line
+                key={index}
+                x1={centerX - halfWidth}
+                y1={centerY + halfWidth}
+                x2={centerX + halfWidth}
+                y2={centerY - halfWidth}
+                stroke={bromineStroke}
+                strokeWidth="3.5"
+                strokeLinecap="round"
+              />
+            );
+          })}
+
+          <text
+            x="109"
+            y="78"
+            textAnchor="middle"
+            fontSize="25"
+            fontWeight="700"
+            fill={bromineStroke}
+            pointerEvents="none"
+          >
+            Br
+          </text>
+        </>
+      ) : (
+        <>
+          {/* Second solid wedge: both bromines on the same face */}
+          <polygon
+            points="54,31 70,38 91,63"
+            fill={bromineStroke}
+          />
+
+          <text
+            x="108"
+            y="78"
+            textAnchor="middle"
+            fontSize="25"
+            fontWeight="700"
+            fill={bromineStroke}
+            pointerEvents="none"
+          >
+            Br
+          </text>
+        </>
+      )}
+    </g>
+  );
+}
 
 export default function HalogenationReactionCanvas({
   step,
@@ -51,7 +173,8 @@ export default function HalogenationReactionCanvas({
           : "reactants";
 
   const bromonium =
-    step.highlight === "bromonium" || step.highlight === "bromide-attack";
+    step.highlight === "bromonium" ||
+    step.highlight === "bromide-attack";
 
   return (
     <ReactionCanvasEngine
@@ -63,80 +186,269 @@ export default function HalogenationReactionCanvas({
       {step.highlight === "products" ? (
         showProductChoices ? (
           <>
-            <text x="380" y="58" textAnchor="middle" fontSize="20" fontWeight="700" fill="#0f172a">
+            <text
+              x="380"
+              y="48"
+              textAnchor="middle"
+              fontSize="20"
+              fontWeight="700"
+              fill="#0f172a"
+            >
               Choose the stereochemical product of cyclohexene + Br₂
             </text>
 
             <g>
-              <rect x="35" y="100" width="330" height="180" rx="22" fill="#ffffff" stroke="#8b5cf6" strokeWidth="3" />
-              <text x="200" y="162" textAnchor="middle" fontSize="25" fontWeight="700" fill="#0f172a">
+              <rect
+                x="35"
+                y="70"
+                width="330"
+                height="225"
+                rx="22"
+                fill="#ffffff"
+                stroke="#8b5cf6"
+                strokeWidth="3"
+              />
+
+              <DibromocyclohexaneStructure
+                x={180}
+                y={170}
+                scale={0.78}
+                stereochemistry="trans"
+              />
+
+              <text
+                x="200"
+                y="264"
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#0f172a"
+              >
                 trans-1,2-dibromocyclohexane
               </text>
-              <text x="200" y="207" textAnchor="middle" fontSize="42" fontWeight="700" fill="#7c3aed">
-                Br ↑   ↓ Br
-              </text>
-              <text x="200" y="248" textAnchor="middle" fontSize="15" fontWeight="700" fill="#5b21b6">
+
+              <text
+                x="200"
+                y="286"
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#5b21b6"
+              >
                 Anti addition
               </text>
             </g>
 
             <g>
-              <rect x="395" y="100" width="330" height="180" rx="22" fill="#ffffff" stroke="#cbd5e1" strokeWidth="3" />
-              <text x="560" y="162" textAnchor="middle" fontSize="25" fontWeight="700" fill="#0f172a">
+              <rect
+                x="395"
+                y="70"
+                width="330"
+                height="225"
+                rx="22"
+                fill="#ffffff"
+                stroke="#cbd5e1"
+                strokeWidth="3"
+              />
+
+              <DibromocyclohexaneStructure
+                x={540}
+                y={170}
+                scale={0.78}
+                stereochemistry="cis"
+                muted
+              />
+
+              <text
+                x="560"
+                y="264"
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#475569"
+              >
                 cis-1,2-dibromocyclohexane
               </text>
-              <text x="560" y="207" textAnchor="middle" fontSize="42" fontWeight="700" fill="#64748b">
-                Br ↑   ↑ Br
-              </text>
-              <text x="560" y="248" textAnchor="middle" fontSize="15" fontWeight="700" fill="#64748b">
+
+              <text
+                x="560"
+                y="286"
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#64748b"
+              >
                 Syn addition
               </text>
             </g>
           </>
         ) : (
           <>
-            <rect x="125" y="105" width="510" height="180" rx="24" fill="#f5f3ff" stroke="#8b5cf6" strokeWidth="3" />
-            <text x="380" y="165" textAnchor="middle" fontSize="27" fontWeight="700" fill="#0f172a">
+            <rect
+              x="125"
+              y="70"
+              width="510"
+              height="235"
+              rx="24"
+              fill="#f5f3ff"
+              stroke="#8b5cf6"
+              strokeWidth="3"
+            />
+
+            <DibromocyclohexaneStructure
+              x={350}
+              y={178}
+              scale={1.05}
+              stereochemistry="trans"
+            />
+
+            <text
+              x="380"
+              y="274"
+              textAnchor="middle"
+              fontSize="22"
+              fontWeight="700"
+              fill="#0f172a"
+            >
               trans-1,2-dibromocyclohexane
             </text>
-            <text x="380" y="220" textAnchor="middle" fontSize="46" fontWeight="700" fill="#7c3aed">
-              Br ↑   ↓ Br
-            </text>
-            <text x="380" y="258" textAnchor="middle" fontSize="16" fontWeight="700" fill="#5b21b6">
+
+            <text
+              x="380"
+              y="298"
+              textAnchor="middle"
+              fontSize="15"
+              fontWeight="700"
+              fill="#5b21b6"
+            >
               Anti vicinal dibromide
             </text>
           </>
         )
       ) : bromonium ? (
         <>
-          <text x="255" y="228" textAnchor="middle" fontSize="42" fontWeight="700" fill="#0f172a">
+          <text
+            x="255"
+            y="228"
+            textAnchor="middle"
+            fontSize="42"
+            fontWeight="700"
+            fill="#0f172a"
+          >
             C — C
           </text>
-          <path d="M 205 190 Q 255 115 305 190" fill="none" stroke="#7c3aed" strokeWidth="6" />
-          <text x="255" y="132" textAnchor="middle" fontSize="38" fontWeight="700" fill="#7c3aed">
+
+          <path
+            d="M 205 190 Q 255 115 305 190"
+            fill="none"
+            stroke="#7c3aed"
+            strokeWidth="6"
+          />
+
+          <text
+            x="255"
+            y="132"
+            textAnchor="middle"
+            fontSize="38"
+            fontWeight="700"
+            fill="#7c3aed"
+          >
             Br⁺
           </text>
-          <text x="575" y="215" textAnchor="middle" fontSize="42" fontWeight="700" fill="#b91c1c">
+
+          <text
+            x="575"
+            y="215"
+            textAnchor="middle"
+            fontSize="42"
+            fontWeight="700"
+            fill="#b91c1c"
+          >
             Br⁻
           </text>
+
           {step.highlight === "bromide-attack" ? (
-            <text x="380" y="285" textAnchor="middle" fontSize="17" fontWeight="700" fill="#475569">
-              Bromide attacks from the face opposite the bridging bromine
+            <text
+              x="380"
+              y="285"
+              textAnchor="middle"
+              fontSize="17"
+              fontWeight="700"
+              fill="#475569"
+            >
+              Bromide attacks from the face opposite the bridging
+              bromine
             </text>
           ) : null}
         </>
       ) : (
         <>
-          <text x="110" y="215" fontSize="42" fontWeight="700" fill="#0f172a">
+          <CyclohexeneStructure
+            x={255}
+            y={195}
+            scale={1.25}
+            highlightBond={
+              step.highlight === "alkene" ||
+              step.highlight === "bromonium-formation"
+            }
+          />
+
+          <text
+            x="255"
+            y="305"
+            textAnchor="middle"
+            fontSize="18"
+            fontWeight="700"
+            fill="#475569"
+          >
             cyclohexene
           </text>
-          <line x1="285" y1="187" x2="390" y2="187" stroke="#0f172a" strokeWidth="5" />
-          <line x1="285" y1="207" x2="390" y2="207" stroke="#7c3aed" strokeWidth="5" />
-          <text x="475" y="215" fontSize="42" fontWeight="700" fill="#b91c1c">
-            Br—Br
+
+          <text
+            x="455"
+            y="210"
+            textAnchor="middle"
+            fontSize="30"
+            fontWeight="700"
+            fill="#64748b"
+          >
+            +
           </text>
-          <circle cx="520" cy="160" r="5" fill="#b91c1c" />
-          <circle cx="538" cy="160" r="5" fill="#b91c1c" />
+
+          <text
+            x="535"
+            y="210"
+            textAnchor="middle"
+            fontSize="42"
+            fontWeight="700"
+            fill="#b91c1c"
+          >
+            Br
+          </text>
+
+          <line
+            x1="572"
+            y1="195"
+            x2="620"
+            y2="195"
+            stroke="#0f172a"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+
+          <text
+            x="657"
+            y="210"
+            textAnchor="middle"
+            fontSize="42"
+            fontWeight="700"
+            fill="#b91c1c"
+          >
+            Br
+          </text>
+
+          <circle cx="513" cy="155" r="5" fill="#b91c1c" />
+          <circle cx="530" cy="146" r="5" fill="#b91c1c" />
         </>
       )}
 
@@ -147,7 +459,13 @@ export default function HalogenationReactionCanvas({
         onTargetClick={onTargetClick}
       />
 
-      <text x="380" y="350" textAnchor="middle" fontSize="17" fill="#475569">
+      <text
+        x="380"
+        y="350"
+        textAnchor="middle"
+        fontSize="17"
+        fill="#475569"
+      >
         {step.note}
       </text>
     </ReactionCanvasEngine>
