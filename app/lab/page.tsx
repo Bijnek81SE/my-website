@@ -75,6 +75,12 @@ const tools = [
     "Explore Markovnikov addition of HBr to an alkene.",
     "rose",
   ],
+  [
+    "Hydrohalogenation",
+    "/lab/hydrohalogenation",
+    "Add HCl to an alkene through a carbocation intermediate.",
+    "cyan",
+  ],
 ] as const;
 
 const toneClasses = {
@@ -121,23 +127,23 @@ export default function LabPage() {
         </div>
       }
     >
-      <div className="rounded-3xl border border-rose-200 bg-rose-50 p-6 sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-rose-700">
-          New mechanism
+      <div className="rounded-3xl border border-cyan-200 bg-cyan-50 p-6 sm:p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-700">
+          New alkene mechanism
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Electrophilic Addition to Alkenes
+          Hydrohalogenation of Alkenes
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow the alkene π bond as it attacks HBr, forms a secondary carbocation,
-          and gives the Markovnikov addition product.
+          Follow HCl addition to 2-methylpropene, compare carbocation stability,
+          and predict the Markovnikov chloroalkane product.
         </p>
 
         <Link
-          href="/lab/electrophilic-addition"
-          className="mt-5 inline-flex rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white transition hover:bg-rose-700"
+          href="/lab/hydrohalogenation"
+          className="mt-5 inline-flex rounded-xl bg-cyan-600 px-5 py-3 font-semibold text-white transition hover:bg-cyan-700"
         >
           Open mechanism →
         </Link>

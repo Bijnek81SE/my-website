@@ -1,4 +1,5 @@
 import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditionReactionCanvas";
+import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -79,5 +80,21 @@ export const electrophilicAdditionReactionData =
       { id: "electrophilic-addition-bromide", target: "bromide", label: "Select the bromide ion", scenes: ["carbocation", "bromide-attack"], geometry: { shape: "circle", cx: 575, cy: 198, r: 55 } },
       { id: "electrophilic-addition-product", target: "markovnikov-product", label: "Select 2-bromopropane, the Markovnikov product", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 115, width: 330, height: 150, rx: 22 } },
       { id: "electrophilic-addition-wrong-product", target: "anti-markovnikov-product", label: "Select 1-bromopropane", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 115, width: 330, height: 150, rx: 22 } },
+    ],
+  });
+
+export const hydrohalogenationReactionData =
+  defineReactionData<HydrohalogenationPracticeTarget>({
+    id: "hydrohalogenation",
+    focusClassName:
+      "cursor-pointer outline-none focus-visible:stroke-cyan-600 focus-visible:stroke-[4]",
+    hotspots: [
+      { id: "hydrohalogenation-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 305, y: 160, width: 140, height: 72, rx: 18 } },
+      { id: "hydrohalogenation-terminal", target: "terminal-carbon", label: "Select the terminal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 465, cy: 198, r: 52 } },
+      { id: "hydrohalogenation-hydrogen", target: "electrophilic-hydrogen", label: "Select the electrophilic hydrogen", scenes: ["reactants"], geometry: { shape: "circle", cx: 545, cy: 198, r: 38 } },
+      { id: "hydrohalogenation-carbocation", target: "tertiary-carbocation", label: "Select the tertiary carbocation", scenes: ["carbocation"], geometry: { shape: "circle", cx: 350, cy: 198, r: 90 } },
+      { id: "hydrohalogenation-chloride", target: "chloride", label: "Select the chloride ion", scenes: ["carbocation", "halide-attack"], geometry: { shape: "circle", cx: 575, cy: 198, r: 58 } },
+      { id: "hydrohalogenation-product", target: "markovnikov-product", label: "Select 2-chloro-2-methylpropane", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 110, width: 330, height: 160, rx: 22 } },
+      { id: "hydrohalogenation-wrong-product", target: "wrong-product", label: "Select 1-chloro-2-methylpropane", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 110, width: 330, height: 160, rx: 22 } },
     ],
   });

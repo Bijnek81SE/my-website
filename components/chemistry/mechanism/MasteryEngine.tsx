@@ -85,6 +85,10 @@ function getMechanismId(): string {
     return "electrophilic-addition";
   }
 
+  if (pathname.includes("hydrohalogenation")) {
+    return "hydrohalogenation";
+  }
+
   const segments = pathname.split("/").filter(Boolean);
 
   return segments[segments.length - 1] ?? "mechanism";

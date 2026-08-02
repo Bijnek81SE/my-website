@@ -4,6 +4,7 @@ export type { MechanismArrow, MechanismPoint, MechanismStep } from "./types";
 export { default as MechanismPlayerEngine } from "./MechanismPlayerEngine";
 export { default as E1MechanismPlayer } from "./E1MechanismPlayer";
 export { default as ElectrophilicAdditionMechanismPlayer } from "./ElectrophilicAdditionMechanismPlayer";
+export { default as HydrohalogenationMechanismPlayer } from "./HydrohalogenationMechanismPlayer";
 
 export { default as ReactionCanvasEngine } from "./ReactionCanvasEngine";
 
@@ -13,6 +14,7 @@ export {
   e1Questions,
   e2Questions,
   electrophilicAdditionQuestions,
+  hydrohalogenationQuestions,
   sn1Questions,
   sn2Questions,
 } from "./MechanismQuestions";
@@ -27,6 +29,7 @@ export {
   e1ReactionData,
   e2ReactionData,
   electrophilicAdditionReactionData,
+  hydrohalogenationReactionData,
   sn1ReactionData,
   sn2ReactionData,
 } from "./MechanismReactionData";

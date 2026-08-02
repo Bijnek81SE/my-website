@@ -74,6 +74,13 @@ function getMechanismIdentity(): {
     };
   }
 
+  if (pathname.includes("hydrohalogenation")) {
+    return {
+      id: "hydrohalogenation",
+      title: "Hydrohalogenation of alkenes",
+    };
+  }
+
   return {
     id:
       pathname

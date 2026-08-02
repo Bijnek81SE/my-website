@@ -35,7 +35,7 @@ type CanvasRenderState<
   onTargetClick?: (target: TTarget) => void;
 };
 
-type Accent = "blue" | "violet" | "orange" | "emerald" | "rose";
+type Accent = "blue" | "violet" | "orange" | "emerald" | "rose" | "cyan";
 
 type MechanismPlayerEngineProps<
   TStep extends MechanismPlayerStep,
@@ -98,6 +98,14 @@ const accentClasses = {
     panelBorder: "border-rose-100",
     panelBackground: "bg-rose-50",
     resetHover: "hover:text-rose-900",
+  },
+  cyan: {
+    text: "text-cyan-700",
+    hoverBorder: "hover:border-cyan-400",
+    progress: "bg-cyan-600",
+    panelBorder: "border-cyan-100",
+    panelBackground: "bg-cyan-50",
+    resetHover: "hover:text-cyan-900",
   },
 } as const;
 

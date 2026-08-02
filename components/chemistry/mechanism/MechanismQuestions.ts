@@ -1,4 +1,5 @@
 import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditionReactionCanvas";
+import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -328,6 +329,75 @@ export const electrophilicAdditionQuestions =
         "Not quite. Bromine should be on the more substituted carbon of the original double bond.",
       correctExplanation:
         "2-Bromopropane is the Markovnikov product because H adds to the terminal carbon and Br adds to the internal carbon.",
+      topic: "Products",
+    },
+  ]);
+
+export const hydrohalogenationQuestions =
+  defineMechanismQuestions<HydrohalogenationPracticeTarget>([
+    {
+      id: "identify-pi-bond",
+      title: "Which bond begins the reaction?",
+      description:
+        "Hydrohalogenation starts when the electron-rich alkene interacts with the acidic hydrogen of HX.",
+      instruction: "Click the alkene π bond.",
+      correctTarget: "pi-bond",
+      incorrectFeedback:
+        "Not quite. Look for the carbon–carbon double bond that can donate electrons.",
+      correctExplanation:
+        "The π bond is the nucleophile. Its electrons form the first new bond to hydrogen.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "predict-protonation-carbon",
+      title: "Which carbon receives hydrogen?",
+      description:
+        "Choose the protonation direction that produces the more stable carbocation intermediate.",
+      instruction: "Click the terminal CH₂ carbon.",
+      correctTarget: "terminal-carbon",
+      incorrectFeedback:
+        "Not quite. Hydrogen should add so the positive charge forms on the highly substituted carbon.",
+      correctExplanation:
+        "Hydrogen adds to the terminal carbon, leaving a tertiary carbocation on the internal carbon.",
+      topic: "Mechanism fundamentals",
+    },
+    {
+      id: "identify-tertiary-carbocation",
+      title: "Which intermediate forms?",
+      description:
+        "The preferred protonation pathway gives the most stable carbocation available.",
+      instruction: "Click the tertiary carbocation.",
+      correctTarget: "tertiary-carbocation",
+      incorrectFeedback:
+        "Not quite. Look for the positively charged carbon bonded to three methyl groups.",
+      correctExplanation:
+        "The tert-butyl carbocation is tertiary and therefore much more stable than the alternative primary carbocation.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "identify-halide-nucleophile",
+      title: "Which species attacks the carbocation?",
+      description:
+        "After H–Cl bond cleavage, the halide ion attacks the electron-deficient carbon.",
+      instruction: "Click the chloride ion.",
+      correctTarget: "chloride",
+      incorrectFeedback:
+        "Not quite. Choose the negatively charged halide produced when the H–Cl bond breaks.",
+      correctExplanation:
+        "Chloride is the nucleophile. It donates a lone pair to the tertiary carbocation.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "predict-markovnikov-product",
+      title: "Which chloroalkane is formed?",
+      description:
+        "Use the protonation direction and carbocation stability to identify the major constitutional product.",
+      instruction: "Click the Markovnikov product.",
+      correctTarget: "markovnikov-product",
+      incorrectFeedback:
+        "Not quite. Chlorine should attach to the more substituted carbon of the original double bond.",
+      correctExplanation:
+        "2-Chloro-2-methylpropane is the Markovnikov product formed through the tertiary carbocation.",
       topic: "Products",
     },
   ]);
