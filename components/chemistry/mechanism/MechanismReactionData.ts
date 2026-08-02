@@ -4,6 +4,7 @@ import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
 import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
 import type { HydrogenationPracticeTarget } from "./HydrogenationReactionCanvas";
 import type { HydroborationOxidationPracticeTarget } from "./HydroborationOxidationReactionCanvas";
+import type { OxymercurationDemercurationPracticeTarget } from "./OxymercurationDemercurationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -166,5 +167,23 @@ export const hydroborationOxidationReactionData =
       { id: "hydroboration-cb", target: "carbon-boron-bond", label: "Select the carbon boron bond replaced during oxidation", scenes: ["oxidation"], geometry: { shape: "line", x1: 380, y1: 226, x2: 430, y2: 170, strokeWidth: 34 } },
       { id: "hydroboration-anti-product", target: "anti-markovnikov-alcohol", label: "Select the anti-Markovnikov alcohol", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 92, width: 330, height: 190, rx: 22 } },
       { id: "hydroboration-mark-product", target: "markovnikov-alcohol", label: "Select the Markovnikov alcohol", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 92, width: 330, height: 190, rx: 22 } },
+    ],
+  });
+
+
+export const oxymercurationDemercurationReactionData =
+  defineReactionData<OxymercurationDemercurationPracticeTarget>({
+    id: "oxymercuration-demercuration",
+    focusClassName:
+      "cursor-pointer outline-none focus-visible:stroke-violet-600 focus-visible:stroke-[4]",
+    hotspots: [
+      { id: "oxymercuration-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 245, y: 150, width: 120, height: 100, rx: 18 } },
+      { id: "oxymercuration-mercurinium", target: "mercurinium-ion", label: "Select the bridged mercurinium ion", scenes: ["mercurinium"], geometry: { shape: "rect", x: 250, y: 95, width: 220, height: 190, rx: 22 } },
+      { id: "oxymercuration-water", target: "water-nucleophile", label: "Select the water nucleophile", scenes: ["water-attack"], geometry: { shape: "circle", cx: 575, cy: 182, r: 60 } },
+      { id: "oxymercuration-internal-carbon", target: "internal-carbon", label: "Select the more substituted carbon", scenes: ["water-attack"], geometry: { shape: "circle", cx: 350, cy: 185, r: 52 } },
+      { id: "oxymercuration-organomercury-internal-carbon", target: "internal-carbon", label: "Select the carbon bearing hydroxyl", scenes: ["organomercury"], geometry: { shape: "circle", cx: 305, cy: 185, r: 48 } },
+      { id: "oxymercuration-c-hg", target: "carbon-mercury-bond", label: "Select the carbon mercury bond", scenes: ["demercuration"], geometry: { shape: "line", x1: 395, y1: 230, x2: 455, y2: 195, strokeWidth: 38 } },
+      { id: "oxymercuration-markovnikov-product", target: "markovnikov-alcohol", label: "Select the Markovnikov alcohol", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 92, width: 330, height: 190, rx: 22 } },
+      { id: "oxymercuration-anti-product", target: "anti-markovnikov-alcohol", label: "Select the anti-Markovnikov alcohol", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 92, width: 330, height: 190, rx: 22 } },
     ],
   });

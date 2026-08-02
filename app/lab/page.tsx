@@ -105,6 +105,12 @@ const tools = [
     "Form an anti-Markovnikov alcohol through syn hydroboration and oxidation.",
     "cyan",
   ],
+  [
+    "Oxymercuration–Demercuration",
+    "/lab/oxymercuration-demercuration",
+    "Form a Markovnikov alcohol without carbocation rearrangement.",
+    "violet",
+  ],
 ] as const;
 
 const toneClasses = {
@@ -157,15 +163,15 @@ export default function LabPage() {
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Hydroboration–Oxidation of Alkenes
+          Oxymercuration–Demercuration of Alkenes
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow concerted syn hydroboration and oxidation to form the anti-Markovnikov alcohol.
+          Follow bridged mercurinium-ion formation, Markovnikov water attack, and reductive demercuration.
         </p>
 
         <Link
-          href="/lab/hydroboration-oxidation"
+          href="/lab/oxymercuration-demercuration"
           className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
         >
           Open mechanism →

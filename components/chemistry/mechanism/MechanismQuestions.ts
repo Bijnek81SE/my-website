@@ -4,6 +4,7 @@ import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
 import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
 import type { HydrogenationPracticeTarget } from "./HydrogenationReactionCanvas";
 import type { HydroborationOxidationPracticeTarget } from "./HydroborationOxidationReactionCanvas";
+import type { OxymercurationDemercurationPracticeTarget } from "./OxymercurationDemercurationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -693,6 +694,89 @@ export const hydroborationOxidationQuestions =
         "Not quite. OH belongs on the less substituted terminal carbon.",
       correctExplanation:
         "1-Propanol forms because boron first added to the terminal carbon and was then replaced by OH.",
+      topic: "Products",
+    },
+  ]);
+
+
+export const oxymercurationDemercurationQuestions =
+  defineMechanismQuestions<OxymercurationDemercurationPracticeTarget>([
+    {
+      id: "identify-oxymercuration-pi-bond",
+      title: "Which bond attacks mercury(II)?",
+      description:
+        "Oxymercuration begins when the electron-rich alkene reacts with electrophilic mercury(II) acetate.",
+      instruction: "Click the alkene pi bond.",
+      correctTarget: "pi-bond",
+      incorrectFeedback:
+        "Not quite. The alkene pi bond supplies the electron pair.",
+      correctExplanation:
+        "The alkene pi bond attacks mercury and begins formation of the bridged mercurinium ion.",
+      topic: "Curved arrows",
+    },
+    {
+      id: "identify-mercurinium-ion",
+      title: "Which intermediate prevents rearrangement?",
+      description:
+        "Oxymercuration does not form a free carbocation.",
+      instruction: "Click the bridged mercurinium ion.",
+      correctTarget: "mercurinium-ion",
+      incorrectFeedback:
+        "Not quite. Look for the three-membered intermediate containing mercury.",
+      correctExplanation:
+        "The bridged mercurinium ion shares positive charge across the alkene carbons and prevents hydride or alkyl shifts.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "identify-water-nucleophile-oxymercuration",
+      title: "Which species opens the mercurinium ion?",
+      description:
+        "Water attacks the bridged intermediate during oxymercuration.",
+      instruction: "Click the water nucleophile.",
+      correctTarget: "water-nucleophile",
+      incorrectFeedback:
+        "Not quite. Select the water molecule that donates a lone pair.",
+      correctExplanation:
+        "Water attacks the more substituted carbon of the bridged mercurinium ion.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "predict-oxymercuration-regiochemistry",
+      title: "Which carbon receives OH?",
+      description:
+        "Water attacks the carbon with greater carbocation-like character.",
+      instruction: "Click the more substituted internal carbon.",
+      correctTarget: "internal-carbon",
+      incorrectFeedback:
+        "Not quite. OH forms on the more substituted carbon.",
+      correctExplanation:
+        "Backside attack at the internal carbon gives the Markovnikov alcohol orientation.",
+      topic: "Bond changes",
+    },
+    {
+      id: "identify-demercuration-bond",
+      title: "Which bond is replaced during demercuration?",
+      description:
+        "NaBH4 removes the organomercury group without moving the alcohol.",
+      instruction: "Click the carbon-mercury bond.",
+      correctTarget: "carbon-mercury-bond",
+      incorrectFeedback:
+        "Not quite. Select the bond connecting carbon to HgOAc.",
+      correctExplanation:
+        "Reduction replaces the carbon-mercury bond with a carbon-hydrogen bond.",
+      topic: "Bond changes",
+    },
+    {
+      id: "predict-oxymercuration-product",
+      title: "Which alcohol is the major product?",
+      description:
+        "Use Markovnikov regiochemistry and remember that rearrangement does not occur.",
+      instruction: "Click the Markovnikov alcohol.",
+      correctTarget: "markovnikov-alcohol",
+      incorrectFeedback:
+        "Not quite. OH belongs on the more substituted internal carbon.",
+      correctExplanation:
+        "2-Propanol forms because water attacks the internal carbon of the mercurinium ion.",
       topic: "Products",
     },
   ]);

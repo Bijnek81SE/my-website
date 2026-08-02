@@ -103,6 +103,13 @@ function getMechanismIdentity(): {
     };
   }
 
+  if (pathname.includes("oxymercuration-demercuration")) {
+    return {
+      id: "oxymercuration-demercuration",
+      title: "Oxymercuration–demercuration of alkenes",
+    };
+  }
+
   if (pathname.includes("hydrogenation")) {
     return {
       id: "hydrogenation",
