@@ -42,14 +42,14 @@ export const e2ReactionData = defineReactionData<E2PracticeTarget>({
   focusClassName:
     "cursor-pointer outline-none focus-visible:stroke-orange-600 focus-visible:stroke-[4]",
   hotspots: [
-    { id: "e2-base", target: "base", label: "Select the hydroxide base", scenes: ["reactants"], geometry: { shape: "circle", cx: 170, cy: 190, r: 58 } },
-    { id: "e2-beta-h", target: "beta-hydrogen", label: "Select the beta hydrogen", scenes: ["reactants"], geometry: { shape: "circle", cx: 315, cy: 172, r: 38 } },
-    { id: "e2-ch", target: "carbon-hydrogen-bond", label: "Select the beta carbon hydrogen bond", scenes: ["reactants"], geometry: { shape: "line", x1: 331, y1: 180, x2: 385, y2: 200, strokeWidth: 32 } },
-    { id: "e2-cc", target: "carbon-carbon-bond", label: "Select the carbon carbon bond", scenes: ["reactants"], geometry: { shape: "line", x1: 445, y1: 202, x2: 510, y2: 202, strokeWidth: 34 } },
-    { id: "e2-cbr", target: "carbon-bromine-bond", label: "Select the carbon bromine bond", scenes: ["reactants"], geometry: { shape: "line", x1: 590, y1: 202, x2: 645, y2: 202, strokeWidth: 34 } },
-    { id: "e2-water", target: "water-product", label: "Select the water product", scenes: ["products"], geometry: { shape: "rect", x: 100, y: 165, width: 145, height: 80, rx: 18 } },
-    { id: "e2-alkene", target: "alkene-product", label: "Select the alkene product", scenes: ["products"], geometry: { shape: "rect", x: 315, y: 165, width: 245, height: 80, rx: 18 } },
-    { id: "e2-bromide", target: "bromide-product", label: "Select the bromide product", scenes: ["products"], geometry: { shape: "rect", x: 625, y: 165, width: 105, height: 80, rx: 18 } },
+    { id: "e2-base", target: "base", label: "Select the hydroxide base", scenes: ["reactants"], geometry: { shape: "circle", cx: 125, cy: 190, r: 62 } },
+    { id: "e2-beta-h", target: "beta-hydrogen", label: "Select the beta hydrogen", scenes: ["reactants"], geometry: { shape: "circle", cx: 338, cy: 118, r: 38 } },
+    { id: "e2-ch", target: "carbon-hydrogen-bond", label: "Select the beta carbon hydrogen bond", scenes: ["reactants"], geometry: { shape: "line", x1: 338, y1: 126, x2: 360, y2: 205, strokeWidth: 36 } },
+    { id: "e2-cc", target: "carbon-carbon-bond", label: "Select the carbon carbon bond", scenes: ["reactants"], geometry: { shape: "line", x1: 360, y1: 205, x2: 455, y2: 205, strokeWidth: 36 } },
+    { id: "e2-cbr", target: "carbon-bromine-bond", label: "Select the carbon bromine bond", scenes: ["reactants"], geometry: { shape: "line", x1: 455, y1: 205, x2: 486, y2: 294, strokeWidth: 38 } },
+    { id: "e2-water", target: "water-product", label: "Select the water product", scenes: ["products"], geometry: { shape: "rect", x: 65, y: 165, width: 120, height: 75, rx: 18 } },
+    { id: "e2-alkene", target: "alkene-product", label: "Select the alkene product", scenes: ["products"], geometry: { shape: "rect", x: 275, y: 115, width: 270, height: 175, rx: 18 } },
+    { id: "e2-bromide", target: "bromide-product", label: "Select the bromide product", scenes: ["products"], geometry: { shape: "rect", x: 610, y: 165, width: 105, height: 80, rx: 18 } },
   ],
 });
 
