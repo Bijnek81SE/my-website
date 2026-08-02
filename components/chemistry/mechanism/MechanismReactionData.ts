@@ -2,6 +2,7 @@ import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditio
 import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactionCanvas";
 import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
 import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
+import type { HydrogenationPracticeTarget } from "./HydrogenationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -133,5 +134,20 @@ export const halogenationReactionData =
       { id: "halogenation-backside", target: "backside-carbon", label: "Select the carbon attacked from the backside", scenes: ["bromide-attack"], geometry: { shape: "circle", cx: 300, cy: 215, r: 52 } },
       { id: "halogenation-anti-product", target: "anti-product", label: "Select the anti addition product", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 100, width: 330, height: 180, rx: 22 } },
       { id: "halogenation-syn-product", target: "syn-product", label: "Select the syn addition product", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 100, width: 330, height: 180, rx: 22 } },
+    ],
+  });
+
+export const hydrogenationReactionData =
+  defineReactionData<HydrogenationPracticeTarget>({
+    id: "hydrogenation",
+    focusClassName:
+      "cursor-pointer outline-none focus-visible:stroke-emerald-600 focus-visible:stroke-[4]",
+    hotspots: [
+      { id: "hydrogenation-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 285, y: 160, width: 140, height: 72, rx: 18 } },
+      { id: "hydrogenation-h2", target: "hydrogen-molecule", label: "Select the hydrogen molecule", scenes: ["reactants"], geometry: { shape: "rect", x: 500, y: 165, width: 120, height: 70, rx: 18 } },
+      { id: "hydrogenation-catalyst", target: "catalyst-surface", label: "Select the platinum catalyst surface", scenes: ["activated-hydrogen"], geometry: { shape: "line", x1: 85, y1: 300, x2: 675, y2: 300, strokeWidth: 34 } },
+      { id: "hydrogenation-syn-hydrogens", target: "same-face-hydrogens", label: "Select the two hydrogens delivered from the same face", scenes: ["syn-addition"], geometry: { shape: "rect", x: 250, y: 220, width: 260, height: 75, rx: 18 } },
+      { id: "hydrogenation-product", target: "alkane-product", label: "Select cyclohexane, the saturated product", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 105, width: 330, height: 170, rx: 22 } },
+      { id: "hydrogenation-unchanged", target: "unchanged-alkene", label: "Select the unchanged cyclohexene", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 105, width: 330, height: 170, rx: 22 } },
     ],
   });

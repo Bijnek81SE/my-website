@@ -95,6 +95,13 @@ function getMechanismIdentity(): {
     };
   }
 
+  if (pathname.includes("hydrogenation")) {
+    return {
+      id: "hydrogenation",
+      title: "Catalytic hydrogenation of alkenes",
+    };
+  }
+
   return {
     id:
       pathname

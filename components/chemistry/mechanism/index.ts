@@ -7,6 +7,7 @@ export { default as ElectrophilicAdditionMechanismPlayer } from "./Electrophilic
 export { default as HydrohalogenationMechanismPlayer } from "./HydrohalogenationMechanismPlayer";
 export { default as HydrationMechanismPlayer } from "./HydrationMechanismPlayer";
 export { default as HalogenationMechanismPlayer } from "./HalogenationMechanismPlayer";
+export { default as HydrogenationMechanismPlayer } from "./HydrogenationMechanismPlayer";
 
 export { default as ReactionCanvasEngine } from "./ReactionCanvasEngine";
 
@@ -19,6 +20,7 @@ export {
   hydrohalogenationQuestions,
   hydrationQuestions,
   halogenationQuestions,
+  hydrogenationQuestions,
   sn1Questions,
   sn2Questions,
 } from "./MechanismQuestions";
@@ -36,6 +38,7 @@ export {
   hydrohalogenationReactionData,
   hydrationReactionData,
   halogenationReactionData,
+  hydrogenationReactionData,
   sn1ReactionData,
   sn2ReactionData,
 } from "./MechanismReactionData";

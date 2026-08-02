@@ -2,6 +2,7 @@ import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditio
 import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactionCanvas";
 import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
 import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
+import type { HydrogenationPracticeTarget } from "./HydrogenationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -566,6 +567,62 @@ export const halogenationQuestions =
         "Not quite. The bromines must appear on opposite faces of the ring.",
       correctExplanation:
         "trans-1,2-Dibromocyclohexane forms because bromide opens the bromonium ion by backside attack.",
+      topic: "Products",
+    },
+  ]);
+
+export const hydrogenationQuestions =
+  defineMechanismQuestions<HydrogenationPracticeTarget>([
+    {
+      id: "identify-pi-bond",
+      title: "Which bond binds to the metal catalyst?",
+      description:
+        "The electron-rich alkene interacts with the catalyst surface before hydrogen is delivered.",
+      instruction: "Click the alkene π bond.",
+      correctTarget: "pi-bond",
+      incorrectFeedback:
+        "Not quite. Look for the carbon–carbon double bond.",
+      correctExplanation:
+        "The alkene π bond adsorbs onto the metal surface and positions both alkene carbons for reduction.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "identify-catalyst-surface",
+      title: "Where is H₂ activated?",
+      description:
+        "The H–H bond is cleaved only after hydrogen binds to the heterogeneous catalyst.",
+      instruction: "Click the platinum catalyst surface.",
+      correctTarget: "catalyst-surface",
+      incorrectFeedback:
+        "Not quite. Choose the metal surface that activates hydrogen.",
+      correctExplanation:
+        "Platinum adsorbs H₂ and splits it into two surface-bound hydrogen atoms.",
+      topic: "Mechanism fundamentals",
+    },
+    {
+      id: "predict-syn-addition",
+      title: "How are the two hydrogens delivered?",
+      description:
+        "Both hydrogen atoms approach the alkene from the catalyst surface.",
+      instruction: "Click the pair of hydrogens on the same face.",
+      correctTarget: "same-face-hydrogens",
+      incorrectFeedback:
+        "Not quite. Both hydrogens must be delivered from the catalyst side.",
+      correctExplanation:
+        "Catalytic hydrogenation is syn because both hydrogens are transferred from the same metal surface.",
+      topic: "Bond changes",
+    },
+    {
+      id: "predict-alkane-product",
+      title: "Which product forms?",
+      description:
+        "Hydrogenation removes the alkene π bond and adds one hydrogen to each alkene carbon.",
+      instruction: "Click the saturated alkane product.",
+      correctTarget: "alkane-product",
+      incorrectFeedback:
+        "Not quite. Choose the molecule without a carbon–carbon double bond.",
+      correctExplanation:
+        "Cyclohexane forms because the C=C bond is reduced to a C–C single bond by addition of H₂.",
       topic: "Products",
     },
   ]);

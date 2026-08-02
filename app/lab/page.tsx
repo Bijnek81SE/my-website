@@ -93,6 +93,12 @@ const tools = [
     "Form a bromonium ion and predict anti addition of Br₂.",
     "violet",
   ],
+  [
+    "Catalytic Hydrogenation",
+    "/lab/hydrogenation",
+    "Reduce an alkene with H₂ and a metal catalyst through syn addition.",
+    "emerald",
+  ],
 ] as const;
 
 const toneClasses = {
@@ -145,16 +151,16 @@ export default function LabPage() {
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Halogenation of Alkenes
+          Catalytic Hydrogenation of Alkenes
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow bromonium-ion formation, backside attack by bromide, and
-          anti addition across the alkene.
+          Follow alkene adsorption, hydrogen activation on platinum, and syn
+          addition to form a saturated alkane.
         </p>
 
         <Link
-          href="/lab/halogenation"
+          href="/lab/hydrogenation"
           className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
         >
           Open mechanism →

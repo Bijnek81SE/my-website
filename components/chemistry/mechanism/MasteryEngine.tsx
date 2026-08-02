@@ -97,6 +97,10 @@ function getMechanismId(): string {
     return "halogenation";
   }
 
+  if (pathname.includes("hydrogenation")) {
+    return "hydrogenation";
+  }
+
   const segments = pathname.split("/").filter(Boolean);
 
   return segments[segments.length - 1] ?? "mechanism";
