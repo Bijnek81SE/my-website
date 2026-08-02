@@ -16,3 +16,10 @@ export type {
   MoleculeProps,
   MoleculeSelection,
 } from "./MoleculeTypes";
+export {
+  AntiMarkovnikovPropaneStructure,
+  CyclohexaneStructure,
+  CyclohexeneStructure,
+  MarkovnikovPropaneStructure,
+  PropeneStructure,
+} from "./library";

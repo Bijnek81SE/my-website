@@ -74,10 +74,10 @@ export const electrophilicAdditionReactionData =
     focusClassName:
       "cursor-pointer outline-none focus-visible:stroke-rose-600 focus-visible:stroke-[4]",
     hotspots: [
-      { id: "electrophilic-addition-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 285, y: 165, width: 120, height: 70, rx: 18 } },
+      { id: "electrophilic-addition-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 280, y: 170, width: 105, height: 90, rx: 18 } },
       { id: "electrophilic-addition-internal-carbon", target: "internal-carbon", label: "Select the internal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 285, cy: 198, r: 48 } },
       { id: "electrophilic-addition-attack-carbon", target: "internal-carbon", label: "Select the positively charged internal carbon", scenes: ["bromide-attack"], geometry: { shape: "circle", cx: 345, cy: 198, r: 68 } },
-      { id: "electrophilic-addition-terminal-carbon", target: "terminal-carbon", label: "Select the terminal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 438, cy: 198, r: 48 } },
+      { id: "electrophilic-addition-terminal-carbon", target: "terminal-carbon", label: "Select the terminal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 368, cy: 220, r: 48 } },
       { id: "electrophilic-addition-hydrogen", target: "electrophilic-hydrogen", label: "Select the electrophilic hydrogen", scenes: ["reactants"], geometry: { shape: "circle", cx: 548, cy: 198, r: 40 } },
       { id: "electrophilic-addition-carbocation", target: "internal-carbocation", label: "Select the secondary carbocation center", scenes: ["carbocation"], geometry: { shape: "circle", cx: 345, cy: 198, r: 68 } },
       { id: "electrophilic-addition-bromide", target: "bromide", label: "Select the bromide ion", scenes: ["carbocation", "bromide-attack"], geometry: { shape: "circle", cx: 575, cy: 198, r: 55 } },
@@ -109,8 +109,8 @@ export const hydrationReactionData =
     focusClassName:
       "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]",
     hotspots: [
-      { id: "hydration-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 165, y: 155, width: 155, height: 80, rx: 18 } },
-      { id: "hydration-terminal", target: "terminal-carbon", label: "Select the terminal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 345, cy: 198, r: 52 } },
+      { id: "hydration-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 215, y: 170, width: 110, height: 90, rx: 18 } },
+      { id: "hydration-terminal", target: "terminal-carbon", label: "Select the terminal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 308, cy: 220, r: 50 } },
       { id: "hydration-carbocation", target: "secondary-carbocation", label: "Select the secondary carbocation", scenes: ["carbocation"], geometry: { shape: "circle", cx: 355, cy: 198, r: 92 } },
       { id: "hydration-water-nucleophile", target: "water-nucleophile", label: "Select the water nucleophile", scenes: ["water-attack"], geometry: { shape: "circle", cx: 585, cy: 198, r: 62 } },
       { id: "hydration-oxonium", target: "oxonium-ion", label: "Select the oxonium ion", scenes: ["oxonium"], geometry: { shape: "rect", x: 235, y: 145, width: 275, height: 110, rx: 20 } },
@@ -143,7 +143,7 @@ export const hydrogenationReactionData =
     focusClassName:
       "cursor-pointer outline-none focus-visible:stroke-emerald-600 focus-visible:stroke-[4]",
     hotspots: [
-      { id: "hydrogenation-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 285, y: 160, width: 140, height: 72, rx: 18 } },
+      { id: "hydrogenation-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 155, y: 125, width: 105, height: 95, rx: 18 } },
       { id: "hydrogenation-h2", target: "hydrogen-molecule", label: "Select the hydrogen molecule", scenes: ["reactants"], geometry: { shape: "rect", x: 500, y: 165, width: 120, height: 70, rx: 18 } },
       { id: "hydrogenation-catalyst", target: "catalyst-surface", label: "Select the platinum catalyst surface", scenes: ["activated-hydrogen"], geometry: { shape: "line", x1: 85, y1: 300, x2: 675, y2: 300, strokeWidth: 34 } },
       { id: "hydrogenation-syn-hydrogens", target: "same-face-hydrogens", label: "Select the two hydrogens delivered from the same face", scenes: ["syn-addition"], geometry: { shape: "rect", x: 250, y: 220, width: 260, height: 75, rx: 18 } },

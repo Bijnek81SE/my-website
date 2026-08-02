@@ -1,3 +1,8 @@
+import {
+  AntiMarkovnikovPropaneStructure,
+  MarkovnikovPropaneStructure,
+  PropeneStructure,
+} from "../molecules";
 import { electrophilicAdditionReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
@@ -89,25 +94,9 @@ export default function ElectrophilicAdditionReactionCanvas({
                 stroke="#fda4af"
                 strokeWidth="3"
               />
-              <text
-                x="200"
-                y="178"
-                textAnchor="middle"
-                fontSize="29"
-                fontWeight="700"
-                fill="#0f172a"
-              >
-                CH₃–CH(Br)–CH₃
-              </text>
-              <text
-                x="200"
-                y="220"
-                textAnchor="middle"
-                fontSize="16"
-                fontWeight="600"
-                fill="#475569"
-              >
-                2-bromopropane
+              <MarkovnikovPropaneStructure x={220} y={188} substituent="Br" scale={0.9} />
+              <text x="200" y="240" textAnchor="middle" fontSize="16" fontWeight="700" fill="#be123c">
+                2-bromopropane · Markovnikov product
               </text>
             </g>
 
@@ -122,25 +111,9 @@ export default function ElectrophilicAdditionReactionCanvas({
                 stroke="#cbd5e1"
                 strokeWidth="3"
               />
-              <text
-                x="560"
-                y="178"
-                textAnchor="middle"
-                fontSize="29"
-                fontWeight="700"
-                fill="#0f172a"
-              >
-                CH₃–CH₂–CH₂Br
-              </text>
-              <text
-                x="560"
-                y="220"
-                textAnchor="middle"
-                fontSize="16"
-                fontWeight="600"
-                fill="#475569"
-              >
-                1-bromopropane
+              <AntiMarkovnikovPropaneStructure x={540} y={188} substituent="Br" scale={0.9} />
+              <text x="560" y="240" textAnchor="middle" fontSize="16" fontWeight="700" fill="#64748b">
+                1-bromopropane · wrong regiochemistry
               </text>
             </g>
 
@@ -167,26 +140,9 @@ export default function ElectrophilicAdditionReactionCanvas({
               stroke="#fb7185"
               strokeWidth="3"
             />
-            <text
-              x="380"
-              y="195"
-              textAnchor="middle"
-              fontSize="40"
-              fontWeight="700"
-              fill="#0f172a"
-            >
-              CH₃–CH(Br)–CH₃
-            </text>
-
-            <text
-              x="380"
-              y="240"
-              textAnchor="middle"
-              fontSize="18"
-              fontWeight="700"
-              fill="#be123c"
-            >
-              2-bromopropane — Markovnikov product
+            <MarkovnikovPropaneStructure x={400} y={194} substituent="Br" scale={1.15} />
+            <text x="380" y="255" textAnchor="middle" fontSize="18" fontWeight="700" fill="#be123c">
+              2-bromopropane · Markovnikov product
             </text>
           </>
         )
@@ -255,16 +211,16 @@ export default function ElectrophilicAdditionReactionCanvas({
           {step.highlight === "protonation" ? (
             <>
               <circle
-                cx="438"
-                cy="198"
+                cx="368"
+                cy="220"
                 r="62"
                 fill="#fff1f2"
                 stroke="#fb7185"
                 strokeWidth="3"
               />
               <text
-                x="438"
-                y="112"
+                x="368"
+                y="118"
                 textAnchor="middle"
                 fontSize="15"
                 fontWeight="700"
@@ -275,73 +231,17 @@ export default function ElectrophilicAdditionReactionCanvas({
             </>
           ) : null}
 
-          <text
-            x="120"
-            y="215"
-            fontSize="42"
-            fontWeight="700"
-            fill="#0f172a"
-          >
-            CH₃–CH
-          </text>
-
-          <line
-            x1="300"
-            y1="193"
-            x2="390"
-            y2="193"
-            stroke={
-              step.highlight === "alkene" ||
-              step.highlight === "protonation"
+          <PropeneStructure
+            x={330}
+            y={198}
+            scale={1.35}
+            piStroke={
+              step.highlight === "alkene" || step.highlight === "protonation"
                 ? "#e11d48"
-                : "#0f172a"
+                : undefined
             }
-            strokeWidth="5"
+            showCarbonLabels
           />
-          <line
-            x1="300"
-            y1="211"
-            x2="390"
-            y2="211"
-            stroke={
-              step.highlight === "alkene" ||
-              step.highlight === "protonation"
-                ? "#e11d48"
-                : "#0f172a"
-            }
-            strokeWidth="5"
-          />
-
-          <text
-            x="405"
-            y="215"
-            fontSize="42"
-            fontWeight="700"
-            fill="#0f172a"
-          >
-            CH₂
-          </text>
-
-          <text
-            x="270"
-            y="275"
-            textAnchor="middle"
-            fontSize="14"
-            fontWeight="700"
-            fill="#64748b"
-          >
-            internal carbon
-          </text>
-          <text
-            x="438"
-            y="275"
-            textAnchor="middle"
-            fontSize="14"
-            fontWeight="700"
-            fill="#64748b"
-          >
-            terminal carbon
-          </text>
 
           <text
             x="535"

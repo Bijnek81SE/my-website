@@ -1,3 +1,8 @@
+import {
+  AntiMarkovnikovPropaneStructure,
+  MarkovnikovPropaneStructure,
+  PropeneStructure,
+} from "../molecules";
 import { hydrationReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
@@ -79,37 +84,25 @@ export default function HydrationReactionCanvas({
 
             <g>
               <rect x="35" y="108" width="330" height="165" rx="22" fill="#ffffff" stroke="#93c5fd" strokeWidth="3" />
-              <text x="200" y="178" textAnchor="middle" fontSize="30" fontWeight="700" fill="#0f172a">
-                CH₃–CH(OH)–CH₃
-              </text>
-              <text x="200" y="220" textAnchor="middle" fontSize="17" fontWeight="700" fill="#1d4ed8">
-                2-propanol
-              </text>
-              <text x="200" y="246" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1e40af">
-                Markovnikov product
+              <MarkovnikovPropaneStructure x={220} y={188} substituent="OH" scale={0.9} />
+              <text x="200" y="246" textAnchor="middle" fontSize="16" fontWeight="700" fill="#1d4ed8">
+                2-propanol · Markovnikov product
               </text>
             </g>
 
             <g>
               <rect x="395" y="108" width="330" height="165" rx="22" fill="#ffffff" stroke="#cbd5e1" strokeWidth="3" />
-              <text x="560" y="178" textAnchor="middle" fontSize="30" fontWeight="700" fill="#0f172a">
-                CH₃–CH₂–CH₂OH
-              </text>
-              <text x="560" y="220" textAnchor="middle" fontSize="17" fontWeight="700" fill="#475569">
-                1-propanol
-              </text>
-              <text x="560" y="246" textAnchor="middle" fontSize="14" fontWeight="700" fill="#64748b">
-                Wrong regiochemistry
+              <AntiMarkovnikovPropaneStructure x={540} y={188} substituent="OH" scale={0.9} />
+              <text x="560" y="246" textAnchor="middle" fontSize="16" fontWeight="700" fill="#64748b">
+                1-propanol · wrong regiochemistry
               </text>
             </g>
           </>
         ) : (
           <>
             <rect x="130" y="115" width="500" height="165" rx="24" fill="#eff6ff" stroke="#3b82f6" strokeWidth="3" />
-            <text x="380" y="190" textAnchor="middle" fontSize="39" fontWeight="700" fill="#0f172a">
-              CH₃–CH(OH)–CH₃
-            </text>
-            <text x="380" y="238" textAnchor="middle" fontSize="18" fontWeight="700" fill="#1d4ed8">
+            <MarkovnikovPropaneStructure x={400} y={194} substituent="OH" scale={1.15} />
+            <text x="380" y="255" textAnchor="middle" fontSize="18" fontWeight="700" fill="#1d4ed8">
               2-propanol · Markovnikov alcohol
             </text>
           </>
@@ -148,10 +141,12 @@ export default function HydrationReactionCanvas({
         </>
       ) : (
         <>
-          <text x="90" y="212" fontSize="38" fontWeight="700" fill="#0f172a">CH₃</text>
-          <line x1="175" y1="184" x2="310" y2="184" stroke="#2563eb" strokeWidth="5" strokeLinecap="round" />
-          <line x1="175" y1="207" x2="310" y2="207" stroke="#2563eb" strokeWidth="5" strokeLinecap="round" />
-          <text x="325" y="212" fontSize="38" fontWeight="700" fill="#0f172a">CH₂</text>
+          <PropeneStructure
+            x={270}
+            y={198}
+            scale={1.35}
+            piStroke="#2563eb"
+          />
           <text x="485" y="212" fontSize="37" fontWeight="700" fill="#dc2626">H</text>
           <line x1="518" y1="197" x2="560" y2="197" stroke="#0f172a" strokeWidth="5" strokeLinecap="round" />
           <text x="574" y="212" fontSize="37" fontWeight="700" fill="#0891b2">OH₂⁺</text>
