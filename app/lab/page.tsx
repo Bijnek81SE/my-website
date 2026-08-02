@@ -81,6 +81,12 @@ const tools = [
     "Add HCl to an alkene through a carbocation intermediate.",
     "cyan",
   ],
+  [
+    "Acid-Catalysed Hydration",
+    "/lab/hydration",
+    "Add water to an alkene and predict the Markovnikov alcohol.",
+    "blue",
+  ],
 ] as const;
 
 const toneClasses = {
@@ -127,23 +133,23 @@ export default function LabPage() {
         </div>
       }
     >
-      <div className="rounded-3xl border border-cyan-200 bg-cyan-50 p-6 sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-700">
+      <div className="rounded-3xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-700">
           New alkene mechanism
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Hydrohalogenation of Alkenes
+          Acid-Catalysed Hydration of Alkenes
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow HCl addition to 2-methylpropene, compare carbocation stability,
-          and predict the Markovnikov chloroalkane product.
+          Follow Markovnikov hydration of propene through protonation,
+          carbocation formation, water attack, and acid regeneration.
         </p>
 
         <Link
-          href="/lab/hydrohalogenation"
-          className="mt-5 inline-flex rounded-xl bg-cyan-600 px-5 py-3 font-semibold text-white transition hover:bg-cyan-700"
+          href="/lab/hydration"
+          className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
         >
           Open mechanism →
         </Link>

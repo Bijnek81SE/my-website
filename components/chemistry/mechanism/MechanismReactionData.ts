@@ -1,5 +1,6 @@
 import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditionReactionCanvas";
 import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactionCanvas";
+import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -96,5 +97,23 @@ export const hydrohalogenationReactionData =
       { id: "hydrohalogenation-chloride", target: "chloride", label: "Select the chloride ion", scenes: ["carbocation", "halide-attack"], geometry: { shape: "circle", cx: 575, cy: 198, r: 58 } },
       { id: "hydrohalogenation-product", target: "markovnikov-product", label: "Select 2-chloro-2-methylpropane", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 110, width: 330, height: 160, rx: 22 } },
       { id: "hydrohalogenation-wrong-product", target: "wrong-product", label: "Select 1-chloro-2-methylpropane", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 110, width: 330, height: 160, rx: 22 } },
+    ],
+  });
+
+
+export const hydrationReactionData =
+  defineReactionData<HydrationPracticeTarget>({
+    id: "hydration",
+    focusClassName:
+      "cursor-pointer outline-none focus-visible:stroke-blue-600 focus-visible:stroke-[4]",
+    hotspots: [
+      { id: "hydration-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 165, y: 155, width: 155, height: 80, rx: 18 } },
+      { id: "hydration-terminal", target: "terminal-carbon", label: "Select the terminal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 345, cy: 198, r: 52 } },
+      { id: "hydration-carbocation", target: "secondary-carbocation", label: "Select the secondary carbocation", scenes: ["carbocation"], geometry: { shape: "circle", cx: 355, cy: 198, r: 92 } },
+      { id: "hydration-water-nucleophile", target: "water-nucleophile", label: "Select the water nucleophile", scenes: ["water-attack"], geometry: { shape: "circle", cx: 585, cy: 198, r: 62 } },
+      { id: "hydration-oxonium", target: "oxonium-ion", label: "Select the oxonium ion", scenes: ["oxonium"], geometry: { shape: "rect", x: 235, y: 145, width: 275, height: 110, rx: 20 } },
+      { id: "hydration-water-base", target: "water-base", label: "Select the water molecule acting as a base", scenes: ["deprotonation"], geometry: { shape: "circle", cx: 105, cy: 198, r: 58 } },
+      { id: "hydration-product", target: "markovnikov-alcohol", label: "Select 2-propanol", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 108, width: 330, height: 165, rx: 22 } },
+      { id: "hydration-wrong-product", target: "wrong-alcohol", label: "Select 1-propanol", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 108, width: 330, height: 165, rx: 22 } },
     ],
   });

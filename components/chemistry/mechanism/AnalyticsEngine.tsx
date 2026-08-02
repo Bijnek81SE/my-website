@@ -81,6 +81,13 @@ function getMechanismIdentity(): {
     };
   }
 
+  if (pathname.includes("hydration")) {
+    return {
+      id: "hydration",
+      title: "Acid-catalysed hydration of alkenes",
+    };
+  }
+
   return {
     id:
       pathname

@@ -1,5 +1,6 @@
 import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditionReactionCanvas";
 import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactionCanvas";
+import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -398,6 +399,102 @@ export const hydrohalogenationQuestions =
         "Not quite. Chlorine should attach to the more substituted carbon of the original double bond.",
       correctExplanation:
         "2-Chloro-2-methylpropane is the Markovnikov product formed through the tertiary carbocation.",
+      topic: "Products",
+    },
+  ]);
+
+
+export const hydrationQuestions =
+  defineMechanismQuestions<HydrationPracticeTarget>([
+    {
+      id: "identify-pi-bond",
+      title: "Which bond begins hydration?",
+      description:
+        "The electron-rich alkene starts the acid-catalysed mechanism by interacting with hydronium.",
+      instruction: "Click the alkene π bond.",
+      correctTarget: "pi-bond",
+      incorrectFeedback:
+        "Not quite. Look for the carbon–carbon double bond that can donate electrons.",
+      correctExplanation:
+        "The alkene π bond is the nucleophile and supplies the electrons for protonation.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "predict-protonation-carbon",
+      title: "Which carbon receives hydrogen?",
+      description:
+        "Choose the protonation direction that produces the more stable carbocation.",
+      instruction: "Click the terminal carbon of the double bond.",
+      correctTarget: "terminal-carbon",
+      incorrectFeedback:
+        "Not quite. Hydrogen should add so the positive charge forms on the more substituted carbon.",
+      correctExplanation:
+        "Hydrogen adds to the terminal carbon, leaving a secondary carbocation on the internal carbon.",
+      topic: "Mechanism fundamentals",
+    },
+    {
+      id: "identify-carbocation",
+      title: "Which carbocation intermediate forms?",
+      description:
+        "The preferred protonation pathway gives the more stable positively charged intermediate.",
+      instruction: "Click the secondary carbocation.",
+      correctTarget: "secondary-carbocation",
+      incorrectFeedback:
+        "Not quite. Choose the positive charge on the more substituted internal carbon.",
+      correctExplanation:
+        "The internal carbon bears the positive charge, giving a secondary carbocation instead of a primary one.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "identify-water-nucleophile",
+      title: "Which species attacks the carbocation?",
+      description:
+        "A neutral molecule donates a lone pair to the electron-deficient carbon.",
+      instruction: "Click the water nucleophile.",
+      correctTarget: "water-nucleophile",
+      incorrectFeedback:
+        "Not quite. Look for the water molecule with lone pairs available for bonding.",
+      correctExplanation:
+        "Water attacks the carbocation and forms the new carbon–oxygen bond.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "identify-oxonium",
+      title: "Which protonated intermediate forms?",
+      description:
+        "After water attacks, oxygen temporarily has three bonds and a positive charge.",
+      instruction: "Click the oxonium ion.",
+      correctTarget: "oxonium-ion",
+      incorrectFeedback:
+        "Not quite. Look for the protonated alcohol with positively charged oxygen.",
+      correctExplanation:
+        "Water attack forms an oxonium ion, which must lose a proton before the neutral alcohol appears.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "identify-water-base",
+      title: "Which species removes the extra proton?",
+      description:
+        "The oxonium ion is converted into a neutral alcohol by a proton-transfer step.",
+      instruction: "Click the water molecule acting as a base.",
+      correctTarget: "water-base",
+      incorrectFeedback:
+        "Not quite. Choose the second water molecule that accepts the proton.",
+      correctExplanation:
+        "Water removes the extra proton and regenerates hydronium, completing the catalytic cycle.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "predict-alcohol-product",
+      title: "Which alcohol is the Markovnikov product?",
+      description:
+        "Use the carbocation position to determine where the hydroxyl group appears.",
+      instruction: "Click 2-propanol.",
+      correctTarget: "markovnikov-alcohol",
+      incorrectFeedback:
+        "Not quite. The OH group should be on the more substituted carbon of the original double bond.",
+      correctExplanation:
+        "2-Propanol is formed because H adds to the terminal carbon and OH ends up on the internal carbon.",
       topic: "Products",
     },
   ]);
