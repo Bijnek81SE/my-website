@@ -87,6 +87,12 @@ const tools = [
     "Add water to an alkene and predict the Markovnikov alcohol.",
     "blue",
   ],
+  [
+    "Alkene Halogenation",
+    "/lab/halogenation",
+    "Form a bromonium ion and predict anti addition of Br₂.",
+    "violet",
+  ],
 ] as const;
 
 const toneClasses = {
@@ -139,16 +145,16 @@ export default function LabPage() {
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Acid-Catalysed Hydration of Alkenes
+          Halogenation of Alkenes
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow Markovnikov hydration of propene through protonation,
-          carbocation formation, water attack, and acid regeneration.
+          Follow bromonium-ion formation, backside attack by bromide, and
+          anti addition across the alkene.
         </p>
 
         <Link
-          href="/lab/hydration"
+          href="/lab/halogenation"
           className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
         >
           Open mechanism →

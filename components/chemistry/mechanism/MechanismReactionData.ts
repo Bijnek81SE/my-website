@@ -1,6 +1,7 @@
 import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditionReactionCanvas";
 import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactionCanvas";
 import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
+import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -115,5 +116,22 @@ export const hydrationReactionData =
       { id: "hydration-water-base", target: "water-base", label: "Select the water molecule acting as a base", scenes: ["deprotonation"], geometry: { shape: "circle", cx: 105, cy: 198, r: 58 } },
       { id: "hydration-product", target: "markovnikov-alcohol", label: "Select 2-propanol", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 108, width: 330, height: 165, rx: 22 } },
       { id: "hydration-wrong-product", target: "wrong-alcohol", label: "Select 1-propanol", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 108, width: 330, height: 165, rx: 22 } },
+    ],
+  });
+
+
+export const halogenationReactionData =
+  defineReactionData<HalogenationPracticeTarget>({
+    id: "halogenation",
+    focusClassName:
+      "cursor-pointer outline-none focus-visible:stroke-violet-600 focus-visible:stroke-[4]",
+    hotspots: [
+      { id: "halogenation-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 270, y: 158, width: 135, height: 72, rx: 18 } },
+      { id: "halogenation-electrophilic-br", target: "electrophilic-bromine", label: "Select the electrophilic bromine", scenes: ["reactants"], geometry: { shape: "circle", cx: 520, cy: 198, r: 46 } },
+      { id: "halogenation-bromonium", target: "bromonium-ion", label: "Select the bromonium ion", scenes: ["bromonium"], geometry: { shape: "rect", x: 175, y: 105, width: 170, height: 150, rx: 22 } },
+      { id: "halogenation-bromide", target: "bromide", label: "Select the bromide ion", scenes: ["bromonium", "bromide-attack"], geometry: { shape: "circle", cx: 575, cy: 198, r: 58 } },
+      { id: "halogenation-backside", target: "backside-carbon", label: "Select the carbon attacked from the backside", scenes: ["bromide-attack"], geometry: { shape: "circle", cx: 300, cy: 215, r: 52 } },
+      { id: "halogenation-anti-product", target: "anti-product", label: "Select the anti addition product", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 100, width: 330, height: 180, rx: 22 } },
+      { id: "halogenation-syn-product", target: "syn-product", label: "Select the syn addition product", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 100, width: 330, height: 180, rx: 22 } },
     ],
   });

@@ -88,6 +88,13 @@ function getMechanismIdentity(): {
     };
   }
 
+  if (pathname.includes("halogenation")) {
+    return {
+      id: "halogenation",
+      title: "Halogenation of alkenes",
+    };
+  }
+
   return {
     id:
       pathname

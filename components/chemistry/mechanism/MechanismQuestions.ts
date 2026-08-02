@@ -1,6 +1,7 @@
 import type { ElectrophilicAdditionPracticeTarget } from "./ElectrophilicAdditionReactionCanvas";
 import type { HydrohalogenationPracticeTarget } from "./HydrohalogenationReactionCanvas";
 import type { HydrationPracticeTarget } from "./HydrationReactionCanvas";
+import type { HalogenationPracticeTarget } from "./HalogenationReactionCanvas";
 import type { E1PracticeTarget } from "./E1ReactionCanvas";
 import type { E2PracticeTarget } from "./E2ReactionCanvas";
 import type { Sn1PracticeTarget } from "./Sn1ReactionCanvas";
@@ -495,6 +496,76 @@ export const hydrationQuestions =
         "Not quite. The OH group should be on the more substituted carbon of the original double bond.",
       correctExplanation:
         "2-Propanol is formed because H adds to the terminal carbon and OH ends up on the internal carbon.",
+      topic: "Products",
+    },
+  ]);
+
+
+export const halogenationQuestions =
+  defineMechanismQuestions<HalogenationPracticeTarget>([
+    {
+      id: "identify-pi-bond",
+      title: "Which bond acts as the nucleophile?",
+      description:
+        "The electron-rich alkene begins bromination by polarising and attacking Br₂.",
+      instruction: "Click the alkene π bond.",
+      correctTarget: "pi-bond",
+      incorrectFeedback:
+        "Not quite. Look for the carbon–carbon double bond that can donate electrons.",
+      correctExplanation:
+        "The alkene π bond donates electrons to the electrophilic end of Br₂.",
+      topic: "Nucleophiles and bases",
+    },
+    {
+      id: "identify-electrophilic-bromine",
+      title: "Which bromine is attacked?",
+      description:
+        "The alkene polarises Br₂, making the nearer bromine electrophilic.",
+      instruction: "Click the electrophilic bromine atom.",
+      correctTarget: "electrophilic-bromine",
+      incorrectFeedback:
+        "Not quite. Choose the bromine atom closest to the alkene π bond.",
+      correctExplanation:
+        "The nearer bromine becomes electron-poor and is attacked by the alkene.",
+      topic: "Mechanism fundamentals",
+    },
+    {
+      id: "identify-bromonium-ion",
+      title: "Which intermediate forms?",
+      description:
+        "Bromination avoids a free carbocation by forming a three-membered bridged intermediate.",
+      instruction: "Click the bromonium ion.",
+      correctTarget: "bromonium-ion",
+      incorrectFeedback:
+        "Not quite. Look for bromine bridging both alkene carbons.",
+      correctExplanation:
+        "A cyclic bromonium ion forms, with positively charged bromine bonded to both carbons.",
+      topic: "Reaction intermediates",
+    },
+    {
+      id: "predict-backside-attack",
+      title: "Where does bromide attack?",
+      description:
+        "The bromonium bridge blocks one face, so bromide must attack from the opposite side.",
+      instruction: "Click the carbon attacked from the backside.",
+      correctTarget: "backside-carbon",
+      incorrectFeedback:
+        "Not quite. Bromide opens the ring from the face opposite the bridging bromine.",
+      correctExplanation:
+        "Backside attack opens the bromonium ion and enforces anti addition.",
+      topic: "Bond changes",
+    },
+    {
+      id: "predict-anti-product",
+      title: "Which stereochemical product forms?",
+      description:
+        "Use bromonium-ion opening to determine whether the two bromines add syn or anti.",
+      instruction: "Click the trans anti-addition product.",
+      correctTarget: "anti-product",
+      incorrectFeedback:
+        "Not quite. The bromines must appear on opposite faces of the ring.",
+      correctExplanation:
+        "trans-1,2-Dibromocyclohexane forms because bromide opens the bromonium ion by backside attack.",
       topic: "Products",
     },
   ]);
