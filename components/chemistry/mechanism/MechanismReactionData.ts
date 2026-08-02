@@ -71,9 +71,13 @@ export const electrophilicAdditionReactionData =
       "cursor-pointer outline-none focus-visible:stroke-rose-600 focus-visible:stroke-[4]",
     hotspots: [
       { id: "electrophilic-addition-pi", target: "pi-bond", label: "Select the alkene pi bond", scenes: ["reactants"], geometry: { shape: "rect", x: 285, y: 165, width: 120, height: 70, rx: 18 } },
+      { id: "electrophilic-addition-internal-carbon", target: "internal-carbon", label: "Select the internal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 285, cy: 198, r: 48 } },
+      { id: "electrophilic-addition-attack-carbon", target: "internal-carbon", label: "Select the positively charged internal carbon", scenes: ["bromide-attack"], geometry: { shape: "circle", cx: 345, cy: 198, r: 68 } },
+      { id: "electrophilic-addition-terminal-carbon", target: "terminal-carbon", label: "Select the terminal alkene carbon", scenes: ["reactants"], geometry: { shape: "circle", cx: 438, cy: 198, r: 48 } },
       { id: "electrophilic-addition-hydrogen", target: "electrophilic-hydrogen", label: "Select the electrophilic hydrogen", scenes: ["reactants"], geometry: { shape: "circle", cx: 548, cy: 198, r: 40 } },
-      { id: "electrophilic-addition-carbocation", target: "carbocation", label: "Select the secondary carbocation", scenes: ["carbocation"], geometry: { shape: "rect", x: 170, y: 160, width: 300, height: 90, rx: 18 } },
-      { id: "electrophilic-addition-bromide", target: "bromide", label: "Select the bromide ion", scenes: ["carbocation"], geometry: { shape: "circle", cx: 575, cy: 198, r: 55 } },
-      { id: "electrophilic-addition-product", target: "markovnikov-product", label: "Select the Markovnikov product", scenes: ["products"], geometry: { shape: "rect", x: 190, y: 160, width: 380, height: 90, rx: 18 } },
+      { id: "electrophilic-addition-carbocation", target: "internal-carbocation", label: "Select the secondary carbocation center", scenes: ["carbocation"], geometry: { shape: "circle", cx: 345, cy: 198, r: 68 } },
+      { id: "electrophilic-addition-bromide", target: "bromide", label: "Select the bromide ion", scenes: ["carbocation", "bromide-attack"], geometry: { shape: "circle", cx: 575, cy: 198, r: 55 } },
+      { id: "electrophilic-addition-product", target: "markovnikov-product", label: "Select 2-bromopropane, the Markovnikov product", scenes: ["products"], geometry: { shape: "rect", x: 35, y: 115, width: 330, height: 150, rx: 22 } },
+      { id: "electrophilic-addition-wrong-product", target: "anti-markovnikov-product", label: "Select 1-bromopropane", scenes: ["products"], geometry: { shape: "rect", x: 395, y: 115, width: 330, height: 150, rx: 22 } },
     ],
   });

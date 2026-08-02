@@ -279,55 +279,55 @@ export const electrophilicAdditionQuestions =
       topic: "Nucleophiles and bases",
     },
     {
-      id: "identify-electrophile",
-      title: "Which atom is attacked first?",
+      id: "predict-protonation-carbon",
+      title: "Which alkene carbon receives hydrogen?",
       description:
-        "The alkene reacts with the electron-poor atom in hydrogen bromide.",
-      instruction: "Click the electrophilic hydrogen.",
-      correctTarget: "electrophilic-hydrogen",
+        "Choose the protonation direction that produces the more stable carbocation.",
+      instruction: "Click the terminal carbon of the double bond.",
+      correctTarget: "terminal-carbon",
       incorrectFeedback:
-        "Not quite. Select the positively polarized atom in HBr.",
+        "Not quite. Hydrogen should add so the positive charge forms on the more substituted carbon.",
       correctExplanation:
-        "Hydrogen is electrophilic because the H–Br bond is polarized toward bromine.",
+        "Hydrogen adds to the terminal carbon, leaving a secondary carbocation on the internal carbon.",
       topic: "Mechanism fundamentals",
     },
     {
-      id: "identify-carbocation",
-      title: "Which intermediate controls regioselectivity?",
+      id: "predict-carbocation-location",
+      title: "Which carbon bears the positive charge?",
       description:
-        "Protonation produces the more stable positively charged intermediate.",
-      instruction: "Click the secondary carbocation.",
-      correctTarget: "carbocation",
+        "Protonation of propene can formally place the positive charge on either alkene carbon, but one carbocation is more stable.",
+      instruction: "Click the internal secondary carbocation center.",
+      correctTarget: "internal-carbocation",
       incorrectFeedback:
-        "Not quite. Look for the positively charged carbon intermediate.",
+        "Not quite. Choose the more substituted carbon, which gives the more stable secondary carbocation.",
       correctExplanation:
-        "The secondary carbocation is favored over a primary carbocation and leads to Markovnikov addition.",
+        "The positive charge is on the internal carbon, producing a secondary carbocation rather than a primary carbocation.",
       topic: "Reaction intermediates",
     },
     {
-      id: "identify-bromide",
-      title: "Which species attacks the carbocation?",
+      id: "predict-bromide-attachment",
+      title: "Where does bromide form the new bond?",
       description:
-        "The nucleophile formed during protonation completes the addition.",
-      instruction: "Click the bromide ion.",
-      correctTarget: "bromide",
+        "Bromide attacks the electron-deficient center of the carbocation intermediate.",
+      instruction: "Click the internal carbon that receives bromide.",
+      correctTarget: "internal-carbon",
       incorrectFeedback:
-        "Not quite. Select the negatively charged species with available lone pairs.",
+        "Not quite. Bromide attacks the carbon that carries the positive charge.",
       correctExplanation:
-        "Bromide donates a lone pair to the carbocation and forms the carbon–bromine bond.",
-      topic: "Nucleophiles and bases",
+        "Bromide attaches to the internal carbon because that carbon is the carbocation center.",
+      topic: "Bond changes",
     },
     {
-      id: "identify-markovnikov-product",
-      title: "Which structure is the Markovnikov product?",
+      id: "predict-markovnikov-product",
+      title: "Which product follows Markovnikov addition?",
       description:
-        "Bromine ends up on the more substituted carbon of the original double bond.",
-      instruction: "Click the 2-bromopropane product.",
+        "Use the protonation direction and carbocation location to predict the final constitutional isomer.",
+      instruction: "Click the product with bromine on the internal carbon.",
       correctTarget: "markovnikov-product",
       incorrectFeedback:
-        "Not quite. Choose the product with bromine on the central carbon.",
+        "Not quite. Bromine should be on the more substituted carbon of the original double bond.",
       correctExplanation:
-        "2-Bromopropane is the Markovnikov product because bromine adds to the more substituted carbon.",
+        "2-Bromopropane is the Markovnikov product because H adds to the terminal carbon and Br adds to the internal carbon.",
       topic: "Products",
     },
   ]);

@@ -20,10 +20,10 @@ const steps: ElectrophilicAdditionMechanismStep[] = [
   },
   {
     id: "protonation",
-    title: "The π bond attacks hydrogen",
+    title: "Predict where hydrogen adds",
     description:
-      "The alkene π electrons form a bond to the electrophilic hydrogen of HBr. At the same time, the H–Br bond electrons move onto bromine.",
-    note: "Protonation occurs so that the more stable secondary carbocation forms.",
+      "The π bond attacks HBr. Hydrogen adds to the terminal carbon so the positive charge forms on the more substituted internal carbon.",
+    note: "Choose the protonation direction that produces the more stable carbocation.",
     highlight: "protonation",
     arrows: [
       {
@@ -46,19 +46,19 @@ const steps: ElectrophilicAdditionMechanismStep[] = [
   },
   {
     id: "carbocation",
-    title: "A secondary carbocation forms",
+    title: "Predict the carbocation location",
     description:
-      "Hydrogen adds to the terminal carbon, leaving the positive charge on the more substituted internal carbon. This secondary carbocation is more stable than the alternative primary carbocation.",
-    note: "Carbocation stability explains the Markovnikov orientation.",
+      "After protonation, the positive charge is on the internal carbon. This secondary carbocation is more stable than the alternative primary carbocation.",
+    note: "Carbocation stability determines the regioselectivity of HX addition.",
     highlight: "carbocation",
     arrows: [],
   },
   {
     id: "bromide-attack",
-    title: "Bromide attacks the carbocation",
+    title: "Predict where bromide attaches",
     description:
-      "Bromide donates a lone pair to the positively charged carbon, forming the new carbon–bromine bond.",
-    note: "The nucleophile attacks the planar carbocation intermediate.",
+      "Bromide donates a lone pair to the positively charged internal carbon, forming the new carbon–bromine bond.",
+    note: "The nucleophile attaches at the carbon that bears the positive charge.",
     highlight: "bromide-attack",
     arrows: [
       {
@@ -99,10 +99,11 @@ export default function ElectrophilicAdditionMechanismPlayer() {
         getSceneForStep: (step) =>
           step.highlight === "products"
             ? "products"
-            : step.highlight === "carbocation" ||
-                step.highlight === "bromide-attack"
+            : step.highlight === "carbocation"
               ? "carbocation"
-              : "reactants",
+              : step.highlight === "bromide-attack"
+                ? "bromide-attack"
+                : "reactants",
       }}
       playbackInterval={3000}
       getRevealMessage={(step, index) =>
@@ -132,6 +133,11 @@ export default function ElectrophilicAdditionMechanismPlayer() {
             step={practiceStep}
             animated={animated}
             interactive={interactive}
+            showProductChoices={
+              step.highlight === "products" &&
+              mode !== "learn" &&
+              !(mode === "practice" && answered)
+            }
             onTargetClick={onTargetClick}
           />
         );
