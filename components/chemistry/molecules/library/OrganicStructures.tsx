@@ -1,4 +1,15 @@
 import type { ReactNode } from "react";
+import SkeletalMoleculeEngine from "../../skeletal/SkeletalMoleculeEngine";
+import {
+  cyclohexaneMolecule,
+  cyclohexeneMolecule,
+  oneBromopropaneMolecule,
+  onePropanolMolecule,
+  propeneMolecule,
+  twoBromopropaneMolecule,
+  twoPropanolMolecule,
+} from "../../skeletal/presets";
+import type { SkeletalMoleculeDefinition } from "../../skeletal/types";
 
 type StructureProps = {
   x: number;
@@ -11,6 +22,32 @@ type StructureProps = {
 
 const defaultStroke = "#0f172a";
 
+function withBondColour(
+  molecule: SkeletalMoleculeDefinition,
+  bondId: string,
+  colour: string,
+  strokeWidth?: number,
+): SkeletalMoleculeDefinition {
+  return {
+    ...molecule,
+    bonds: molecule.bonds.map((bond) =>
+      bond.id === bondId ? { ...bond, colour, strokeWidth } : bond,
+    ),
+  };
+}
+
+function withSubstituentColour(
+  molecule: SkeletalMoleculeDefinition,
+  colour: string,
+): SkeletalMoleculeDefinition {
+  return {
+    ...molecule,
+    atoms: molecule.atoms.map((atom) =>
+      atom.id === "x" ? { ...atom, colour } : atom,
+    ),
+  };
+}
+
 export function CyclohexeneStructure({
   x,
   y,
@@ -19,41 +56,20 @@ export function CyclohexeneStructure({
   highlightBond = false,
   children,
 }: StructureProps) {
-  const points = [
-    [0, -62],
-    [54, -31],
-    [54, 31],
-    [0, 62],
-    [-54, 31],
-    [-54, -31],
-    [0, -62],
-  ];
+  const molecule = highlightBond
+    ? withBondColour(cyclohexeneMolecule, "b4", "#059669", 7)
+    : cyclohexeneMolecule;
 
   return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points={points
-          .map(([px, py]) => `${px},${py}`)
-          .join(" ")}
-        fill="none"
-        stroke={stroke}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
-      <line
-        x1="-43"
-        y1="25"
-        x2="-6"
-        y2="48"
-        stroke={highlightBond ? "#059669" : stroke}
-        strokeWidth={highlightBond ? 7 : 5}
-        strokeLinecap="round"
-      />
-
+    <SkeletalMoleculeEngine
+      molecule={molecule}
+      x={x}
+      y={y}
+      scale={scale}
+      stroke={stroke}
+    >
       {children}
-    </g>
+    </SkeletalMoleculeEngine>
   );
 }
 
@@ -64,34 +80,18 @@ export function CyclohexaneStructure({
   stroke = defaultStroke,
   children,
 }: StructureProps) {
-  const points = [
-    [0, -62],
-    [54, -31],
-    [54, 31],
-    [0, 62],
-    [-54, 31],
-    [-54, -31],
-    [0, -62],
-  ];
-
   return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points={points
-          .map(([px, py]) => `${px},${py}`)
-          .join(" ")}
-        fill="none"
-        stroke={stroke}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
+    <SkeletalMoleculeEngine
+      molecule={cyclohexaneMolecule}
+      x={x}
+      y={y}
+      scale={scale}
+      stroke={stroke}
+    >
       {children}
-    </g>
+    </SkeletalMoleculeEngine>
   );
 }
-
 
 type E2AntiPeriplanarSubstrateProps = {
   x?: number;
@@ -154,10 +154,10 @@ export function E2AntiPeriplanarSubstrate({
 
       {[0, 1, 2, 3, 4].map((index) => {
         const progress = (index + 1) / 6;
-        const centerX = alphaCarbon.x +
-          (bromine.x - alphaCarbon.x) * progress;
-        const centerY = alphaCarbon.y +
-          (bromine.y - alphaCarbon.y) * progress;
+        const centerX =
+          alphaCarbon.x + (bromine.x - alphaCarbon.x) * progress;
+        const centerY =
+          alphaCarbon.y + (bromine.y - alphaCarbon.y) * progress;
         const halfWidth = 2 + index * 1.6;
 
         return (
@@ -283,27 +283,18 @@ export function PropeneStructure({
   piStroke,
   showCarbonLabels = false,
 }: PropeneStructureProps) {
+  const molecule = piStroke
+    ? withBondColour(propeneMolecule, "c2-c3", piStroke)
+    : propeneMolecule;
+
   return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points="-92,24 -35,-8 28,24"
-        fill="none"
-        stroke={stroke}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
-      <line
-        x1="-27"
-        y1="2"
-        x2="20"
-        y2="26"
-        stroke={piStroke ?? stroke}
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-
+    <SkeletalMoleculeEngine
+      molecule={molecule}
+      x={x}
+      y={y}
+      scale={scale}
+      stroke={stroke}
+    >
       {showCarbonLabels ? (
         <>
           <text
@@ -316,7 +307,6 @@ export function PropeneStructure({
           >
             internal C
           </text>
-
           <text
             x="30"
             y="58"
@@ -329,7 +319,7 @@ export function PropeneStructure({
           </text>
         </>
       ) : null}
-    </g>
+    </SkeletalMoleculeEngine>
   );
 }
 
@@ -348,38 +338,15 @@ export function MarkovnikovPropaneStructure({
   scale = 1,
   substituentStroke = substituent === "Br" ? "#dc2626" : "#2563eb",
 }: SubstitutedPropaneProps) {
+  const base = substituent === "Br" ? twoBromopropaneMolecule : twoPropanolMolecule;
+
   return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points="-92,28 -34,-4 30,28"
-        fill="none"
-        stroke={defaultStroke}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
-      <line
-        x1="-34"
-        y1="-4"
-        x2="-34"
-        y2="-56"
-        stroke={defaultStroke}
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-
-      <text
-        x="-34"
-        y="-70"
-        textAnchor="middle"
-        fontSize="27"
-        fontWeight="700"
-        fill={substituentStroke}
-      >
-        {substituent}
-      </text>
-    </g>
+    <SkeletalMoleculeEngine
+      molecule={withSubstituentColour(base, substituentStroke)}
+      x={x}
+      y={y}
+      scale={scale}
+    />
   );
 }
 
@@ -390,37 +357,14 @@ export function AntiMarkovnikovPropaneStructure({
   scale = 1,
   substituentStroke = substituent === "Br" ? "#dc2626" : "#2563eb",
 }: SubstitutedPropaneProps) {
+  const base = substituent === "Br" ? oneBromopropaneMolecule : onePropanolMolecule;
+
   return (
-    <g transform={`translate(${x} ${y}) scale(${scale})`}>
-      <polyline
-        points="-92,28 -34,-4 30,28"
-        fill="none"
-        stroke={defaultStroke}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-
-      <line
-        x1="30"
-        y1="28"
-        x2="86"
-        y2="0"
-        stroke={defaultStroke}
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-
-      <text
-        x="108"
-        y="-2"
-        textAnchor="middle"
-        fontSize="27"
-        fontWeight="700"
-        fill={substituentStroke}
-      >
-        {substituent}
-      </text>
-    </g>
+    <SkeletalMoleculeEngine
+      molecule={withSubstituentColour(base, substituentStroke)}
+      x={x}
+      y={y}
+      scale={scale}
+    />
   );
 }

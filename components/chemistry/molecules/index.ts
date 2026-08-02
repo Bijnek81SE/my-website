@@ -18,8 +18,11 @@ export type {
 } from "./MoleculeTypes";
 export {
   AntiMarkovnikovPropaneStructure,
+  But2EneStructure,
   CyclohexaneStructure,
   CyclohexeneStructure,
+  E2AntiPeriplanarSubstrate,
   MarkovnikovPropaneStructure,
   PropeneStructure,
 } from "./library";
+export * from "../skeletal";

@@ -8,3 +8,5 @@ export { default as LewisStructureBuilder } from "./LewisStructureBuilder";
 export { default as LonePair } from "./LonePair";
 export { default as ResonanceArrow } from "./ResonanceArrow";
 export { default as ResonanceCarboxylateInteractive } from "./ResonanceCarboxylateInteractive";
+export { default as SkeletalMoleculePlayground } from "./SkeletalMoleculePlayground";
+export * from "./skeletal";

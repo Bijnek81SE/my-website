@@ -52,6 +52,12 @@ const tools = [
     "violet",
   ],
   [
+    "Skeletal Molecule Builder",
+    "/lab/skeletal-molecule-builder",
+    "Render reusable line-angle structures from atom and bond data.",
+    "emerald",
+  ],
+  [
     "SN2 Mechanism Player",
     "/lab/sn2-mechanism",
     "Step through a concerted substitution reaction.",
@@ -171,22 +177,22 @@ export default function LabPage() {
     >
       <div className="rounded-3xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
         <p className="text-sm font-semibold uppercase tracking-[0.16em] text-blue-700">
-          New alkene mechanism
+          New chemistry engine
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Radical HBr Addition to Alkenes
+          Skeletal Molecule Builder
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Follow peroxide initiation and radical-chain propagation to the anti-Markovnikov bromide.
+          Preview reusable line-angle structures generated from atom and bond data, including rings, multiple bonds, stereochemistry, charges, and radicals.
         </p>
 
         <Link
-          href="/lab/radical-hbr-addition"
+          href="/lab/skeletal-molecule-builder"
           className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
         >
-          Open mechanism →
+          Open builder →
         </Link>
       </div>
 
