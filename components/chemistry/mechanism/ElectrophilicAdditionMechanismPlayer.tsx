@@ -28,17 +28,17 @@ const steps: ElectrophilicAdditionMechanismStep[] = [
     arrows: [
       {
         id: "pi-to-hydrogen",
-        start: { x: 350, y: 190 },
-        control: { x: 440, y: 95 },
-        end: { x: 545, y: 180 },
+        start: { x: 318, y: 190 },
+        control: { x: 415, y: 94 },
+        end: { x: 542, y: 185 },
         colour: "#e11d48",
         label: "The alkene pi electrons attack hydrogen",
       },
       {
         id: "hbr-to-bromine",
-        start: { x: 585, y: 195 },
-        control: { x: 625, y: 125 },
-        end: { x: 650, y: 180 },
+        start: { x: 590, y: 198 },
+        control: { x: 625, y: 128 },
+        end: { x: 646, y: 182 },
         colour: "#dc2626",
         label: "The hydrogen bromine bond electrons move to bromine",
       },
@@ -63,9 +63,9 @@ const steps: ElectrophilicAdditionMechanismStep[] = [
     arrows: [
       {
         id: "bromide-to-carbocation",
-        start: { x: 565, y: 158 },
-        control: { x: 475, y: 90 },
-        end: { x: 365, y: 185 },
+        start: { x: 566, y: 155 },
+        control: { x: 480, y: 86 },
+        end: { x: 382, y: 186 },
         colour: "#dc2626",
         label: "A bromide lone pair attacks the carbocation",
       },
@@ -121,11 +121,15 @@ export default function ElectrophilicAdditionMechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: ElectrophilicAdditionMechanismStep = {
           ...step,
           arrows:
-            mode === "learn" || showAnswer ? step.arrows : [],
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (

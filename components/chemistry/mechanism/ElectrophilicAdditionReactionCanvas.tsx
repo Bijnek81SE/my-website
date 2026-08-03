@@ -6,7 +6,7 @@ import {
 import { electrophilicAdditionReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
-import type { MechanismArrow as MechanismArrowData } from "./types";
+import type { MechanismArrow } from "./types";
 
 export type ElectrophilicAdditionMechanismStep = {
   id: string;
@@ -19,7 +19,7 @@ export type ElectrophilicAdditionMechanismStep = {
     | "carbocation"
     | "bromide-attack"
     | "products";
-  arrows: MechanismArrowData[];
+  arrows: MechanismArrow[];
 };
 
 export type ElectrophilicAdditionPracticeTarget =
@@ -41,6 +41,12 @@ type ElectrophilicAdditionReactionCanvasProps = {
     target: ElectrophilicAdditionPracticeTarget,
   ) => void;
 };
+
+const alkeneGlow =
+  "drop-shadow-[0_0_10px_rgba(225,29,72,0.3)]";
+
+const carbocationGlow =
+  "drop-shadow-[0_0_12px_rgba(124,58,237,0.32)]";
 
 export default function ElectrophilicAdditionReactionCanvas({
   step,
@@ -74,11 +80,12 @@ export default function ElectrophilicAdditionReactionCanvas({
           <>
             <text
               x="380"
-              y="72"
+              y="66"
               textAnchor="middle"
               fontSize="20"
               fontWeight="700"
               fill="#0f172a"
+              pointerEvents="none"
             >
               Choose the product of propene + HBr
             </text>
@@ -86,124 +93,225 @@ export default function ElectrophilicAdditionReactionCanvas({
             <g>
               <rect
                 x="35"
-                y="115"
+                y="105"
                 width="330"
-                height="150"
+                height="175"
                 rx="22"
                 fill="#ffffff"
-                stroke="#fda4af"
+                stroke="#fb7185"
                 strokeWidth="3"
               />
-              <MarkovnikovPropaneStructure x={220} y={188} substituent="Br" scale={0.9} />
-              <text x="200" y="240" textAnchor="middle" fontSize="16" fontWeight="700" fill="#be123c">
-                2-bromopropane · Markovnikov product
+
+              <MarkovnikovPropaneStructure
+                x={205}
+                y={185}
+                substituent="Br"
+                scale={0.92}
+              />
+
+              <text
+                x="200"
+                y="250"
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#be123c"
+                pointerEvents="none"
+              >
+                2-bromopropane
+              </text>
+
+              <text
+                x="200"
+                y="272"
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#e11d48"
+                pointerEvents="none"
+              >
+                Markovnikov product
               </text>
             </g>
 
             <g>
               <rect
                 x="395"
-                y="115"
+                y="105"
                 width="330"
-                height="150"
+                height="175"
                 rx="22"
                 fill="#ffffff"
                 stroke="#cbd5e1"
                 strokeWidth="3"
               />
-              <AntiMarkovnikovPropaneStructure x={540} y={188} substituent="Br" scale={0.9} />
-              <text x="560" y="240" textAnchor="middle" fontSize="16" fontWeight="700" fill="#64748b">
-                1-bromopropane · wrong regiochemistry
+
+              <AntiMarkovnikovPropaneStructure
+                x={555}
+                y={185}
+                substituent="Br"
+                scale={0.92}
+                substituentStroke="#64748b"
+              />
+
+              <text
+                x="560"
+                y="250"
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#64748b"
+                pointerEvents="none"
+              >
+                1-bromopropane
+              </text>
+
+              <text
+                x="560"
+                y="272"
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#64748b"
+                pointerEvents="none"
+              >
+                wrong regiochemistry
               </text>
             </g>
 
             <text
               x="380"
-              y="310"
+              y="320"
               textAnchor="middle"
               fontSize="17"
               fontWeight="600"
               fill="#475569"
+              pointerEvents="none"
             >
-              Apply Markovnikov regioselectivity before choosing.
+              Choose the product formed through the secondary carbocation.
             </text>
           </>
         ) : (
           <>
             <rect
-              x="160"
-              y="120"
-              width="440"
-              height="150"
+              x="145"
+              y="110"
+              width="470"
+              height="180"
               rx="24"
               fill="#fff1f2"
               stroke="#fb7185"
               strokeWidth="3"
             />
-            <MarkovnikovPropaneStructure x={400} y={194} substituent="Br" scale={1.15} />
-            <text x="380" y="255" textAnchor="middle" fontSize="18" fontWeight="700" fill="#be123c">
+
+            <MarkovnikovPropaneStructure
+              x={390}
+              y={190}
+              substituent="Br"
+              scale={1.15}
+            />
+
+            <text
+              x="380"
+              y="258"
+              textAnchor="middle"
+              fontSize="18"
+              fontWeight="700"
+              fill="#be123c"
+              pointerEvents="none"
+            >
               2-bromopropane · Markovnikov product
             </text>
           </>
         )
       ) : carbocation ? (
         <>
-          <circle
-            cx="345"
-            cy="198"
-            r="70"
-            fill={
-              step.highlight === "carbocation" ||
-              step.highlight === "bromide-attack"
-                ? "#ede9fe"
-                : "transparent"
+          <g
+            className={
+              step.highlight === "carbocation"
+                ? carbocationGlow
+                : undefined
             }
-            opacity="0.9"
-          />
-
-          <text
-            x="190"
-            y="215"
-            fontSize="42"
-            fontWeight="700"
-            fill="#7c3aed"
           >
-            CH₃–C⁺H–CH₃
-          </text>
+            <circle
+              cx="350"
+              cy="195"
+              r="92"
+              fill="#ede9fe"
+              opacity="0.72"
+            />
+
+            <text
+              x="350"
+              y="208"
+              textAnchor="middle"
+              fontSize="40"
+              fontWeight="700"
+              fill="#7c3aed"
+              pointerEvents="none"
+            >
+              CH₃–C⁺H–CH₃
+            </text>
+
+            <text
+              x="350"
+              y="132"
+              textAnchor="middle"
+              fontSize="16"
+              fontWeight="700"
+              fill="#6d28d9"
+              pointerEvents="none"
+            >
+              secondary carbocation
+            </text>
+          </g>
 
           <text
-            x="345"
-            y="118"
+            x="585"
+            y="210"
             textAnchor="middle"
-            fontSize="15"
-            fontWeight="700"
-            fill="#6d28d9"
-          >
-            internal carbon
-          </text>
-
-          <text
-            x="540"
-            y="215"
-            fontSize="42"
+            fontSize="41"
             fontWeight="700"
             fill="#dc2626"
+            pointerEvents="none"
           >
             Br⁻
           </text>
 
-          <circle cx="570" cy="152" r="5" fill="#dc2626" />
-          <circle cx="588" cy="152" r="5" fill="#dc2626" />
+          <circle
+            cx="565"
+            cy="155"
+            r="5"
+            fill="#dc2626"
+            pointerEvents="none"
+          />
+
+          <circle
+            cx="583"
+            cy="146"
+            r="5"
+            fill="#dc2626"
+            pointerEvents="none"
+          />
+
+          <circle
+            cx="601"
+            cy="155"
+            r="5"
+            fill="#dc2626"
+            pointerEvents="none"
+          />
 
           <text
             x="380"
-            y="285"
+            y="300"
             textAnchor="middle"
-            fontSize="18"
+            fontSize="17"
             fontWeight="600"
             fill="#475569"
+            pointerEvents="none"
           >
-            Secondary carbocation: Br⁻ attacks the charged internal carbon
+            Bromide attacks the positively charged internal carbon
           </text>
         </>
       ) : (
@@ -211,80 +319,115 @@ export default function ElectrophilicAdditionReactionCanvas({
           {step.highlight === "protonation" ? (
             <>
               <circle
-                cx="368"
-                cy="220"
-                r="62"
+                cx="372"
+                cy="222"
+                r="52"
                 fill="#fff1f2"
                 stroke="#fb7185"
                 strokeWidth="3"
               />
+
               <text
-                x="368"
+                x="372"
                 y="118"
                 textAnchor="middle"
                 fontSize="15"
                 fontWeight="700"
                 fill="#be123c"
+                pointerEvents="none"
               >
-                H adds here
+                terminal carbon receives H
               </text>
             </>
           ) : null}
 
-          <PropeneStructure
-            x={330}
-            y={198}
-            scale={1.35}
-            piStroke={
-              step.highlight === "alkene" || step.highlight === "protonation"
-                ? "#e11d48"
+          <g
+            className={
+              step.highlight === "alkene"
+                ? alkeneGlow
                 : undefined
             }
-            showCarbonLabels
-          />
+          >
+            <PropeneStructure
+              x={300}
+              y={195}
+              scale={1.35}
+              piStroke={
+                step.highlight === "alkene" ||
+                step.highlight === "protonation"
+                  ? "#e11d48"
+                  : undefined
+              }
+              showCarbonLabels={
+                step.highlight === "protonation"
+              }
+            />
+          </g>
 
           <text
-            x="535"
-            y="215"
-            fontSize="40"
+            x="495"
+            y="212"
+            textAnchor="middle"
+            fontSize="29"
+            fontWeight="700"
+            fill="#64748b"
+            pointerEvents="none"
+          >
+            +
+          </text>
+
+          <text
+            x="550"
+            y="212"
+            textAnchor="middle"
+            fontSize="39"
             fontWeight="700"
             fill="#2563eb"
+            pointerEvents="none"
           >
             H
           </text>
+
           <line
-            x1="570"
-            y1="202"
+            x1="575"
+            y1="198"
             x2="620"
-            y2="202"
+            y2="198"
             stroke={
               step.highlight === "protonation"
                 ? "#dc2626"
                 : "#0f172a"
             }
             strokeWidth={
-              step.highlight === "protonation" ? 7 : 5
+              step.highlight === "protonation"
+                ? 7
+                : 5
             }
+            strokeLinecap="round"
           />
+
           <text
-            x="635"
-            y="215"
-            fontSize="40"
+            x="650"
+            y="212"
+            textAnchor="middle"
+            fontSize="39"
             fontWeight="700"
             fill="#dc2626"
+            pointerEvents="none"
           >
             Br
           </text>
 
           <text
             x="380"
-            y="330"
+            y="315"
             textAnchor="middle"
             fontSize="18"
             fontWeight="600"
             fill="#475569"
+            pointerEvents="none"
           >
-            Propene + hydrogen bromide
+            propene + hydrogen bromide
           </text>
         </>
       )}
@@ -295,6 +438,17 @@ export default function ElectrophilicAdditionReactionCanvas({
         interactive={interactive}
         onTargetClick={onTargetClick}
       />
+
+      <text
+        x="380"
+        y="365"
+        textAnchor="middle"
+        fontSize="16"
+        fill="#475569"
+        pointerEvents="none"
+      >
+        {step.note}
+      </text>
     </ReactionCanvasEngine>
   );
 }
