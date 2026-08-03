@@ -756,11 +756,11 @@ export const halogenationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "rect",
-          x: 270,
-          y: 158,
-          width: 135,
-          height: 72,
-          rx: 18,
+          x: 180,
+          y: 125,
+          width: 140,
+          height: 130,
+          rx: 20,
         },
       },
       {
@@ -770,9 +770,9 @@ export const halogenationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "circle",
-          cx: 520,
-          cy: 198,
-          r: 46,
+          cx: 515,
+          cy: 194,
+          r: 48,
         },
       },
       {
@@ -781,12 +781,10 @@ export const halogenationReactionData =
         label: "Select the bromonium ion",
         scenes: ["bromonium"],
         geometry: {
-          shape: "rect",
-          x: 175,
-          y: 105,
-          width: 170,
-          height: 150,
-          rx: 22,
+          shape: "circle",
+          cx: 285,
+          cy: 195,
+          r: 108,
         },
       },
       {
@@ -796,7 +794,7 @@ export const halogenationReactionData =
         scenes: ["bromonium", "bromide-attack"],
         geometry: {
           shape: "circle",
-          cx: 575,
+          cx: 585,
           cy: 198,
           r: 58,
         },
@@ -808,9 +806,9 @@ export const halogenationReactionData =
         scenes: ["bromide-attack"],
         geometry: {
           shape: "circle",
-          cx: 300,
-          cy: 215,
-          r: 52,
+          cx: 345,
+          cy: 220,
+          r: 48,
         },
       },
       {
@@ -821,9 +819,9 @@ export const halogenationReactionData =
         geometry: {
           shape: "rect",
           x: 35,
-          y: 100,
+          y: 78,
           width: 330,
-          height: 180,
+          height: 220,
           rx: 22,
         },
       },
@@ -835,9 +833,9 @@ export const halogenationReactionData =
         geometry: {
           shape: "rect",
           x: 395,
-          y: 100,
+          y: 78,
           width: 330,
-          height: 180,
+          height: 220,
           rx: 22,
         },
       },

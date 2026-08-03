@@ -28,19 +28,20 @@ const steps: HalogenationMechanismStep[] = [
     arrows: [
       {
         id: "pi-to-bromine",
-        start: { x: 338, y: 196 },
-        control: { x: 410, y: 92 },
-        end: { x: 500, y: 184 },
+        start: { x: 220, y: 226 },
+        control: { x: 332, y: 105 },
+        end: { x: 490, y: 180 },
         colour: "#7c3aed",
         label: "The alkene pi electrons attack bromine",
       },
       {
         id: "brbr-to-bromine",
-        start: { x: 548, y: 198 },
-        control: { x: 600, y: 112 },
-        end: { x: 640, y: 184 },
+        start: { x: 570, y: 194 },
+        control: { x: 610, y: 120 },
+        end: { x: 642, y: 180 },
         colour: "#dc2626",
-        label: "The bromine bromine bond electrons move to bromide",
+        label:
+          "The bromine bromine bond electrons move to bromide",
       },
     ],
   },
@@ -63,17 +64,17 @@ const steps: HalogenationMechanismStep[] = [
     arrows: [
       {
         id: "bromide-to-carbon",
-        start: { x: 545, y: 190 },
-        control: { x: 430, y: 300 },
-        end: { x: 300, y: 215 },
+        start: { x: 566, y: 155 },
+        control: { x: 465, y: 304 },
+        end: { x: 340, y: 225 },
         colour: "#dc2626",
         label: "Bromide attacks from the opposite face",
       },
       {
         id: "bridge-to-bromine",
-        start: { x: 290, y: 165 },
-        control: { x: 275, y: 110 },
-        end: { x: 255, y: 140 },
+        start: { x: 328, y: 190 },
+        control: { x: 318, y: 138 },
+        end: { x: 294, y: 132 },
         colour: "#7c3aed",
         label: "The carbon bromine bridge bond opens",
       },
@@ -92,7 +93,10 @@ const steps: HalogenationMechanismStep[] = [
 
 export default function HalogenationMechanismPlayer() {
   return (
-    <MechanismPlayerEngine<HalogenationMechanismStep, HalogenationPracticeTarget>
+    <MechanismPlayerEngine<
+      HalogenationMechanismStep,
+      HalogenationPracticeTarget
+    >
       title="Halogenation of alkenes"
       description="Follow bromination of cyclohexene through bromonium-ion formation, backside attack, and anti addition."
       accent="violet"
@@ -126,10 +130,15 @@ export default function HalogenationMechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: HalogenationMechanismStep = {
           ...step,
-          arrows: mode === "learn" || showAnswer ? step.arrows : [],
+          arrows:
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (
