@@ -3,11 +3,12 @@ import {
   TertButylBromideStructure,
   TertButylCarbocationStructure,
   TwoMethylpropeneStructure,
+  WaterStructure,
 } from "../molecules";
 import { e1ReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
-import type { MechanismArrow as MechanismArrowData } from "./types";
+import type { MechanismArrow } from "./types";
 
 export type E1MechanismStep = {
   id: string;
@@ -20,7 +21,7 @@ export type E1MechanismStep = {
     | "carbocation"
     | "deprotonation"
     | "products";
-  arrows: MechanismArrowData[];
+  arrows: MechanismArrow[];
 };
 
 export type E1PracticeTarget =
@@ -36,8 +37,16 @@ type E1ReactionCanvasProps = {
   step: E1MechanismStep;
   animated: boolean;
   interactive?: boolean;
-  onTargetClick?: (target: E1PracticeTarget) => void;
+  onTargetClick?: (
+    target: E1PracticeTarget,
+  ) => void;
 };
+
+const waterGlow =
+  "drop-shadow-[0_0_10px_rgba(37,99,235,0.35)]";
+
+const carbocationGlow =
+  "drop-shadow-[0_0_10px_rgba(5,150,105,0.3)]";
 
 export default function E1ReactionCanvas({
   step,
@@ -46,8 +55,10 @@ export default function E1ReactionCanvas({
   onTargetClick,
 }: E1ReactionCanvasProps) {
   const products = step.highlight === "products";
-  const carbocation = step.highlight === "carbocation";
-  const deprotonation = step.highlight === "deprotonation";
+  const carbocation =
+    step.highlight === "carbocation";
+  const deprotonation =
+    step.highlight === "deprotonation";
 
   const scene = products
     ? "products"
@@ -67,28 +78,32 @@ export default function E1ReactionCanvas({
       {products ? (
         <>
           <TwoMethylpropeneStructure
-            x={245}
+            x={250}
             y={195}
             scale={1.05}
             highlightBond
           />
 
           <text
-            x="400"
+            x="405"
             y="215"
+            textAnchor="middle"
             fontSize="28"
             fontWeight="700"
             fill="#64748b"
+            pointerEvents="none"
           >
             +
           </text>
 
           <text
-            x="455"
+            x="480"
             y="215"
+            textAnchor="middle"
             fontSize="34"
             fontWeight="700"
             fill="#2563eb"
+            pointerEvents="none"
           >
             H₃O⁺
           </text>
@@ -96,52 +111,63 @@ export default function E1ReactionCanvas({
           <text
             x="565"
             y="215"
+            textAnchor="middle"
             fontSize="28"
             fontWeight="700"
             fill="#64748b"
+            pointerEvents="none"
           >
             +
           </text>
 
           <text
-            x="620"
+            x="630"
             y="215"
-            fontSize="34"
+            textAnchor="middle"
+            fontSize="35"
             fontWeight="700"
             fill="#dc2626"
+            pointerEvents="none"
           >
             Br⁻
+          </text>
+
+          <text
+            x="380"
+            y="302"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="600"
+            fill="#475569"
+            pointerEvents="none"
+          >
+            2-methylpropene, hydronium, and bromide
           </text>
         </>
       ) : (
         <>
           {deprotonation ? (
             <>
-              {/* Water is placed close to the β-hydrogen. */}
-              <g>
-                <text
-                  x="239"
-                  y="125"
-                  fontSize="30"
-                  fontWeight="700"
-                  fill="#2563eb"
+              <g className={waterGlow}>
+                <WaterStructure
+                  x={299}
+                  y={125}
+                  scale={1.05}
                 >
-                  H₂O
-                </text>
+                  <circle
+                    cx="-9"
+                    cy="-34"
+                    r="5"
+                    fill="#2563eb"
+                  />
 
-                {/* Oxygen lone pairs */}
-                <circle
-                  cx="282"
-                  cy="83"
-                  r="5"
-                  fill="#2563eb"
-                />
-                <circle
-                  cx="300"
-                  cy="83"
-                  r="5"
-                  fill="#2563eb"
-                />
+                  <circle
+                    cx="9"
+                    cy="-34"
+                    r="5"
+                    fill="#2563eb"
+                  />
+                </WaterStructure>
               </g>
 
               <E1BetaHydrogenCarbocationStructure
@@ -151,17 +177,21 @@ export default function E1ReactionCanvas({
               />
             </>
           ) : carbocation ? (
-            <TertButylCarbocationStructure
-              x={390}
-              y={205}
-              scale={0.92}
-            />
+            <g className={carbocationGlow}>
+              <TertButylCarbocationStructure
+                x={390}
+                y={205}
+                scale={0.92}
+              />
+            </g>
           ) : (
             <TertButylBromideStructure
               x={390}
               y={205}
               scale={0.92}
-              highlightBond={step.highlight === "ionisation"}
+              highlightBond={
+                step.highlight === "ionisation"
+              }
             />
           )}
 
@@ -169,9 +199,11 @@ export default function E1ReactionCanvas({
             <text
               x="610"
               y="218"
-              fontSize="34"
+              textAnchor="middle"
+              fontSize="35"
               fontWeight="700"
               fill="#dc2626"
+              pointerEvents="none"
             >
               Br⁻
             </text>
@@ -192,6 +224,7 @@ export default function E1ReactionCanvas({
         textAnchor="middle"
         fontSize="17"
         fill="#475569"
+        pointerEvents="none"
       >
         {step.note}
       </text>

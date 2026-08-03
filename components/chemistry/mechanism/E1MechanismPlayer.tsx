@@ -28,9 +28,9 @@ const steps: E1MechanismStep[] = [
     arrows: [
       {
         id: "departure",
-        start: { x: 485, y: 192 },
-        control: { x: 535, y: 115 },
-        end: { x: 575, y: 180 },
+        start: { x: 444, y: 194 },
+        control: { x: 478, y: 128 },
+        end: { x: 499, y: 181 },
         colour: "#dc2626",
         label: "Carbon bromine bond electrons move to bromine",
       },
@@ -55,17 +55,17 @@ const steps: E1MechanismStep[] = [
     arrows: [
       {
         id: "base-to-hydrogen",
-        start: { x: 292, y: 108 },
-        control: { x: 390, y: 55 },
-        end: { x: 499, y: 102 },
+        start: { x: 320, y: 110 },
+        control: { x: 405, y: 62 },
+        end: { x: 489, y: 101 },
         colour: "#2563eb",
         label: "A water lone pair removes the beta hydrogen",
       },
       {
         id: "ch-to-pi",
-        start: { x: 488, y: 121 },
-        control: { x: 400, y: 127 },
-        end: { x: 423, y: 177 },
+        start: { x: 496, y: 124 },
+        control: { x: 600, y: 168 },
+        end: { x: 430, y: 184 },
         colour: "#7c3aed",
         label:
           "The carbon hydrogen bond electrons form the carbon carbon pi bond",
@@ -85,7 +85,10 @@ const steps: E1MechanismStep[] = [
 
 export default function E1MechanismPlayer() {
   return (
-    <MechanismPlayerEngine<E1MechanismStep, E1PracticeTarget>
+    <MechanismPlayerEngine<
+      E1MechanismStep,
+      E1PracticeTarget
+    >
       title="E1 elimination"
       description="Follow ionisation, carbocation formation, β-deprotonation, and alkene formation in a stepwise elimination."
       accent="emerald"
@@ -119,12 +122,15 @@ export default function E1MechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
 
         const practiceStep: E1MechanismStep = {
           ...step,
           arrows:
-            mode === "learn" || showAnswer ? step.arrows : [],
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (
