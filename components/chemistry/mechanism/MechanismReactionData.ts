@@ -544,10 +544,10 @@ export const hydrohalogenationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "rect",
-          x: 305,
-          y: 160,
-          width: 140,
-          height: 72,
+          x: 315,
+          y: 158,
+          width: 125,
+          height: 82,
           rx: 18,
         },
       },
@@ -558,9 +558,9 @@ export const hydrohalogenationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "circle",
-          cx: 465,
-          cy: 198,
-          r: 52,
+          cx: 406,
+          cy: 195,
+          r: 48,
         },
       },
       {
@@ -570,9 +570,9 @@ export const hydrohalogenationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "circle",
-          cx: 545,
+          cx: 550,
           cy: 198,
-          r: 38,
+          r: 40,
         },
       },
       {
@@ -584,7 +584,7 @@ export const hydrohalogenationReactionData =
           shape: "circle",
           cx: 350,
           cy: 198,
-          r: 90,
+          r: 108,
         },
       },
       {
@@ -594,7 +594,7 @@ export const hydrohalogenationReactionData =
         scenes: ["carbocation", "halide-attack"],
         geometry: {
           shape: "circle",
-          cx: 575,
+          cx: 585,
           cy: 198,
           r: 58,
         },
@@ -607,9 +607,9 @@ export const hydrohalogenationReactionData =
         geometry: {
           shape: "rect",
           x: 35,
-          y: 110,
+          y: 92,
           width: 330,
-          height: 160,
+          height: 200,
           rx: 22,
         },
       },
@@ -621,9 +621,9 @@ export const hydrohalogenationReactionData =
         geometry: {
           shape: "rect",
           x: 395,
-          y: 110,
+          y: 92,
           width: 330,
-          height: 160,
+          height: 200,
           rx: 22,
         },
       },

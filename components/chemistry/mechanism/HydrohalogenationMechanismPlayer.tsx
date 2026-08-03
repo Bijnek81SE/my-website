@@ -28,19 +28,20 @@ const steps: HydrohalogenationMechanismStep[] = [
     arrows: [
       {
         id: "pi-to-hydrogen",
-        start: { x: 374, y: 180 },
-        control: { x: 455, y: 92 },
-        end: { x: 542, y: 180 },
+        start: { x: 360, y: 188 },
+        control: { x: 445, y: 94 },
+        end: { x: 542, y: 184 },
         colour: "#0891b2",
         label: "The alkene pi electrons attack hydrogen",
       },
       {
         id: "hcl-to-chlorine",
-        start: { x: 580, y: 195 },
-        control: { x: 620, y: 125 },
-        end: { x: 646, y: 180 },
+        start: { x: 590, y: 198 },
+        control: { x: 625, y: 128 },
+        end: { x: 646, y: 182 },
         colour: "#15803d",
-        label: "The hydrogen chlorine bond electrons move to chlorine",
+        label:
+          "The hydrogen chlorine bond electrons move to chlorine",
       },
     ],
   },
@@ -63,11 +64,12 @@ const steps: HydrohalogenationMechanismStep[] = [
     arrows: [
       {
         id: "chloride-to-carbocation",
-        start: { x: 553, y: 167 },
-        control: { x: 472, y: 92 },
-        end: { x: 386, y: 178 },
+        start: { x: 565, y: 155 },
+        control: { x: 480, y: 88 },
+        end: { x: 390, y: 188 },
         colour: "#15803d",
-        label: "A chloride lone pair attacks the tertiary carbocation",
+        label:
+          "A chloride lone pair attacks the tertiary carbocation",
       },
     ],
   },
@@ -121,10 +123,15 @@ export default function HydrohalogenationMechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: HydrohalogenationMechanismStep = {
           ...step,
-          arrows: mode === "learn" || showAnswer ? step.arrows : [],
+          arrows:
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (
