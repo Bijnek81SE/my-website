@@ -8,6 +8,7 @@ import {
   cyclohexeneMolecule,
   e1BetaHydrogenCarbocationMolecule,
   e2AntiPeriplanarMolecule,
+  hydroxideMolecule,
   isobutylChlorideMolecule,
   mercuriniumIonMolecule,
   methanolMolecule,
@@ -49,7 +50,13 @@ function withBondColour(
   return {
     ...molecule,
     bonds: molecule.bonds.map((bond) =>
-      bond.id === bondId ? { ...bond, colour, strokeWidth } : bond,
+      bond.id === bondId
+        ? {
+            ...bond,
+            colour,
+            strokeWidth,
+          }
+        : bond,
     ),
   };
 }
@@ -62,7 +69,12 @@ function withAtomColour(
   return {
     ...molecule,
     atoms: molecule.atoms.map((atom) =>
-      atom.id === atomId ? { ...atom, colour } : atom,
+      atom.id === atomId
+        ? {
+            ...atom,
+            colour,
+          }
+        : atom,
     ),
   };
 }
@@ -102,57 +114,175 @@ export function CyclohexeneStructure({
   children,
 }: StructureProps) {
   const molecule = highlightBond
-    ? withBondColour(cyclohexeneMolecule, "b4", "#059669", 7)
+    ? withBondColour(
+        cyclohexeneMolecule,
+        "b4",
+        "#059669",
+        7,
+      )
     : cyclohexeneMolecule;
 
-  return <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} stroke={stroke}>{children}</SimpleStructure>;
+  return (
+    <SimpleStructure
+      molecule={molecule}
+      x={x}
+      y={y}
+      scale={scale}
+      stroke={stroke}
+    >
+      {children}
+    </SimpleStructure>
+  );
 }
 
-export function CyclohexaneStructure(props: StructureProps) {
-  return <SimpleStructure molecule={cyclohexaneMolecule} {...props} />;
+export function CyclohexaneStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={cyclohexaneMolecule}
+      {...props}
+    />
+  );
 }
 
-export function MethylBromideStructure(props: StructureProps & { highlightBond?: boolean }) {
+export function MethylBromideStructure(
+  props: StructureProps & {
+    highlightBond?: boolean;
+  },
+) {
   const molecule = props.highlightBond
-    ? withBondColour(methylBromideMolecule, "c-br", "#2563eb", 7)
+    ? withBondColour(
+        methylBromideMolecule,
+        "c-br",
+        "#2563eb",
+        7,
+      )
     : methylBromideMolecule;
-  return <SimpleStructure molecule={molecule} {...props} />;
+
+  return (
+    <SimpleStructure
+      molecule={molecule}
+      {...props}
+    />
+  );
 }
 
-export function MethanolStructure(props: StructureProps) {
-  return <SimpleStructure molecule={methanolMolecule} {...props} />;
+export function MethanolStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={methanolMolecule}
+      {...props}
+    />
+  );
 }
 
-export function TertButylBromideStructure(props: StructureProps & { highlightBond?: boolean }) {
+export function HydroxideStructure({
+  x,
+  y,
+  scale = 1,
+  children,
+}: StructureProps) {
+  return (
+    <SimpleStructure
+      molecule={hydroxideMolecule}
+      x={x}
+      y={y}
+      scale={scale}
+    >
+      {children}
+    </SimpleStructure>
+  );
+}
+
+export function TertButylBromideStructure(
+  props: StructureProps & {
+    highlightBond?: boolean;
+  },
+) {
   const molecule = props.highlightBond
-    ? withBondColour(tertButylBromideMolecule, "c-x", "#dc2626", 7)
+    ? withBondColour(
+        tertButylBromideMolecule,
+        "c-x",
+        "#dc2626",
+        7,
+      )
     : tertButylBromideMolecule;
-  return <SimpleStructure molecule={molecule} {...props} />;
+
+  return (
+    <SimpleStructure
+      molecule={molecule}
+      {...props}
+    />
+  );
 }
 
-export function TertButylChlorideStructure(props: StructureProps) {
-  return <SimpleStructure molecule={tertButylChlorideMolecule} {...props} />;
+export function TertButylChlorideStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={tertButylChlorideMolecule}
+      {...props}
+    />
+  );
 }
 
-
-export function IsobutylChlorideStructure(props: StructureProps) {
-  return <SimpleStructure molecule={isobutylChlorideMolecule} {...props} />;
+export function IsobutylChlorideStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={isobutylChlorideMolecule}
+      {...props}
+    />
+  );
 }
 
-export function TertButylCarbocationStructure(props: StructureProps) {
-  return <SimpleStructure molecule={tertButylCarbocationMolecule} {...props} />;
+export function TertButylCarbocationStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={tertButylCarbocationMolecule}
+      {...props}
+    />
+  );
 }
 
-export function E1BetaHydrogenCarbocationStructure(props: StructureProps) {
-  return <SimpleStructure molecule={e1BetaHydrogenCarbocationMolecule} {...props} />;
+export function E1BetaHydrogenCarbocationStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={e1BetaHydrogenCarbocationMolecule}
+      {...props}
+    />
+  );
 }
 
-export function TertButanolStructure(props: StructureProps) {
-  return <SimpleStructure molecule={tertButanolMolecule} {...props} />;
+export function TertButanolStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={tertButanolMolecule}
+      {...props}
+    />
+  );
 }
 
-export function TertButylOxoniumStructure(props: StructureProps) {
-  return <SimpleStructure molecule={tertButylOxoniumMolecule} {...props} />;
+export function TertButylOxoniumStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={tertButylOxoniumMolecule}
+      {...props}
+    />
+  );
 }
 
 export function TwoMethylpropeneStructure({
@@ -164,9 +294,25 @@ export function TwoMethylpropeneStructure({
   children,
 }: StructureProps) {
   const molecule = highlightBond
-    ? withBondColour(twoMethylpropeneMolecule, "c1-c2", "#0891b2", 7)
+    ? withBondColour(
+        twoMethylpropeneMolecule,
+        "c1-c2",
+        "#0891b2",
+        7,
+      )
     : twoMethylpropeneMolecule;
-  return <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} stroke={stroke}>{children}</SimpleStructure>;
+
+  return (
+    <SimpleStructure
+      molecule={molecule}
+      x={x}
+      y={y}
+      scale={scale}
+      stroke={stroke}
+    >
+      {children}
+    </SimpleStructure>
+  );
 }
 
 export function E2AntiPeriplanarSubstrate({
@@ -187,20 +333,63 @@ export function E2AntiPeriplanarSubstrate({
   showLabels?: boolean;
 }) {
   let molecule = e2AntiPeriplanarMolecule;
+
   if (highlightBreakingBonds) {
-    molecule = withBondColour(molecule, "beta-h", "#2563eb", 7);
-    molecule = withBondColour(molecule, "alpha-br", "#dc2626", 7);
+    molecule = withBondColour(
+      molecule,
+      "beta-h",
+      "#2563eb",
+      7,
+    );
+
+    molecule = withBondColour(
+      molecule,
+      "alpha-br",
+      "#dc2626",
+      7,
+    );
   }
+
   if (highlightFormingBond) {
-    molecule = withBondColour(molecule, "beta-alpha", "#7c3aed", 7);
+    molecule = withBondColour(
+      molecule,
+      "beta-alpha",
+      "#7c3aed",
+      7,
+    );
   }
 
   return (
-    <SimpleStructure molecule={molecule} x={x + 415} y={y + 205} scale={scale} stroke={stroke}>
+    <SimpleStructure
+      molecule={molecule}
+      x={x + 415}
+      y={y + 205}
+      scale={scale}
+      stroke={stroke}
+    >
       {showLabels ? (
         <>
-          <text x="-55" y="57" textAnchor="middle" fontSize="18" fontWeight="700" fill="#64748b">β-carbon</text>
-          <text x="40" y="57" textAnchor="middle" fontSize="18" fontWeight="700" fill="#64748b">α-carbon</text>
+          <text
+            x="-55"
+            y="57"
+            textAnchor="middle"
+            fontSize="18"
+            fontWeight="700"
+            fill="#64748b"
+          >
+            β-carbon
+          </text>
+
+          <text
+            x="40"
+            y="57"
+            textAnchor="middle"
+            fontSize="18"
+            fontWeight="700"
+            fill="#64748b"
+          >
+            α-carbon
+          </text>
         </>
       ) : null}
     </SimpleStructure>
@@ -221,9 +410,22 @@ export function But2EneStructure({
   piStroke?: string;
 }) {
   const molecule = piStroke
-    ? withBondColour(but2eneMolecule, "c2-c3", piStroke)
+    ? withBondColour(
+        but2eneMolecule,
+        "c2-c3",
+        piStroke,
+      )
     : but2eneMolecule;
-  return <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} stroke={stroke} />;
+
+  return (
+    <SimpleStructure
+      molecule={molecule}
+      x={x}
+      y={y}
+      scale={scale}
+      stroke={stroke}
+    />
+  );
 }
 
 export function PropeneStructure({
@@ -242,15 +444,44 @@ export function PropeneStructure({
   showCarbonLabels?: boolean;
 }) {
   const molecule = piStroke
-    ? withBondColour(propeneMolecule, "c2-c3", piStroke)
+    ? withBondColour(
+        propeneMolecule,
+        "c2-c3",
+        piStroke,
+      )
     : propeneMolecule;
 
   return (
-    <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} stroke={stroke}>
+    <SimpleStructure
+      molecule={molecule}
+      x={x}
+      y={y}
+      scale={scale}
+      stroke={stroke}
+    >
       {showCarbonLabels ? (
         <>
-          <text x="-35" y="-30" textAnchor="middle" fontSize="15" fontWeight="700" fill="#64748b">internal C</text>
-          <text x="30" y="58" textAnchor="middle" fontSize="15" fontWeight="700" fill="#64748b">terminal C</text>
+          <text
+            x="-35"
+            y="-30"
+            textAnchor="middle"
+            fontSize="15"
+            fontWeight="700"
+            fill="#64748b"
+          >
+            internal C
+          </text>
+
+          <text
+            x="30"
+            y="58"
+            textAnchor="middle"
+            fontSize="15"
+            fontWeight="700"
+            fill="#64748b"
+          >
+            terminal C
+          </text>
         </>
       ) : null}
     </SimpleStructure>
@@ -270,10 +501,28 @@ export function MarkovnikovPropaneStructure({
   y,
   substituent,
   scale = 1,
-  substituentStroke = substituent === "Br" ? "#dc2626" : "#2563eb",
+  substituentStroke =
+    substituent === "Br"
+      ? "#dc2626"
+      : "#2563eb",
 }: SubstitutedPropaneProps) {
-  const base = substituent === "Br" ? twoBromopropaneMolecule : twoPropanolMolecule;
-  return <SimpleStructure molecule={withAtomColour(base, "x", substituentStroke)} x={x} y={y} scale={scale} />;
+  const base =
+    substituent === "Br"
+      ? twoBromopropaneMolecule
+      : twoPropanolMolecule;
+
+  return (
+    <SimpleStructure
+      molecule={withAtomColour(
+        base,
+        "x",
+        substituentStroke,
+      )}
+      x={x}
+      y={y}
+      scale={scale}
+    />
+  );
 }
 
 export function AntiMarkovnikovPropaneStructure({
@@ -281,26 +530,72 @@ export function AntiMarkovnikovPropaneStructure({
   y,
   substituent,
   scale = 1,
-  substituentStroke = substituent === "Br" ? "#dc2626" : "#2563eb",
+  substituentStroke =
+    substituent === "Br"
+      ? "#dc2626"
+      : "#2563eb",
 }: SubstitutedPropaneProps) {
-  const base = substituent === "Br" ? oneBromopropaneMolecule : onePropanolMolecule;
-  return <SimpleStructure molecule={withAtomColour(base, "x", substituentStroke)} x={x} y={y} scale={scale} />;
+  const base =
+    substituent === "Br"
+      ? oneBromopropaneMolecule
+      : onePropanolMolecule;
+
+  return (
+    <SimpleStructure
+      molecule={withAtomColour(
+        base,
+        "x",
+        substituentStroke,
+      )}
+      x={x}
+      y={y}
+      scale={scale}
+    />
+  );
 }
 
-export function OrganoboraneStructure(props: StructureProps) {
-  return <SimpleStructure molecule={organoboraneMolecule} {...props} />;
+export function OrganoboraneStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={organoboraneMolecule}
+      {...props}
+    />
+  );
 }
 
-export function CarbonRadicalIntermediateStructure(props: StructureProps) {
-  return <SimpleStructure molecule={carbonRadicalIntermediateMolecule} {...props} />;
+export function CarbonRadicalIntermediateStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={carbonRadicalIntermediateMolecule}
+      {...props}
+    />
+  );
 }
 
-export function MercuriniumIonStructure(props: StructureProps) {
-  return <SimpleStructure molecule={mercuriniumIonMolecule} {...props} />;
+export function MercuriniumIonStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={mercuriniumIonMolecule}
+      {...props}
+    />
+  );
 }
 
-export function OrganomercuryAlcoholStructure(props: StructureProps) {
-  return <SimpleStructure molecule={organomercuryAlcoholMolecule} {...props} />;
+export function OrganomercuryAlcoholStructure(
+  props: StructureProps,
+) {
+  return (
+    <SimpleStructure
+      molecule={organomercuryAlcoholMolecule}
+      {...props}
+    />
+  );
 }
 
 export function DibromocyclohexaneStructure({
@@ -316,15 +611,35 @@ export function DibromocyclohexaneStructure({
   stereochemistry: "trans" | "cis";
   muted?: boolean;
 }) {
-  const base = stereochemistry === "trans"
-    ? transDibromocyclohexaneMolecule
-    : cisDibromocyclohexaneMolecule;
+  const base =
+    stereochemistry === "trans"
+      ? transDibromocyclohexaneMolecule
+      : cisDibromocyclohexaneMolecule;
+
   const molecule = muted
     ? {
         ...base,
-        atoms: base.atoms.map((atom) => ({ ...atom, colour: atom.colour ? "#64748b" : atom.colour })),
-        bonds: base.bonds.map((bond) => ({ ...bond, colour: bond.colour ? "#64748b" : bond.colour })),
+        atoms: base.atoms.map((atom) => ({
+          ...atom,
+          colour: atom.colour
+            ? "#64748b"
+            : atom.colour,
+        })),
+        bonds: base.bonds.map((bond) => ({
+          ...bond,
+          colour: bond.colour
+            ? "#64748b"
+            : bond.colour,
+        })),
       }
     : base;
-  return <SimpleStructure molecule={molecule} x={x} y={y} scale={scale} />;
+
+  return (
+    <SimpleStructure
+      molecule={molecule}
+      x={x}
+      y={y}
+      scale={scale}
+    />
+  );
 }

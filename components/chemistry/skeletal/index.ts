@@ -1,6 +1,13 @@
 export { default as SkeletalMoleculeEngine } from "./SkeletalMoleculeEngine";
 export type { SkeletalMoleculeEngineProps } from "./SkeletalMoleculeEngine";
-export { assertSkeletalMolecule, createZigZagChain, pointFrom, regularPolygonPoints } from "./geometry";
+
+export {
+  assertSkeletalMolecule,
+  createZigZagChain,
+  pointFrom,
+  regularPolygonPoints,
+} from "./geometry";
+
 export {
   cyclohexaneMolecule,
   cyclohexeneMolecule,
@@ -12,6 +19,7 @@ export {
   twoBromopropaneMolecule,
   twoPropanolMolecule,
 } from "./presets";
+
 export type {
   SkeletalAnnotation,
   SkeletalAtom,
@@ -20,12 +28,14 @@ export type {
   SkeletalMoleculeDefinition,
   SkeletalPoint,
 } from "./types";
+
 export {
   but2eneMolecule,
   carbonRadicalIntermediateMolecule,
   cisDibromocyclohexaneMolecule,
   e1BetaHydrogenCarbocationMolecule,
   e2AntiPeriplanarMolecule,
+  hydroxideMolecule,
   isobuteneMolecule,
   isobutylChlorideMolecule,
   mercuriniumIonMolecule,

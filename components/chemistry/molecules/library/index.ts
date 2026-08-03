@@ -7,6 +7,7 @@ export {
   DibromocyclohexaneStructure,
   E1BetaHydrogenCarbocationStructure,
   E2AntiPeriplanarSubstrate,
+   HydroxideStructure,
   IsobutylChlorideStructure,
   MarkovnikovPropaneStructure,
   MercuriniumIonStructure,

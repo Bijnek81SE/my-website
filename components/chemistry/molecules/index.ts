@@ -16,6 +16,7 @@ export type {
   MoleculeProps,
   MoleculeSelection,
 } from "./MoleculeTypes";
+
 export {
   AntiMarkovnikovPropaneStructure,
   But2EneStructure,
@@ -25,6 +26,7 @@ export {
   DibromocyclohexaneStructure,
   E1BetaHydrogenCarbocationStructure,
   E2AntiPeriplanarSubstrate,
+  HydroxideStructure,
   IsobutylChlorideStructure,
   MarkovnikovPropaneStructure,
   MercuriniumIonStructure,
@@ -40,4 +42,5 @@ export {
   TertButylOxoniumStructure,
   TwoMethylpropeneStructure,
 } from "./library";
+
 export * from "../skeletal";

@@ -1,4 +1,5 @@
 import {
+  HydroxideStructure,
   MethanolStructure,
   MethylBromideStructure,
 } from "../molecules";
@@ -21,8 +22,11 @@ type Sn2ReactionCanvasProps = {
   onTargetClick?: (target: Sn2PracticeTarget) => void;
 };
 
-const highlightClass =
-  "drop-shadow-[0_0_10px_rgba(37,99,235,0.35)]";
+const nucleophileGlow =
+  "drop-shadow-[0_0_10px_rgba(37,99,235,0.4)]";
+
+const leavingGroupGlow =
+  "drop-shadow-[0_0_10px_rgba(220,38,38,0.35)]";
 
 export default function Sn2ReactionCanvas({
   step,
@@ -31,7 +35,14 @@ export default function Sn2ReactionCanvas({
   onTargetClick,
 }: Sn2ReactionCanvasProps) {
   const showProduct = step.highlight === "product";
-  const scene = showProduct ? "products" : "reactants";
+
+  const showAttack =
+    step.highlight === "substrate" ||
+    step.highlight === "leaving-group";
+
+  const scene = showProduct
+    ? "products"
+    : "reactants";
 
   return (
     <ReactionCanvasEngine
@@ -42,27 +53,133 @@ export default function Sn2ReactionCanvas({
     >
       {!showProduct ? (
         <>
-          <g className={step.highlight === "nucleophile" ? highlightClass : undefined}>
-            <text x="82" y="225" fontSize="42" fontWeight="700" fill="#2563eb" pointerEvents="none">⁻OH</text>
-            <circle cx="112" cy="170" r="6" fill="#2563eb" opacity={step.highlight === "nucleophile" ? 1 : 0.45} pointerEvents="none" />
-            <circle cx="130" cy="170" r="6" fill="#2563eb" opacity={step.highlight === "nucleophile" ? 1 : 0.45} pointerEvents="none" />
+          <g
+            className={
+              step.highlight === "nucleophile"
+                ? nucleophileGlow
+                : undefined
+            }
+          >
+            <HydroxideStructure
+              x={170}
+              y={198}
+              scale={1.15}
+            >
+              <circle
+                cx="-9"
+                cy="-37"
+                r="5"
+                fill="#2563eb"
+                opacity={
+                  step.highlight === "nucleophile"
+                    ? 1
+                    : 0.55
+                }
+              />
+
+              <circle
+                cx="9"
+                cy="-37"
+                r="5"
+                fill="#2563eb"
+                opacity={
+                  step.highlight === "nucleophile"
+                    ? 1
+                    : 0.55
+                }
+              />
+            </HydroxideStructure>
           </g>
 
-          <g className={step.highlight === "leaving-group" ? highlightClass : undefined}>
+          {showAttack ? (
+            <line
+              x1="207"
+              y1="198"
+              x2="365"
+              y2="198"
+              stroke="#2563eb"
+              strokeWidth="4"
+              strokeDasharray="10 9"
+              strokeLinecap="round"
+              opacity="0.42"
+              pointerEvents="none"
+            />
+          ) : null}
+
+          <g
+            className={
+              step.highlight === "leaving-group"
+                ? leavingGroupGlow
+                : undefined
+            }
+          >
             <MethylBromideStructure
-              x={408}
-              y={208}
+              x={430}
+              y={198}
               scale={1.05}
-              highlightBond={step.highlight === "substrate"}
+              highlightBond={
+                step.highlight === "substrate" ||
+                step.highlight === "leaving-group"
+              }
             />
           </g>
+
+          {showAttack ? (
+            <text
+              x="300"
+              y="248"
+              textAnchor="middle"
+              fontSize="16"
+              fontWeight="700"
+              fill="#475569"
+              pointerEvents="none"
+            >
+              backside approach
+            </text>
+          ) : null}
         </>
       ) : (
         <>
-          <MethanolStructure x={300} y={205} scale={1.15} />
-          <text x="410" y="220" fontSize="34" fontWeight="700" fill="#64748b" pointerEvents="none">+</text>
-          <text x="478" y="220" fontSize="46" fontWeight="700" fill="#dc2626" pointerEvents="none">Br⁻</text>
-          <text x="380" y="285" textAnchor="middle" fontSize="18" fill="#475569" pointerEvents="none">Substitution product and bromide leaving group</text>
+          <MethanolStructure
+            x={310}
+            y={198}
+            scale={1.15}
+          />
+
+          <text
+            x="420"
+            y="214"
+            fontSize="32"
+            fontWeight="700"
+            fill="#64748b"
+            pointerEvents="none"
+          >
+            +
+          </text>
+
+          <text
+            x="500"
+            y="214"
+            textAnchor="middle"
+            fontSize="43"
+            fontWeight="700"
+            fill="#dc2626"
+            pointerEvents="none"
+          >
+            Br⁻
+          </text>
+
+          <text
+            x="380"
+            y="278"
+            textAnchor="middle"
+            fontSize="18"
+            fontWeight="600"
+            fill="#475569"
+            pointerEvents="none"
+          >
+            methanol and bromide
+          </text>
         </>
       )}
 
@@ -73,7 +190,16 @@ export default function Sn2ReactionCanvas({
         onTargetClick={onTargetClick}
       />
 
-      <text x="380" y="350" textAnchor="middle" fontSize="17" fill="#475569" pointerEvents="none">{step.note}</text>
+      <text
+        x="380"
+        y="350"
+        textAnchor="middle"
+        fontSize="17"
+        fill="#475569"
+        pointerEvents="none"
+      >
+        {step.note}
+      </text>
     </ReactionCanvasEngine>
   );
 }

@@ -8,7 +8,6 @@ import type { MechanismStep } from "./types";
 import { sn2Questions } from "./MechanismQuestions";
 import { sn2ReactionData } from "./MechanismReactionData";
 
-
 const steps: MechanismStep[] = [
   {
     id: "identify-nucleophile",
@@ -29,11 +28,12 @@ const steps: MechanismStep[] = [
     arrows: [
       {
         id: "attack",
-        start: { x: 132, y: 176 },
-        control: { x: 230, y: 58 },
-        end: { x: 325, y: 190 },
+        start: { x: 180, y: 160 },
+        control: { x: 275, y: 92 },
+        end: { x: 373, y: 187 },
         colour: "#2563eb",
-        label: "Hydroxide lone pair attacks the methyl carbon",
+        label:
+          "Hydroxide lone pair attacks the methyl carbon",
       },
     ],
   },
@@ -47,19 +47,21 @@ const steps: MechanismStep[] = [
     arrows: [
       {
         id: "attack",
-        start: { x: 132, y: 176 },
-        control: { x: 230, y: 58 },
-        end: { x: 325, y: 190 },
+        start: { x: 180, y: 160 },
+        control: { x: 275, y: 92 },
+        end: { x: 373, y: 187 },
         colour: "#2563eb",
-        label: "Hydroxide lone pair attacks the methyl carbon",
+        label:
+          "Hydroxide lone pair attacks the methyl carbon",
       },
       {
         id: "departure",
-        start: { x: 420, y: 190 },
-        control: { x: 490, y: 96 },
-        end: { x: 532, y: 174 },
+        start: { x: 440, y: 188 },
+        control: { x: 485, y: 124 },
+        end: { x: 504, y: 174 },
         colour: "#dc2626",
-        label: "Carbon bromine bond electrons move to bromine",
+        label:
+          "Carbon bromine bond electrons move to bromine",
       },
     ],
   },
@@ -74,10 +76,12 @@ const steps: MechanismStep[] = [
   },
 ];
 
-
 export default function MechanismPlayer() {
   return (
-    <MechanismPlayerEngine<MechanismStep, Sn2PracticeTarget>
+    <MechanismPlayerEngine<
+      MechanismStep,
+      Sn2PracticeTarget
+    >
       title="SN2 substitution"
       description="Follow the electron movement from nucleophile attack to leaving-group departure."
       accent="blue"
@@ -87,7 +91,9 @@ export default function MechanismPlayer() {
         id: "sn2",
         reactionData: sn2ReactionData,
         getSceneForStep: (step) =>
-          step.highlight === "product" ? "products" : "reactants",
+          step.highlight === "product"
+            ? "products"
+            : "reactants",
       }}
       playbackInterval={2600}
       getRevealMessage={(_step, index) =>
@@ -104,7 +110,9 @@ export default function MechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: MechanismStep = {
           ...step,
           arrows: showAnswer
