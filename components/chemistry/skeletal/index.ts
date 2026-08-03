@@ -50,4 +50,5 @@ export {
   tertButylOxoniumMolecule,
   transDibromocyclohexaneMolecule,
   twoMethylpropeneMolecule,
+  waterMolecule,
 } from "./mechanismPresets";

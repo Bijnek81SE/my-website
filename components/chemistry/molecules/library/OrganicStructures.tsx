@@ -27,6 +27,7 @@ import {
   twoBromopropaneMolecule,
   twoMethylpropeneMolecule,
   twoPropanolMolecule,
+  waterMolecule,
 } from "../../skeletal";
 import type { SkeletalMoleculeDefinition } from "../../skeletal/types";
 
@@ -188,6 +189,24 @@ export function HydroxideStructure({
   return (
     <SimpleStructure
       molecule={hydroxideMolecule}
+      x={x}
+      y={y}
+      scale={scale}
+    >
+      {children}
+    </SimpleStructure>
+  );
+}
+
+export function WaterStructure({
+  x,
+  y,
+  scale = 1,
+  children,
+}: StructureProps) {
+  return (
+    <SimpleStructure
+      molecule={waterMolecule}
       x={x}
       y={y}
       scale={scale}

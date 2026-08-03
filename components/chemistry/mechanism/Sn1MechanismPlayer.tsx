@@ -4,10 +4,9 @@ import MechanismPlayerEngine from "./MechanismPlayerEngine";
 import Sn1ReactionCanvas, {
   type Sn1PracticeTarget,
 } from "./Sn1ReactionCanvas";
-import type { MechanismStep } from "./types";
 import { sn1Questions } from "./MechanismQuestions";
 import { sn1ReactionData } from "./MechanismReactionData";
-
+import type { MechanismStep } from "./types";
 
 const steps: MechanismStep[] = [
   {
@@ -29,11 +28,12 @@ const steps: MechanismStep[] = [
     arrows: [
       {
         id: "departure",
-        start: { x: 462, y: 205 },
-        control: { x: 495, y: 94 },
-        end: { x: 545, y: 172 },
+        start: { x: 444, y: 194 },
+        control: { x: 478, y: 128 },
+        end: { x: 499, y: 181 },
         colour: "#dc2626",
-        label: "Carbon bromine bond electrons move to bromine",
+        label:
+          "Carbon bromine bond electrons move to bromine",
       },
     ],
   },
@@ -56,9 +56,9 @@ const steps: MechanismStep[] = [
     arrows: [
       {
         id: "attack",
-        start: { x: 132, y: 174 },
-        control: { x: 235, y: 58 },
-        end: { x: 338, y: 188 },
+        start: { x: 132, y: 154 },
+        control: { x: 240, y: 92 },
+        end: { x: 342, y: 190 },
         colour: "#2563eb",
         label: "Water lone pair attacks the carbocation",
       },
@@ -71,24 +71,24 @@ const steps: MechanismStep[] = [
       "A second water molecule removes a proton from the oxonium ion. The O–H bond electrons remain on oxygen, producing tert-butanol.",
     note: "A fast proton-transfer step neutralises the oxonium intermediate.",
     highlight: "deprotonation",
-    arrows: [
-      {
-        id: "base",
-        start: { x: 142, y: 252 },
-        control: { x: 230, y: 312 },
-        end: { x: 328, y: 246 },
-        colour: "#2563eb",
-        label: "Water removes a proton",
-      },
-      {
-        id: "oh-bond",
-        start: { x: 390, y: 228 },
-        control: { x: 438, y: 282 },
-        end: { x: 470, y: 214 },
-        colour: "#7c3aed",
-        label: "O H bond electrons return to oxygen",
-      },
-    ],
+arrows: [
+  {
+    id: "base",
+    start: { x: 128, y: 238 },
+    control: { x: 300, y: 262 },
+    end: { x: 481, y: 161 },
+    colour: "#2563eb",
+    label: "Water removes a proton",
+  },
+  {
+    id: "oh-bond",
+    start: { x: 469, y: 183 },
+    control: { x: 486, y: 207 },
+    end: { x: 451, y: 204 },
+    colour: "#7c3aed",
+    label: "O H bond electrons return to oxygen",
+  },
+],
   },
   {
     id: "products",
@@ -101,10 +101,12 @@ const steps: MechanismStep[] = [
   },
 ];
 
-
 export default function Sn1MechanismPlayer() {
   return (
-    <MechanismPlayerEngine<MechanismStep, Sn1PracticeTarget>
+    <MechanismPlayerEngine<
+      MechanismStep,
+      Sn1PracticeTarget
+    >
       title="SN1 substitution"
       description="Follow ionisation, carbocation formation, nucleophile attack, and deprotonation."
       accent="violet"
@@ -120,7 +122,7 @@ export default function Sn1MechanismPlayer() {
               ? "deprotonation"
               : step.highlight === "nucleophile"
                 ? "nucleophile"
-                : ["carbocation"].includes(step.highlight)
+                : step.highlight === "carbocation"
                   ? "carbocation"
                   : "substrate",
       }}
@@ -140,11 +142,15 @@ export default function Sn1MechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: MechanismStep = {
           ...step,
           arrows:
-            mode === "learn" || showAnswer ? step.arrows : [],
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (

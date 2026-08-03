@@ -98,11 +98,11 @@ export const sn1ReactionData =
         scenes: ["substrate"],
         geometry: {
           shape: "rect",
-          x: 250,
-          y: 160,
-          width: 215,
-          height: 95,
-          rx: 18,
+          x: 270,
+          y: 118,
+          width: 270,
+          height: 174,
+          rx: 20,
         },
       },
       {
@@ -112,11 +112,11 @@ export const sn1ReactionData =
         scenes: ["substrate"],
         geometry: {
           shape: "line",
-          x1: 430,
+          x1: 410,
           y1: 205,
-          x2: 505,
+          x2: 482,
           y2: 205,
-          strokeWidth: 34,
+          strokeWidth: 38,
         },
       },
       {
@@ -126,11 +126,11 @@ export const sn1ReactionData =
         scenes: ["carbocation"],
         geometry: {
           shape: "rect",
-          x: 280,
-          y: 160,
-          width: 230,
-          height: 90,
-          rx: 18,
+          x: 250,
+          y: 118,
+          width: 235,
+          height: 174,
+          rx: 20,
         },
       },
       {
@@ -140,9 +140,9 @@ export const sn1ReactionData =
         scenes: ["nucleophile"],
         geometry: {
           shape: "circle",
-          cx: 120,
-          cy: 190,
-          r: 62,
+          cx: 122,
+          cy: 195,
+          r: 54,
         },
       },
       {
@@ -152,9 +152,9 @@ export const sn1ReactionData =
         scenes: ["deprotonation"],
         geometry: {
           shape: "circle",
-          cx: 120,
-          cy: 270,
-          r: 58,
+          cx: 118,
+          cy: 274,
+          r: 52,
         },
       },
       {
@@ -164,11 +164,11 @@ export const sn1ReactionData =
         scenes: ["products"],
         geometry: {
           shape: "rect",
-          x: 170,
-          y: 165,
+          x: 155,
+          y: 120,
           width: 245,
-          height: 85,
-          rx: 18,
+          height: 175,
+          rx: 20,
         },
       },
       {
@@ -178,16 +178,16 @@ export const sn1ReactionData =
         scenes: ["products"],
         geometry: {
           shape: "rect",
-          x: 485,
-          y: 170,
-          width: 105,
-          height: 75,
+          x: 595,
+          y: 165,
+          width: 90,
+          height: 82,
           rx: 18,
         },
       },
     ],
   });
-
+  
 export const e2ReactionData =
   defineReactionData<E2PracticeTarget>({
     id: "e2",

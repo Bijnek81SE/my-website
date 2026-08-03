@@ -22,4 +22,5 @@ export {
   TertButylChlorideStructure,
   TertButylOxoniumStructure,
   TwoMethylpropeneStructure,
+  WaterStructure,
 } from "./OrganicStructures";

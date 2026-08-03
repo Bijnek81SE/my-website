@@ -41,6 +41,7 @@ export {
   TertButylChlorideStructure,
   TertButylOxoniumStructure,
   TwoMethylpropeneStructure,
+  WaterStructure,
 } from "./library";
 
 export * from "../skeletal";

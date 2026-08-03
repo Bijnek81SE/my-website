@@ -99,6 +99,22 @@ export const hydroxideMolecule = molecule(
   [],
 );
 
+export const waterMolecule = molecule(
+  "water",
+  "Water",
+  [
+    {
+      id: "o",
+      element: "O",
+      label: "H₂O",
+      showLabel: true,
+      colour: "#2563eb",
+      position: { x: 0, y: 0 },
+    },
+  ],
+  [],
+);
+
 function tertButylDefinition({
   id,
   name,
@@ -107,7 +123,7 @@ function tertButylDefinition({
 }: {
   id: string;
   name: string;
-  substituent?: "Br" | "Cl" | "OH" | "OH₂";
+  substituent?: "Br" | "Cl" | "OH";
   charge?: number;
 }) {
   const atoms: SkeletalAtom[] = [
@@ -123,21 +139,21 @@ function tertButylDefinition({
       element: "C",
       label: "CH₃",
       showLabel: true,
-      position: { x: -92, y: 0 },
+      position: { x: -104, y: 0 },
     },
     {
       id: "m2",
       element: "C",
       label: "CH₃",
       showLabel: true,
-      position: { x: 58, y: -58 },
+      position: { x: 72, y: -72 },
     },
     {
       id: "m3",
       element: "C",
       label: "CH₃",
       showLabel: true,
-      position: { x: 58, y: 58 },
+      position: { x: 72, y: 72 },
     },
   ];
 
@@ -168,17 +184,10 @@ function tertButylDefinition({
     atoms.push({
       id: "x",
       element: substituent,
-      label:
-        substituent === "OH₂"
-          ? "OH₂"
-          : substituent,
+      label: substituent,
       showLabel: true,
-      charge:
-        substituent === "OH₂"
-          ? 1
-          : undefined,
       colour,
-      position: { x: 100, y: 0 },
+      position: { x: 118, y: 0 },
     });
 
     bonds.push({
@@ -219,12 +228,99 @@ export const tertButanolMolecule =
     substituent: "OH",
   });
 
-export const tertButylOxoniumMolecule =
-  tertButylDefinition({
-    id: "tert-butyl-oxonium",
-    name: "tert-Butyl oxonium ion",
-    substituent: "OH₂",
-  });
+export const tertButylOxoniumMolecule = molecule(
+  "tert-butyl-oxonium",
+  "tert-Butyl oxonium ion",
+  [
+    {
+      id: "centre",
+      element: "C",
+      showLabel: true,
+      position: { x: 0, y: 0 },
+    },
+    {
+      id: "m1",
+      element: "C",
+      label: "CH₃",
+      showLabel: true,
+      position: { x: -104, y: 0 },
+    },
+    {
+      id: "m2",
+      element: "C",
+      label: "CH₃",
+      showLabel: true,
+      position: { x: 72, y: -72 },
+    },
+    {
+      id: "m3",
+      element: "C",
+      label: "CH₃",
+      showLabel: true,
+      position: { x: 72, y: 72 },
+    },
+    {
+      id: "oxygen",
+      element: "O",
+      label: "O",
+      showLabel: true,
+      charge: 1,
+      colour: "#2563eb",
+      position: { x: 118, y: 0 },
+      labelOffset: { x: -3, y: 0 },
+    },
+    {
+      id: "removable-h",
+      element: "H",
+      label: "H",
+      showLabel: true,
+      colour: "#2563eb",
+      position: { x: 174, y: -52 },
+    },
+    {
+      id: "retained-h",
+      element: "H",
+      label: "H",
+      showLabel: true,
+      colour: "#2563eb",
+      position: { x: 174, y: 52 },
+    },
+  ],
+  [
+    {
+      id: "c-m1",
+      from: "centre",
+      to: "m1",
+    },
+    {
+      id: "c-m2",
+      from: "centre",
+      to: "m2",
+    },
+    {
+      id: "c-m3",
+      from: "centre",
+      to: "m3",
+    },
+    {
+      id: "c-x",
+      from: "centre",
+      to: "oxygen",
+    },
+    {
+      id: "o-removable-h",
+      from: "oxygen",
+      to: "removable-h",
+      colour: "#2563eb",
+    },
+    {
+      id: "o-retained-h",
+      from: "oxygen",
+      to: "retained-h",
+      colour: "#2563eb",
+    },
+  ],
+);
 
 export const e1BetaHydrogenCarbocationMolecule =
   molecule(

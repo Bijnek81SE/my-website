@@ -152,13 +152,13 @@ export default function E1ReactionCanvas({
             </>
           ) : carbocation ? (
             <TertButylCarbocationStructure
-              x={405}
+              x={390}
               y={205}
               scale={0.92}
             />
           ) : (
             <TertButylBromideStructure
-              x={405}
+              x={390}
               y={205}
               scale={0.92}
               highlightBond={step.highlight === "ionisation"}
