@@ -28,19 +28,20 @@ const steps: HydrationMechanismStep[] = [
     arrows: [
       {
         id: "pi-to-hydrogen",
-        start: { x: 250, y: 179 },
-        control: { x: 365, y: 80 },
-        end: { x: 488, y: 181 },
+        start: { x: 290, y: 184 },
+        control: { x: 385, y: 82 },
+        end: { x: 490, y: 183 },
         colour: "#2563eb",
         label: "The alkene pi electrons attack hydrogen",
       },
       {
         id: "oh-to-oxygen",
-        start: { x: 520, y: 193 },
-        control: { x: 565, y: 115 },
-        end: { x: 596, y: 176 },
+        start: { x: 535, y: 198 },
+        control: { x: 578, y: 122 },
+        end: { x: 613, y: 180 },
         colour: "#0891b2",
-        label: "The oxygen hydrogen bond electrons return to oxygen",
+        label:
+          "The oxygen hydrogen bond electrons return to oxygen",
       },
     ],
   },
@@ -63,11 +64,12 @@ const steps: HydrationMechanismStep[] = [
     arrows: [
       {
         id: "water-to-carbocation",
-        start: { x: 565, y: 165 },
-        control: { x: 480, y: 78 },
-        end: { x: 390, y: 176 },
+        start: { x: 576, y: 158 },
+        control: { x: 490, y: 84 },
+        end: { x: 390, y: 185 },
         colour: "#0891b2",
-        label: "A water lone pair attacks the secondary carbocation",
+        label:
+          "A water lone pair attacks the secondary carbocation",
       },
     ],
   },
@@ -90,19 +92,21 @@ const steps: HydrationMechanismStep[] = [
     arrows: [
       {
         id: "water-to-proton",
-        start: { x: 112, y: 168 },
-        control: { x: 205, y: 88 },
-        end: { x: 300, y: 174 },
+        start: { x: 120, y: 168 },
+        control: { x: 220, y: 86 },
+        end: { x: 319, y: 174 },
         colour: "#0891b2",
-        label: "Water removes a proton from the oxonium ion",
+        label:
+          "Water removes a proton from the oxonium ion",
       },
       {
         id: "oh-to-oxygen",
-        start: { x: 332, y: 188 },
-        control: { x: 372, y: 118 },
-        end: { x: 407, y: 174 },
+        start: { x: 345, y: 185 },
+        control: { x: 382, y: 120 },
+        end: { x: 414, y: 176 },
         colour: "#2563eb",
-        label: "The oxygen hydrogen bond electrons remain on oxygen",
+        label:
+          "The oxygen hydrogen bond electrons remain on oxygen",
       },
     ],
   },
@@ -119,7 +123,10 @@ const steps: HydrationMechanismStep[] = [
 
 export default function HydrationMechanismPlayer() {
   return (
-    <MechanismPlayerEngine<HydrationMechanismStep, HydrationPracticeTarget>
+    <MechanismPlayerEngine<
+      HydrationMechanismStep,
+      HydrationPracticeTarget
+    >
       title="Acid-catalysed hydration of alkenes"
       description="Follow Markovnikov hydration of propene through protonation, carbocation formation, water attack, and deprotonation."
       accent="blue"
@@ -157,10 +164,15 @@ export default function HydrationMechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: HydrationMechanismStep = {
           ...step,
-          arrows: mode === "learn" || showAnswer ? step.arrows : [],
+          arrows:
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (

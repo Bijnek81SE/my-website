@@ -643,10 +643,10 @@ export const hydrationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "rect",
-          x: 215,
-          y: 170,
-          width: 110,
-          height: 90,
+          x: 205,
+          y: 148,
+          width: 130,
+          height: 102,
           rx: 18,
         },
       },
@@ -657,9 +657,9 @@ export const hydrationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "circle",
-          cx: 308,
-          cy: 220,
-          r: 50,
+          cx: 310,
+          cy: 226,
+          r: 48,
         },
       },
       {
@@ -669,9 +669,9 @@ export const hydrationReactionData =
         scenes: ["carbocation"],
         geometry: {
           shape: "circle",
-          cx: 355,
-          cy: 198,
-          r: 92,
+          cx: 350,
+          cy: 195,
+          r: 94,
         },
       },
       {
@@ -682,8 +682,8 @@ export const hydrationReactionData =
         geometry: {
           shape: "circle",
           cx: 585,
-          cy: 198,
-          r: 62,
+          cy: 195,
+          r: 54,
         },
       },
       {
@@ -693,11 +693,11 @@ export const hydrationReactionData =
         scenes: ["oxonium"],
         geometry: {
           shape: "rect",
-          x: 235,
-          y: 145,
-          width: 275,
-          height: 110,
-          rx: 20,
+          x: 265,
+          y: 120,
+          width: 250,
+          height: 155,
+          rx: 22,
         },
       },
       {
@@ -707,9 +707,9 @@ export const hydrationReactionData =
         scenes: ["deprotonation"],
         geometry: {
           shape: "circle",
-          cx: 105,
-          cy: 198,
-          r: 58,
+          cx: 112,
+          cy: 205,
+          r: 52,
         },
       },
       {
@@ -720,9 +720,9 @@ export const hydrationReactionData =
         geometry: {
           shape: "rect",
           x: 35,
-          y: 108,
+          y: 100,
           width: 330,
-          height: 165,
+          height: 185,
           rx: 22,
         },
       },
@@ -734,9 +734,9 @@ export const hydrationReactionData =
         geometry: {
           shape: "rect",
           x: 395,
-          y: 108,
+          y: 100,
           width: 330,
-          height: 165,
+          height: 185,
           rx: 22,
         },
       },
