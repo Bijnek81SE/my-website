@@ -8,7 +8,6 @@ import E2ReactionCanvas, {
 import { e2Questions } from "./MechanismQuestions";
 import { e2ReactionData } from "./MechanismReactionData";
 
-
 const steps: E2MechanismStep[] = [
   {
     id: "alignment",
@@ -29,27 +28,29 @@ const steps: E2MechanismStep[] = [
     arrows: [
       {
         id: "base-to-hydrogen",
-        start: { x: 145, y: 158 },
-        control: { x: 235, y: 82 },
-        end: { x: 334, y: 126 },
+        start: { x: 129, y: 155 },
+        control: { x: 220, y: 76 },
+        end: { x: 326, y: 104 },
         colour: "#2563eb",
         label: "Base lone pair removes the beta hydrogen",
       },
       {
         id: "ch-to-pi",
-        start: { x: 350, y: 154 },
-        control: { x: 392, y: 136 },
-        end: { x: 408, y: 198 },
+        start: { x: 342, y: 145 },
+        control: { x: 374, y: 132 },
+        end: { x: 400, y: 190 },
         colour: "#7c3aed",
-        label: "Carbon hydrogen bond electrons form the pi bond",
+        label:
+          "Carbon hydrogen bond electrons form the carbon carbon pi bond",
       },
       {
         id: "cbr-to-br",
-        start: { x: 470, y: 232 },
-        control: { x: 520, y: 244 },
-        end: { x: 492, y: 290 },
+        start: { x: 465, y: 250 },
+        control: { x: 512, y: 248 },
+        end: { x: 480, y: 289 },
         colour: "#dc2626",
-        label: "Carbon bromine bond electrons move to bromine",
+        label:
+          "Carbon bromine bond electrons move to bromine",
       },
     ],
   },
@@ -64,10 +65,12 @@ const steps: E2MechanismStep[] = [
   },
 ];
 
-
 export default function E2MechanismPlayer() {
   return (
-    <MechanismPlayerEngine<E2MechanismStep, E2PracticeTarget>
+    <MechanismPlayerEngine<
+      E2MechanismStep,
+      E2PracticeTarget
+    >
       title="E2 elimination"
       description="Follow β-hydrogen abstraction, π-bond formation, and leaving-group departure in one concerted step."
       accent="orange"
@@ -77,7 +80,9 @@ export default function E2MechanismPlayer() {
         id: "e2",
         reactionData: e2ReactionData,
         getSceneForStep: (step) =>
-          step.highlight === "products" ? "products" : "reactants",
+          step.highlight === "products"
+            ? "products"
+            : "reactants",
       }}
       playbackInterval={3000}
       getRevealMessage={(step, index) =>
@@ -96,7 +101,9 @@ export default function E2MechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: E2MechanismStep = {
           ...step,
           arrows:

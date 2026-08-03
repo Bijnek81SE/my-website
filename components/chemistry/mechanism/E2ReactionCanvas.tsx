@@ -1,24 +1,13 @@
 import {
   But2EneStructure,
   E2AntiPeriplanarSubstrate,
-} from "../molecules/library";
+  HydroxideStructure,
+  WaterStructure,
+} from "../molecules";
 import { e2ReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
-
-type Point = {
-  x: number;
-  y: number;
-};
-
-type Arrow = {
-  id: string;
-  start: Point;
-  control: Point;
-  end: Point;
-  colour?: string;
-  label: string;
-};
+import type { MechanismArrow } from "./types";
 
 export type E2MechanismStep = {
   id: string;
@@ -26,7 +15,7 @@ export type E2MechanismStep = {
   description: string;
   note: string;
   highlight: "alignment" | "concerted" | "products";
-  arrows: Arrow[];
+  arrows: MechanismArrow[];
 };
 
 export type E2PracticeTarget =
@@ -43,11 +32,16 @@ type E2ReactionCanvasProps = {
   step: E2MechanismStep;
   animated: boolean;
   interactive?: boolean;
-  onTargetClick?: (target: E2PracticeTarget) => void;
+  onTargetClick?: (
+    target: E2PracticeTarget,
+  ) => void;
 };
 
-const glow =
-  "drop-shadow-[0_0_10px_rgba(234,88,12,0.4)]";
+const baseGlow =
+  "drop-shadow-[0_0_10px_rgba(37,99,235,0.4)]";
+
+const substrateGlow =
+  "drop-shadow-[0_0_10px_rgba(234,88,12,0.3)]";
 
 export default function E2ReactionCanvas({
   step,
@@ -57,7 +51,10 @@ export default function E2ReactionCanvas({
 }: E2ReactionCanvasProps) {
   const product = step.highlight === "products";
   const concerted = step.highlight === "concerted";
-  const scene = product ? "products" : "reactants";
+
+  const scene = product
+    ? "products"
+    : "reactants";
 
   return (
     <ReactionCanvasEngine
@@ -68,21 +65,17 @@ export default function E2ReactionCanvas({
     >
       {product ? (
         <>
-          <text
-            x="92"
-            y="210"
-            fontSize="34"
-            fontWeight="700"
-            fill="#2563eb"
-            pointerEvents="none"
-          >
-            H₂O
-          </text>
+          <WaterStructure
+            x={115}
+            y={198}
+            scale={1.15}
+          />
 
           <text
-            x="220"
-            y="210"
-            fontSize="30"
+            x="205"
+            y="213"
+            textAnchor="middle"
+            fontSize="29"
             fontWeight="700"
             fill="#64748b"
             pointerEvents="none"
@@ -91,14 +84,14 @@ export default function E2ReactionCanvas({
           </text>
 
           <But2EneStructure
-            x={410}
-            y={190}
+            x={390}
+            y={192}
             scale={1.35}
             piStroke="#7c3aed"
           />
 
           <text
-            x="410"
+            x="390"
             y="275"
             textAnchor="middle"
             fontSize="18"
@@ -110,9 +103,10 @@ export default function E2ReactionCanvas({
           </text>
 
           <text
-            x="575"
-            y="210"
-            fontSize="30"
+            x="565"
+            y="213"
+            textAnchor="middle"
+            fontSize="29"
             fontWeight="700"
             fill="#64748b"
             pointerEvents="none"
@@ -121,56 +115,99 @@ export default function E2ReactionCanvas({
           </text>
 
           <text
-            x="630"
-            y="210"
-            fontSize="38"
+            x="635"
+            y="215"
+            textAnchor="middle"
+            fontSize="39"
             fontWeight="700"
             fill="#dc2626"
             pointerEvents="none"
           >
             Br⁻
           </text>
+
+          <text
+            x="380"
+            y="308"
+            textAnchor="middle"
+            fontSize="16"
+            fontWeight="600"
+            fill="#64748b"
+            pointerEvents="none"
+          >
+            base removes β-H as the alkene forms and bromide leaves
+          </text>
         </>
       ) : (
         <>
-          <g className={concerted ? glow : undefined}>
-            <text
-              x="82"
-              y="208"
-              fontSize="38"
-              fontWeight="700"
-              fill="#2563eb"
-              pointerEvents="none"
+          <g
+            className={
+              concerted
+                ? baseGlow
+                : undefined
+            }
+          >
+            <HydroxideStructure
+              x={120}
+              y={198}
+              scale={1.15}
             >
-              ⁻OH
-            </text>
+              <circle
+                cx="-9"
+                cy="-37"
+                r="5"
+                fill="#2563eb"
+                opacity={
+                  concerted
+                    ? 1
+                    : 0.62
+                }
+              />
 
-            <circle
-              cx="132"
-              cy="158"
-              r="5"
-              fill="#2563eb"
-              pointerEvents="none"
-            />
+              <circle
+                cx="9"
+                cy="-37"
+                r="5"
+                fill="#2563eb"
+                opacity={
+                  concerted
+                    ? 1
+                    : 0.62
+                }
+              />
+            </HydroxideStructure>
+          </g>
 
-            <circle
-              cx="150"
-              cy="158"
-              r="5"
-              fill="#2563eb"
-              pointerEvents="none"
+          <g
+            className={
+              concerted
+                ? substrateGlow
+                : undefined
+            }
+          >
+            <E2AntiPeriplanarSubstrate
+              x={-6}
+              y={0}
+              scale={1}
+              highlightBreakingBonds={concerted}
+              highlightFormingBond={concerted}
+              showLabels
             />
           </g>
 
-          <E2AntiPeriplanarSubstrate
-            x={0}
-            y={0}
-            highlightBreakingBonds={concerted}
-            highlightFormingBond={concerted}
-            showLabels
-          />
-
-          {step.highlight === "alignment" ? (
+          {concerted ? (
+            <text
+              x="380"
+              y="82"
+              textAnchor="middle"
+              fontSize="18"
+              fontWeight="700"
+              fill="#c2410c"
+              pointerEvents="none"
+            >
+              all three electron movements occur together
+            </text>
+          ) : (
             <>
               <text
                 x="410"
@@ -185,7 +222,7 @@ export default function E2ReactionCanvas({
               </text>
 
               <path
-                d="M 338 134 C 370 108, 452 108, 486 276"
+                d="M 332 126 C 372 96, 452 100, 488 284"
                 fill="none"
                 stroke="#ea580c"
                 strokeWidth="3"
@@ -194,7 +231,7 @@ export default function E2ReactionCanvas({
                 pointerEvents="none"
               />
             </>
-          ) : null}
+          )}
         </>
       )}
 
