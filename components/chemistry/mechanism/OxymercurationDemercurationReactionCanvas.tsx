@@ -4,11 +4,12 @@ import {
   MercuriniumIonStructure,
   OrganomercuryAlcoholStructure,
   PropeneStructure,
+  WaterStructure,
 } from "../molecules";
 import { oxymercurationDemercurationReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
-import type { MechanismArrow as MechanismArrowData } from "./types";
+import type { MechanismArrow } from "./types";
 
 export type OxymercurationDemercurationMechanismStep = {
   id: string;
@@ -22,7 +23,7 @@ export type OxymercurationDemercurationMechanismStep = {
     | "organomercury"
     | "demercuration"
     | "products";
-  arrows: MechanismArrowData[];
+  arrows: MechanismArrow[];
 };
 
 export type OxymercurationDemercurationPracticeTarget =
@@ -34,7 +35,7 @@ export type OxymercurationDemercurationPracticeTarget =
   | "markovnikov-alcohol"
   | "anti-markovnikov-alcohol";
 
-type Props = {
+type OxymercurationDemercurationReactionCanvasProps = {
   step: OxymercurationDemercurationMechanismStep;
   animated: boolean;
   interactive?: boolean;
@@ -44,13 +45,22 @@ type Props = {
   ) => void;
 };
 
+const alkeneGlow =
+  "drop-shadow-[0_0_10px_rgba(124,58,237,0.3)]";
+
+const intermediateGlow =
+  "drop-shadow-[0_0_12px_rgba(124,58,237,0.32)]";
+
+const waterGlow =
+  "drop-shadow-[0_0_10px_rgba(37,99,235,0.34)]";
+
 export default function OxymercurationDemercurationReactionCanvas({
   step,
   animated,
   interactive = false,
   showProductChoices = false,
   onTargetClick,
-}: Props) {
+}: OxymercurationDemercurationReactionCanvasProps) {
   return (
     <ReactionCanvasEngine
       viewBox="0 0 760 400"
@@ -61,76 +71,387 @@ export default function OxymercurationDemercurationReactionCanvas({
       {step.highlight === "products" ? (
         showProductChoices ? (
           <>
-            <text x="380" y="56" textAnchor="middle" fontSize="20" fontWeight="700" fill="#0f172a">
-              Choose the major product after 1. Hg(OAc)₂, H₂O  2. NaBH₄
+            <text
+              x="380"
+              y="54"
+              textAnchor="middle"
+              fontSize="20"
+              fontWeight="700"
+              fill="#0f172a"
+              pointerEvents="none"
+            >
+              Choose the major product after 1. Hg(OAc)₂, H₂O 2. NaBH₄
             </text>
+
             <g>
-              <rect x="35" y="92" width="330" height="190" rx="22" fill="#ffffff" stroke="#8b5cf6" strokeWidth="3" />
-              <MarkovnikovPropaneStructure x={215} y={180} substituent="OH" scale={0.9} substituentStroke="#7c3aed" />
-              <text x="200" y="257" textAnchor="middle" fontSize="16" fontWeight="700" fill="#6d28d9">
-                2-propanol · Markovnikov
+              <rect
+                x="35"
+                y="88"
+                width="330"
+                height="205"
+                rx="22"
+                fill="#ffffff"
+                stroke="#8b5cf6"
+                strokeWidth="3"
+              />
+
+              <MarkovnikovPropaneStructure
+                x={205}
+                y={178}
+                substituent="OH"
+                scale={0.9}
+                substituentStroke="#7c3aed"
+              />
+
+              <text
+                x="200"
+                y="254"
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#6d28d9"
+                pointerEvents="none"
+              >
+                2-propanol
+              </text>
+
+              <text
+                x="200"
+                y="278"
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#7c3aed"
+                pointerEvents="none"
+              >
+                Markovnikov alcohol
               </text>
             </g>
+
             <g>
-              <rect x="395" y="92" width="330" height="190" rx="22" fill="#ffffff" stroke="#cbd5e1" strokeWidth="3" />
-              <AntiMarkovnikovPropaneStructure x={550} y={180} substituent="OH" scale={0.9} substituentStroke="#64748b" />
-              <text x="560" y="257" textAnchor="middle" fontSize="16" fontWeight="700" fill="#64748b">
-                1-propanol · wrong regiochemistry
+              <rect
+                x="395"
+                y="88"
+                width="330"
+                height="205"
+                rx="22"
+                fill="#ffffff"
+                stroke="#cbd5e1"
+                strokeWidth="3"
+              />
+
+              <AntiMarkovnikovPropaneStructure
+                x={555}
+                y={178}
+                substituent="OH"
+                scale={0.9}
+                substituentStroke="#64748b"
+              />
+
+              <text
+                x="560"
+                y="254"
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#64748b"
+                pointerEvents="none"
+              >
+                1-propanol
+              </text>
+
+              <text
+                x="560"
+                y="278"
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#64748b"
+                pointerEvents="none"
+              >
+                wrong regiochemistry
               </text>
             </g>
+
+            <text
+              x="380"
+              y="326"
+              textAnchor="middle"
+              fontSize="17"
+              fontWeight="600"
+              fill="#475569"
+              pointerEvents="none"
+            >
+              Water attacks the more substituted carbon of the bridged ion.
+            </text>
           </>
         ) : (
           <>
-            <rect x="130" y="110" width="500" height="175" rx="24" fill="#f5f3ff" stroke="#8b5cf6" strokeWidth="3" />
-            <MarkovnikovPropaneStructure x={400} y={192} substituent="OH" scale={1.15} substituentStroke="#7c3aed" />
-            <text x="380" y="258" textAnchor="middle" fontSize="18" fontWeight="700" fill="#6d28d9">
+            <rect
+              x="135"
+              y="100"
+              width="490"
+              height="190"
+              rx="24"
+              fill="#f5f3ff"
+              stroke="#8b5cf6"
+              strokeWidth="3"
+            />
+
+            <MarkovnikovPropaneStructure
+              x={390}
+              y={172}
+              substituent="OH"
+              scale={1.02}
+              substituentStroke="#7c3aed"
+            />
+
+            <text
+              x="380"
+              y="264"
+              textAnchor="middle"
+              fontSize="18"
+              fontWeight="700"
+              fill="#6d28d9"
+              pointerEvents="none"
+            >
               2-propanol · Markovnikov alcohol
             </text>
           </>
         )
       ) : step.highlight === "mercurinium" ? (
-        <MercuriniumIonStructure x={350} y={195} scale={1.05} />
+        <>
+          <g className={intermediateGlow}>
+            <circle
+              cx="365"
+              cy="192"
+              r="118"
+              fill="#ede9fe"
+              opacity="0.72"
+            />
+
+            <MercuriniumIonStructure
+              x={365}
+              y={190}
+              scale={1.06}
+            />
+          </g>
+
+          <text
+            x="380"
+            y="310"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="700"
+            fill="#6d28d9"
+            pointerEvents="none"
+          >
+            bridged mercurinium ion
+          </text>
+
+          <text
+            x="380"
+            y="333"
+            textAnchor="middle"
+            fontSize="15"
+            fontWeight="600"
+            fill="#475569"
+            pointerEvents="none"
+          >
+            no free carbocation is formed
+          </text>
+        </>
       ) : step.highlight === "water-attack" ? (
         <>
-          <MercuriniumIonStructure x={350} y={195} scale={1.05} />
-          <text x="575" y="190" textAnchor="middle" fontSize="36" fontWeight="700" fill="#2563eb">
-            H₂O
-          </text>
-          <text x="380" y="310" textAnchor="middle" fontSize="17" fontWeight="700" fill="#6d28d9">
+          <MercuriniumIonStructure
+            x={340}
+            y={190}
+            scale={1.04}
+          />
+
+          <g className={waterGlow}>
+            <WaterStructure
+              x={585}
+              y={192}
+              scale={1.08}
+            >
+              <circle
+                cx="-9"
+                cy="-34"
+                r="5"
+                fill="#2563eb"
+              />
+
+              <circle
+                cx="9"
+                cy="-34"
+                r="5"
+                fill="#2563eb"
+              />
+            </WaterStructure>
+          </g>
+
+          <text
+            x="380"
+            y="310"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="700"
+            fill="#6d28d9"
+            pointerEvents="none"
+          >
             water attacks the more substituted carbon from the backside
           </text>
         </>
       ) : step.highlight === "organomercury" ? (
         <>
-          <circle cx="380" cy="195" r="125" fill="#ede9fe" opacity="0.72" />
-          <OrganomercuryAlcoholStructure x={365} y={195} scale={1.1} />
-          <text x="380" y="305" textAnchor="middle" fontSize="17" fontWeight="700" fill="#6d28d9">
-            organomercury alcohol · OH on the internal carbon
+          <g className={intermediateGlow}>
+            <circle
+              cx="380"
+              cy="192"
+              r="125"
+              fill="#ede9fe"
+              opacity="0.72"
+            />
+
+            <OrganomercuryAlcoholStructure
+              x={365}
+              y={190}
+              scale={1.06}
+            />
+          </g>
+
+          <text
+            x="380"
+            y="305"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="700"
+            fill="#6d28d9"
+            pointerEvents="none"
+          >
+            organomercury alcohol
+          </text>
+
+          <text
+            x="380"
+            y="329"
+            textAnchor="middle"
+            fontSize="15"
+            fontWeight="600"
+            fill="#475569"
+            pointerEvents="none"
+          >
+            OH is attached to the internal carbon
           </text>
         </>
       ) : step.highlight === "demercuration" ? (
         <>
-          <OrganomercuryAlcoholStructure x={350} y={195} scale={1.05} />
-          <text x="575" y="235" textAnchor="middle" fontSize="28" fontWeight="700" fill="#059669">
+          <OrganomercuryAlcoholStructure
+            x={320}
+            y={190}
+            scale={1.04}
+          />
+
+          <text
+            x="505"
+            y="208"
+            textAnchor="middle"
+            fontSize="29"
+            fontWeight="700"
+            fill="#64748b"
+            pointerEvents="none"
+          >
+            +
+          </text>
+
+          <text
+            x="600"
+            y="210"
+            textAnchor="middle"
+            fontSize="30"
+            fontWeight="700"
+            fill="#059669"
+            pointerEvents="none"
+          >
             NaBH₄
           </text>
-          <text x="380" y="305" textAnchor="middle" fontSize="17" fontWeight="700" fill="#6d28d9">
+
+          <text
+            x="380"
+            y="305"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="700"
+            fill="#6d28d9"
+            pointerEvents="none"
+          >
             reduction replaces C–HgOAc with C–H
           </text>
         </>
       ) : (
         <>
-          <PropeneStructure x={260} y={185} scale={1.35} piStroke="#7c3aed" showCarbonLabels />
-          <text x="450" y="210" textAnchor="middle" fontSize="31" fontWeight="700" fill="#64748b">
+          <g
+            className={
+              step.highlight === "reactants"
+                ? alkeneGlow
+                : undefined
+            }
+          >
+            <PropeneStructure
+              x={250}
+              y={190}
+              scale={1.3}
+              piStroke="#7c3aed"
+              showCarbonLabels={false}
+            />
+          </g>
+
+          <text
+            x="430"
+            y="208"
+            textAnchor="middle"
+            fontSize="30"
+            fontWeight="700"
+            fill="#64748b"
+            pointerEvents="none"
+          >
             +
           </text>
-          <text x="570" y="183" textAnchor="middle" fontSize="29" fontWeight="700" fill="#7c3aed">
+
+          <text
+            x="570"
+            y="180"
+            textAnchor="middle"
+            fontSize="29"
+            fontWeight="700"
+            fill="#7c3aed"
+            pointerEvents="none"
+          >
             Hg(OAc)₂
           </text>
-          <text x="570" y="225" textAnchor="middle" fontSize="28" fontWeight="700" fill="#2563eb">
+
+          <text
+            x="570"
+            y="225"
+            textAnchor="middle"
+            fontSize="28"
+            fontWeight="700"
+            fill="#2563eb"
+            pointerEvents="none"
+          >
             H₂O
           </text>
-          <text x="380" y="305" textAnchor="middle" fontSize="17" fontWeight="700" fill="#475569">
+
+          <text
+            x="380"
+            y="305"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="700"
+            fill="#475569"
+            pointerEvents="none"
+          >
             propene + mercury(II) acetate in water
           </text>
         </>
@@ -143,7 +464,14 @@ export default function OxymercurationDemercurationReactionCanvas({
         onTargetClick={onTargetClick}
       />
 
-      <text x="380" y="368" textAnchor="middle" fontSize="16" fill="#475569">
+      <text
+        x="380"
+        y="368"
+        textAnchor="middle"
+        fontSize="16"
+        fill="#475569"
+        pointerEvents="none"
+      >
         {step.note}
       </text>
     </ReactionCanvasEngine>

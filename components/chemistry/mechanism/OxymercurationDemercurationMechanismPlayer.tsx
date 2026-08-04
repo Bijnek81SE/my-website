@@ -28,9 +28,9 @@ const steps: OxymercurationDemercurationMechanismStep[] = [
     arrows: [
       {
         id: "pi-to-mercury",
-        start: { x: 285, y: 186 },
-        control: { x: 375, y: 82 },
-        end: { x: 520, y: 172 },
+        start: { x: 274, y: 181 },
+        control: { x: 375, y: 78 },
+        end: { x: 530, y: 170 },
         colour: "#7c3aed",
         label: "The alkene pi electrons attack mercury",
       },
@@ -46,11 +46,19 @@ const steps: OxymercurationDemercurationMechanismStep[] = [
     arrows: [
       {
         id: "water-to-internal-carbon",
-        start: { x: 558, y: 176 },
+        start: { x: 576, y: 158 },
         control: { x: 505, y: 82 },
-        end: { x: 350, y: 184 },
+        end: { x: 376, y: 184 },
         colour: "#2563eb",
         label: "Water attacks the more substituted carbon",
+      },
+      {
+        id: "bridge-to-mercury",
+        start: { x: 356, y: 171 },
+        control: { x: 338, y: 126 },
+        end: { x: 321, y: 144 },
+        colour: "#7c3aed",
+        label: "The carbon mercury bridge bond opens",
       },
     ],
   },
@@ -73,9 +81,9 @@ const steps: OxymercurationDemercurationMechanismStep[] = [
     arrows: [
       {
         id: "hydride-to-carbon",
-        start: { x: 575, y: 220 },
-        control: { x: 500, y: 285 },
-        end: { x: 405, y: 230 },
+        start: { x: 585, y: 206 },
+        control: { x: 500, y: 286 },
+        end: { x: 404, y: 225 },
         colour: "#059669",
         label: "Hydride replaces the carbon mercury bond",
       },
@@ -124,10 +132,15 @@ export default function OxymercurationDemercurationMechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
-        const practiceStep = {
+        const showAnswer =
+          mode === "practice" && answered;
+
+        const practiceStep: OxymercurationDemercurationMechanismStep = {
           ...step,
-          arrows: mode === "learn" || showAnswer ? step.arrows : [],
+          arrows:
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (
