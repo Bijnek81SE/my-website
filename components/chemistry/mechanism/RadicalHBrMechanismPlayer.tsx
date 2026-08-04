@@ -19,17 +19,17 @@ const steps: RadicalHBrMechanismStep[] = [
     arrows: [
       {
         id: "peroxide-homolysis-left",
-        start: { x: 365, y: 186 },
-        control: { x: 320, y: 115 },
-        end: { x: 275, y: 172 },
+        start: { x: 365, y: 190 },
+        control: { x: 320, y: 112 },
+        end: { x: 270, y: 177 },
         colour: "#e11d48",
         label: "One electron moves to the left oxygen",
       },
       {
         id: "peroxide-homolysis-right",
-        start: { x: 395, y: 186 },
-        control: { x: 440, y: 115 },
-        end: { x: 485, y: 172 },
+        start: { x: 395, y: 190 },
+        control: { x: 440, y: 112 },
+        end: { x: 490, y: 177 },
         colour: "#e11d48",
         label: "One electron moves to the right oxygen",
       },
@@ -45,19 +45,19 @@ const steps: RadicalHBrMechanismStep[] = [
     arrows: [
       {
         id: "alkoxy-to-hydrogen",
-        start: { x: 255, y: 190 },
-        control: { x: 325, y: 95 },
-        end: { x: 405, y: 177 },
+        start: { x: 210, y: 180 },
+        control: { x: 300, y: 88 },
+        end: { x: 402, y: 178 },
         colour: "#059669",
         label: "The alkoxy radical abstracts hydrogen",
       },
       {
         id: "hbr-homolysis",
-        start: { x: 470, y: 190 },
-        control: { x: 535, y: 110 },
-        end: { x: 585, y: 176 },
+        start: { x: 452, y: 192 },
+        control: { x: 535, y: 108 },
+        end: { x: 625, y: 178 },
         colour: "#dc2626",
-        label: "The H Br bond supplies the bromine radical",
+        label: "The hydrogen bromine bond supplies the bromine radical",
       },
     ],
   },
@@ -73,15 +73,15 @@ const steps: RadicalHBrMechanismStep[] = [
         id: "bromine-to-terminal-carbon",
         start: { x: 555, y: 174 },
         control: { x: 465, y: 82 },
-        end: { x: 345, y: 202 },
+        end: { x: 327, y: 215 },
         colour: "#dc2626",
         label: "The bromine radical bonds to the terminal carbon",
       },
       {
         id: "pi-to-internal-radical",
-        start: { x: 286, y: 190 },
-        control: { x: 335, y: 112 },
-        end: { x: 250, y: 160 },
+        start: { x: 276, y: 180 },
+        control: { x: 325, y: 110 },
+        end: { x: 230, y: 158 },
         colour: "#7c3aed",
         label: "One pi electron remains on the internal carbon",
       },
@@ -106,19 +106,19 @@ const steps: RadicalHBrMechanismStep[] = [
     arrows: [
       {
         id: "radical-to-hydrogen",
-        start: { x: 330, y: 170 },
-        control: { x: 420, y: 75 },
-        end: { x: 515, y: 180 },
+        start: { x: 290, y: 165 },
+        control: { x: 415, y: 74 },
+        end: { x: 573, y: 180 },
         colour: "#059669",
         label: "The carbon radical abstracts hydrogen",
       },
       {
         id: "hbr-to-bromine-radical",
-        start: { x: 570, y: 192 },
-        control: { x: 620, y: 118 },
-        end: { x: 655, y: 180 },
+        start: { x: 600, y: 192 },
+        control: { x: 660, y: 122 },
+        end: { x: 670, y: 178 },
         colour: "#dc2626",
-        label: "The H Br bond regenerates bromine radical",
+        label: "The hydrogen bromine bond regenerates bromine radical",
       },
     ],
   },
@@ -165,10 +165,15 @@ export default function RadicalHBrMechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
-        const practiceStep = {
+        const showAnswer =
+          mode === "practice" && answered;
+
+        const practiceStep: RadicalHBrMechanismStep = {
           ...step,
-          arrows: mode === "learn" || showAnswer ? step.arrows : [],
+          arrows:
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (
