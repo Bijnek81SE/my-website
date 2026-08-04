@@ -28,19 +28,20 @@ const steps: HydroborationOxidationMechanismStep[] = [
     arrows: [
       {
         id: "pi-to-boron",
-        start: { x: 286, y: 188 },
-        control: { x: 390, y: 82 },
-        end: { x: 500, y: 172 },
+        start: { x: 280, y: 180 },
+        control: { x: 375, y: 78 },
+        end: { x: 520, y: 178 },
         colour: "#0891b2",
         label: "The alkene pi electrons form a bond to boron",
       },
       {
         id: "bh-to-carbon",
-        start: { x: 496, y: 226 },
-        control: { x: 430, y: 285 },
-        end: { x: 340, y: 218 },
+        start: { x: 518, y: 218 },
+        control: { x: 450, y: 286 },
+        end: { x: 310, y: 220 },
         colour: "#059669",
-        label: "A boron hydrogen bond delivers hydrogen to the internal carbon",
+        label:
+          "A boron hydrogen bond delivers hydrogen to the internal carbon",
       },
     ],
   },
@@ -63,9 +64,9 @@ const steps: HydroborationOxidationMechanismStep[] = [
     arrows: [
       {
         id: "peroxide-to-boron",
-        start: { x: 566, y: 168 },
-        control: { x: 505, y: 82 },
-        end: { x: 452, y: 176 },
+        start: { x: 578, y: 150 },
+        control: { x: 505, y: 88 },
+        end: { x: 441, y: 170 },
         colour: "#2563eb",
         label: "Peroxide attacks boron during oxidation",
       },
@@ -123,10 +124,15 @@ export default function HydroborationOxidationMechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: HydroborationOxidationMechanismStep = {
           ...step,
-          arrows: mode === "learn" || showAnswer ? step.arrows : [],
+          arrows:
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (
