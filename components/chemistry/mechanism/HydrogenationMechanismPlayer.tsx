@@ -37,19 +37,21 @@ const steps: HydrogenationMechanismStep[] = [
     arrows: [
       {
         id: "left-hydrogen-delivery",
-        start: { x: 305, y: 250 },
-        control: { x: 300, y: 205 },
-        end: { x: 345, y: 175 },
+        start: { x: 315, y: 252 },
+        control: { x: 310, y: 215 },
+        end: { x: 350, y: 188 },
         colour: "#059669",
-        label: "A surface hydrogen forms the first carbon hydrogen bond",
+        label:
+          "A surface hydrogen forms the first carbon hydrogen bond",
       },
       {
         id: "right-hydrogen-delivery",
-        start: { x: 455, y: 250 },
-        control: { x: 460, y: 205 },
-        end: { x: 415, y: 175 },
+        start: { x: 445, y: 252 },
+        control: { x: 450, y: 215 },
+        end: { x: 410, y: 188 },
         colour: "#059669",
-        label: "A second surface hydrogen adds from the same face",
+        label:
+          "A second surface hydrogen adds from the same face",
       },
     ],
   },
@@ -66,7 +68,10 @@ const steps: HydrogenationMechanismStep[] = [
 
 export default function HydrogenationMechanismPlayer() {
   return (
-    <MechanismPlayerEngine<HydrogenationMechanismStep, HydrogenationPracticeTarget>
+    <MechanismPlayerEngine<
+      HydrogenationMechanismStep,
+      HydrogenationPracticeTarget
+    >
       title="Catalytic hydrogenation of alkenes"
       description="Follow alkene adsorption, H₂ activation, syn delivery, and reduction of cyclohexene to cyclohexane."
       accent="emerald"
@@ -100,10 +105,15 @@ export default function HydrogenationMechanismPlayer() {
         interactive,
         onTargetClick,
       }) => {
-        const showAnswer = mode === "practice" && answered;
+        const showAnswer =
+          mode === "practice" && answered;
+
         const practiceStep: HydrogenationMechanismStep = {
           ...step,
-          arrows: mode === "learn" || showAnswer ? step.arrows : [],
+          arrows:
+            mode === "learn" || showAnswer
+              ? step.arrows
+              : [],
         };
 
         return (

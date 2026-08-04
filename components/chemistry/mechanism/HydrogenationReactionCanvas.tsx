@@ -5,7 +5,7 @@ import {
 import { hydrogenationReactionData } from "./MechanismReactionData";
 import ReactionCanvasEngine from "./ReactionCanvasEngine";
 import { ReactionHotspotLayer } from "./ReactionDataEngine";
-import type { MechanismArrow as MechanismArrowData } from "./types";
+import type { MechanismArrow } from "./types";
 
 export type HydrogenationMechanismStep = {
   id: string;
@@ -17,7 +17,7 @@ export type HydrogenationMechanismStep = {
     | "hydrogen-activation"
     | "syn-addition"
     | "products";
-  arrows: MechanismArrowData[];
+  arrows: MechanismArrow[];
 };
 
 export type HydrogenationPracticeTarget =
@@ -33,8 +33,16 @@ type HydrogenationReactionCanvasProps = {
   animated: boolean;
   interactive?: boolean;
   showProductChoices?: boolean;
-  onTargetClick?: (target: HydrogenationPracticeTarget) => void;
+  onTargetClick?: (
+    target: HydrogenationPracticeTarget,
+  ) => void;
 };
+
+const alkeneGlow =
+  "drop-shadow-[0_0_10px_rgba(5,150,105,0.3)]";
+
+const hydrogenGlow =
+  "drop-shadow-[0_0_10px_rgba(5,150,105,0.38)]";
 
 export default function HydrogenationReactionCanvas({
   step,
@@ -43,14 +51,15 @@ export default function HydrogenationReactionCanvas({
   showProductChoices = false,
   onTargetClick,
 }: HydrogenationReactionCanvasProps) {
-  const scene =
-    step.highlight === "products"
-      ? "products"
-      : step.highlight === "hydrogen-activation"
-        ? "activated-hydrogen"
-        : step.highlight === "syn-addition"
-          ? "syn-addition"
-          : "reactants";
+  const products = step.highlight === "products";
+
+  const scene = products
+    ? "products"
+    : step.highlight === "hydrogen-activation"
+      ? "activated-hydrogen"
+      : step.highlight === "syn-addition"
+        ? "syn-addition"
+        : "reactants";
 
   return (
     <ReactionCanvasEngine
@@ -59,90 +68,433 @@ export default function HydrogenationReactionCanvas({
       arrows={step.arrows}
       animated={animated}
     >
-      {step.highlight === "products" ? (
+      {products ? (
         showProductChoices ? (
           <>
-            <text x="380" y="48" textAnchor="middle" fontSize="20" fontWeight="700" fill="#0f172a">
+            <text
+              x="380"
+              y="54"
+              textAnchor="middle"
+              fontSize="20"
+              fontWeight="700"
+              fill="#0f172a"
+              pointerEvents="none"
+            >
               Choose the product of cyclohexene + H₂ / Pt
             </text>
 
             <g>
-              <rect x="35" y="82" width="330" height="205" rx="22" fill="#ffffff" stroke="#10b981" strokeWidth="3" />
-              <CyclohexaneStructure x={200} y={170} scale={0.92} />
-              <text x="200" y="257" textAnchor="middle" fontSize="16" fontWeight="700" fill="#047857">
-                cyclohexane · saturated product
+              <rect
+                x="35"
+                y="80"
+                width="330"
+                height="215"
+                rx="22"
+                fill="#ffffff"
+                stroke="#10b981"
+                strokeWidth="3"
+              />
+
+              <CyclohexaneStructure
+                x={200}
+                y={170}
+                scale={0.9}
+              />
+
+              <text
+                x="200"
+                y="260"
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#047857"
+                pointerEvents="none"
+              >
+                cyclohexane
+              </text>
+
+              <text
+                x="200"
+                y="283"
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#059669"
+                pointerEvents="none"
+              >
+                saturated product
               </text>
             </g>
 
             <g>
-              <rect x="395" y="82" width="330" height="205" rx="22" fill="#ffffff" stroke="#cbd5e1" strokeWidth="3" />
-              <CyclohexeneStructure x={560} y={170} scale={0.92} stroke="#64748b" />
-              <text x="560" y="257" textAnchor="middle" fontSize="16" fontWeight="700" fill="#64748b">
-                unchanged cyclohexene
+              <rect
+                x="395"
+                y="80"
+                width="330"
+                height="215"
+                rx="22"
+                fill="#ffffff"
+                stroke="#cbd5e1"
+                strokeWidth="3"
+              />
+
+              <CyclohexeneStructure
+                x={560}
+                y={170}
+                scale={0.9}
+                stroke="#64748b"
+              />
+
+              <text
+                x="560"
+                y="260"
+                textAnchor="middle"
+                fontSize="16"
+                fontWeight="700"
+                fill="#64748b"
+                pointerEvents="none"
+              >
+                cyclohexene
+              </text>
+
+              <text
+                x="560"
+                y="283"
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="700"
+                fill="#64748b"
+                pointerEvents="none"
+              >
+                unchanged alkene
               </text>
             </g>
+
+            <text
+              x="380"
+              y="330"
+              textAnchor="middle"
+              fontSize="17"
+              fontWeight="600"
+              fill="#475569"
+              pointerEvents="none"
+            >
+              Hydrogenation converts the C=C bond into a C–C bond.
+            </text>
           </>
         ) : (
           <>
-            <rect x="155" y="75" width="450" height="225" rx="24" fill="#ecfdf5" stroke="#10b981" strokeWidth="3" />
-            <CyclohexaneStructure x={380} y={174} scale={1.12} />
-            <text x="380" y="275" textAnchor="middle" fontSize="18" fontWeight="700" fill="#047857">
-              cyclohexane · the C=C bond has been reduced to C–C
+            <rect
+              x="145"
+              y="80"
+              width="470"
+              height="220"
+              rx="24"
+              fill="#ecfdf5"
+              stroke="#10b981"
+              strokeWidth="3"
+            />
+
+            <CyclohexaneStructure
+              x={380}
+              y={165}
+              scale={1.02}
+            />
+
+            <text
+              x="380"
+              y="265"
+              textAnchor="middle"
+              fontSize="18"
+              fontWeight="700"
+              fill="#047857"
+              pointerEvents="none"
+            >
+              cyclohexane · saturated product
+            </text>
+
+            <text
+              x="380"
+              y="290"
+              textAnchor="middle"
+              fontSize="15"
+              fontWeight="700"
+              fill="#059669"
+              pointerEvents="none"
+            >
+              the C=C bond has been reduced to C–C
             </text>
           </>
         )
       ) : step.highlight === "hydrogen-activation" ? (
         <>
-          <CyclohexeneStructure x={235} y={190} scale={0.9} highlightBond />
-          <text x="235" y="278" textAnchor="middle" fontSize="16" fontWeight="700" fill="#475569">
+          <CyclohexeneStructure
+            x={235}
+            y={185}
+            scale={0.9}
+            highlightBond
+          />
+
+          <text
+            x="235"
+            y="275"
+            textAnchor="middle"
+            fontSize="16"
+            fontWeight="700"
+            fill="#475569"
+            pointerEvents="none"
+          >
             adsorbed cyclohexene
           </text>
 
-          <line x1="75" y1="310" x2="685" y2="310" stroke="#475569" strokeWidth="14" strokeLinecap="round" />
-          <text x="380" y="350" textAnchor="middle" fontSize="18" fontWeight="700" fill="#475569">
+          <line
+            x1="70"
+            y1="310"
+            x2="690"
+            y2="310"
+            stroke="#475569"
+            strokeWidth="14"
+            strokeLinecap="round"
+          />
+
+          <text
+            x="380"
+            y="350"
+            textAnchor="middle"
+            fontSize="18"
+            fontWeight="700"
+            fill="#475569"
+            pointerEvents="none"
+          >
             Pt catalyst surface
           </text>
 
-          <text x="490" y="225" textAnchor="middle" fontSize="38" fontWeight="700" fill="#059669">H</text>
-          <text x="585" y="225" textAnchor="middle" fontSize="38" fontWeight="700" fill="#059669">H</text>
-          <line x1="490" y1="240" x2="490" y2="302" stroke="#059669" strokeWidth="4" />
-          <line x1="585" y1="240" x2="585" y2="302" stroke="#059669" strokeWidth="4" />
-          <text x="538" y="112" textAnchor="middle" fontSize="17" fontWeight="700" fill="#047857">
-            H₂ dissociates into surface-bound hydrogen atoms
+          <g className={hydrogenGlow}>
+            <text
+              x="490"
+              y="220"
+              textAnchor="middle"
+              fontSize="38"
+              fontWeight="700"
+              fill="#059669"
+              pointerEvents="none"
+            >
+              H
+            </text>
+
+            <text
+              x="585"
+              y="220"
+              textAnchor="middle"
+              fontSize="38"
+              fontWeight="700"
+              fill="#059669"
+              pointerEvents="none"
+            >
+              H
+            </text>
+
+            <line
+              x1="490"
+              y1="235"
+              x2="490"
+              y2="302"
+              stroke="#059669"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+
+            <line
+              x1="585"
+              y1="235"
+              x2="585"
+              y2="302"
+              stroke="#059669"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+          </g>
+
+          <text
+            x="538"
+            y="108"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="700"
+            fill="#047857"
+            pointerEvents="none"
+          >
+            H₂ dissociates into two surface-bound hydrogen atoms
           </text>
         </>
       ) : step.highlight === "syn-addition" ? (
         <>
-          <text x="380" y="72" textAnchor="middle" fontSize="18" fontWeight="700" fill="#047857">
+          <text
+            x="380"
+            y="72"
+            textAnchor="middle"
+            fontSize="18"
+            fontWeight="700"
+            fill="#047857"
+            pointerEvents="none"
+          >
             Both hydrogens are delivered from the catalyst face
           </text>
-          <CyclohexeneStructure x={380} y={175} scale={0.95} highlightBond />
-          <text x="305" y="260" textAnchor="middle" fontSize="34" fontWeight="700" fill="#059669">H</text>
-          <text x="455" y="260" textAnchor="middle" fontSize="34" fontWeight="700" fill="#059669">H</text>
-          <line x1="305" y1="274" x2="305" y2="307" stroke="#059669" strokeWidth="4" />
-          <line x1="455" y1="274" x2="455" y2="307" stroke="#059669" strokeWidth="4" />
-          <line x1="90" y1="315" x2="670" y2="315" stroke="#475569" strokeWidth="14" strokeLinecap="round" />
-          <text x="380" y="355" textAnchor="middle" fontSize="18" fontWeight="700" fill="#475569">
+
+          <CyclohexeneStructure
+            x={380}
+            y={170}
+            scale={0.92}
+            highlightBond
+          />
+
+          <g className={hydrogenGlow}>
+            <text
+              x="315"
+              y="265"
+              textAnchor="middle"
+              fontSize="34"
+              fontWeight="700"
+              fill="#059669"
+              pointerEvents="none"
+            >
+              H
+            </text>
+
+            <text
+              x="445"
+              y="265"
+              textAnchor="middle"
+              fontSize="34"
+              fontWeight="700"
+              fill="#059669"
+              pointerEvents="none"
+            >
+              H
+            </text>
+
+            <line
+              x1="315"
+              y1="278"
+              x2="315"
+              y2="307"
+              stroke="#059669"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+
+            <line
+              x1="445"
+              y1="278"
+              x2="445"
+              y2="307"
+              stroke="#059669"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+          </g>
+
+          <line
+            x1="90"
+            y1="315"
+            x2="670"
+            y2="315"
+            stroke="#475569"
+            strokeWidth="14"
+            strokeLinecap="round"
+          />
+
+          <text
+            x="380"
+            y="355"
+            textAnchor="middle"
+            fontSize="18"
+            fontWeight="700"
+            fill="#475569"
+            pointerEvents="none"
+          >
             Pt catalyst surface
           </text>
         </>
       ) : (
         <>
-          <CyclohexeneStructure
-            x={230}
-            y={195}
-            scale={1.05}
-            highlightBond={step.highlight === "alkene"}
-          />
-          <text x="230" y="292" textAnchor="middle" fontSize="17" fontWeight="700" fill="#475569">
+          <g
+            className={
+              step.highlight === "alkene"
+                ? alkeneGlow
+                : undefined
+            }
+          >
+            <CyclohexeneStructure
+              x={230}
+              y={190}
+              scale={1}
+              highlightBond={
+                step.highlight === "alkene"
+              }
+            />
+          </g>
+
+          <text
+            x="230"
+            y="285"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="700"
+            fill="#475569"
+            pointerEvents="none"
+          >
             cyclohexene
           </text>
 
-          <text x="405" y="210" textAnchor="middle" fontSize="32" fontWeight="700" fill="#64748b">+</text>
-          <text x="520" y="210" textAnchor="middle" fontSize="42" fontWeight="700" fill="#059669">H–H</text>
-          <text x="645" y="210" textAnchor="middle" fontSize="28" fontWeight="700" fill="#475569">Pt</text>
-          <text x="380" y="322" textAnchor="middle" fontSize="17" fontWeight="700" fill="#475569">
-            Alkene and hydrogen adsorb onto the metal catalyst
+          <text
+            x="405"
+            y="208"
+            textAnchor="middle"
+            fontSize="31"
+            fontWeight="700"
+            fill="#64748b"
+            pointerEvents="none"
+          >
+            +
+          </text>
+
+          <g className={hydrogenGlow}>
+            <text
+              x="520"
+              y="208"
+              textAnchor="middle"
+              fontSize="42"
+              fontWeight="700"
+              fill="#059669"
+              pointerEvents="none"
+            >
+              H–H
+            </text>
+          </g>
+
+          <text
+            x="645"
+            y="208"
+            textAnchor="middle"
+            fontSize="28"
+            fontWeight="700"
+            fill="#475569"
+            pointerEvents="none"
+          >
+            Pt
+          </text>
+
+          <text
+            x="380"
+            y="320"
+            textAnchor="middle"
+            fontSize="17"
+            fontWeight="600"
+            fill="#475569"
+            pointerEvents="none"
+          >
+            cyclohexene and hydrogen adsorb onto the metal catalyst
           </text>
         </>
       )}
@@ -154,7 +506,14 @@ export default function HydrogenationReactionCanvas({
         onTargetClick={onTargetClick}
       />
 
-      <text x="380" y="382" textAnchor="middle" fontSize="16" fill="#475569">
+      <text
+        x="380"
+        y="382"
+        textAnchor="middle"
+        fontSize="16"
+        fill="#475569"
+        pointerEvents="none"
+      >
         {step.note}
       </text>
     </ReactionCanvasEngine>

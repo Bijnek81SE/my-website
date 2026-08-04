@@ -187,7 +187,7 @@ export const sn1ReactionData =
       },
     ],
   });
-  
+
 export const e2ReactionData =
   defineReactionData<E2PracticeTarget>({
     id: "e2",
@@ -855,11 +855,11 @@ export const hydrogenationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "rect",
-          x: 155,
+          x: 165,
           y: 125,
-          width: 105,
-          height: 95,
-          rx: 18,
+          width: 135,
+          height: 130,
+          rx: 20,
         },
       },
       {
@@ -869,10 +869,10 @@ export const hydrogenationReactionData =
         scenes: ["reactants"],
         geometry: {
           shape: "rect",
-          x: 500,
-          y: 165,
-          width: 120,
-          height: 70,
+          x: 460,
+          y: 155,
+          width: 125,
+          height: 85,
           rx: 18,
         },
       },
@@ -883,24 +883,25 @@ export const hydrogenationReactionData =
         scenes: ["activated-hydrogen"],
         geometry: {
           shape: "line",
-          x1: 85,
-          y1: 300,
-          x2: 675,
-          y2: 300,
-          strokeWidth: 34,
+          x1: 70,
+          y1: 310,
+          x2: 690,
+          y2: 310,
+          strokeWidth: 38,
         },
       },
       {
         id: "hydrogenation-syn-hydrogens",
         target: "same-face-hydrogens",
-        label: "Select the two hydrogens delivered from the same face",
+        label:
+          "Select the two hydrogens delivered from the same face",
         scenes: ["syn-addition"],
         geometry: {
           shape: "rect",
-          x: 250,
-          y: 220,
-          width: 260,
-          height: 75,
+          x: 270,
+          y: 225,
+          width: 220,
+          height: 80,
           rx: 18,
         },
       },
@@ -912,9 +913,9 @@ export const hydrogenationReactionData =
         geometry: {
           shape: "rect",
           x: 35,
-          y: 105,
+          y: 80,
           width: 330,
-          height: 170,
+          height: 215,
           rx: 22,
         },
       },
@@ -926,9 +927,9 @@ export const hydrogenationReactionData =
         geometry: {
           shape: "rect",
           x: 395,
-          y: 105,
+          y: 80,
           width: 330,
-          height: 170,
+          height: 215,
           rx: 22,
         },
       },
