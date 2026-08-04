@@ -33,6 +33,8 @@ export type BondProps = {
   type?: BondType;
   polarity?: BondPolarity;
   highlighted?: boolean;
+  hovered?: boolean;
+  active?: boolean;
   selected?: boolean;
   muted?: boolean;
   animated?: boolean;
@@ -45,11 +47,19 @@ export type BondProps = {
   selectedColour?: string;
   className?: string;
   ariaLabel?: string;
+
   onClick?: (
     event: ReactMouseEvent<SVGGElement>,
   ) => void;
+
+  onDoubleClick?: (
+    event: ReactMouseEvent<SVGGElement>,
+  ) => void;
+
   onFocus?: () => void;
   onBlur?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 };
 
 const DEFAULT_COLOUR = "#0f172a";
@@ -338,6 +348,8 @@ export default function Bond({
   type = "line",
   polarity = "none",
   highlighted = false,
+  hovered = false,
+  active = false,
   selected = false,
   muted = false,
   animated = false,
@@ -352,10 +364,12 @@ export default function Bond({
   className,
   ariaLabel = "Chemical bond",
   onClick,
+  onDoubleClick,
   onFocus,
   onBlur,
+  onMouseEnter,
+  onMouseLeave,
 }: BondProps) {
-  const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
 
   const stableStart = stablePoint(start);
@@ -363,13 +377,17 @@ export default function Bond({
 
   const visuallyActive =
     selected ||
+    active ||
     highlighted ||
     hovered ||
     focused;
 
   const activeColour = selected
     ? selectedColour
-    : highlighted || hovered || focused
+    : active ||
+        highlighted ||
+        hovered ||
+        focused
       ? highlightedColour
       : colour;
 
@@ -392,7 +410,9 @@ export default function Bond({
   });
 
   const clickable =
-    interactive || Boolean(onClick);
+    interactive ||
+    Boolean(onClick) ||
+    Boolean(onDoubleClick);
 
   const hitWidth = Math.max(
     28,
@@ -441,14 +461,13 @@ export default function Bond({
       }
       tabIndex={clickable ? 0 : undefined}
       onClick={onClick}
+      onDoubleClick={onDoubleClick}
       onKeyDown={handleKeyDown}
       onMouseEnter={() => {
-        if (clickable) {
-          setHovered(true);
-        }
+        onMouseEnter?.();
       }}
       onMouseLeave={() => {
-        setHovered(false);
+        onMouseLeave?.();
       }}
       onFocus={() => {
         setFocused(true);
@@ -467,6 +486,9 @@ export default function Bond({
       }}
       data-bond-selected={
         selected ? "true" : "false"
+      }
+      data-bond-active={
+        active ? "true" : "false"
       }
       data-bond-highlighted={
         highlighted ? "true" : "false"
@@ -510,9 +532,11 @@ export default function Bond({
           opacity={
             selected
               ? 0.2
-              : focused
-                ? 0.18
-                : 0.13
+              : active
+                ? 0.19
+                : focused
+                  ? 0.18
+                  : 0.13
           }
           pointerEvents="none"
           vectorEffect="non-scaling-stroke"

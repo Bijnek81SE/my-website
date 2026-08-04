@@ -236,10 +236,25 @@ export type SkeletalMoleculeEngineProps = {
   children?: ReactNode;
 
   interactiveBonds?: boolean;
+
   selectedBondId?: string | null;
   highlightedBondId?: string | null;
+  hoveredBondId?: string | null;
+  activeBondId?: string | null;
 
   onBondClick?: (
+    bond: SkeletalBond,
+  ) => void;
+
+  onBondSelect?: (
+    bond: SkeletalBond,
+  ) => void;
+
+  onBondHover?: (
+    bond: SkeletalBond | null,
+  ) => void;
+
+  onBondDoubleClick?: (
     bond: SkeletalBond,
   ) => void;
 };
@@ -257,7 +272,12 @@ export default function SkeletalMoleculeEngine({
   interactiveBonds = false,
   selectedBondId = null,
   highlightedBondId = null,
+  hoveredBondId = null,
+  activeBondId = null,
   onBondClick,
+  onBondSelect,
+  onBondHover,
+  onBondDoubleClick,
 }: SkeletalMoleculeEngineProps) {
   const atomsById = new Map(
     molecule.atoms.map((atom) => [
@@ -309,17 +329,31 @@ export default function SkeletalMoleculeEngine({
             getBondRendering(bond);
 
           const selected =
-            bond.selected ||
+            Boolean(bond.selected) ||
             selectedBondId === bond.id;
 
           const highlighted =
-            bond.highlighted ||
+            Boolean(bond.highlighted) ||
             highlightedBondId === bond.id;
 
+          const hovered =
+            hoveredBondId === bond.id;
+
+          const active =
+            activeBondId === bond.id;
+
           const interactive =
-            bond.interactive ||
+            Boolean(bond.interactive) ||
             interactiveBonds ||
-            Boolean(onBondClick);
+            Boolean(onBondClick) ||
+            Boolean(onBondSelect) ||
+            Boolean(onBondHover) ||
+            Boolean(onBondDoubleClick);
+
+          const handleClick = () => {
+            onBondSelect?.(bond);
+            onBondClick?.(bond);
+          };
 
           return (
             <Bond
@@ -348,6 +382,8 @@ export default function SkeletalMoleculeEngine({
               highlighted={
                 highlighted
               }
+              hovered={hovered}
+              active={active}
               selected={selected}
               muted={
                 bond.muted ?? false
@@ -361,9 +397,26 @@ export default function SkeletalMoleculeEngine({
                 `${molecule.name}: bond from ${bond.from} to ${bond.to}`
               }
               onClick={
-                onBondClick
+                onBondSelect || onBondClick
+                  ? handleClick
+                  : undefined
+              }
+              onDoubleClick={
+                onBondDoubleClick
                   ? () =>
-                      onBondClick(bond)
+                      onBondDoubleClick(bond)
+                  : undefined
+              }
+              onMouseEnter={
+                onBondHover
+                  ? () =>
+                      onBondHover(bond)
+                  : undefined
+              }
+              onMouseLeave={
+                onBondHover
+                  ? () =>
+                      onBondHover(null)
                   : undefined
               }
             />
