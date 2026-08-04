@@ -25,6 +25,23 @@ export type {
 } from "./editing";
 
 export {
+  bondTypeOrderContribution,
+  getAtomById,
+  getBondById,
+  getConnectedBonds,
+  getMaximumValence,
+  totalBondOrderForAtom,
+  validateBondTypeChange,
+} from "./validation";
+
+export type {
+  BondValidationIssue,
+  BondValidationIssueCode,
+  BondValidationResult,
+  ConnectedBond,
+} from "./validation";
+
+export {
   angleBetween,
   distance,
   midpoint,

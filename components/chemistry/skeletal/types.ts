@@ -28,6 +28,8 @@ export type SkeletalAtom = {
   radical?: boolean;
   labelOffset?: SkeletalPoint;
   fontSize?: number;
+
+  maxValence?: number;
 };
 
 export type SkeletalBond = {
@@ -46,6 +48,13 @@ export type SkeletalBond = {
   interactive?: boolean;
   polarity?: SkeletalBondPolarity;
   ariaLabel?: string;
+
+  editable?: boolean;
+  maxOrder?: 1 | 2 | 3;
+  canBecomeAromatic?: boolean;
+  canBecomeWedge?: boolean;
+  canBecomeDash?: boolean;
+  canBecomeWavy?: boolean;
 };
 
 export type SkeletalAnnotation = {
