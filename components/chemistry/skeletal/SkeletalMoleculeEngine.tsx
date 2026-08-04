@@ -6,6 +6,10 @@ import type {
   BondOrder,
   BondType,
 } from "../bonds/Bond";
+import {
+  cycleBondStyle,
+  type EditableBondStyle,
+} from "../bonds/editing";
 import type {
   SkeletalAtom,
   SkeletalBond,
@@ -77,6 +81,34 @@ function trimEndpoint(
         (dy / length) * inset,
     ),
   };
+}
+
+function getBondStyle(
+  bond: SkeletalBond,
+): EditableBondStyle {
+  switch (bond.type) {
+    case "double":
+      return "double";
+
+    case "triple":
+      return "triple";
+
+    case "wedge":
+      return "wedge";
+
+    case "dash":
+      return "dash";
+
+    case "aromatic":
+      return "aromatic";
+
+    case "wavy":
+      return "wavy";
+
+    case "single":
+    default:
+      return "single";
+  }
 }
 
 function getBondRendering(
@@ -257,6 +289,11 @@ export type SkeletalMoleculeEngineProps = {
   onBondDoubleClick?: (
     bond: SkeletalBond,
   ) => void;
+
+  onBondStyleCycle?: (
+    bond: SkeletalBond,
+    nextStyle: EditableBondStyle,
+  ) => void;
 };
 
 export default function SkeletalMoleculeEngine({
@@ -278,6 +315,7 @@ export default function SkeletalMoleculeEngine({
   onBondSelect,
   onBondHover,
   onBondDoubleClick,
+  onBondStyleCycle,
 }: SkeletalMoleculeEngineProps) {
   const atomsById = new Map(
     molecule.atoms.map((atom) => [
@@ -348,11 +386,27 @@ export default function SkeletalMoleculeEngine({
             Boolean(onBondClick) ||
             Boolean(onBondSelect) ||
             Boolean(onBondHover) ||
-            Boolean(onBondDoubleClick);
+            Boolean(onBondDoubleClick) ||
+            Boolean(onBondStyleCycle);
 
           const handleClick = () => {
             onBondSelect?.(bond);
             onBondClick?.(bond);
+          };
+
+          const handleDoubleClick = () => {
+            const currentStyle =
+              getBondStyle(bond);
+
+            const nextStyle =
+              cycleBondStyle(currentStyle);
+
+            onBondStyleCycle?.(
+              bond,
+              nextStyle,
+            );
+
+            onBondDoubleClick?.(bond);
           };
 
           return (
@@ -402,9 +456,9 @@ export default function SkeletalMoleculeEngine({
                   : undefined
               }
               onDoubleClick={
-                onBondDoubleClick
-                  ? () =>
-                      onBondDoubleClick(bond)
+                onBondDoubleClick ||
+                onBondStyleCycle
+                  ? handleDoubleClick
                   : undefined
               }
               onMouseEnter={
