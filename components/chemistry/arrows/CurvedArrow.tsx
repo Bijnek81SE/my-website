@@ -1,15 +1,32 @@
 "use client";
 
-import { useId } from "react";
+import {
+  useId,
+  useState,
+} from "react";
+import type {
+  MolecularGraph,
+} from "../graph/MolecularGraph";
 import type {
   CurvedArrowDefinition,
 } from "./CurvedArrowEngine";
+import {
+  updateArrowWithLiveGeometry,
+  type LiveArrowGeometryOptions,
+} from "./LiveArrowGeometry";
 
 export type CurvedArrowProps = {
   arrow: CurvedArrowDefinition;
 
+  graph?: MolecularGraph;
+  liveGeometryOptions?: LiveArrowGeometryOptions;
+
   colour?: string;
   selectedColour?: string;
+  hoverColour?: string;
+  activeColour?: string;
+  invalidColour?: string;
+
   muted?: boolean;
   selected?: boolean;
   hovered?: boolean;
@@ -17,24 +34,39 @@ export type CurvedArrowProps = {
   animated?: boolean;
   interactive?: boolean;
 
+  strokeWidth?: number;
+  hitWidth?: number;
+
   className?: string;
   ariaLabel?: string;
 
   onClick?: () => void;
+  onDoubleClick?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 };
 
 function quadraticPath(
   arrow: CurvedArrowDefinition,
-) {
+): string {
   const {
     start,
     control,
     end,
   } = arrow.geometry;
 
-  return `M ${start.x} ${start.y} Q ${control.x} ${control.y} ${end.x} ${end.y}`;
+  return [
+    "M",
+    start.x,
+    start.y,
+    "Q",
+    control.x,
+    control.y,
+    end.x,
+    end.y,
+  ].join(" ");
 }
 
 function tangentAtEnd(
@@ -45,8 +77,11 @@ function tangentAtEnd(
     end,
   } = arrow.geometry;
 
-  const dx = end.x - control.x;
-  const dy = end.y - control.y;
+  const dx =
+    end.x - control.x;
+
+  const dy =
+    end.y - control.y;
 
   const length =
     Math.hypot(dx, dy) || 1;
@@ -60,9 +95,11 @@ function tangentAtEnd(
 function ArrowHead({
   arrow,
   colour,
+  strokeWidth,
 }: {
   arrow: CurvedArrowDefinition;
   colour: string;
+  strokeWidth: number;
 }) {
   const {
     end,
@@ -83,7 +120,7 @@ function ArrowHead({
 
   const headWidth =
     arrow.head === "fishhook"
-      ? 4
+      ? 4.5
       : 7;
 
   const base = {
@@ -104,107 +141,243 @@ function ArrowHead({
         y1={end.y}
         x2={
           base.x +
-          normal.x *
-            headWidth
+          normal.x * headWidth
         }
         y2={
           base.y +
-          normal.y *
-            headWidth
+          normal.y * headWidth
         }
         stroke={colour}
-        strokeWidth="3"
+        strokeWidth={Math.max(
+          2.5,
+          strokeWidth - 1,
+        )}
         strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
+        pointerEvents="none"
       />
     );
   }
 
   return (
     <polygon
-      points={`
-${end.x},${end.y}
-${base.x + normal.x * headWidth},${base.y + normal.y * headWidth}
-${base.x - normal.x * headWidth},${base.y - normal.y * headWidth}
-`}
+      points={[
+        `${end.x},${end.y}`,
+        `${
+          base.x +
+          normal.x * headWidth
+        },${
+          base.y +
+          normal.y * headWidth
+        }`,
+        `${
+          base.x -
+          normal.x * headWidth
+        },${
+          base.y -
+          normal.y * headWidth
+        }`,
+      ].join(" ")}
       fill={colour}
+      pointerEvents="none"
     />
   );
 }
 
+function resolveArrowColour({
+  valid,
+  selected,
+  focused,
+  active,
+  hovered,
+  colour,
+  selectedColour,
+  hoverColour,
+  activeColour,
+  invalidColour,
+}: {
+  valid: boolean;
+  selected: boolean;
+  focused: boolean;
+  active: boolean;
+  hovered: boolean;
+  colour: string;
+  selectedColour: string;
+  hoverColour: string;
+  activeColour: string;
+  invalidColour: string;
+}): string {
+  if (!valid) {
+    return invalidColour;
+  }
+
+  if (active) {
+    return activeColour;
+  }
+
+  if (
+    selected ||
+    focused
+  ) {
+    return selectedColour;
+  }
+
+  if (hovered) {
+    return hoverColour;
+  }
+
+  return colour;
+}
+
 export default function CurvedArrow({
   arrow,
+  graph,
+  liveGeometryOptions,
   colour = "#0891b2",
   selectedColour = "#2563eb",
+  hoverColour = "#0e7490",
+  activeColour = "#1d4ed8",
+  invalidColour = "#dc2626",
   muted = false,
   selected = false,
   hovered = false,
   active = false,
   animated = false,
   interactive = false,
+  strokeWidth = 4,
+  hitWidth = 22,
   className,
   ariaLabel,
   onClick,
+  onDoubleClick,
   onMouseEnter,
   onMouseLeave,
+  onFocus,
+  onBlur,
 }: CurvedArrowProps) {
   const gradientId =
     useId().replace(/:/g, "");
 
+  const [focused, setFocused] =
+    useState(false);
+
+  const liveArrow = graph
+    ? updateArrowWithLiveGeometry(
+        graph,
+        arrow,
+        liveGeometryOptions,
+      )
+    : arrow;
+
+  if (!liveArrow) {
+    return null;
+  }
+
+  const interactiveState =
+    interactive ||
+    Boolean(onClick) ||
+    Boolean(onDoubleClick);
+
   const path =
-    quadraticPath(arrow);
+    quadraticPath(liveArrow);
 
-  const stroke =
-    selected
-      ? selectedColour
-      : colour;
+  const resolvedColour =
+    resolveArrowColour({
+      valid: liveArrow.valid,
+      selected,
+      focused,
+      active,
+      hovered,
+      colour,
+      selectedColour,
+      hoverColour,
+      activeColour,
+      invalidColour,
+    });
 
-  const strokeWidth =
+  const resolvedStrokeWidth =
     active
-      ? 5
-      : hovered
-        ? 4.5
-        : 4;
+      ? strokeWidth + 1
+      : selected ||
+          focused ||
+          hovered
+        ? strokeWidth + 0.5
+        : strokeWidth;
 
   const opacity =
     muted ? 0.35 : 1;
+
+  const defaultAriaLabel =
+    liveArrow.reasoning.length > 0
+      ? liveArrow.reasoning.join(" ")
+      : `${
+          liveArrow.electronCount === 1
+            ? "Single-electron"
+            : "Two-electron"
+        } curved arrow from ${
+          liveArrow.source.kind
+        } to ${
+          liveArrow.target.kind
+        }.`;
 
   return (
     <g
       className={className}
       opacity={opacity}
       role={
-        interactive || onClick
+        interactiveState
           ? "button"
           : "img"
       }
       tabIndex={
-        interactive || onClick
+        interactiveState
           ? 0
           : undefined
       }
       aria-label={
         ariaLabel ??
-        arrow.reasoning.join(" ")
+        defaultAriaLabel
       }
-      onClick={onClick}
+      aria-disabled={
+        interactiveState &&
+        !liveArrow.valid
+          ? true
+          : undefined
+      }
+      onClick={
+        liveArrow.valid
+          ? onClick
+          : undefined
+      }
+      onDoubleClick={
+        liveArrow.valid
+          ? onDoubleClick
+          : undefined
+      }
       onMouseEnter={
         onMouseEnter
       }
       onMouseLeave={
         onMouseLeave
       }
-      onKeyDown={(
-        event,
-      ) => {
+      onFocus={() => {
+        setFocused(true);
+        onFocus?.();
+      }}
+      onBlur={() => {
+        setFocused(false);
+        onBlur?.();
+      }}
+      onKeyDown={(event) => {
         if (
-          !onClick
+          !onClick ||
+          !liveArrow.valid
         ) {
           return;
         }
 
         if (
-          event.key ===
-            "Enter" ||
+          event.key === "Enter" ||
           event.key === " "
         ) {
           event.preventDefault();
@@ -212,50 +385,101 @@ export default function CurvedArrow({
         }
       }}
       style={{
-        cursor:
-          interactive ||
-          onClick
+        cursor: interactiveState
+          ? liveArrow.valid
             ? "pointer"
-            : "default",
+            : "not-allowed"
+          : "default",
+        outline: "none",
       }}
+      data-arrow-id={
+        liveArrow.id
+      }
+      data-arrow-valid={
+        liveArrow.valid
+          ? "true"
+          : "false"
+      }
+      data-arrow-head={
+        liveArrow.head
+      }
+      data-electron-count={
+        liveArrow.electronCount
+      }
     >
       <defs>
         <linearGradient
           id={`arrow-gradient-${gradientId}`}
-          x1="0%"
-          y1="0%"
-          x2="100%"
-          y2="0%"
+          x1={
+            liveArrow.geometry.start.x
+          }
+          y1={
+            liveArrow.geometry.start.y
+          }
+          x2={
+            liveArrow.geometry.end.x
+          }
+          y2={
+            liveArrow.geometry.end.y
+          }
+          gradientUnits="userSpaceOnUse"
         >
           <stop
             offset="0%"
-            stopColor={stroke}
-            stopOpacity="0.35"
+            stopColor={
+              resolvedColour
+            }
+            stopOpacity="0.3"
           />
 
           <stop
             offset="55%"
-            stopColor={stroke}
+            stopColor={
+              resolvedColour
+            }
           />
 
           <stop
             offset="100%"
-            stopColor={stroke}
+            stopColor={
+              resolvedColour
+            }
             stopOpacity="0.95"
           />
         </linearGradient>
       </defs>
 
-      {(interactive ||
-        onClick) && (
+      {interactiveState ? (
         <path
           d={path}
           fill="none"
           stroke="transparent"
-          strokeWidth="22"
+          strokeWidth={Math.max(
+            hitWidth,
+            resolvedStrokeWidth +
+              14,
+          )}
           strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
         />
-      )}
+      ) : null}
+
+      {focused ? (
+        <path
+          d={path}
+          fill="none"
+          stroke={selectedColour}
+          strokeWidth={
+            resolvedStrokeWidth + 5
+          }
+          strokeOpacity="0.18"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+          pointerEvents="none"
+        />
+      ) : null}
 
       <path
         d={path}
@@ -263,23 +487,35 @@ export default function CurvedArrow({
         stroke={
           animated
             ? `url(#arrow-gradient-${gradientId})`
-            : stroke
+            : resolvedColour
         }
         strokeWidth={
-          strokeWidth
+          resolvedStrokeWidth
         }
         strokeLinecap="round"
         strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+        strokeDasharray={
+          liveArrow.valid
+            ? undefined
+            : "8 6"
+        }
         className={
           animated
             ? "animate-pulse"
             : undefined
         }
+        pointerEvents="none"
       />
 
       <ArrowHead
-        arrow={arrow}
-        colour={stroke}
+        arrow={liveArrow}
+        colour={
+          resolvedColour
+        }
+        strokeWidth={
+          resolvedStrokeWidth
+        }
       />
     </g>
   );
