@@ -12,6 +12,11 @@ export type SkeletalBondType =
   | "aromatic"
   | "wavy";
 
+export type SkeletalBondPolarity =
+  | "none"
+  | "forward"
+  | "reverse";
+
 export type SkeletalAtom = {
   id: string;
   position: SkeletalPoint;
@@ -35,7 +40,12 @@ export type SkeletalBond = {
   spacing?: number;
   parallelOffset?: number;
   highlighted?: boolean;
+  selected?: boolean;
   muted?: boolean;
+  animated?: boolean;
+  interactive?: boolean;
+  polarity?: SkeletalBondPolarity;
+  ariaLabel?: string;
 };
 
 export type SkeletalAnnotation = {

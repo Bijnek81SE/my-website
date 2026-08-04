@@ -1,9 +1,8 @@
 "use client";
 
-import {
-  useState,
-  type KeyboardEvent as ReactKeyboardEvent,
-  type MouseEvent as ReactMouseEvent,
+import type {
+  KeyboardEvent as ReactKeyboardEvent,
+  MouseEvent as ReactMouseEvent,
 } from "react";
 
 export type Point = {
@@ -25,7 +24,7 @@ export type BondPolarity =
   | "forward"
   | "reverse";
 
-export type BondProps = {
+export type BondEngineProps = {
   id?: string;
   start: Point;
   end: Point;
@@ -330,7 +329,7 @@ function DipoleArrow({
   );
 }
 
-export default function Bond({
+export default function BondEngine({
   id,
   start,
   end,
@@ -354,22 +353,13 @@ export default function Bond({
   onClick,
   onFocus,
   onBlur,
-}: BondProps) {
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
-
+}: BondEngineProps) {
   const stableStart = stablePoint(start);
   const stableEnd = stablePoint(end);
 
-  const visuallyActive =
-    selected ||
-    highlighted ||
-    hovered ||
-    focused;
-
   const activeColour = selected
     ? selectedColour
-    : highlighted || hovered || focused
+    : highlighted
       ? highlightedColour
       : colour;
 
@@ -442,22 +432,8 @@ export default function Bond({
       tabIndex={clickable ? 0 : undefined}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      onMouseEnter={() => {
-        if (clickable) {
-          setHovered(true);
-        }
-      }}
-      onMouseLeave={() => {
-        setHovered(false);
-      }}
-      onFocus={() => {
-        setFocused(true);
-        onFocus?.();
-      }}
-      onBlur={() => {
-        setFocused(false);
-        onBlur?.();
-      }}
+      onFocus={onFocus}
+      onBlur={onBlur}
       opacity={opacity}
       style={{
         cursor: clickable
@@ -470,12 +446,6 @@ export default function Bond({
       }
       data-bond-highlighted={
         highlighted ? "true" : "false"
-      }
-      data-bond-hovered={
-        hovered ? "true" : "false"
-      }
-      data-bond-focused={
-        focused ? "true" : "false"
       }
       data-bond-animated={
         animated ? "true" : "false"
@@ -494,26 +464,16 @@ export default function Bond({
         />
       ) : null}
 
-      {visuallyActive ? (
+      {selected ? (
         <line
           x1={stableStart.x}
           y1={stableStart.y}
           x2={stableEnd.x}
           y2={stableEnd.y}
-          stroke={
-            selected
-              ? selectedColour
-              : highlightedColour
-          }
+          stroke={selectedColour}
           strokeWidth={hitWidth * 0.72}
           strokeLinecap="round"
-          opacity={
-            selected
-              ? 0.2
-              : focused
-                ? 0.18
-                : 0.13
-          }
+          opacity={0.16}
           pointerEvents="none"
           vectorEffect="non-scaling-stroke"
         />

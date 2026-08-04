@@ -1,5 +1,10 @@
-export { default as SkeletalMoleculeEngine } from "./SkeletalMoleculeEngine";
-export type { SkeletalMoleculeEngineProps } from "./SkeletalMoleculeEngine";
+export {
+  default as SkeletalMoleculeEngine,
+} from "./SkeletalMoleculeEngine";
+
+export type {
+  SkeletalMoleculeEngineProps,
+} from "./SkeletalMoleculeEngine";
 
 export {
   assertSkeletalMolecule,
@@ -24,6 +29,7 @@ export type {
   SkeletalAnnotation,
   SkeletalAtom,
   SkeletalBond,
+  SkeletalBondPolarity,
   SkeletalBondType,
   SkeletalMoleculeDefinition,
   SkeletalPoint,

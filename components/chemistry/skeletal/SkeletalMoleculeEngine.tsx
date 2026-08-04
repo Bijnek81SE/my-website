@@ -1,4 +1,11 @@
+"use client";
+
 import type { ReactNode } from "react";
+import Bond from "../bonds/Bond";
+import type {
+  BondOrder,
+  BondType,
+} from "../bonds/Bond";
 import type {
   SkeletalAtom,
   SkeletalBond,
@@ -8,91 +15,23 @@ import type {
 
 const DEFAULT_STROKE = "#0f172a";
 
-function stableCoordinate(value: number): number {
+function stableCoordinate(
+  value: number,
+): number {
   return Math.round(value * 10_000) / 10_000;
-}
-
-function normal(
-  start: SkeletalPoint,
-  end: SkeletalPoint,
-): SkeletalPoint {
-  const dx = end.x - start.x;
-  const dy = end.y - start.y;
-  const length = Math.hypot(dx, dy) || 1;
-
-  return {
-    x: stableCoordinate(-dy / length),
-    y: stableCoordinate(dx / length),
-  };
-}
-
-function offsetPoint(
-  point: SkeletalPoint,
-  vector: SkeletalPoint,
-  amount: number,
-): SkeletalPoint {
-  return {
-    x: stableCoordinate(point.x + vector.x * amount),
-    y: stableCoordinate(point.y + vector.y * amount),
-  };
-}
-
-function WavyBond({
-  start,
-  end,
-  colour,
-  strokeWidth,
-}: {
-  start: SkeletalPoint;
-  end: SkeletalPoint;
-  colour: string;
-  strokeWidth: number;
-}) {
-  const dx = end.x - start.x;
-  const dy = end.y - start.y;
-  const length = Math.hypot(dx, dy) || 1;
-  const nx = -dy / length;
-  const ny = dx / length;
-  const segments = 8;
-
-  const points = Array.from(
-    { length: segments + 1 },
-    (_, index) => {
-      const t = index / segments;
-      const wave = Math.sin(t * Math.PI * segments) * 4;
-
-      const pointX = stableCoordinate(
-        start.x + dx * t + nx * wave,
-      );
-
-      const pointY = stableCoordinate(
-        start.y + dy * t + ny * wave,
-      );
-
-      return `${pointX},${pointY}`;
-    },
-  ).join(" ");
-
-  return (
-    <polyline
-      points={points}
-      fill="none"
-      stroke={colour}
-      strokeWidth={strokeWidth}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      vectorEffect="non-scaling-stroke"
-    />
-  );
 }
 
 function atomShowsLabel(
   atom: SkeletalAtom,
   showCarbons: boolean,
 ): boolean {
-  const label = atom.label ?? atom.element ?? "C";
+  const label =
+    atom.label ?? atom.element ?? "C";
 
-  return atom.showLabel ?? (label !== "C" || showCarbons);
+  return (
+    atom.showLabel ??
+    (label !== "C" || showCarbons)
+  );
 }
 
 function trimEndpoint(
@@ -102,194 +41,99 @@ function trimEndpoint(
 ): SkeletalPoint {
   if (!atomShowsLabel(atom, showCarbons)) {
     return {
-      x: stableCoordinate(atom.position.x),
-      y: stableCoordinate(atom.position.y),
+      x: stableCoordinate(
+        atom.position.x,
+      ),
+      y: stableCoordinate(
+        atom.position.y,
+      ),
     };
   }
 
-  const dx = other.position.x - atom.position.x;
-  const dy = other.position.y - atom.position.y;
-  const length = Math.hypot(dx, dy) || 1;
-  const label = atom.label ?? atom.element ?? "C";
-  const inset = Math.max(16, label.length * 8);
+  const dx =
+    other.position.x - atom.position.x;
+
+  const dy =
+    other.position.y - atom.position.y;
+
+  const length =
+    Math.hypot(dx, dy) || 1;
+
+  const label =
+    atom.label ?? atom.element ?? "C";
+
+  const inset = Math.max(
+    16,
+    label.length * 8,
+  );
 
   return {
     x: stableCoordinate(
-      atom.position.x + (dx / length) * inset,
+      atom.position.x +
+        (dx / length) * inset,
     ),
     y: stableCoordinate(
-      atom.position.y + (dy / length) * inset,
+      atom.position.y +
+        (dy / length) * inset,
     ),
   };
 }
 
-function SkeletalBondNode({
-  bond,
-  from,
-  to,
-  defaultStroke,
-  defaultStrokeWidth,
-  showCarbons,
-}: {
-  bond: SkeletalBond;
-  from: SkeletalAtom;
-  to: SkeletalAtom;
-  defaultStroke: string;
-  defaultStrokeWidth: number;
-  showCarbons: boolean;
-}) {
-  const start = trimEndpoint(from, to, showCarbons);
-  const end = trimEndpoint(to, from, showCarbons);
-  const type = bond.type ?? "single";
+function getBondRendering(
+  bond: SkeletalBond,
+): {
+  type: BondType;
+  order: BondOrder;
+} {
+  switch (bond.type) {
+    case "double":
+      return {
+        type: "line",
+        order: 2,
+      };
 
-  const colour = bond.highlighted
-    ? "#7c3aed"
-    : bond.colour ?? defaultStroke;
+    case "triple":
+      return {
+        type: "line",
+        order: 3,
+      };
 
-  const strokeWidth =
-    bond.strokeWidth ?? defaultStrokeWidth;
+    case "wedge":
+      return {
+        type: "wedge",
+        order: 1,
+      };
 
-  const opacity = bond.muted ? 0.3 : 1;
-  const perpendicular = normal(start, end);
-  const spacing = bond.spacing ?? 10;
+    case "dash":
+      return {
+        type: "dash",
+        order: 1,
+      };
 
-  if (type === "wedge") {
-    const width = Math.max(18, spacing * 2.4);
+    case "aromatic":
+      return {
+        type: "aromatic",
+        order: 1,
+      };
 
-    const left = offsetPoint(
-      end,
-      perpendicular,
-      width / 2,
-    );
+    case "wavy":
+      return {
+        type: "wavy",
+        order: 1,
+      };
 
-    const right = offsetPoint(
-      end,
-      perpendicular,
-      -width / 2,
-    );
-
-    const points = [
-      `${stableCoordinate(start.x)},${stableCoordinate(start.y)}`,
-      `${stableCoordinate(left.x)},${stableCoordinate(left.y)}`,
-      `${stableCoordinate(right.x)},${stableCoordinate(right.y)}`,
-    ].join(" ");
-
-    return (
-      <polygon
-        points={points}
-        fill={colour}
-        opacity={opacity}
-        vectorEffect="non-scaling-stroke"
-      />
-    );
+    case "single":
+    default:
+      return {
+        type: "line",
+        order: 1,
+      };
   }
-
-  if (type === "dash") {
-    return (
-      <g opacity={opacity}>
-        {Array.from({ length: 7 }, (_, index) => {
-          const t = (index + 1) / 8;
-
-          const centre = {
-            x: stableCoordinate(
-              start.x + (end.x - start.x) * t,
-            ),
-            y: stableCoordinate(
-              start.y + (end.y - start.y) * t,
-            ),
-          };
-
-          const half =
-            (Math.max(18, spacing * 2.4) * t) / 2;
-
-          return (
-            <line
-              key={index}
-              x1={stableCoordinate(
-                centre.x - perpendicular.x * half,
-              )}
-              y1={stableCoordinate(
-                centre.y - perpendicular.y * half,
-              )}
-              x2={stableCoordinate(
-                centre.x + perpendicular.x * half,
-              )}
-              y2={stableCoordinate(
-                centre.y + perpendicular.y * half,
-              )}
-              stroke={colour}
-              strokeWidth={Math.max(
-                2,
-                strokeWidth - 1,
-              )}
-              strokeLinecap="round"
-              vectorEffect="non-scaling-stroke"
-            />
-          );
-        })}
-      </g>
-    );
-  }
-
-  if (type === "wavy") {
-    return (
-      <g opacity={opacity}>
-        <WavyBond
-          start={start}
-          end={end}
-          colour={colour}
-          strokeWidth={strokeWidth}
-        />
-      </g>
-    );
-  }
-
-  const offsets =
-    type === "double"
-      ? [0, bond.parallelOffset ?? -spacing]
-      : type === "triple"
-        ? [-spacing, 0, spacing]
-        : [0];
-
-  return (
-    <g opacity={opacity}>
-      {offsets.map((offset) => {
-        const lineStart = offsetPoint(
-          start,
-          perpendicular,
-          offset,
-        );
-
-        const lineEnd = offsetPoint(
-          end,
-          perpendicular,
-          offset,
-        );
-
-        return (
-          <line
-            key={offset}
-            x1={stableCoordinate(lineStart.x)}
-            y1={stableCoordinate(lineStart.y)}
-            x2={stableCoordinate(lineEnd.x)}
-            y2={stableCoordinate(lineEnd.y)}
-            stroke={colour}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeDasharray={
-              type === "aromatic"
-                ? "9 7"
-                : undefined
-            }
-            vectorEffect="non-scaling-stroke"
-          />
-        );
-      })}
-    </g>
-  );
 }
 
-function chargeLabel(charge: number): string {
+function chargeLabel(
+  charge: number,
+): string {
   if (charge === 1) {
     return "+";
   }
@@ -310,14 +154,18 @@ function SkeletalAtomNode({
   atom: SkeletalAtom;
   showCarbons: boolean;
 }) {
-  const label = atom.label ?? atom.element ?? "C";
+  const label =
+    atom.label ?? atom.element ?? "C";
 
   const visible =
     atom.showLabel ??
     (label !== "C" || showCarbons);
 
   const offset =
-    atom.labelOffset ?? { x: 0, y: 0 };
+    atom.labelOffset ?? {
+      x: 0,
+      y: 0,
+    };
 
   const x = stableCoordinate(
     atom.position.x + offset.x,
@@ -335,9 +183,14 @@ function SkeletalAtomNode({
           y={y}
           textAnchor="middle"
           dominantBaseline="middle"
-          fontSize={atom.fontSize ?? 27}
+          fontSize={
+            atom.fontSize ?? 27
+          }
           fontWeight="700"
-          fill={atom.colour ?? DEFAULT_STROKE}
+          fill={
+            atom.colour ??
+            DEFAULT_STROKE
+          }
         >
           {label}
         </text>
@@ -361,7 +214,10 @@ function SkeletalAtomNode({
           cx={stableCoordinate(x + 16)}
           cy={stableCoordinate(y - 16)}
           r="4.5"
-          fill={atom.colour ?? "#e11d48"}
+          fill={
+            atom.colour ??
+            "#e11d48"
+          }
         />
       ) : null}
     </g>
@@ -378,6 +234,14 @@ export type SkeletalMoleculeEngineProps = {
   showCarbons?: boolean;
   className?: string;
   children?: ReactNode;
+
+  interactiveBonds?: boolean;
+  selectedBondId?: string | null;
+  highlightedBondId?: string | null;
+
+  onBondClick?: (
+    bond: SkeletalBond,
+  ) => void;
 };
 
 export default function SkeletalMoleculeEngine({
@@ -390,6 +254,10 @@ export default function SkeletalMoleculeEngine({
   showCarbons = false,
   className,
   children,
+  interactiveBonds = false,
+  selectedBondId = null,
+  highlightedBondId = null,
+  onBondClick,
 }: SkeletalMoleculeEngineProps) {
   const atomsById = new Map(
     molecule.atoms.map((atom) => [
@@ -404,29 +272,100 @@ export default function SkeletalMoleculeEngine({
         x,
       )} ${stableCoordinate(
         y,
-      )}) scale(${stableCoordinate(scale)})`}
+      )}) scale(${stableCoordinate(
+        scale,
+      )})`}
       className={className}
       role="img"
       aria-label={molecule.name}
     >
       <g aria-label="Bonds">
         {molecule.bonds.map((bond) => {
-          const from = atomsById.get(bond.from);
-          const to = atomsById.get(bond.to);
+          const from = atomsById.get(
+            bond.from,
+          );
+
+          const to = atomsById.get(
+            bond.to,
+          );
 
           if (!from || !to) {
             return null;
           }
 
+          const start = trimEndpoint(
+            from,
+            to,
+            showCarbons,
+          );
+
+          const end = trimEndpoint(
+            to,
+            from,
+            showCarbons,
+          );
+
+          const rendering =
+            getBondRendering(bond);
+
+          const selected =
+            bond.selected ||
+            selectedBondId === bond.id;
+
+          const highlighted =
+            bond.highlighted ||
+            highlightedBondId === bond.id;
+
+          const interactive =
+            bond.interactive ||
+            interactiveBonds ||
+            Boolean(onBondClick);
+
           return (
-            <SkeletalBondNode
+            <Bond
               key={bond.id}
-              bond={bond}
-              from={from}
-              to={to}
-              defaultStroke={stroke}
-              defaultStrokeWidth={strokeWidth}
-              showCarbons={showCarbons}
+              id={`bond-${molecule.id}-${bond.id}`}
+              start={start}
+              end={end}
+              type={rendering.type}
+              order={rendering.order}
+              polarity={
+                bond.polarity ?? "none"
+              }
+              colour={
+                bond.colour ?? stroke
+              }
+              strokeWidth={
+                bond.strokeWidth ??
+                strokeWidth
+              }
+              spacing={
+                bond.spacing ?? 10
+              }
+              parallelOffset={
+                bond.parallelOffset
+              }
+              highlighted={
+                highlighted
+              }
+              selected={selected}
+              muted={
+                bond.muted ?? false
+              }
+              animated={
+                bond.animated ?? false
+              }
+              interactive={interactive}
+              ariaLabel={
+                bond.ariaLabel ??
+                `${molecule.name}: bond from ${bond.from} to ${bond.to}`
+              }
+              onClick={
+                onBondClick
+                  ? () =>
+                      onBondClick(bond)
+                  : undefined
+              }
             />
           );
         })}
@@ -437,7 +376,9 @@ export default function SkeletalMoleculeEngine({
           <SkeletalAtomNode
             key={atom.id}
             atom={atom}
-            showCarbons={showCarbons}
+            showCarbons={
+              showCarbons
+            }
           />
         ))}
       </g>
@@ -453,17 +394,20 @@ export default function SkeletalMoleculeEngine({
               annotation.position.y,
             )}
             textAnchor={
-              annotation.anchor ?? "middle"
+              annotation.anchor ??
+              "middle"
             }
             dominantBaseline="middle"
             fontSize={
               annotation.fontSize ?? 16
             }
             fontWeight={
-              annotation.fontWeight ?? 700
+              annotation.fontWeight ??
+              700
             }
             fill={
-              annotation.colour ?? "#475569"
+              annotation.colour ??
+              "#475569"
             }
             pointerEvents="none"
           >
