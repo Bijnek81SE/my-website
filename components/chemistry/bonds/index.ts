@@ -12,6 +12,19 @@ export type {
 } from "./Bond";
 
 export {
+  bondStyleToRendering,
+  cycleBondStyle,
+  nextBondOrder,
+  previousBondOrder,
+  renderingToBondStyle,
+} from "./editing";
+
+export type {
+  BondRenderingState,
+  EditableBondStyle,
+} from "./editing";
+
+export {
   angleBetween,
   distance,
   midpoint,
