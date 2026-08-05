@@ -1,0 +1,62 @@
+import type { FunctionalGroupDefinition } from "./reference-types";
+
+export const functionalGroups: readonly FunctionalGroupDefinition[] = [
+  {
+    kind: "functional-group", slug: "alkene", name: "Alkene", formula: "C=C", category: "Hydrocarbon",
+    summary: "A carbon–carbon double bond containing one sigma bond and one reactive pi bond.",
+    recognition: "Look for two carbon atoms joined by a double line in a displayed or skeletal structure.",
+    bonding: "Both carbons are usually sp²-hybridised and approximately trigonal planar.",
+    polarity: "The C=C bond is only weakly polar, but its exposed pi electrons make it nucleophilic.",
+    acidityBasicity: "Alkenes are weak bases and are protonated only by sufficiently strong acids.",
+    commonReactions: ["Electrophilic addition", "Hydrohalogenation", "Hydration", "Halogenation", "Hydrogenation", "Hydroboration–oxidation"],
+    relatedReactions: [{ label: "Compare alkene additions", href: "/reactions" }],
+    relatedLabs: [{ label: "Electrophilic addition lab", href: "/lab/electrophilic-addition" }],
+    keywords: ["double bond", "pi bond", "sp2", "olefin"],
+  },
+  {
+    kind: "functional-group", slug: "alcohol", name: "Alcohol", formula: "R–OH", category: "Oxygen",
+    summary: "An oxygen atom bonded to hydrogen and carbon.", recognition: "Identify an –OH group attached to an sp³ carbon.",
+    bonding: "Oxygen is usually sp³-hybridised with two lone pairs.", polarity: "The O–H and C–O bonds are polar and enable hydrogen bonding.",
+    acidityBasicity: "Alcohols are weak acids and weak bases; acidity increases when the conjugate alkoxide is stabilised.",
+    commonReactions: ["Oxidation", "Substitution", "Dehydration", "Ester formation"],
+    relatedReactions: [{ label: "Hydration reactions", href: "/reactions" }], relatedLabs: [{ label: "Hydration lab", href: "/lab/hydration" }],
+    keywords: ["hydroxyl", "OH", "hydrogen bonding", "alkoxide"],
+  },
+  {
+    kind: "functional-group", slug: "alkyl-halide", name: "Alkyl halide", formula: "R–X", category: "Halogen",
+    summary: "An sp³ carbon bonded to fluorine, chlorine, bromine, or iodine.", recognition: "Look for F, Cl, Br, or I directly attached to an alkyl carbon.",
+    bonding: "The carbon–halogen sigma bond is polarised toward the halogen.", polarity: "Carbon is electrophilic and the halide can act as a leaving group.",
+    acidityBasicity: "Usually neither strongly acidic nor basic; reactivity is dominated by substitution and elimination.",
+    commonReactions: ["SN1", "SN2", "E1", "E2"], relatedReactions: [{ label: "Compare substitution and elimination", href: "/reactions" }],
+    relatedLabs: [{ label: "SN2 lab", href: "/lab/sn2-mechanism" }, { label: "E2 lab", href: "/lab/e2-mechanism" }],
+    keywords: ["haloalkane", "leaving group", "substitution", "elimination"],
+  },
+  {
+    kind: "functional-group", slug: "carbonyl", name: "Carbonyl", formula: "C=O", category: "Carbonyl",
+    summary: "A strongly polar carbon–oxygen double bond found in aldehydes, ketones, acids, esters, and amides.",
+    recognition: "Look for a carbon double-bonded to oxygen.", bonding: "Both carbon and oxygen are approximately sp²-hybridised.",
+    polarity: "Oxygen is electron-rich and carbon is electrophilic.", acidityBasicity: "The oxygen is weakly basic; alpha hydrogens can be acidic because enolates are resonance-stabilised.",
+    commonReactions: ["Nucleophilic addition", "Nucleophilic acyl substitution", "Reduction", "Oxidation"],
+    relatedReactions: [{ label: "Reaction explorer", href: "/reactions" }], relatedLabs: [{ label: "Curved-arrow designer", href: "/lab/curved-arrow-designer" }],
+    keywords: ["aldehyde", "ketone", "acyl", "electrophile"],
+  },
+  {
+    kind: "functional-group", slug: "amine", name: "Amine", formula: "R₃N", category: "Nitrogen",
+    summary: "A nitrogen atom bonded to carbon and/or hydrogen with a lone pair.", recognition: "Look for nitrogen not directly attached to a carbonyl carbon.",
+    bonding: "Most simple amines are approximately sp³-hybridised and trigonal pyramidal.", polarity: "The lone pair makes amines polar, basic, and nucleophilic.",
+    acidityBasicity: "Amines are common organic bases; their conjugate acids are ammonium ions.",
+    commonReactions: ["Proton transfer", "Alkylation", "Acylation", "Nucleophilic substitution"], relatedReactions: [{ label: "SN2 substitution", href: "/lab/sn2-mechanism" }],
+    relatedLabs: [{ label: "Lewis structure builder", href: "/calculators/lewis-structure-builder" }], keywords: ["amino", "base", "nucleophile", "lone pair"],
+  },
+  {
+    kind: "functional-group", slug: "aromatic-ring", name: "Aromatic ring", formula: "Ar", category: "Hydrocarbon",
+    summary: "A cyclic, conjugated pi system with unusual resonance stabilisation.", recognition: "Commonly drawn as alternating double bonds or a circle inside a ring.",
+    bonding: "Ring atoms are usually sp²-hybridised with overlapping p orbitals.", polarity: "Hydrocarbon aromatic rings are weakly non-polar but pi-electron rich.",
+    acidityBasicity: "The ring itself is weakly basic; substituents strongly affect acidity and basicity.", commonReactions: ["Electrophilic aromatic substitution", "Hydrogenation under forcing conditions"],
+    relatedReactions: [{ label: "Resonance lesson", href: "/learn/fundamentals/resonance" }], relatedLabs: [{ label: "Molecule playground", href: "/lab/molecule-playground" }],
+    keywords: ["benzene", "aromaticity", "conjugation", "resonance"],
+  },
+];
+
+const bySlug = new Map(functionalGroups.map((entry) => [entry.slug, entry]));
+export function getFunctionalGroup(slug: string) { return bySlug.get(slug); }

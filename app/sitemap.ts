@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { lessons } from "@/content/lesson-registry";
+import { functionalGroups, reagents } from "@/content/references";
 import { absoluteUrl } from "@/lib/seo";
 
 const staticRoutes = [
@@ -50,7 +51,12 @@ function priorityForRoute(route: string): number {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [...staticRoutes, ...lessons.map((lesson) => lesson.href)];
+  const routes = [
+    ...staticRoutes,
+    ...lessons.map((lesson) => lesson.href),
+    ...functionalGroups.map((entry) => `/functional-groups/${entry.slug}`),
+    ...reagents.map((entry) => `/reagents/${entry.slug}`),
+  ];
   const uniqueRoutes = [...new Set(routes)];
 
   return uniqueRoutes.map((route) => {

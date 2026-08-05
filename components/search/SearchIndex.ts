@@ -1,4 +1,5 @@
 import { lessons } from "@/content/lesson-registry";
+import { functionalGroups, reagents } from "@/content/references";
 
 export type SearchCategory =
   | "Lesson"
@@ -25,6 +26,26 @@ const lessonEntries: readonly SearchEntry[] = lessons.map((lesson) => ({
   category: "Lesson",
   keywords: [lesson.module, lesson.slug.replaceAll("-", " ")],
 }));
+
+
+const referenceEntries: readonly SearchEntry[] = [
+  ...functionalGroups.map((entry) => ({
+    id: `functional-group-${entry.slug}`,
+    title: entry.name,
+    description: entry.summary,
+    href: `/functional-groups/${entry.slug}`,
+    category: "Reference" as const,
+    keywords: [entry.formula, entry.category, ...entry.keywords],
+  })),
+  ...reagents.map((entry) => ({
+    id: `reagent-${entry.slug}`,
+    title: entry.name,
+    description: entry.summary,
+    href: `/reagents/${entry.slug}`,
+    category: "Reference" as const,
+    keywords: [entry.formula, entry.category, ...entry.keywords],
+  })),
+];
 
 const staticEntries: readonly SearchEntry[] = [
   {
@@ -199,6 +220,7 @@ const staticEntries: readonly SearchEntry[] = [
 
 export const searchEntries: readonly SearchEntry[] = [
   ...lessonEntries,
+  ...referenceEntries,
   ...staticEntries,
 ];
 

@@ -91,3 +91,10 @@ npm run build
 - [x] Connect every registry entry to its mechanism lab and knowledge prerequisites.
 - [x] Integrate the explorer with navigation, search, sitemap, references, and adaptive recommendations.
 - [x] Add unit, component, and E2E regression coverage.
+
+## Chemistry Reference Library
+
+- Added typed functional-group and reagent registries.
+- Added searchable reference landing pages and static detail routes.
+- Connected references to search, sitemap, knowledge graph, reactions, and labs.
+- Added unit, component, and E2E regression coverage.

@@ -1,7 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import { SearchProvider, useSearch } from "@/components/search";
+import {
+  SearchProvider,
+  useSearch,
+} from "@/components/search";
 
 const push = vi.fn();
 
@@ -11,7 +14,15 @@ vi.mock("next/navigation", () => ({
 
 function Harness() {
   const { openSearch } = useSearch();
-  return <button onClick={openSearch}>Open search</button>;
+
+  return (
+    <button
+      type="button"
+      onClick={openSearch}
+    >
+      Open search
+    </button>
+  );
 }
 
 describe("global search dialog", () => {
@@ -24,16 +35,30 @@ describe("global search dialog", () => {
       </SearchProvider>,
     );
 
-    await user.click(screen.getByRole("button", { name: "Open search" }));
+    await user.click(
+      screen.getByRole("button", {
+        name: "Open search",
+      }),
+    );
 
-    const input = screen.getByRole("combobox", {
-      name: /search organic chemistry hub/i,
-    });
+    const input = screen.getByRole(
+      "combobox",
+      {
+        name: /search organic chemistry hub/i,
+      },
+    );
 
     await user.type(input, "resonance");
-    await user.click(screen.getByRole("option", { name: /Resonance/i }));
 
-    expect(push).toHaveBeenCalledWith("/learn/fundamentals/resonance");
+    await user.click(
+      screen.getByRole("option", {
+        name: /^Lesson\s+Resonance/i,
+      }),
+    );
+
+    expect(push).toHaveBeenCalledWith(
+      "/learn/fundamentals/resonance",
+    );
   });
 
   it("opens with Control+K", async () => {
@@ -45,7 +70,9 @@ describe("global search dialog", () => {
       </SearchProvider>,
     );
 
-    await user.keyboard("{Control>}k{/Control}");
+    await user.keyboard(
+      "{Control>}k{/Control}",
+    );
 
     expect(
       screen.getByRole("dialog", {

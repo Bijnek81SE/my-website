@@ -1,5 +1,6 @@
 import { lessons } from "./lesson-registry";
 import { reactions } from "./reactions";
+import { functionalGroups, reagents } from "./references";
 import type {
   KnowledgeConnection,
   KnowledgeNode,
@@ -45,6 +46,26 @@ const reactionNodes: KnowledgeNode[] = reactions.map((reaction) => ({
   href: "/reactions",
   keywords: [...reaction.keywords, reaction.family, reaction.mechanismClass],
 }));
+
+
+const referenceEntryNodes: KnowledgeNode[] = [
+  ...functionalGroups.map((entry) => ({
+    id: `functional-group:${entry.slug}`,
+    kind: "functional-group" as const,
+    title: entry.name,
+    description: entry.summary,
+    href: `/functional-groups/${entry.slug}`,
+    keywords: entry.keywords,
+  })),
+  ...reagents.map((entry) => ({
+    id: `reagent:${entry.slug}`,
+    kind: "reagent" as const,
+    title: entry.name,
+    description: entry.summary,
+    href: `/reagents/${entry.slug}`,
+    keywords: entry.keywords,
+  })),
+];
 
 const sharedNodes: KnowledgeNode[] = [
   {
@@ -95,6 +116,7 @@ export const knowledgeNodes: readonly KnowledgeNode[] = [
   ...lessonNodes,
   ...mechanismNodes,
   ...reactionNodes,
+  ...referenceEntryNodes,
   ...sharedNodes,
 ];
 
@@ -140,6 +162,12 @@ export const knowledgeRelations: readonly KnowledgeRelation[] = [
   { from: "mechanism:hydration", to: "mechanism:oxymercuration-demercuration", kind: "related" },
   { from: "mechanism:hydroboration-oxidation", to: "mechanism:radical-hbr", kind: "related" },
   { from: "mechanism:hydrogenation", to: "reference:reagents", kind: "uses", label: "H₂ and metal catalyst" },
+
+  ...functionalGroups.flatMap((entry) => [
+    { from: `functional-group:${entry.slug}`, to: "reference:functional-groups", kind: "reference" as const },
+    ...entry.relatedLabs.map((item) => ({ from: `functional-group:${entry.slug}`, to: item.href.includes("functional-groups") ? "lab:functional-groups" : "lab:curved-arrow-designer", kind: "practice" as const })),
+  ]),
+  ...reagents.map((entry) => ({ from: `reagent:${entry.slug}`, to: "reference:reagents", kind: "reference" as const })),
   ...reactions.flatMap((reaction) => [
     { from: `reaction:${reaction.id}`, to: `mechanism:${reaction.id}`, kind: "practice" as const },
     { from: `reaction:${reaction.id}`, to: "reference:reagents", kind: "reference" as const },

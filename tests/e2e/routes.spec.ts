@@ -10,6 +10,8 @@ const routes = [
   ["/lab/sn2-mechanism", /SN2/i],
   ["/lab/hybridization", /Hybridization/i],
   ["/calculators/lewis-structure-builder", /Lewis/i],
+  ["/functional-groups/alkene", /Alkene/i],
+  ["/reagents/bromine", /Bromine/i],
 ] as const;
 
 for (const [path, heading] of routes) {
@@ -40,7 +42,9 @@ test("global search opens and navigates to a result", async ({ page }) => {
   await expect(search).toBeVisible();
   await search.fill("resonance");
 
-  const result = page.getByRole("option", { name: /Resonance/i });
+  const result = page.getByRole("option", {
+  name: /^Lesson\s+Resonance/i,
+});
   await expect(result).toBeVisible();
   await result.click();
 
@@ -151,4 +155,14 @@ test("reaction explorer filters and compares pathways", async ({ page }) => {
   await compareButtons.nth(1).click();
   await expect(page.getByRole("heading", { name: /Compare selected reactions/i })).toBeVisible();
   await expect(page.getByRole("rowheader", { name: "Regioselectivity" })).toBeVisible();
+});
+
+
+test("reference library filters entries", async ({ page }) => {
+  await page.goto("/functional-groups");
+  const input = page.getByPlaceholder("Search names, formulas, or reactivity");
+  await input.fill("alkene");
+  await expect(page.getByRole("heading", { name: "Alkene" })).toBeVisible();
+  await page.getByRole("link", { name: /Alkene/i }).click();
+  await expect(page).toHaveURL(/\/functional-groups\/alkene$/);
 });
