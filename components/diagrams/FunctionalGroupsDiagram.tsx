@@ -1,67 +1,74 @@
+import {
+  StructureDiagram,
+  chemistryGraphicTokens,
+  type StructureDiagramAtom,
+  type StructureDiagramBond,
+} from "@/components/chemistry";
+
 type Group = {
   name: string;
   formula: string;
-  color: string;
-  ring: string;
   example: string;
-  atoms: Array<{ label: string; fill: string; x: number; y: number }>;
-  bonds: Array<{ x1: number; y1: number; x2: number; y2: number; double?: boolean }>;
+  atoms: readonly StructureDiagramAtom[];
+  bonds: readonly StructureDiagramBond[];
 };
 
-const groups: Group[] = [
+const compactRadius = chemistryGraphicTokens.atom.compactRadius;
+const compactStroke = chemistryGraphicTokens.bond.compactStrokeWidth;
+
+const groups: readonly Group[] = [
   {
     name: "Hydroxyl",
-    formula: "R\u2212OH",
-    color: "text-emerald-700",
-    ring: "hover:border-emerald-300 hover:shadow-emerald-100",
+    formula: "R−OH",
     example: "Ethanol, cholesterol",
     atoms: [
-      { label: "C", fill: "#0F172A", x: 14, y: 20 },
-      { label: "O", fill: "#EF4444", x: 27, y: 20 },
-      { label: "H", fill: "#2563EB", x: 37, y: 20 },
+      { id: "c", element: "C", position: { x: 14, y: 20 }, radius: compactRadius },
+      { id: "o", element: "O", position: { x: 27, y: 20 }, radius: compactRadius },
+      { id: "h", element: "H", position: { x: 40, y: 20 }, radius: compactRadius },
     ],
-    bonds: [{ x1: 17, y1: 20, x2: 24, y2: 20 }, { x1: 30, y1: 20, x2: 34, y2: 20 }],
+    bonds: [
+      { id: "c-o", from: "c", to: "o", strokeWidth: compactStroke },
+      { id: "o-h", from: "o", to: "h", strokeWidth: compactStroke },
+    ],
   },
   {
     name: "Carbonyl",
     formula: "C=O",
-    color: "text-emerald-700",
-    ring: "hover:border-emerald-300 hover:shadow-emerald-100",
     example: "Acetone, formaldehyde",
     atoms: [
-      { label: "C", fill: "#0F172A", x: 16, y: 20 },
-      { label: "O", fill: "#EF4444", x: 30, y: 12 },
+      { id: "c", element: "C", position: { x: 14, y: 24 }, radius: compactRadius },
+      { id: "o", element: "O", position: { x: 32, y: 14 }, radius: compactRadius },
     ],
-    bonds: [{ x1: 19, y1: 19, x2: 27, y2: 13, double: true }],
+    bonds: [
+      { id: "c-o", from: "c", to: "o", order: 2, strokeWidth: compactStroke, spacing: 2.2 },
+    ],
   },
   {
     name: "Amine",
-    formula: "R\u2212NH\u2082",
-    color: "text-emerald-700",
-    ring: "hover:border-emerald-300 hover:shadow-emerald-100",
+    formula: "R−NH₂",
     example: "Amino acids, amphetamine",
     atoms: [
-      { label: "C", fill: "#0F172A", x: 14, y: 20 },
-      { label: "N", fill: "#7C3AED", x: 28, y: 20 },
+      { id: "c", element: "C", position: { x: 14, y: 20 }, radius: compactRadius },
+      { id: "n", element: "N", position: { x: 31, y: 20 }, radius: compactRadius, lonePairs: 1 },
     ],
-    bonds: [{ x1: 17, y1: 20, x2: 25, y2: 20 }],
+    bonds: [
+      { id: "c-n", from: "c", to: "n", strokeWidth: compactStroke },
+    ],
   },
   {
     name: "Carboxylic acid",
-    formula: "\u2212COOH",
-    color: "text-emerald-700",
-    ring: "hover:border-emerald-300 hover:shadow-emerald-100",
+    formula: "−COOH",
     example: "Acetic acid, citric acid",
     atoms: [
-      { label: "C", fill: "#0F172A", x: 14, y: 22 },
-      { label: "O", fill: "#EF4444", x: 27, y: 12 },
-      { label: "O", fill: "#EF4444", x: 27, y: 30 },
-      { label: "H", fill: "#2563EB", x: 38, y: 30 },
+      { id: "c", element: "C", position: { x: 13, y: 22 }, radius: compactRadius },
+      { id: "o-1", element: "O", position: { x: 28, y: 11 }, radius: compactRadius },
+      { id: "o-2", element: "O", position: { x: 28, y: 31 }, radius: compactRadius },
+      { id: "h", element: "H", position: { x: 42, y: 31 }, radius: compactRadius },
     ],
     bonds: [
-      { x1: 16, y1: 20, x2: 24, y2: 13, double: true },
-      { x1: 16, y1: 24, x2: 24, y2: 29 },
-      { x1: 30, y1: 30, x2: 35, y2: 30 },
+      { id: "c-o-1", from: "c", to: "o-1", order: 2, strokeWidth: compactStroke, spacing: 2.2 },
+      { id: "c-o-2", from: "c", to: "o-2", strokeWidth: compactStroke },
+      { id: "o-h", from: "o-2", to: "h", strokeWidth: compactStroke },
     ],
   },
 ];
@@ -72,39 +79,22 @@ export default function FunctionalGroupsDiagram() {
       {groups.map((group) => (
         <div
           key={group.name}
-          className={`group/card relative overflow-hidden rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${group.ring}`}
+          className="group/card relative overflow-hidden rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-100 motion-reduce:transform-none motion-reduce:transition-none"
         >
-          <svg viewBox="0 0 46 40" className="h-12 w-full">
-            {group.bonds.map((b, i) =>
-              b.double ? (
-                <g key={i} stroke="#94A3B8" strokeWidth="1.4" strokeLinecap="round">
-                  <line x1={b.x1} y1={b.y1 - 1} x2={b.x2} y2={b.y2 - 1} />
-                  <line x1={b.x1} y1={b.y1 + 1} x2={b.x2} y2={b.y2 + 1} />
-                </g>
-              ) : (
-                <line key={i} x1={b.x1} y1={b.y1} x2={b.x2} y2={b.y2} stroke="#94A3B8" strokeWidth="1.4" strokeLinecap="round" />
-              )
-            )}
-            {group.atoms.map((a, i) => (
-              <g key={i} className="transition-transform duration-300 group-hover/card:scale-110" style={{ transformOrigin: `${a.x}px ${a.y}px` }}>
-                <circle cx={a.x} cy={a.y} r="6.5" fill={a.fill} />
-                <text x={a.x} y={a.y + 2.5} textAnchor="middle" fill="white" fontSize="6.5" fontWeight="700" fontFamily="Arial, sans-serif">
-                  {a.label}
-                </text>
-              </g>
-            ))}
-          </svg>
+          <StructureDiagram
+            title={`${group.name} functional group`}
+            description={`${group.formula}. Examples include ${group.example}.`}
+            atoms={group.atoms}
+            bonds={group.bonds}
+            viewBox="0 0 48 42"
+            className="h-14 w-full"
+          />
 
-          <p className={`mt-3 text-sm font-bold ${group.color}`}>{group.name}</p>
+          <p className="mt-3 text-sm font-bold text-emerald-700">{group.name}</p>
           <p className="text-xs text-slate-500">{group.formula}</p>
-
-          <div className="grid grid-rows-[0fr] transition-all duration-300 group-hover/card:grid-rows-[1fr]">
-            <div className="overflow-hidden">
-              <p className="mt-2 border-t border-slate-100 pt-2 text-xs text-slate-600">
-                e.g. {group.example}
-              </p>
-            </div>
-          </div>
+          <p className="mt-2 border-t border-slate-100 pt-2 text-xs text-slate-600">
+            e.g. {group.example}
+          </p>
         </div>
       ))}
     </div>

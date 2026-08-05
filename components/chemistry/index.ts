@@ -11,3 +11,6 @@ export { default as ResonanceArrow } from "./ResonanceArrow";
 export { default as ResonanceCarboxylateInteractive } from "./ResonanceCarboxylateInteractive";
 export { default as SkeletalMoleculePlayground } from "./SkeletalMoleculePlayground";
 export * from "./skeletal";
+export * from "./graphics";
+export * from "./atoms";
+export * from "./bonds";

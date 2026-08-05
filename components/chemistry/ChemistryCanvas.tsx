@@ -7,6 +7,15 @@ type ChemistryCanvasProps = SVGProps<SVGSVGElement> & {
   viewBox?: string;
 };
 
+function accessibleId(value: string): string {
+  const normalized = value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return normalized || "chemistry-graphic";
+}
+
 export default function ChemistryCanvas({
   children,
   title,
@@ -15,8 +24,9 @@ export default function ChemistryCanvas({
   className = "h-auto w-full",
   ...props
 }: ChemistryCanvasProps) {
-  const titleId = `${props.id ?? "chemistry"}-title`;
-  const descriptionId = `${props.id ?? "chemistry"}-description`;
+  const baseId = props.id ?? accessibleId(title);
+  const titleId = `${baseId}-title`;
+  const descriptionId = `${baseId}-description`;
 
   return (
     <svg
