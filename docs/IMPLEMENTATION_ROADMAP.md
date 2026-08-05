@@ -44,3 +44,9 @@ Every release must pass:
 npm run lint
 npm run build
 ```
+## Hydration and semantic HTML
+
+- Resonance MDX no longer produces nested paragraph markup.
+- The root layout declares smooth-scroll behavior for Next.js route transitions.
+- Playwright guards the Resonance lesson against hydration and invalid-nesting regressions.
+

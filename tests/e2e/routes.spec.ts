@@ -45,3 +45,32 @@ test("global search opens and navigates to a result", async ({ page }) => {
   await expect(page).toHaveURL(/\/learn\/fundamentals\/resonance$/);
   await expect(page.getByText(/Resonance/i).first()).toBeVisible();
 });
+
+test("Resonance lesson hydrates without semantic HTML errors", async ({ page }) => {
+  const hydrationErrors: string[] = [];
+
+  page.on("console", (message) => {
+    if (message.type() !== "error") return;
+
+    const text = message.text();
+    if (
+      text.includes("cannot be a descendant of") ||
+      text.includes("cannot contain a nested") ||
+      text.includes("Hydration failed")
+    ) {
+      hydrationErrors.push(text);
+    }
+  });
+
+  page.on("pageerror", (error) => {
+    if (error.message.includes("Hydration failed")) {
+      hydrationErrors.push(error.message);
+    }
+  });
+
+  await page.goto("/learn/fundamentals/resonance");
+  await expect(page.getByRole("main")).toBeVisible();
+  await page.waitForLoadState("networkidle");
+
+  expect(hydrationErrors).toEqual([]);
+});
