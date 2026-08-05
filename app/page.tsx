@@ -42,7 +42,7 @@ const featuredLessons = [
 
 export default function Home() {
   return (
-    <>
+    <main>
       <Hero />
 
       <Section>
@@ -125,6 +125,6 @@ export default function Home() {
           </ButtonLink>
         </div>
       </Section>
-    </>
+    </main>
   );
 }
