@@ -1,0 +1,58 @@
+"use client";
+
+import Link from "next/link";
+import { lessons } from "@/content/lesson-registry";
+import { getDueReviewRecords, getProgressSummary } from "./ProgressEngine";
+import { useLearningProgress } from "./LearningEngine";
+
+export default function StudyRecommendations() {
+  const { progress } = useLearningProgress();
+  const summary = getProgressSummary(progress);
+  const due = getDueReviewRecords(progress).slice(0, 2);
+  const nextLesson = lessons.find(
+    (lesson) => progress.records[`lesson:${lesson.slug}`]?.status !== "completed",
+  );
+
+  if (summary.total === 0) return null;
+
+  return (
+    <aside className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" aria-labelledby="adaptive-study-heading">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-violet-700">
+            Personal study plan
+          </p>
+          <h2 id="adaptive-study-heading" className="mt-1 text-lg font-bold text-slate-950">
+            Continue studying
+          </h2>
+        </div>
+        <span className="rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-800">
+          {progress.streak.current}-day streak
+        </span>
+      </div>
+
+      <p className="mt-3 text-sm leading-6 text-slate-600">
+        {summary.completed} completed and {summary.inProgress} in progress on this browser.
+      </p>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {due.map((record) => (
+          <div key={record.nodeId} className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Review due</p>
+            <p className="mt-1 font-semibold text-slate-950">{record.title}</p>
+          </div>
+        ))}
+        {nextLesson ? (
+          <Link
+            href={nextLesson.href}
+            className="rounded-xl border border-slate-200 bg-slate-50 p-4 transition hover:border-violet-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600"
+          >
+            <p className="text-xs font-semibold uppercase tracking-wide text-violet-700">Recommended next</p>
+            <p className="mt-1 font-semibold text-slate-950">{nextLesson.title}</p>
+            <p className="mt-1 text-sm text-slate-600">{nextLesson.readingTime}</p>
+          </Link>
+        ) : null}
+      </div>
+    </aside>
+  );
+}

@@ -8,6 +8,7 @@ import {
 } from "react";
 import PracticeEngine from "./PracticeEngine";
 import { Prerequisites, RelatedConcepts } from "@/components/knowledge";
+import { StudySession } from "@/components/learning";
 import type { ReactionDataDefinition } from "./ReactionDataEngine";
 import { assertValidMechanismDefinition } from "./MechanismValidationEngine";
 import type {
@@ -440,6 +441,12 @@ export default function MechanismPlayerEngine<
           }
         />
       )}
+
+      <StudySession
+        nodeId={`mechanism:${validation.id}`}
+        kind="mechanism"
+        title={title}
+      />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Prerequisites nodeId={`mechanism:${validation.id}`} />

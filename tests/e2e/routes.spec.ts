@@ -108,3 +108,19 @@ test("sitemap, robots, and manifest are published", async ({ request }) => {
   expect(manifestResponse.ok()).toBe(true);
   expect(await manifestResponse.text()).toContain("Organic Chemistry Hub");
 });
+
+test("lesson progress is saved locally", async ({ page }) => {
+  await page.goto("/learn/fundamentals/resonance");
+
+  const completeButton = page.getByRole("button", {
+    name: /mark lesson complete/i,
+  });
+  await expect(completeButton).toBeVisible();
+  await completeButton.click();
+
+  await expect(page.getByRole("heading", { name: "Completed" })).toBeVisible();
+  const stored = await page.evaluate(() =>
+    window.localStorage.getItem("organic-chemistry-hub:learning-progress:v1"),
+  );
+  expect(stored).toContain("lesson:resonance");
+});

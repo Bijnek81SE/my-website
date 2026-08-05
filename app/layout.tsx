@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { SearchProvider } from '@/components/search';
 import { WebSiteJsonLd } from '@/components/seo';
+import { LearningEngine } from '@/components/learning';
 import { siteConfig } from '@/lib/seo';
 
 const geistSans = Geist({
@@ -58,11 +59,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <body className="flex min-h-screen flex-col">
         <WebSiteJsonLd />
-        <SearchProvider>
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </SearchProvider>
+        <LearningEngine>
+          <SearchProvider>
+            <Header />
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </SearchProvider>
+        </LearningEngine>
       </body>
     </html>
   );

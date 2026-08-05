@@ -5,6 +5,7 @@ import { getLessonPosition } from "@/content/lesson-registry";
 import { getKnowledgeNodeIdForLesson } from "@/content/knowledge-graph";
 import { Prerequisites, RelatedConcepts, StudyNext } from "@/components/knowledge";
 import { BreadcrumbJsonLd, LearningResourceJsonLd } from "@/components/seo";
+import { StudyRecommendations, StudySession } from "@/components/learning";
 import LessonHeader from "./LessonHeader";
 import LessonNavigation from "./LessonNavigation";
 import LessonProgress from "./LessonProgress";
@@ -76,10 +77,18 @@ export default function LessonPage({
       <div className="mt-12 grid gap-12 xl:grid-cols-[minmax(0,1fr)_280px]">
         <article className="min-w-0 text-lg leading-8 text-slate-700">
           <Prerequisites nodeId={knowledgeNodeId} />
+          <div className="mt-6">
+            <StudySession
+              nodeId={knowledgeNodeId}
+              kind="lesson"
+              title={lesson.title}
+            />
+          </div>
           <div className="mt-10">{children}</div>
           <div className="mt-12 space-y-6">
             <RelatedConcepts nodeId={knowledgeNodeId} />
             <StudyNext nodeId={knowledgeNodeId} />
+            <StudyRecommendations />
           </div>
           <LessonNavigation previous={lesson.previous} next={lesson.next} />
         </article>

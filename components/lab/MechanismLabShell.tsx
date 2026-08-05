@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { StudyRecommendations } from "@/components/learning";
 
 export type MechanismLabAccent =
   | "blue"
@@ -47,6 +48,9 @@ export default function MechanismLabShell({
         </nav>
 
         <div className="mt-7">{children}</div>
+        <div className="mt-8">
+          <StudyRecommendations />
+        </div>
       </div>
     </main>
   );

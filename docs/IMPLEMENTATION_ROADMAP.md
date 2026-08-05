@@ -67,3 +67,12 @@ npm run build
 - [x] Add WebSite, Organization, BreadcrumbList, and LearningResource structured data.
 - [x] Derive Fundamentals lesson URLs from the lesson registry.
 - [x] Add unit and E2E coverage for discoverability output.
+
+## Adaptive learning platform
+
+- [x] Add browser-local lesson and mechanism progress tracking.
+- [x] Add study streak and completion summaries.
+- [x] Add spaced-repetition review scheduling.
+- [x] Add adaptive lesson and mechanism study-session controls.
+- [x] Add continue-studying and due-review recommendations.
+- [x] Add unit and component regression coverage.
