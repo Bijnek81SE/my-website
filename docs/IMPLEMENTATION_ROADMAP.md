@@ -82,3 +82,12 @@ npm run build
 - Added a visible `/study` workspace for progress, streaks, reviews, recommendations, and recent activity.
 - Integrated the dashboard into global navigation, homepage discovery, curriculum recommendations, search, sitemap, and automated tests.
 - Progress remains private and browser-local.
+
+## Interactive Reaction Explorer
+
+- [x] Create a typed reaction registry for all mechanism-backed reactions.
+- [x] Add filtering by reaction family, mechanism class, timing, and free-text chemistry terms.
+- [x] Add two-reaction side-by-side comparison.
+- [x] Connect every registry entry to its mechanism lab and knowledge prerequisites.
+- [x] Integrate the explorer with navigation, search, sitemap, references, and adaptive recommendations.
+- [x] Add unit, component, and E2E regression coverage.

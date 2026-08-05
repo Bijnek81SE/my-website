@@ -52,6 +52,14 @@ export default function StudyRecommendations() {
             <p className="mt-1 text-sm text-slate-600">{nextLesson.readingTime}</p>
           </Link>
         ) : null}
+        <Link
+          href="/reactions"
+          className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 transition hover:border-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 sm:col-span-2"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Apply what you know</p>
+          <p className="mt-1 font-semibold text-slate-950">Compare reaction pathways</p>
+          <p className="mt-1 text-sm text-slate-600">Use the reaction explorer to connect mechanisms, reagents, and selectivity.</p>
+        </Link>
       </div>
     </aside>
   );

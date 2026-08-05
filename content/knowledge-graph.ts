@@ -1,4 +1,5 @@
 import { lessons } from "./lesson-registry";
+import { reactions } from "./reactions";
 import type {
   KnowledgeConnection,
   KnowledgeNode,
@@ -34,6 +35,15 @@ const mechanismNodes: KnowledgeNode[] = [
   title,
   description,
   href,
+}));
+
+const reactionNodes: KnowledgeNode[] = reactions.map((reaction) => ({
+  id: `reaction:${reaction.id}`,
+  kind: "reaction",
+  title: reaction.title,
+  description: reaction.description,
+  href: "/reactions",
+  keywords: [...reaction.keywords, reaction.family, reaction.mechanismClass],
 }));
 
 const sharedNodes: KnowledgeNode[] = [
@@ -84,6 +94,7 @@ const sharedNodes: KnowledgeNode[] = [
 export const knowledgeNodes: readonly KnowledgeNode[] = [
   ...lessonNodes,
   ...mechanismNodes,
+  ...reactionNodes,
   ...sharedNodes,
 ];
 
@@ -129,6 +140,12 @@ export const knowledgeRelations: readonly KnowledgeRelation[] = [
   { from: "mechanism:hydration", to: "mechanism:oxymercuration-demercuration", kind: "related" },
   { from: "mechanism:hydroboration-oxidation", to: "mechanism:radical-hbr", kind: "related" },
   { from: "mechanism:hydrogenation", to: "reference:reagents", kind: "uses", label: "H₂ and metal catalyst" },
+  ...reactions.flatMap((reaction) => [
+    { from: `reaction:${reaction.id}`, to: `mechanism:${reaction.id}`, kind: "practice" as const },
+    { from: `reaction:${reaction.id}`, to: "reference:reagents", kind: "reference" as const },
+    ...reaction.prerequisiteNodeIds.map((to) => ({ from: `reaction:${reaction.id}`, to, kind: "prerequisite" as const })),
+    ...reaction.relatedReactionIds.map((id) => ({ from: `reaction:${reaction.id}`, to: `reaction:${id}`, kind: "related" as const })),
+  ]),
 ];
 
 const nodesById = new Map(knowledgeNodes.map((node) => [node.id, node]));

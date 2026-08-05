@@ -19,3 +19,6 @@ export {
   lessons,
 } from "./lesson-registry";
 export type { LessonLink, LessonModule, LessonRecord } from "./lesson-registry";
+
+export { getReaction, getReactions, reactions } from "./reactions";
+export type { ReactionDefinition, ReactionFamily, ReactionMechanismClass, ReactionSelectivity } from "./reactions";

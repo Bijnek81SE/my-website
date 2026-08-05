@@ -28,6 +28,14 @@ const lessonEntries: readonly SearchEntry[] = lessons.map((lesson) => ({
 
 const staticEntries: readonly SearchEntry[] = [
   {
+    id: "reaction-explorer",
+    title: "Interactive reaction explorer",
+    description: "Filter and compare substitution, elimination, and alkene addition reactions.",
+    href: "/reactions",
+    category: "Reference",
+    keywords: ["reaction comparison", "SN1", "SN2", "E1", "E2", "alkene addition", "selectivity"],
+  },
+  {
     id: "study-dashboard",
     title: "Study dashboard",
     description: "Track progress, review due concepts, and continue your personalised study plan.",

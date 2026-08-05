@@ -4,6 +4,7 @@ const routes = [
   ["/", /Organic Chemistry Hub/i],
   ["/learn", /Learn/i],
   ["/study", /Study dashboard/i],
+  ["/reactions", /Compare mechanisms/i],
   ["/learn/fundamentals/resonance", /Resonance/i],
   ["/lab", /Lab/i],
   ["/lab/sn2-mechanism", /SN2/i],
@@ -135,4 +136,19 @@ test("study dashboard reflects locally saved lesson progress", async ({ page }) 
   await expect(page.getByRole("heading", { name: /study dashboard/i })).toBeVisible();
   await expect(page.getByText("Resonance").first()).toBeVisible();
   await expect(page.getByText(/1 of 7 lessons completed/i)).toBeVisible();
+});
+
+
+test("reaction explorer filters and compares pathways", async ({ page }) => {
+  await page.goto("/reactions");
+  await page.getByRole("searchbox").fill("SN2");
+  await expect(page.getByRole("heading", { name: "SN2 substitution" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "SN1 substitution" })).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Reset" }).click();
+  const compareButtons = page.getByRole("button", { name: "Compare" });
+  await compareButtons.nth(0).click();
+  await compareButtons.nth(1).click();
+  await expect(page.getByRole("heading", { name: /Compare selected reactions/i })).toBeVisible();
+  await expect(page.getByRole("rowheader", { name: "Regioselectivity" })).toBeVisible();
 });

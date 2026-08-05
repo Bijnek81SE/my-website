@@ -35,6 +35,7 @@ const staticRoutes = [
   "/lab/sn2-mechanism",
   "/learn",
   "/named-reactions",
+  "/reactions",
   "/reagents",
   "/resources",
   "/study",
