@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 const routes = [
   ["/", /Organic Chemistry Hub/i],
   ["/learn", /Learn/i],
+  ["/study", /Study dashboard/i],
   ["/learn/fundamentals/resonance", /Resonance/i],
   ["/lab", /Lab/i],
   ["/lab/sn2-mechanism", /SN2/i],
@@ -123,4 +124,15 @@ test("lesson progress is saved locally", async ({ page }) => {
     window.localStorage.getItem("organic-chemistry-hub:learning-progress:v1"),
   );
   expect(stored).toContain("lesson:resonance");
+});
+
+
+test("study dashboard reflects locally saved lesson progress", async ({ page }) => {
+  await page.goto("/learn/fundamentals/resonance");
+  await page.getByRole("button", { name: /mark lesson complete/i }).click();
+
+  await page.goto("/study");
+  await expect(page.getByRole("heading", { name: /study dashboard/i })).toBeVisible();
+  await expect(page.getByText("Resonance").first()).toBeVisible();
+  await expect(page.getByText(/1 of 7 lessons completed/i)).toBeVisible();
 });

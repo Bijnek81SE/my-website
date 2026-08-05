@@ -37,6 +37,7 @@ const staticRoutes = [
   "/named-reactions",
   "/reagents",
   "/resources",
+  "/study",
 ] as const;
 
 function priorityForRoute(route: string): number {

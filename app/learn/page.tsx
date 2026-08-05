@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Badge, Container, ModuleCard } from "@/components/ui";
 import { getLessonsByModule } from "@/content/lesson-registry";
 import { createPageMetadata } from "@/lib/seo";
+import { StudyRecommendations } from "@/components/learning";
 
 export const metadata: Metadata = createPageMetadata({
   title: 'Organic Chemistry Curriculum',
@@ -130,6 +131,9 @@ export default function LearnPage() {
       </section>
 
       <Container className="py-16 lg:py-20">
+        <div className="mb-10">
+          <StudyRecommendations />
+        </div>
         <div className="grid gap-6 lg:grid-cols-2">
           {modules.map((module) => (
             <ModuleCard key={module.number} {...module} />

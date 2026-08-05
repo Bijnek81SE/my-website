@@ -24,3 +24,5 @@ export {
   scheduleReview,
 } from "./SpacedRepetition";
 export type { ReviewGrade, ReviewSchedule } from "./SpacedRepetition";
+
+export { default as StudyDashboard } from "./StudyDashboard";

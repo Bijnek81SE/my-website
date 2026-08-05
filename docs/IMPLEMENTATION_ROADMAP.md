@@ -76,3 +76,9 @@ npm run build
 - [x] Add adaptive lesson and mechanism study-session controls.
 - [x] Add continue-studying and due-review recommendations.
 - [x] Add unit and component regression coverage.
+
+## Adaptive Study Dashboard — complete
+
+- Added a visible `/study` workspace for progress, streaks, reviews, recommendations, and recent activity.
+- Integrated the dashboard into global navigation, homepage discovery, curriculum recommendations, search, sitemap, and automated tests.
+- Progress remains private and browser-local.

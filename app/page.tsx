@@ -45,6 +45,23 @@ export default function Home() {
     <main>
       <Hero />
 
+      <Section className="pt-8 sm:pt-10">
+        <div className="rounded-3xl border border-violet-200 bg-[linear-gradient(135deg,#f5f3ff_0%,#ecfdf5_100%)] p-6 shadow-sm sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
+          <div>
+            <Badge tone="violet">New: adaptive study dashboard</Badge>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+              See your progress and know exactly what to study next.
+            </h2>
+            <p className="mt-3 max-w-2xl leading-7 text-slate-600">
+              Track completed lessons, maintain a study streak, and return to concepts when they are due for review—all saved locally in your browser.
+            </p>
+          </div>
+          <ButtonLink href="/study" className="mt-6 shrink-0 lg:mt-0">
+            Open study dashboard →
+          </ButtonLink>
+        </div>
+      </Section>
+
       <Section>
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <Heading

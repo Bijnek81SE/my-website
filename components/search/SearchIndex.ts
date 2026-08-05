@@ -28,6 +28,14 @@ const lessonEntries: readonly SearchEntry[] = lessons.map((lesson) => ({
 
 const staticEntries: readonly SearchEntry[] = [
   {
+    id: "study-dashboard",
+    title: "Study dashboard",
+    description: "Track progress, review due concepts, and continue your personalised study plan.",
+    href: "/study",
+    category: "Site",
+    keywords: ["progress", "streak", "review", "spaced repetition", "continue studying"],
+  },
+  {
     id: "learn",
     title: "Learn organic chemistry",
     description: "Structured lessons covering the foundations of organic chemistry.",
