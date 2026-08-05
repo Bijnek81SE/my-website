@@ -1,16 +1,60 @@
-import type { Metadata } from 'next';
-import SectionLanding from '@/components/ui/SectionLanding';
-import FunctionalGroupsDiagram from '@/components/diagrams/FunctionalGroupsDiagram';
+import type { Metadata } from "next";
+import { SectionLanding } from "@/components/ui";
+import FunctionalGroupsDiagram from "@/components/diagrams/FunctionalGroupsDiagram";
 
-export const metadata: Metadata = { title: 'Functional Groups', description: 'Learn organic functional groups, their properties, reactions, spectroscopy, and synthesis.' };
+export const metadata: Metadata = {
+  title: "Functional Groups",
+  description:
+    "Learn organic functional groups, their properties, reactions, spectroscopy, and synthesis.",
+};
 
 export default function FunctionalGroupsPage() {
-  return <SectionLanding eyebrow="Structure and reactivity" title="Functional groups organize organic chemistry" description="Use this section to connect structure, physical properties, spectroscopy, synthesis, and characteristic reactions." heroContent={<FunctionalGroupsDiagram />} heroCaption="Hover a group to see example compounds." items={[
-    { title: 'Hydrocarbons', description: 'Alkanes, alkenes, alkynes, aromatic compounds, and their characteristic reactions.' },
-    { title: 'Oxygen-containing groups', description: 'Alcohols, ethers, epoxides, aldehydes, ketones, acids, esters, and anhydrides.' },
-    { title: 'Nitrogen-containing groups', description: 'Amines, amides, imines, nitriles, nitro compounds, and related functionality.' },
-    { title: 'Halogen-containing groups', description: 'Alkyl halides, aryl halides, acyl halides, and their synthetic behavior.' },
-    { title: 'Sulfur and phosphorus groups', description: 'Thiols, sulfides, sulfoxides, sulfones, phosphines, and phosphate derivatives.' },
-    { title: 'Heterocycles', description: 'Important aromatic and saturated rings containing nitrogen, oxygen, or sulfur.' },
-  ]} />;
+  return (
+    <SectionLanding
+      eyebrow="Structure and reactivity"
+      title="Functional groups organize organic chemistry"
+      description="Connect structure with physical properties, spectroscopy, synthesis, and characteristic reactions. Start with the interactive explorer while the detailed reference library grows."
+      heroContent={<FunctionalGroupsDiagram />}
+      heroCaption="Use the explorer to practise recognition before moving into detailed reference pages."
+      items={[
+        {
+          title: "Interactive functional-group explorer",
+          description:
+            "Identify common groups, compare their defining atoms, and practise recognition with immediate feedback.",
+          href: "/lab/functional-groups",
+          actionLabel: "Open explorer",
+        },
+        {
+          title: "Hydrocarbons",
+          description:
+            "Alkanes, alkenes, alkynes, aromatic compounds, and their characteristic reactions.",
+        },
+        {
+          title: "Oxygen-containing groups",
+          description:
+            "Alcohols, ethers, epoxides, aldehydes, ketones, acids, esters, and anhydrides.",
+        },
+        {
+          title: "Nitrogen-containing groups",
+          description:
+            "Amines, amides, imines, nitriles, nitro compounds, and related functionality.",
+        },
+        {
+          title: "Halogen-containing groups",
+          description:
+            "Alkyl halides, aryl halides, acyl halides, and their synthetic behaviour.",
+        },
+        {
+          title: "Sulfur and phosphorus groups",
+          description:
+            "Thiols, sulfides, sulfoxides, sulfones, phosphines, and phosphate derivatives.",
+        },
+        {
+          title: "Heterocycles",
+          description:
+            "Important aromatic and saturated rings containing nitrogen, oxygen, or sulfur.",
+        },
+      ]}
+    />
+  );
 }
