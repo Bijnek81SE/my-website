@@ -196,8 +196,8 @@ export default function PracticeEngine<
     createSessionId,
   );
 
-  const [feedback, setFeedback] =
-    useState<PracticeFeedback>("idle");
+  const [feedbackByQuestion, setFeedbackByQuestion] =
+    useState<Record<string, PracticeFeedback>>({});
 
   const [completedQuestionIds, setCompletedQuestionIds] =
     useState<string[]>([]);
@@ -222,6 +222,12 @@ export default function PracticeEngine<
 
   const answered = completedQuestionIds.includes(question.id);
   const revealed = revealedQuestionIds.includes(question.id);
+
+  const feedback: PracticeFeedback =
+    sessionMode === "exam"
+      ? "idle"
+      : feedbackByQuestion[question.id] ??
+        (answered ? "correct" : "idle");
 
   const attemptsForQuestion =
     attemptsByQuestion[question.id] ?? 0;
@@ -328,19 +334,6 @@ export default function PracticeEngine<
   );
 
   useEffect(() => {
-    if (sessionMode === "exam") {
-      setFeedback("idle");
-      return;
-    }
-
-    setFeedback(answered ? "correct" : "idle");
-  }, [
-    answered,
-    currentIndex,
-    sessionMode,
-  ]);
-
-  useEffect(() => {
     onAnsweredChange(answered);
   }, [
     answered,
@@ -349,7 +342,7 @@ export default function PracticeEngine<
 
   const resetSession = useCallback(() => {
     setSessionId(createSessionId());
-    setFeedback("idle");
+    setFeedbackByQuestion({});
     setCompletedQuestionIds([]);
     setRevealedQuestionIds([]);
     setAttemptsByQuestion({});
@@ -374,7 +367,10 @@ export default function PracticeEngine<
   }
 
   function revealQuestion() {
-    setFeedback("revealed");
+    setFeedbackByQuestion((current) => ({
+      ...current,
+      [question.id]: "revealed",
+    }));
 
     setRevealedQuestionIds((current) =>
       current.includes(question.id)
@@ -428,13 +424,19 @@ export default function PracticeEngine<
     }));
 
     if (target === question.correctTarget) {
-      setFeedback("correct");
+      setFeedbackByQuestion((current) => ({
+        ...current,
+        [question.id]: "correct",
+      }));
       setCorrectAnswers((current) => current + 1);
       completeQuestion();
       return;
     }
 
-    setFeedback("incorrect");
+    setFeedbackByQuestion((current) => ({
+      ...current,
+      [question.id]: "incorrect",
+    }));
     setIncorrectAnswers((current) => current + 1);
 
     const previousHintCount = hints.filter(

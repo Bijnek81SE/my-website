@@ -192,41 +192,6 @@ function atomsAreBonded(
     );
 }
 
-function getBondBetweenAtoms(
-  graph: MolecularGraph,
-  firstAtomId: string,
-  secondAtomId: string,
-): SkeletalBond | undefined {
-  return graph
-    .getConnectedBonds(firstAtomId)
-    .find(
-      (bond) =>
-        (
-          bond.from === firstAtomId &&
-          bond.to === secondAtomId
-        ) ||
-        (
-          bond.to === firstAtomId &&
-          bond.from === secondAtomId
-        ),
-    );
-}
-
-function getOtherAtomId(
-  bond: SkeletalBond,
-  atomId: string,
-): string | null {
-  if (bond.from === atomId) {
-    return bond.to;
-  }
-
-  if (bond.to === atomId) {
-    return bond.from;
-  }
-
-  return null;
-}
-
 function atomCanDonateLonePair(
   graph: MolecularGraph,
   atom: SkeletalAtom,

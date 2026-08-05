@@ -152,7 +152,7 @@ export default function MechanismPlayerEngine<
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [animated, setAnimated] = useState(true);
-  const [sessionAnswered, setSessionAnswered] = useState(false);
+  const [answeredStepIndex, setAnsweredStepIndex] = useState<number | null>(null);
   const [sessionKey, setSessionKey] = useState(0);
 
   const classes = accentClasses[accent];
@@ -161,6 +161,7 @@ export default function MechanismPlayerEngine<
   const isExamMode = mode === "exam";
   const isFirst = index === 0;
   const isLast = index === steps.length - 1;
+  const sessionAnswered = answeredStepIndex === index;
 
   const progress = useMemo(
     () => Math.round(((index + 1) / steps.length) * 100),
@@ -186,9 +187,6 @@ export default function MechanismPlayerEngine<
     return () => window.clearInterval(timer);
   }, [isLearnMode, playbackInterval, playing, steps.length]);
 
-  useEffect(() => {
-    setSessionAnswered(false);
-  }, [index]);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -271,7 +269,7 @@ export default function MechanismPlayerEngine<
   function changeMode(nextMode: MechanismPlayerMode) {
     setPlaying(false);
     setIndex(0);
-    setSessionAnswered(false);
+    setAnsweredStepIndex(null);
     setMode(nextMode);
     setSessionKey((current) => current + 1);
   }
@@ -297,14 +295,14 @@ export default function MechanismPlayerEngine<
   function reset() {
     setPlaying(false);
     setIndex(0);
-    setSessionAnswered(false);
+    setAnsweredStepIndex(null);
     setSessionKey((current) => current + 1);
   }
 
   function retryExam() {
     setPlaying(false);
     setIndex(0);
-    setSessionAnswered(false);
+    setAnsweredStepIndex(null);
   }
 
   function togglePlayback() {
@@ -425,7 +423,9 @@ export default function MechanismPlayerEngine<
           sessionMode={mode}
           revealMessage={getRevealMessage(step, index)}
           onRetryExam={retryExam}
-          onAnsweredChange={setSessionAnswered}
+          onAnsweredChange={(answered) =>
+            setAnsweredStepIndex(answered ? index : null)
+          }
           renderCanvas={({ answered, onTargetClick }) =>
             renderCanvas({
               step,

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const navigation = [
   { name: "Learn", href: "/learn" },
@@ -21,11 +21,21 @@ function isRouteActive(pathname: string, href: string): boolean {
 
 export default function Header() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [menuState, setMenuState] = useState({
+    pathname,
+    open: false,
+  });
 
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  const open =
+    menuState.pathname === pathname && menuState.open;
+
+  function closeMenu() {
+    setMenuState({ pathname, open: false });
+  }
+
+  function toggleMenu() {
+    setMenuState({ pathname, open: !open });
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
@@ -68,7 +78,7 @@ export default function Header() {
           aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
           aria-controls="mobile-navigation"
-          onClick={() => setOpen((value) => !value)}
+          onClick={toggleMenu}
         >
           <span aria-hidden="true" className="text-xl leading-none">
             {open ? "×" : "☰"}
@@ -91,6 +101,7 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
+                  onClick={closeMenu}
                   className={`rounded-lg px-3 py-3 text-sm font-medium focus-visible:outline-none ${
                     active
                       ? "bg-emerald-50 text-emerald-800"

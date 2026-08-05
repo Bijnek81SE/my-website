@@ -139,24 +139,20 @@ export default function MechanismSequencePlayer({
   const [playing, setPlaying] =
     useState(false);
 
-  useEffect(() => {
-    setStepIndex((current) =>
-      clampStepIndex(current, steps.length),
-    );
-    setPhase("during");
-    setPlaying(false);
-  }, [steps.length]);
-
-  const currentStep = steps[stepIndex];
+  const currentStepIndex = clampStepIndex(
+    stepIndex,
+    steps.length,
+  );
+  const currentStep = steps[currentStepIndex];
   const currentMolecule =
-    sequence.startingMolecules[stepIndex] ??
+    sequence.startingMolecules[currentStepIndex] ??
     molecule;
   const currentResult =
-    sequence.results[stepIndex];
-  const isFirstStep = stepIndex === 0;
+    sequence.results[currentStepIndex];
+  const isFirstStep = currentStepIndex === 0;
   const isLastStep =
     steps.length > 0 &&
-    stepIndex === steps.length - 1;
+    currentStepIndex === steps.length - 1;
 
   const selectStep = useCallback(
     (nextIndex: number) => {
@@ -187,10 +183,10 @@ export default function MechanismSequencePlayer({
     }
 
     if (!isFirstStep) {
-      selectStep(stepIndex - 1);
+      selectStep(currentStepIndex - 1);
       setPhase("after");
     }
-  }, [isFirstStep, phase, selectStep, stepIndex]);
+  }, [currentStepIndex, isFirstStep, phase, selectStep]);
 
   const moveNext = useCallback(() => {
     if (!currentStep) {
@@ -210,7 +206,7 @@ export default function MechanismSequencePlayer({
     }
 
     if (!isLastStep) {
-      selectStep(stepIndex + 1);
+      selectStep(currentStepIndex + 1);
       return;
     }
 
@@ -228,7 +224,7 @@ export default function MechanismSequencePlayer({
     phase,
     selectStep,
     sequence.finalMolecule,
-    stepIndex,
+    currentStepIndex,
   ]);
 
   useEffect(() => {
@@ -304,7 +300,7 @@ export default function MechanismSequencePlayer({
           role="status"
           aria-live="polite"
         >
-          Step {stepIndex + 1} of {steps.length}
+          Step {currentStepIndex + 1} of {steps.length}
         </div>
       ) : null}
 

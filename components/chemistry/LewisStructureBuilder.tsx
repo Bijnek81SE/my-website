@@ -189,13 +189,6 @@ function lonePairPositions(atom: AtomDefinition, count: number): Array<Point & {
   return positions.slice(0, count);
 }
 
-function formatCharge(charge: number): string | undefined {
-  if (charge === 0) return undefined;
-  if (charge === 1) return "+";
-  if (charge === -1) return "−";
-  return charge > 0 ? `${charge}+` : `${Math.abs(charge)}−`;
-}
-
 export default function LewisStructureBuilder() {
   const [moleculeKey, setMoleculeKey] = useState<MoleculeKey>("water");
   const [bondOrders, setBondOrders] = useState<number[]>([1, 1]);

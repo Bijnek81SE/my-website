@@ -7,7 +7,6 @@ import {
 } from "../bonds/validation";
 import type {
   MolecularGraph,
-  MolecularGraphNeighbour,
 } from "./MolecularGraph";
 
 export type Hybridisation =
@@ -108,19 +107,6 @@ function bondHasTripleCharacter(
   bond: SkeletalBond,
 ): boolean {
   return bond.type === "triple";
-}
-
-function getNeighbourByBond(
-  graph: MolecularGraph,
-  atomId: string,
-  bondId: string,
-): MolecularGraphNeighbour | undefined {
-  return graph
-    .getNeighbours(atomId)
-    .find(
-      (neighbour) =>
-        neighbour.bond.id === bondId,
-    );
 }
 
 function neighbourHasPiBondExcluding(

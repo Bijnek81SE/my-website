@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { PracticeAnalyticsRecord } from "./AnalyticsTypes";
 import type {
   PracticeSessionMode,
@@ -222,13 +222,9 @@ export default function MasteryEngine({
   mode,
   stats,
 }: MasteryEngineProps) {
-  const [records, setRecords] = useState<
-    PracticeAnalyticsRecord[]
-  >([]);
-
-  useEffect(() => {
+  const records = useMemo(() => {
     if (!stats.completed) {
-      return;
+      return [];
     }
 
     const mechanismRecords = readAnalyticsRecords().filter(
@@ -239,20 +235,18 @@ export default function MasteryEngine({
       (record) => record.id === sessionId,
     );
 
-    setRecords(
-      hasCurrentSession
-        ? mechanismRecords
-        : [
-            createCurrentRecord(
-              sessionId,
-              mechanismId,
-              mechanismTitle,
-              mode,
-              stats,
-            ),
-            ...mechanismRecords,
-          ],
-    );
+    return hasCurrentSession
+      ? mechanismRecords
+      : [
+          createCurrentRecord(
+            sessionId,
+            mechanismId,
+            mechanismTitle,
+            mode,
+            stats,
+          ),
+          ...mechanismRecords,
+        ];
   }, [
     mechanismId,
     mechanismTitle,
