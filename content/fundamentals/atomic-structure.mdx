@@ -20,12 +20,49 @@ export const objectives = [
 ];
 
 export const practiceQuestions = [
-  "What are the charge and approximate relative mass of a proton, neutron, and electron?",
-  "An atom has atomic number 8 and mass number 18. How many protons, neutrons, and electrons does the neutral atom contain?",
-  "How do isotopes of the same element differ?",
-  "What is the maximum number of electrons in a p subshell?",
-  "How many valence electrons does carbon have?",
-  "What happens to an atom's charge when it loses an electron?",
+  {
+    id: "particle-charge",
+    prompt: "Which particle has a negative charge?",
+    type: "multiple-choice",
+    options: ["Proton", "Neutron", "Electron"],
+    answer: "Electron",
+    explanation: "Electrons carry a charge of -1; protons carry +1 and neutrons are neutral.",
+  },
+  {
+    id: "oxygen-18",
+    prompt: "A neutral oxygen-18 atom has atomic number 8. How many neutrons does it contain?",
+    type: "short-answer",
+    answer: ["10", "ten"],
+    hint: "Subtract the atomic number from the mass number.",
+    explanation: "Neutrons = 18 - 8 = 10.",
+  },
+  {
+    id: "isotope-difference",
+    prompt: "How do isotopes of the same element differ?",
+    type: "multiple-choice",
+    options: [
+      "They have different numbers of protons",
+      "They have different numbers of neutrons",
+      "They have different atomic numbers",
+    ],
+    answer: "They have different numbers of neutrons",
+    explanation: "Isotopes have the same proton count but different neutron counts.",
+  },
+  {
+    id: "p-subshell",
+    prompt: "What is the maximum number of electrons in a p subshell?",
+    type: "short-answer",
+    answer: ["6", "six"],
+    explanation: "A p subshell contains three orbitals, each holding up to two electrons.",
+  },
+  {
+    id: "carbon-valence",
+    prompt: "How many valence electrons does carbon have?",
+    type: "multiple-choice",
+    options: ["2", "4", "6", "8"],
+    answer: "4",
+    explanation: "Carbon's outer shell contains 2s2 2p2, for four valence electrons.",
+  },
 ];
 
 <LessonSection id="overview" title="Overview">

@@ -1,3 +1,4 @@
+export { default as AnswerReveal } from "./AnswerReveal";
 export { default as CommonMistakes } from "./CommonMistakes";
 export { default as LearningObjectives } from "./LearningObjectives";
 export { default as LessonHeader } from "./LessonHeader";
@@ -8,6 +9,8 @@ export { default as LessonProgress } from "./LessonProgress";
 export { default as LessonSection } from "./LessonSection";
 export { default as LessonTableOfContents } from "./LessonTableOfContents";
 export { default as PracticeQuestions } from "./PracticeQuestions";
+export { default as InteractivePractice } from "./InteractivePractice";
+export type { InteractivePracticeQuestion } from "./InteractivePractice";
 export { default as References } from "./References";
 export { default as RememberBox } from "./RememberBox";
 export { default as SummaryBox } from "./SummaryBox";

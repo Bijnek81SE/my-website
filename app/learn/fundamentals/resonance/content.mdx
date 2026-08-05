@@ -175,12 +175,42 @@ import {
 <LessonSection id="practice" title="Practice questions">
   <PracticeQuestions
     questions={[
-      "What must remain unchanged between resonance contributors?",
-      "Where must the tail of a curved arrow begin?",
-      "Why are the two contributors of a carboxylate ion equivalent?",
-      "List three features of a major resonance contributor.",
-      "Explain why resonance does not describe rapid structural switching.",
-      "What effect can resonance have on bond length and molecular stability?",
+      {
+        id: "resonance-connectivity",
+        prompt: "What must remain unchanged between resonance contributors?",
+        type: "multiple-choice",
+        options: ["Atom connectivity", "Formal charges", "Pi-bond location", "Lone-pair location"],
+        answer: "Atom connectivity",
+        explanation: "Resonance contributors differ only in electron placement; the atoms and sigma-bond framework stay fixed.",
+      },
+      {
+        id: "arrow-origin",
+        prompt: "Where must the tail of a curved arrow begin?",
+        type: "multiple-choice",
+        options: ["At an atom label", "At a charge symbol", "At the electrons being moved", "At the product"],
+        answer: "At the electrons being moved",
+        explanation: "The arrow tail identifies the electron source: a lone pair or a bond.",
+      },
+      {
+        id: "carboxylate-equivalence",
+        prompt: "Why are the two carboxylate contributors equivalent?",
+        type: "multiple-choice",
+        options: [
+          "They place the same charge and bond pattern on equivalent oxygen atoms",
+          "They move a hydrogen atom",
+          "They have different atom connectivity",
+        ],
+        answer: "They place the same charge and bond pattern on equivalent oxygen atoms",
+        explanation: "The two oxygens are equivalent, so swapping the pi bond and negative charge gives contributors of equal energy.",
+      },
+      {
+        id: "major-contributor",
+        prompt: "Which feature generally makes a resonance contributor more important?",
+        type: "multiple-choice",
+        options: ["Incomplete octets", "More charge separation", "Complete octets", "Negative charge on carbon instead of oxygen"],
+        answer: "Complete octets",
+        explanation: "Major contributors usually have complete octets, minimal charge separation, and charges on suitable atoms.",
+      },
     ]}
   />
 </LessonSection>
