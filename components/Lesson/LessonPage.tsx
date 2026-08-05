@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import type { LessonRecord } from "@/content/lesson-registry";
 import { getLessonPosition } from "@/content/lesson-registry";
+import { getKnowledgeNodeIdForLesson } from "@/content/knowledge-graph";
+import { Prerequisites, RelatedConcepts, StudyNext } from "@/components/knowledge";
 import LessonHeader from "./LessonHeader";
 import LessonNavigation from "./LessonNavigation";
 import LessonProgress from "./LessonProgress";
@@ -24,6 +26,7 @@ export default function LessonPage({
   children,
 }: LessonPageProps) {
   const progress = getLessonPosition(lesson.slug);
+  const knowledgeNodeId = getKnowledgeNodeIdForLesson(lesson.slug);
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
@@ -55,7 +58,12 @@ export default function LessonPage({
 
       <div className="mt-12 grid gap-12 xl:grid-cols-[minmax(0,1fr)_280px]">
         <article className="min-w-0 text-lg leading-8 text-slate-700">
-          {children}
+          <Prerequisites nodeId={knowledgeNodeId} />
+          <div className="mt-10">{children}</div>
+          <div className="mt-12 space-y-6">
+            <RelatedConcepts nodeId={knowledgeNodeId} />
+            <StudyNext nodeId={knowledgeNodeId} />
+          </div>
           <LessonNavigation previous={lesson.previous} next={lesson.next} />
         </article>
 

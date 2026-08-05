@@ -3,6 +3,7 @@ export { default as Sn1MechanismPlayer } from "./Sn1MechanismPlayer";
 export { default as Sn2MechanismPlayer } from "./Sn2MechanismPlayer";
 export type { MechanismArrow, MechanismPoint, MechanismStep } from "./types";
 export { default as MechanismPlayerEngine } from "./MechanismPlayerEngine";
+export type { MechanismPlayerEngineProps, MechanismPlayerMode, MechanismPlayerStep } from "./MechanismPlayerEngine";
 export { default as E1MechanismPlayer } from "./E1MechanismPlayer";
 export { default as E2MechanismPlayer } from "./E2MechanismPlayer";
 export { default as ElectrophilicAdditionMechanismPlayer } from "./ElectrophilicAdditionMechanismPlayer";

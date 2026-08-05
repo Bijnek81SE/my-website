@@ -50,3 +50,11 @@ npm run build
 - The root layout declares smooth-scroll behavior for Next.js route transitions.
 - Playwright guards the Resonance lesson against hydration and invalid-nesting regressions.
 
+
+## Knowledge graph platform
+
+- [x] Add typed knowledge nodes and relationships.
+- [x] Connect Fundamentals lessons to prerequisites, related concepts, practice, and study-next paths.
+- [x] Connect mechanism players to prerequisite lessons, curved-arrow practice, and reagent references.
+- [x] Add graph-backed connections to named reactions, reagents, and functional groups.
+- [x] Add unit and component regression coverage.

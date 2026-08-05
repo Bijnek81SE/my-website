@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import PracticeEngine from "./PracticeEngine";
+import { Prerequisites, RelatedConcepts } from "@/components/knowledge";
 import type { ReactionDataDefinition } from "./ReactionDataEngine";
 import { assertValidMechanismDefinition } from "./MechanismValidationEngine";
 import type {
@@ -37,7 +38,7 @@ type CanvasRenderState<
 
 type Accent = "blue" | "violet" | "orange" | "emerald" | "rose" | "cyan";
 
-type MechanismPlayerEngineProps<
+export type MechanismPlayerEngineProps<
   TStep extends MechanismPlayerStep,
   TTarget extends string,
 > = {
@@ -439,6 +440,11 @@ export default function MechanismPlayerEngine<
           }
         />
       )}
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Prerequisites nodeId={`mechanism:${validation.id}`} />
+        <RelatedConcepts nodeId={`mechanism:${validation.id}`} />
+      </div>
 
       <div className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
         <span className="font-semibold text-slate-800">Keyboard:</span>{" "}

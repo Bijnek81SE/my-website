@@ -1,0 +1,153 @@
+import { lessons } from "./lesson-registry";
+import type {
+  KnowledgeConnection,
+  KnowledgeNode,
+  KnowledgeRelation,
+  KnowledgeRelationKind,
+} from "./knowledge-types";
+
+const lessonNodes: KnowledgeNode[] = lessons.map((lesson) => ({
+  id: `lesson:${lesson.slug}`,
+  kind: "lesson",
+  title: lesson.title,
+  description: lesson.description,
+  href: lesson.href,
+  keywords: [lesson.module, lesson.slug.replaceAll("-", " ")],
+}));
+
+const mechanismNodes: KnowledgeNode[] = [
+  ["sn1", "SN1 substitution", "Stepwise substitution through a carbocation intermediate.", "/lab/sn1-mechanism"],
+  ["sn2", "SN2 substitution", "Concerted backside attack with leaving-group departure.", "/lab/sn2-mechanism"],
+  ["e1", "E1 elimination", "Stepwise elimination through a carbocation intermediate.", "/lab/e1-mechanism"],
+  ["e2", "E2 elimination", "Concerted elimination driven by a strong base.", "/lab/e2-mechanism"],
+  ["electrophilic-addition", "Electrophilic addition", "Addition to an alkene through an electrophilic first step.", "/lab/electrophilic-addition"],
+  ["hydrohalogenation", "Hydrohalogenation", "Addition of HX across an alkene.", "/lab/hydrohalogenation"],
+  ["hydration", "Acid-catalysed hydration", "Addition of water across an alkene under acidic conditions.", "/lab/hydration"],
+  ["halogenation", "Halogenation", "Addition of halogen across a carbon-carbon double bond.", "/lab/halogenation"],
+  ["hydrogenation", "Catalytic hydrogenation", "Reduction of an alkene with hydrogen and a metal catalyst.", "/lab/hydrogenation"],
+  ["hydroboration-oxidation", "Hydroboration–oxidation", "Anti-Markovnikov hydration through hydroboration and oxidation.", "/lab/hydroboration-oxidation"],
+  ["oxymercuration-demercuration", "Oxymercuration–demercuration", "Markovnikov hydration without carbocation rearrangement.", "/lab/oxymercuration-demercuration"],
+  ["radical-hbr", "Radical HBr addition", "Peroxide-promoted anti-Markovnikov addition of HBr.", "/lab/radical-hbr-addition"],
+].map(([id, title, description, href]) => ({
+  id: `mechanism:${id}`,
+  kind: "mechanism" as const,
+  title,
+  description,
+  href,
+}));
+
+const sharedNodes: KnowledgeNode[] = [
+  {
+    id: "lab:functional-groups",
+    kind: "lab",
+    title: "Functional-group explorer",
+    description: "Practise identifying common organic functional groups.",
+    href: "/lab/functional-groups",
+  },
+  {
+    id: "lab:curved-arrow-designer",
+    kind: "lab",
+    title: "Curved-arrow designer",
+    description: "Practise drawing electron-flow arrows between sources and targets.",
+    href: "/lab/curved-arrow-designer",
+  },
+  {
+    id: "calculator:lewis-builder",
+    kind: "calculator",
+    title: "Lewis structure builder",
+    description: "Build and inspect Lewis structures interactively.",
+    href: "/calculators/lewis-structure-builder",
+  },
+  {
+    id: "reference:functional-groups",
+    kind: "reference",
+    title: "Functional groups",
+    description: "Reference functional-group structures and characteristic reactivity.",
+    href: "/functional-groups",
+  },
+  {
+    id: "reference:reagents",
+    kind: "reference",
+    title: "Reagents",
+    description: "Connect reagent classes with selectivity and synthetic purpose.",
+    href: "/reagents",
+  },
+  {
+    id: "reference:named-reactions",
+    kind: "reference",
+    title: "Named reactions",
+    description: "Explore transformations by mechanism and synthetic purpose.",
+    href: "/named-reactions",
+  },
+];
+
+export const knowledgeNodes: readonly KnowledgeNode[] = [
+  ...lessonNodes,
+  ...mechanismNodes,
+  ...sharedNodes,
+];
+
+const lessonSequenceRelations: KnowledgeRelation[] = lessons.flatMap((lesson, index) => {
+  const relations: KnowledgeRelation[] = [];
+  if (index > 0) {
+    relations.push({
+      from: `lesson:${lesson.slug}`,
+      to: `lesson:${lessons[index - 1].slug}`,
+      kind: "prerequisite",
+    });
+  }
+  if (index < lessons.length - 1) {
+    relations.push({
+      from: `lesson:${lesson.slug}`,
+      to: `lesson:${lessons[index + 1].slug}`,
+      kind: "study-next",
+    });
+  }
+  return relations;
+});
+
+export const knowledgeRelations: readonly KnowledgeRelation[] = [
+  ...lessonSequenceRelations,
+  { from: "lesson:lewis-structures", to: "calculator:lewis-builder", kind: "practice" },
+  { from: "lesson:formal-charge", to: "calculator:lewis-builder", kind: "practice" },
+  { from: "lesson:resonance", to: "lab:curved-arrow-designer", kind: "practice" },
+  { from: "lesson:chemical-bonding", to: "lesson:hybridization", kind: "related" },
+  { from: "lesson:hybridization", to: "lesson:resonance", kind: "related" },
+  { from: "reference:functional-groups", to: "lab:functional-groups", kind: "practice" },
+  { from: "reference:functional-groups", to: "lesson:chemical-bonding", kind: "prerequisite" },
+  { from: "reference:reagents", to: "reference:named-reactions", kind: "related" },
+  { from: "reference:named-reactions", to: "reference:reagents", kind: "related" },
+  ...mechanismNodes.flatMap((node) => [
+    { from: node.id, to: "lesson:chemical-bonding", kind: "prerequisite" as const },
+    { from: node.id, to: "lesson:resonance", kind: "prerequisite" as const },
+    { from: node.id, to: "lab:curved-arrow-designer", kind: "practice" as const },
+    { from: node.id, to: "reference:reagents", kind: "reference" as const },
+  ]),
+  { from: "mechanism:sn1", to: "mechanism:e1", kind: "related" },
+  { from: "mechanism:sn2", to: "mechanism:e2", kind: "related" },
+  { from: "mechanism:hydrohalogenation", to: "mechanism:hydration", kind: "related" },
+  { from: "mechanism:hydration", to: "mechanism:oxymercuration-demercuration", kind: "related" },
+  { from: "mechanism:hydroboration-oxidation", to: "mechanism:radical-hbr", kind: "related" },
+  { from: "mechanism:hydrogenation", to: "reference:reagents", kind: "uses", label: "H₂ and metal catalyst" },
+];
+
+const nodesById = new Map(knowledgeNodes.map((node) => [node.id, node]));
+
+export function getKnowledgeNode(id: string): KnowledgeNode | undefined {
+  return nodesById.get(id);
+}
+
+export function getKnowledgeConnections(
+  id: string,
+  kinds?: readonly KnowledgeRelationKind[],
+): readonly KnowledgeConnection[] {
+  const allowed = kinds ? new Set(kinds) : null;
+  return knowledgeRelations
+    .filter((relation) => relation.from === id && (!allowed || allowed.has(relation.kind)))
+    .map((relation) => ({ relation, node: nodesById.get(relation.to) }))
+    .filter((connection): connection is KnowledgeConnection => Boolean(connection.node));
+}
+
+export function getKnowledgeNodeIdForLesson(slug: string): string {
+  return `lesson:${slug}`;
+}
