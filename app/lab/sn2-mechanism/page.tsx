@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MechanismPlayer } from "@/components/chemistry/mechanism";
+import { Sn2MechanismPlayer } from "@/components/chemistry/mechanism";
 
 export const metadata: Metadata = {
   title: "SN2 Mechanism Player | Organic Chemistry Hub",
@@ -20,7 +20,7 @@ export default function Sn2MechanismPage() {
         </Link>
 
         <div className="mt-7">
-          <MechanismPlayer />
+          <Sn2MechanismPlayer />
         </div>
       </div>
     </main>
