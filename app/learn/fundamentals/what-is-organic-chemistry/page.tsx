@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import { LessonPage, LessonSection } from "@/components/Lesson";
 import { getLessonBySlug } from "@/content/lesson-registry";
 import MethaneDiagram from "@/components/diagrams/MethaneDiagram";
+import { createPageMetadata } from "@/lib/seo";
 
 const lesson = getLessonBySlug("what-is-organic-chemistry");
 
-export const metadata: Metadata = {
-  title: `${lesson.title} | Organic Chemistry Hub`,
+export const metadata: Metadata = createPageMetadata({
+  title: lesson.title,
   description: lesson.description,
-};
+  path: lesson.href,
+  type: "article",
+  keywords: [lesson.module, "organic chemistry lesson"],
+});
 
 const tableOfContents = [
   { id: "overview", label: "Overview" },

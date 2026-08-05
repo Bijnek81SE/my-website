@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { SectionLanding } from "@/components/ui";
 import CalculatorsDiagram from "@/components/diagrams/CalculatorsDiagram";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Chemistry Calculators",
-  description:
-    "Practical chemistry calculators and interactive learning tools for structures, solutions, stoichiometry, yield, and laboratory planning.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Chemistry Calculators',
+  description: 'Practical chemistry calculators and interactive learning tools for structures, solutions, stoichiometry, yield, and laboratory planning.',
+  path: '/calculators',
+  keywords: ['chemistry calculators'],
+});
 
 export default function CalculatorsPage() {
   return (

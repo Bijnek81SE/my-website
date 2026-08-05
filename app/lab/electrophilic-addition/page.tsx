@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ElectrophilicAdditionMechanismPlayer } from "@/components/chemistry/mechanism";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title:
-    "Electrophilic Addition Mechanism | Organic Chemistry Hub",
-  description:
-    "Explore Markovnikov addition of HBr to an alkene through protonation, carbocation formation, and bromide attack.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Electrophilic Addition Mechanism',
+  description: 'Explore Markovnikov addition of HBr to an alkene through protonation, carbocation formation, and bromide attack.',
+  path: '/lab/electrophilic-addition',
+});
 
 export default function ElectrophilicAdditionPage() {
   return (

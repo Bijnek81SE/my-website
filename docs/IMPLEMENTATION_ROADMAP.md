@@ -58,3 +58,12 @@ npm run build
 - [x] Connect mechanism players to prerequisite lessons, curved-arrow practice, and reagent references.
 - [x] Add graph-backed connections to named reactions, reagents, and functional groups.
 - [x] Add unit and component regression coverage.
+
+## SEO, structured data, and discoverability
+
+- [x] Centralize the site origin, name, description, and shared keywords.
+- [x] Add canonical, Open Graph, and Twitter metadata helpers.
+- [x] Publish sitemap, robots, and web-app manifest routes.
+- [x] Add WebSite, Organization, BreadcrumbList, and LearningResource structured data.
+- [x] Derive Fundamentals lesson URLs from the lesson registry.
+- [x] Add unit and E2E coverage for discoverability output.

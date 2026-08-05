@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Sn2MechanismPlayer } from "@/components/chemistry/mechanism";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "SN2 Mechanism Player | Organic Chemistry Hub",
-  description:
-    "Explore an SN2 substitution mechanism step by step with animated curved arrows and electron-movement explanations.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'SN2 Mechanism Player',
+  description: 'Explore an SN2 substitution mechanism step by step with animated curved arrows and electron-movement explanations.',
+  path: '/lab/sn2-mechanism',
+});
 
 export default function Sn2MechanismPage() {
   return (

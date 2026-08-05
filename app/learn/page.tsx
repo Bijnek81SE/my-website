@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Badge, Container, ModuleCard } from "@/components/ui";
 import { getLessonsByModule } from "@/content/lesson-registry";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Organic Chemistry Curriculum",
-  description:
-    "Follow a structured, visual organic chemistry curriculum from foundations to synthesis.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Organic Chemistry Curriculum',
+  description: 'Follow a structured, visual organic chemistry curriculum from foundations to synthesis.',
+  path: '/learn',
+  keywords: ['organic chemistry curriculum', 'chemistry lessons'],
+});
 
 const fundamentalsLessons = getLessonsByModule("Fundamentals");
 

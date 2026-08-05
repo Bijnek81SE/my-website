@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { HybridizationTrainer, LabShell } from "@/components/lab";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Hybridization Trainer | Organic Chemistry Hub",
-  description: "Practise identifying sp, sp², and sp³ hybridization with instant feedback.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Hybridization Trainer',
+  description: 'Practise identifying sp, sp², and sp³ hybridization with instant feedback.',
+  path: '/lab/hybridization',
+});
 
 export default function HybridizationTrainerPage() {
   return (

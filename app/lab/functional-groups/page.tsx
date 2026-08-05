@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FunctionalGroupExplorer, LabShell } from "@/components/lab";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Functional Group Explorer | Organic Chemistry Hub",
-  description: "Practise recognising common organic functional groups with immediate feedback, hints, and nomenclature guidance.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Functional Group Explorer',
+  description: 'Practise recognising common organic functional groups with immediate feedback, hints, and nomenclature guidance.',
+  path: '/lab/functional-groups',
+});
 
 export default function FunctionalGroupsLabPage() {
   return (

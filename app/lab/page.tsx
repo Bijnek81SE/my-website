@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FunctionalGroupQuickCheck, LabShell } from "@/components/lab";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Organic Chemistry Lab | Organic Chemistry Hub",
-  description:
-    "Practise organic chemistry with interactive exercises and immediate feedback.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Organic Chemistry Lab',
+  description: 'Practise organic chemistry with interactive exercises and immediate feedback.',
+  path: '/lab',
+  keywords: ['organic chemistry lab', 'interactive chemistry'],
+});
 
 const tools = [
   [

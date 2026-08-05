@@ -74,3 +74,37 @@ test("Resonance lesson hydrates without semantic HTML errors", async ({ page }) 
 
   expect(hydrationErrors).toEqual([]);
 });
+
+
+test("lesson exposes canonical and learning-resource structured data", async ({ page }) => {
+  await page.goto("/learn/fundamentals/resonance");
+
+  const canonical = page.locator('link[rel="canonical"]');
+  await expect(canonical).toHaveAttribute(
+    "href",
+    "https://bijan.se/learn/fundamentals/resonance",
+  );
+
+  const jsonLd = await page
+    .locator('script[type="application/ld+json"]')
+    .allTextContents();
+
+  expect(jsonLd.some((value) => value.includes('"LearningResource"'))).toBe(true);
+  expect(jsonLd.some((value) => value.includes('"BreadcrumbList"'))).toBe(true);
+});
+
+test("sitemap, robots, and manifest are published", async ({ request }) => {
+  const sitemapResponse = await request.get("/sitemap.xml");
+  expect(sitemapResponse.ok()).toBe(true);
+  expect(await sitemapResponse.text()).toContain(
+    "https://bijan.se/learn/fundamentals/resonance",
+  );
+
+  const robotsResponse = await request.get("/robots.txt");
+  expect(robotsResponse.ok()).toBe(true);
+  expect(await robotsResponse.text()).toContain("Sitemap: https://bijan.se/sitemap.xml");
+
+  const manifestResponse = await request.get("/manifest.webmanifest");
+  expect(manifestResponse.ok()).toBe(true);
+  expect(await manifestResponse.text()).toContain("Organic Chemistry Hub");
+});

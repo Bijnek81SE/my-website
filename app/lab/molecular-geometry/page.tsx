@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LabShell, MolecularGeometryTrainer } from "@/components/lab";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Molecular Geometry Trainer | Organic Chemistry Hub",
-  description: "Practise VSEPR molecular geometry with interactive SVG models and immediate feedback.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Molecular Geometry Trainer',
+  description: 'Practise VSEPR molecular geometry with interactive SVG models and immediate feedback.',
+  path: '/lab/molecular-geometry',
+});
 
 export default function MolecularGeometryTrainerPage() {
   return (

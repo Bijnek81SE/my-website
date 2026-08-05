@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { SectionLanding } from "@/components/ui";
 import NamedReactionsDiagram from "@/components/diagrams/NamedReactionsDiagram";
 import { KnowledgeConnections } from "@/components/knowledge";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Named Reactions",
-  description:
-    "Explore organic named reactions by transformation, mechanism, and synthetic purpose.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Named Reactions',
+  description: 'Explore organic named reactions by transformation, mechanism, and synthetic purpose.',
+  path: '/named-reactions',
+  keywords: ['named reactions'],
+});
 
 export default function NamedReactionsPage() {
   return (

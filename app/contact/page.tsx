@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { InfoPageShell } from "@/components/ui";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Contact Organic Chemistry Hub with feedback, corrections, or collaboration ideas.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Contact',
+  description: 'Contact Organic Chemistry Hub about corrections, feedback, accessibility, and collaboration.',
+  path: '/contact',
+  keywords: ['contact organic chemistry hub'],
+});
 
 const contactTopics = [
   {

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { HydrationMechanismPlayer } from "@/components/chemistry/mechanism";
 import { MechanismLabShell } from "@/components/lab";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Acid-Catalysed Hydration Mechanism | Organic Chemistry Hub",
-  description:
-    "Explore Markovnikov hydration of propene with an interactive mechanism player, practice questions, and exam mode.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Acid-Catalysed Hydration Mechanism',
+  description: 'Explore Markovnikov hydration of propene with an interactive mechanism player, practice questions, and exam mode.',
+  path: '/lab/hydration',
+});
 
 export default function HydrationPage() {
   return (

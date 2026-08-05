@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { SectionLanding } from "@/components/ui";
 import ReagentsDiagram from "@/components/diagrams/ReagentsDiagram";
 import { KnowledgeConnections } from "@/components/knowledge";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Organic Chemistry Reagents",
-  description:
-    "Practical reagent guides covering uses, selectivity, handling, limitations, and alternatives.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Organic Chemistry Reagents',
+  description: 'Practical reagent guides covering uses, selectivity, handling, limitations, and alternatives.',
+  path: '/reagents',
+  keywords: ['organic chemistry reagents'],
+});
 
 export default function ReagentsPage() {
   return (

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { InfoPageShell } from "@/components/ui";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Editorial Policy",
-  description:
-    "How Organic Chemistry Hub drafts, reviews, cites, corrects, and updates chemistry content.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Editorial Policy',
+  description: 'Read the scientific, editorial, citation, and correction standards used by Organic Chemistry Hub.',
+  path: '/editorial-policy',
+  keywords: ['editorial policy'],
+});
 
 const standards = [
   {

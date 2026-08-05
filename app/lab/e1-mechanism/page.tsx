@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { E1MechanismPlayer } from "@/components/chemistry/mechanism";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "E1 Mechanism Player | Organic Chemistry Hub",
-  description:
-    "Explore the stepwise E1 elimination mechanism with carbocation formation, beta deprotonation, and alkene formation.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'E1 Mechanism Player',
+  description: 'Explore the stepwise E1 elimination mechanism with carbocation formation, beta deprotonation, and alkene formation.',
+  path: '/lab/e1-mechanism',
+});
 
 export default function E1MechanismPage() {
   return (

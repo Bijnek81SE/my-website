@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { E2MechanismPlayer } from "@/components/chemistry/mechanism";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "E2 Mechanism Player | Organic Chemistry Hub",
-  description:
-    "Explore the concerted E2 elimination mechanism with animated curved arrows and anti-periplanar stereochemistry.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'E2 Mechanism Player',
+  description: 'Explore the concerted E2 elimination mechanism with animated curved arrows and anti-periplanar stereochemistry.',
+  path: '/lab/e2-mechanism',
+});
 
 export default function E2MechanismPage() {
   return (

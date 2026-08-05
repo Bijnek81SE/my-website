@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { SectionLanding } from "@/components/ui";
 import FunctionalGroupsDiagram from "@/components/diagrams/FunctionalGroupsDiagram";
 import { KnowledgeConnections } from "@/components/knowledge";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Functional Groups",
-  description:
-    "Learn organic functional groups, their properties, reactions, spectroscopy, and synthesis.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Functional Groups',
+  description: 'Learn organic functional groups, their properties, reactions, spectroscopy, and synthesis.',
+  path: '/functional-groups',
+  keywords: ['functional groups'],
+});
 
 export default function FunctionalGroupsPage() {
   return (

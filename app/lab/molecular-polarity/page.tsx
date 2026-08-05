@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LabShell, MolecularPolarityExplorer } from "@/components/lab";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Molecular Polarity Explorer | Organic Chemistry Hub",
-  description: "Connect bond polarity, molecular geometry, and dipole cancellation with interactive diagrams.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Molecular Polarity Explorer',
+  description: 'Connect bond polarity, molecular geometry, and dipole cancellation with interactive diagrams.',
+  path: '/lab/molecular-polarity',
+});
 
 export default function MolecularPolarityExplorerPage() {
   return (

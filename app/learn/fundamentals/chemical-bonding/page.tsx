@@ -2,13 +2,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { LessonPage, LessonSection } from "@/components/Lesson";
 import { getLessonBySlug } from "@/content/lesson-registry";
+import { createPageMetadata } from "@/lib/seo";
 
 const lesson = getLessonBySlug("chemical-bonding");
 
-export const metadata: Metadata = {
-  title: `${lesson.title} | Organic Chemistry Hub`,
+export const metadata: Metadata = createPageMetadata({
+  title: lesson.title,
   description: lesson.description,
-};
+  path: lesson.href,
+  type: "article",
+  keywords: [lesson.module, "organic chemistry lesson"],
+});
 
 const tableOfContents = [
   { id: "overview", label: "Overview" },

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { LewisStructureBuilder } from "@/components/chemistry";
 import { LabShell } from "@/components/lab";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Lewis Structure Builder | Organic Chemistry Hub",
-  description:
-    "Practise Lewis structures interactively by changing bond orders, placing lone pairs, checking octets, and calculating formal charges.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Lewis Structure Builder',
+  description: 'Practise Lewis structures interactively by changing bond orders, placing lone pairs, checking octets, and calculating formal charges.',
+  path: '/lab/lewis-structure-builder',
+});
 
 export default function LewisStructureBuilderPage() {
   return (

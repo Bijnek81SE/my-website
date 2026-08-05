@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { SectionLanding } from "@/components/ui";
 import ResourcesDiagram from "@/components/diagrams/ResourcesDiagram";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Resources",
-  description:
-    "Organic chemistry study guides, references, reaction maps, laboratory templates, and recommended books.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'Resources',
+  description: 'Organic chemistry study guides, references, reaction maps, laboratory templates, and recommended books.',
+  path: '/resources',
+  keywords: ['organic chemistry resources'],
+});
 
 export default function ResourcesPage() {
   return (

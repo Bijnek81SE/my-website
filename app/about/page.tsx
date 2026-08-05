@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { InfoPageShell } from "@/components/ui";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "Learn about the mission and standards behind Organic Chemistry Hub.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: 'About',
+  description: 'Learn about the mission, editorial standards, and development of Organic Chemistry Hub.',
+  path: '/about',
+  keywords: ['about organic chemistry hub'],
+});
 
 const principles = [
   {

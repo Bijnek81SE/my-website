@@ -4,6 +4,7 @@ import type { LessonRecord } from "@/content/lesson-registry";
 import { getLessonPosition } from "@/content/lesson-registry";
 import { getKnowledgeNodeIdForLesson } from "@/content/knowledge-graph";
 import { Prerequisites, RelatedConcepts, StudyNext } from "@/components/knowledge";
+import { BreadcrumbJsonLd, LearningResourceJsonLd } from "@/components/seo";
 import LessonHeader from "./LessonHeader";
 import LessonNavigation from "./LessonNavigation";
 import LessonProgress from "./LessonProgress";
@@ -29,7 +30,23 @@ export default function LessonPage({
   const knowledgeNodeId = getKnowledgeNodeIdForLesson(lesson.slug);
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Learn", path: "/learn" },
+          { name: lesson.module, path: "/learn" },
+          { name: lesson.title, path: lesson.href },
+        ]}
+      />
+      <LearningResourceJsonLd
+        name={lesson.title}
+        description={lesson.description}
+        path={lesson.href}
+        module={lesson.module}
+        readingTime={lesson.readingTime}
+      />
+      <main className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
       <nav
         aria-label="Breadcrumb"
         className="mb-8 flex flex-wrap items-center gap-2 text-sm text-slate-500"
@@ -69,6 +86,7 @@ export default function LessonPage({
 
         <LessonTableOfContents items={tableOfContents} />
       </div>
-    </main>
+      </main>
+    </>
   );
 }

@@ -4,6 +4,8 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { SearchProvider } from '@/components/search';
+import { WebSiteJsonLd } from '@/components/seo';
+import { siteConfig } from '@/lib/seo';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -16,21 +18,35 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bijan.se'),
+  metadataBase: new URL(siteConfig.origin),
   title: {
-    default: 'Organic Chemistry Hub',
-    template: '%s | Organic Chemistry Hub',
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    'Clear organic chemistry lessons, named reaction references, reagent guides, functional-group resources, and practical calculators.',
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.creator }],
+  creator: siteConfig.creator,
+  publisher: siteConfig.name,
+  keywords: [...siteConfig.keywords],
   openGraph: {
-    title: 'Organic Chemistry Hub',
-    description:
-      'Learn organic chemistry through structured lessons, trusted references, and practical tools.',
-    url: 'https://bijan.se',
-    siteName: 'Organic Chemistry Hub',
-    type: 'website',
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.origin,
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -41,6 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-screen flex-col">
+        <WebSiteJsonLd />
         <SearchProvider>
           <Header />
           <div className="flex-1">{children}</div>
