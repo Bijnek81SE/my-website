@@ -12,6 +12,8 @@ import type {
 } from "./MasteryTypes";
 
 type MasteryEngineProps = {
+  mechanismId: string;
+  mechanismTitle: string;
   sessionId: string;
   mode: PracticeSessionMode;
   stats: PracticeSessionStats;
@@ -57,67 +59,6 @@ const masteryLevels: MasteryLevel[] = [
     minimumPoints: 90,
   },
 ];
-
-function getMechanismId(): string {
-  if (typeof window === "undefined") {
-    return "mechanism";
-  }
-
-  const pathname = window.location.pathname.toLowerCase();
-
-  if (pathname.includes("sn2")) {
-    return "sn2";
-  }
-
-  if (pathname.includes("sn1")) {
-    return "sn1";
-  }
-
-  if (pathname.includes("e2")) {
-    return "e2";
-  }
-
-  if (pathname.includes("e1")) {
-    return "e1";
-  }
-
-  if (pathname.includes("electrophilic-addition")) {
-    return "electrophilic-addition";
-  }
-
-  if (pathname.includes("hydrohalogenation")) {
-    return "hydrohalogenation";
-  }
-
-  if (pathname.includes("hydration")) {
-    return "hydration";
-  }
-
-  if (pathname.includes("halogenation")) {
-    return "halogenation";
-  }
-
-
-  if (pathname.includes("hydroboration-oxidation")) {
-    return "hydroboration-oxidation";
-  }
-
-  if (pathname.includes("radical-hbr-addition")) {
-    return "radical-hbr-addition";
-  }
-
-  if (pathname.includes("oxymercuration-demercuration")) {
-    return "oxymercuration-demercuration";
-  }
-
-  if (pathname.includes("hydrogenation")) {
-    return "hydrogenation";
-  }
-
-  const segments = pathname.split("/").filter(Boolean);
-
-  return segments[segments.length - 1] ?? "mechanism";
-}
 
 function readAnalyticsRecords(): PracticeAnalyticsRecord[] {
   if (typeof window === "undefined") {
@@ -253,13 +194,14 @@ function calculateMasteryProgress(
 function createCurrentRecord(
   sessionId: string,
   mechanismId: string,
+  mechanismTitle: string,
   mode: PracticeSessionMode,
   stats: PracticeSessionStats,
 ): PracticeAnalyticsRecord {
   return {
     id: sessionId,
     mechanismId,
-    mechanismTitle: "Reaction mechanism",
+    mechanismTitle,
     mode,
     completedAt: new Date().toISOString(),
     totalQuestions: stats.totalQuestions,
@@ -274,6 +216,8 @@ function createCurrentRecord(
 }
 
 export default function MasteryEngine({
+  mechanismId,
+  mechanismTitle,
   sessionId,
   mode,
   stats,
@@ -286,8 +230,6 @@ export default function MasteryEngine({
     if (!stats.completed) {
       return;
     }
-
-    const mechanismId = getMechanismId();
 
     const mechanismRecords = readAnalyticsRecords().filter(
       (record) => record.mechanismId === mechanismId,
@@ -304,6 +246,7 @@ export default function MasteryEngine({
             createCurrentRecord(
               sessionId,
               mechanismId,
+              mechanismTitle,
               mode,
               stats,
             ),
@@ -311,6 +254,8 @@ export default function MasteryEngine({
           ],
     );
   }, [
+    mechanismId,
+    mechanismTitle,
     mode,
     sessionId,
     stats,

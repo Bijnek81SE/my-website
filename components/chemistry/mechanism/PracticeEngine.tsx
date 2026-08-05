@@ -36,6 +36,8 @@ type PracticeRenderState<TTarget extends string> = {
 };
 
 type PracticeEngineProps<TTarget extends string> = {
+  mechanismId: string;
+  mechanismTitle: string;
   questions: PracticeQuestion<TTarget>[];
   currentIndex: number;
   stepDescription: string;
@@ -179,6 +181,8 @@ function createAchievements({
 export default function PracticeEngine<
   TTarget extends string,
 >({
+  mechanismId,
+  mechanismTitle,
   questions,
   currentIndex,
   stepDescription,
@@ -512,12 +516,16 @@ export default function PracticeEngine<
           {stats.completed ? (
             <>
               <AnalyticsEngine
+                mechanismId={mechanismId}
+                mechanismTitle={mechanismTitle}
                 sessionId={sessionId}
                 mode={sessionMode}
                 stats={stats}
               />
 
               <MasteryEngine
+                mechanismId={mechanismId}
+                mechanismTitle={mechanismTitle}
                 sessionId={sessionId}
                 mode={sessionMode}
                 stats={stats}
@@ -539,12 +547,16 @@ export default function PracticeEngine<
           />
 
           <AnalyticsEngine
+            mechanismId={mechanismId}
+            mechanismTitle={mechanismTitle}
             sessionId={sessionId}
             mode={sessionMode}
             stats={stats}
           />
 
           <MasteryEngine
+            mechanismId={mechanismId}
+            mechanismTitle={mechanismTitle}
             sessionId={sessionId}
             mode={sessionMode}
             stats={stats}

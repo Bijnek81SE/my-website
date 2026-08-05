@@ -417,6 +417,8 @@ export default function MechanismPlayerEngine<
       ) : (
         <PracticeEngine
           key={sessionKey}
+          mechanismId={validation.id}
+          mechanismTitle={title}
           questions={questions}
           currentIndex={index}
           stepDescription={step.description}

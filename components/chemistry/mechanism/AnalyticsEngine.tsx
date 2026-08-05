@@ -16,6 +16,8 @@ import type {
 } from "./AnalyticsTypes";
 
 type AnalyticsEngineProps = {
+  mechanismId: string;
+  mechanismTitle: string;
   sessionId: string;
   mode: PracticeSessionMode;
   stats: PracticeSessionStats;
@@ -25,114 +27,6 @@ const STORAGE_KEY =
   "organic-chemistry-hub:practice-analytics:v1";
 
 const MAX_RECORDS = 100;
-
-function getMechanismIdentity(): {
-  id: string;
-  title: string;
-} {
-  if (typeof window === "undefined") {
-    return {
-      id: "mechanism",
-      title: "Reaction mechanism",
-    };
-  }
-
-  const pathname = window.location.pathname.toLowerCase();
-
-  if (pathname.includes("sn2")) {
-    return {
-      id: "sn2",
-      title: "SN2 substitution",
-    };
-  }
-
-  if (pathname.includes("sn1")) {
-    return {
-      id: "sn1",
-      title: "SN1 substitution",
-    };
-  }
-
-  if (pathname.includes("e2")) {
-    return {
-      id: "e2",
-      title: "E2 elimination",
-    };
-  }
-
-  if (pathname.includes("e1")) {
-    return {
-      id: "e1",
-      title: "E1 elimination",
-    };
-  }
-
-  if (pathname.includes("electrophilic-addition")) {
-    return {
-      id: "electrophilic-addition",
-      title: "Electrophilic addition to alkenes",
-    };
-  }
-
-  if (pathname.includes("hydrohalogenation")) {
-    return {
-      id: "hydrohalogenation",
-      title: "Hydrohalogenation of alkenes",
-    };
-  }
-
-  if (pathname.includes("hydration")) {
-    return {
-      id: "hydration",
-      title: "Acid-catalysed hydration of alkenes",
-    };
-  }
-
-  if (pathname.includes("halogenation")) {
-    return {
-      id: "halogenation",
-      title: "Halogenation of alkenes",
-    };
-  }
-
-
-  if (pathname.includes("hydroboration-oxidation")) {
-    return {
-      id: "hydroboration-oxidation",
-      title: "Hydroboration–oxidation of alkenes",
-    };
-  }
-
-  if (pathname.includes("radical-hbr-addition")) {
-    return {
-      id: "radical-hbr-addition",
-      title: "Radical HBr addition to alkenes",
-    };
-  }
-
-  if (pathname.includes("oxymercuration-demercuration")) {
-    return {
-      id: "oxymercuration-demercuration",
-      title: "Oxymercuration–demercuration of alkenes",
-    };
-  }
-
-  if (pathname.includes("hydrogenation")) {
-    return {
-      id: "hydrogenation",
-      title: "Catalytic hydrogenation of alkenes",
-    };
-  }
-
-  return {
-    id:
-      pathname
-        .split("/")
-        .filter(Boolean)
-        .at(-1) ?? "mechanism",
-    title: "Reaction mechanism",
-  };
-}
 
 function readRecords(): PracticeAnalyticsRecord[] {
   if (typeof window === "undefined") {
@@ -269,6 +163,8 @@ function formatCompletedAt(value: string): string {
 }
 
 export default function AnalyticsEngine({
+  mechanismId,
+  mechanismTitle,
   sessionId,
   mode,
   stats,
@@ -280,12 +176,10 @@ export default function AnalyticsEngine({
   const recordedSessionId = useRef<string | null>(null);
 
   useEffect(() => {
-    const identity = getMechanismIdentity();
     const storedRecords = readRecords();
 
     const mechanismRecords = storedRecords.filter(
-      (record) =>
-        record.mechanismId === identity.id,
+      (record) => record.mechanismId === mechanismId,
     );
 
     if (
@@ -296,8 +190,8 @@ export default function AnalyticsEngine({
 
       const nextRecord: PracticeAnalyticsRecord = {
         id: sessionId,
-        mechanismId: identity.id,
-        mechanismTitle: identity.title,
+        mechanismId,
+        mechanismTitle,
         mode,
         completedAt: new Date().toISOString(),
         totalQuestions: stats.totalQuestions,
@@ -331,6 +225,8 @@ export default function AnalyticsEngine({
 
     setRecords(mechanismRecords);
   }, [
+    mechanismId,
+    mechanismTitle,
     mode,
     sessionId,
     stats.accuracy,
