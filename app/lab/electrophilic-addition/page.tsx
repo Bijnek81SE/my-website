@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import ElectrophilicAdditionMechanismPlayer from "@/components/chemistry/mechanism/ElectrophilicAdditionMechanismPlayer";
+import { ElectrophilicAdditionMechanismPlayer } from "@/components/chemistry/mechanism";
 
 export const metadata: Metadata = {
   title:

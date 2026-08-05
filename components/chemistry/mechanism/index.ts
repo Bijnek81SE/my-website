@@ -4,6 +4,7 @@ export { default as Sn2MechanismPlayer } from "./Sn2MechanismPlayer";
 export type { MechanismArrow, MechanismPoint, MechanismStep } from "./types";
 export { default as MechanismPlayerEngine } from "./MechanismPlayerEngine";
 export { default as E1MechanismPlayer } from "./E1MechanismPlayer";
+export { default as E2MechanismPlayer } from "./E2MechanismPlayer";
 export { default as ElectrophilicAdditionMechanismPlayer } from "./ElectrophilicAdditionMechanismPlayer";
 export { default as HydrohalogenationMechanismPlayer } from "./HydrohalogenationMechanismPlayer";
 export { default as HydrationMechanismPlayer } from "./HydrationMechanismPlayer";

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import E1MechanismPlayer from "@/components/chemistry/mechanism/E1MechanismPlayer";
+import { E1MechanismPlayer } from "@/components/chemistry/mechanism";
 
 export const metadata: Metadata = {
   title: "E1 Mechanism Player | Organic Chemistry Hub",
