@@ -65,3 +65,51 @@ export type {
   ValidatableMechanismArrow,
   ValidatableMechanismStep,
 } from "./MechanismValidationEngine";
+
+export { default as MechanismCanvas } from "./MechanismCanvas";
+export type {
+  MechanismCanvasPhase,
+  MechanismCanvasProps,
+} from "./MechanismCanvas";
+
+export { default as MechanismSequencePlayer } from "./MechanismSequencePlayer";
+export type { MechanismSequencePlayerProps } from "./MechanismSequencePlayer";
+
+export { executeMechanismStep } from "./MechanismExecutor";
+export type {
+  MechanismExecutionIssue,
+  MechanismExecutionIssueCode,
+  MechanismExecutionOptions,
+  MechanismExecutionResult,
+} from "./MechanismExecutor";
+
+export {
+  createMechanismStep,
+  getMechanismStepAtomIds,
+  getMechanismStepBondIds,
+  mechanismStepToCurvedArrowInputs,
+  validateMechanismStep,
+} from "./MechanismStep";
+export type {
+  MechanismAnnotationChange,
+  MechanismAnnotationChangeType,
+  MechanismAtomChange,
+  MechanismAtomChangeType,
+  MechanismAtomPatch,
+  MechanismBondChange,
+  MechanismBondChangeType,
+  MechanismBondPatch,
+  MechanismElectronMove,
+  MechanismPostcondition,
+  MechanismPostconditionType,
+  MechanismPrecondition,
+  MechanismPreconditionType,
+  MechanismStepAnnotation,
+  MechanismStepConfidence,
+  MechanismStepDefinition,
+  MechanismStepInput,
+  MechanismStepIssue,
+  MechanismStepIssueCode,
+  MechanismStepKind,
+  MechanismStepValidationResult,
+} from "./MechanismStep";
