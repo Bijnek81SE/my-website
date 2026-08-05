@@ -42,3 +42,16 @@ description, reading time, and previous/next navigation lives in the registry.
 
 The project uses the official Next.js MDX plugin. After installing this sprint,
 run `npm install` so `package-lock.json` is regenerated with the MDX packages.
+
+## Implemented pilot
+
+The Resonance lesson is the first production MDX lesson:
+
+- Route wrapper: `app/learn/fundamentals/resonance/page.tsx`
+- Lesson content: `app/learn/fundamentals/resonance/content.mdx`
+- Shared MDX element styles: `mdx-components.tsx`
+
+The route wrapper owns metadata, the lesson registry lookup, table-of-contents data,
+and the shared `LessonPage` shell. The MDX file owns lesson prose, semantic Markdown,
+and embedded interactive React chemistry components. This separation preserves the
+existing URL and metadata while making the lesson content easier to author.

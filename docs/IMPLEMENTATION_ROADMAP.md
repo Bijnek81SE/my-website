@@ -13,11 +13,13 @@ Status: implemented in this pack.
 
 ## Release 2 — MDX pilot
 
-- Add a supported MDX pipeline for the installed Next.js version.
-- Migrate the Resonance lesson first while preserving its URL and metadata.
-- Define frontmatter for title, description, reading time, module, and navigation.
-- Keep interactive React chemistry components available inside MDX.
-- Run a production build before migrating other lessons.
+Status: implemented for the Resonance lesson.
+
+- Supported MDX pipeline configured for the installed Next.js version.
+- Resonance lesson migrated while preserving its URL and registry-driven metadata.
+- Lesson metadata, reading time, module, and navigation remain centralized in the lesson registry.
+- Interactive React chemistry components remain available inside MDX.
+- Production build required before migrating other lessons.
 
 ## Release 3 — Reusable graphics system
 
