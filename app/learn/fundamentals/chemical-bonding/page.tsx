@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import LessonPage from "@/components/Lesson/LessonPage";
-import LessonSection from "@/components/Lesson/LessonSection";
-import LessonNavigation from "@/components/Lesson/LessonNavigation";
+import { LessonPage, LessonSection } from "@/components/Lesson";
+import { getLessonBySlug } from "@/content/lesson-registry";
+
+const lesson = getLessonBySlug("chemical-bonding");
 
 export const metadata: Metadata = {
-  title: "Chemical Bonding | Organic Chemistry Hub",
-  description:
-    "Learn why atoms bond, how covalent and ionic bonds form, and how electronegativity, bond polarity, sigma bonds, and pi bonds shape organic molecules.",
+  title: `${lesson.title} | Organic Chemistry Hub`,
+  description: lesson.description,
 };
 
 const tableOfContents = [
@@ -49,13 +49,7 @@ const bondComparison = [
 
 export default function ChemicalBondingPage() {
   return (
-    <LessonPage
-      category="Fundamentals"
-      title="Chemical Bonding"
-      description="Learn how atoms share or transfer electrons and how bond type, polarity, and bond order influence organic molecules."
-      readingTime="12 min"
-      tableOfContents={tableOfContents}
-    >
+    <LessonPage lesson={lesson} tableOfContents={tableOfContents}>
       <LessonSection id="overview" title="Overview">
         <p>
           Chemical bonds hold atoms together in molecules and compounds. In
@@ -437,17 +431,6 @@ export default function ChemicalBondingPage() {
           <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
         </ul>
       </LessonSection>
-
-      <LessonNavigation
-        previous={{
-          title: "Atomic Structure",
-          href: "/learn/fundamentals/atomic-structure",
-        }}
-        next={{
-          title: "Hybridization",
-          href: "/learn/fundamentals/hybridization",
-        }}
-      />
     </LessonPage>
   );
 }

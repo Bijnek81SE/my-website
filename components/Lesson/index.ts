@@ -3,6 +3,8 @@ export { default as LearningObjectives } from "./LearningObjectives";
 export { default as LessonHeader } from "./LessonHeader";
 export { default as LessonNavigation } from "./LessonNavigation";
 export { default as LessonPage } from "./LessonPage";
+export type { LessonTableOfContentsItem } from "./LessonPage";
+export { default as LessonProgress } from "./LessonProgress";
 export { default as LessonSection } from "./LessonSection";
 export { default as LessonTableOfContents } from "./LessonTableOfContents";
 export { default as PracticeQuestions } from "./PracticeQuestions";

@@ -1,21 +1,22 @@
+export type LessonModule = "Fundamentals";
+
+export type LessonLink = {
+  title: string;
+  href: string;
+};
+
 export type LessonRecord = {
   slug: string;
-  module: "Fundamentals";
+  module: LessonModule;
   title: string;
   description: string;
   readingTime: string;
   href: string;
-  previous?: {
-    title: string;
-    href: string;
-  };
-  next?: {
-    title: string;
-    href: string;
-  };
+  previous?: LessonLink;
+  next?: LessonLink;
 };
 
-export const lessons: LessonRecord[] = [
+export const lessons: readonly LessonRecord[] = [
   {
     slug: "what-is-organic-chemistry",
     module: "Fundamentals",
@@ -128,7 +129,7 @@ export const lessons: LessonRecord[] = [
       href: "/learn/fundamentals/formal-charge",
     },
   },
-];
+] as const;
 
 export function getLessonBySlug(slug: string): LessonRecord {
   const lesson = lessons.find((item) => item.slug === slug);
@@ -138,4 +139,29 @@ export function getLessonBySlug(slug: string): LessonRecord {
   }
 
   return lesson;
+}
+
+export function getLessonPosition(slug: string): {
+  current: number;
+  total: number;
+  percentage: number;
+} {
+  const index = lessons.findIndex((lesson) => lesson.slug === slug);
+
+  if (index < 0) {
+    throw new Error(`Unknown lesson slug: ${slug}`);
+  }
+
+  const current = index + 1;
+  const total = lessons.length;
+
+  return {
+    current,
+    total,
+    percentage: Math.round((current / total) * 100),
+  };
+}
+
+export function getLessonsByModule(module: LessonModule): readonly LessonRecord[] {
+  return lessons.filter((lesson) => lesson.module === module);
 }

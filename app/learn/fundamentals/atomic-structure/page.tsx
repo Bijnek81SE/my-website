@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import AtomicStructureContent from "@/content/fundamentals/atomic-structure.mdx";
+import { LessonPage } from "@/components/Lesson";
 import { getLessonBySlug } from "@/content/lesson-registry";
-import { LessonNavigation, LessonPage } from "@/components/Lesson";
+import AtomicStructureContent from "@/content/fundamentals/atomic-structure.mdx";
+
 
 const lesson = getLessonBySlug("atomic-structure");
 
@@ -29,16 +30,8 @@ export const metadata: Metadata = {
 
 export default function AtomicStructurePage() {
   return (
-    <LessonPage
-      category={lesson.module}
-      title={lesson.title}
-      description={lesson.description}
-      readingTime={lesson.readingTime}
-      tableOfContents={tableOfContents}
-    >
+    <LessonPage lesson={lesson} tableOfContents={tableOfContents}>
       <AtomicStructureContent />
-
-      <LessonNavigation previous={lesson.previous} next={lesson.next} />
     </LessonPage>
   );
 }

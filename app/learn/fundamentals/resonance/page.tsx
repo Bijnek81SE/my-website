@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-import LessonPage from "@/components/Lesson/LessonPage";
-import LessonSection from "@/components/Lesson/LessonSection";
-import LessonNavigation from "@/components/Lesson/LessonNavigation";
-import { LearningObjectives, PracticeQuestions, SummaryBox } from "@/components/Lesson";
+import {
+  LearningObjectives,
+  LessonPage,
+  LessonSection,
+  PracticeQuestions,
+  SummaryBox,
+} from "@/components/Lesson";
+import { getLessonBySlug } from "@/content/lesson-registry";
 import { Callout, Card } from "@/components/ui";
 import { CurvedArrowGuide, ResonanceCarboxylateInteractive } from "@/components/chemistry";
 
+const lesson = getLessonBySlug("resonance");
+
 export const metadata: Metadata = {
-  title: "Resonance | Organic Chemistry Hub",
-  description:
-    "Learn how to draw resonance contributors, move electrons with curved arrows, compare contributor stability, and understand resonance hybrids.",
+  title: `${lesson.title} | Organic Chemistry Hub`,
+  description: lesson.description,
 };
 
 const tableOfContents = [
@@ -29,13 +34,7 @@ const tableOfContents = [
 
 export default function ResonancePage() {
   return (
-    <LessonPage
-      category="Fundamentals"
-      title="Resonance"
-      description="Learn how electron delocalisation is represented with resonance contributors and curved-arrow notation."
-      readingTime="12 min"
-      tableOfContents={tableOfContents}
-    >
+    <LessonPage lesson={lesson} tableOfContents={tableOfContents}>
       <LessonSection id="overview" title="Overview">
         <p>
           Some molecules and ions cannot be described accurately by a single
@@ -257,17 +256,6 @@ export default function ResonancePage() {
           <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
         </ul>
       </LessonSection>
-
-      <LessonNavigation
-        previous={{
-          title: "Formal Charge",
-          href: "/learn/fundamentals/formal-charge",
-        }}
-        next={{
-          title: "Functional Groups",
-          href: "/learn/fundamentals/functional-groups",
-        }}
-      />
     </LessonPage>
   );
 }

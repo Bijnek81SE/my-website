@@ -8,7 +8,7 @@ type TableOfContentsItem = {
 };
 
 type LessonTableOfContentsProps = {
-  items: TableOfContentsItem[];
+  items: readonly TableOfContentsItem[];
 };
 
 export default function LessonTableOfContents({

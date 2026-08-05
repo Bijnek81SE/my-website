@@ -1,13 +1,13 @@
 import Image from "next/image";
+import { LessonPage, LessonSection } from "@/components/Lesson";
+import { getLessonBySlug } from "@/content/lesson-registry";
 import type { Metadata } from "next";
-import LessonPage from "@/components/Lesson/LessonPage";
-import LessonSection from "@/components/Lesson/LessonSection";
-import LessonNavigation from "@/components/Lesson/LessonNavigation";
+
+const lesson = getLessonBySlug("formal-charge");
 
 export const metadata: Metadata = {
-  title: "Formal Charge | Organic Chemistry Hub",
-  description:
-    "Learn how to calculate formal charge, compare Lewis structures, and identify the most reasonable electron distribution in organic molecules and ions.",
+  title: `${lesson.title} | Organic Chemistry Hub`,
+  description: lesson.description,
 };
 
 const tableOfContents = [
@@ -26,13 +26,7 @@ const tableOfContents = [
 
 export default function FormalChargePage() {
   return (
-    <LessonPage
-      category="Fundamentals"
-      title="Formal Charge"
-      description="Use electron bookkeeping to evaluate Lewis structures and identify the most reasonable distribution of electrons."
-      readingTime="11 min"
-      tableOfContents={tableOfContents}
-    >
+    <LessonPage lesson={lesson} tableOfContents={tableOfContents}>
       <LessonSection id="overview" title="Overview">
         <p>
           Formal charge is a bookkeeping tool used to compare possible Lewis
@@ -268,17 +262,6 @@ export default function FormalChargePage() {
           <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
         </ul>
       </LessonSection>
-
-      <LessonNavigation
-        previous={{
-          title: "Lewis Structures",
-          href: "/learn/fundamentals/lewis-structures",
-        }}
-        next={{
-          title: "Resonance",
-          href: "/learn/fundamentals/resonance",
-        }}
-      />
     </LessonPage>
   );
 }

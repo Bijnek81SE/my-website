@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Badge, Container, ModuleCard } from "@/components/ui";
+import { getLessonsByModule } from "@/content/lesson-registry";
 
 export const metadata: Metadata = {
   title: "Organic Chemistry Curriculum",
@@ -7,15 +8,17 @@ export const metadata: Metadata = {
     "Follow a structured, visual organic chemistry curriculum from foundations to synthesis.",
 };
 
+const fundamentalsLessons = getLessonsByModule("Fundamentals");
+
 const modules = [
   {
     number: "01",
     title: "Foundations",
     description:
       "Build the atomic and electronic foundation needed to understand structure and reactivity.",
-    lessons: 7,
+    lessons: fundamentalsLessons.length,
     duration: "about 80 min",
-    href: "/learn/fundamentals/what-is-organic-chemistry",
+    href: fundamentalsLessons[0]?.href ?? "/learn",
     status: "available" as const,
     topics: [
       "Atomic structure",
@@ -89,6 +92,11 @@ const modules = [
   },
 ];
 
+const plannedLessonCount = modules.reduce(
+  (total, module) => total + module.lessons,
+  0,
+);
+
 export default function LearnPage() {
   return (
     <main>
@@ -107,10 +115,10 @@ export default function LearnPage() {
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Badge className="border-slate-700 bg-slate-900/70 text-slate-300">
-              67 planned lessons
+              {plannedLessonCount} planned lessons
             </Badge>
             <Badge className="border-slate-700 bg-slate-900/70 text-slate-300">
-              6 structured modules
+              {modules.length} structured modules
             </Badge>
             <Badge className="border-slate-700 bg-slate-900/70 text-slate-300">
               Visual-first explanations

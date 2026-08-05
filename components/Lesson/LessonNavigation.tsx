@@ -11,7 +11,7 @@ type LessonNavigationProps = {
 };
 
 const cardClassName =
-  "flex min-h-[140px] flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 transition duration-200 hover:-translate-y-1 hover:border-blue-500 hover:shadow-md";
+  "flex min-h-[140px] flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 transition duration-200 hover:-translate-y-1 hover:border-blue-500 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2";
 
 export default function LessonNavigation({
   previous,

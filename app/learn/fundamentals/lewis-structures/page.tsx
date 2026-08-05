@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import LessonPage from "@/components/Lesson/LessonPage";
-import LessonSection from "@/components/Lesson/LessonSection";
-import LessonNavigation from "@/components/Lesson/LessonNavigation";
+import { LessonPage, LessonSection } from "@/components/Lesson";
+import { getLessonBySlug } from "@/content/lesson-registry";
+
+const lesson = getLessonBySlug("lewis-structures");
 
 export const metadata: Metadata = {
-  title: "Lewis Structures | Organic Chemistry Hub",
-  description:
-    "Learn how to draw Lewis structures, count valence electrons, complete octets, assign lone pairs, recognise exceptions, and check structures with formal charge.",
+  title: `${lesson.title} | Organic Chemistry Hub`,
+  description: lesson.description,
 };
 
 const tableOfContents = [
@@ -60,13 +60,7 @@ const methodSteps = [
 
 export default function LewisStructuresPage() {
   return (
-    <LessonPage
-      category="Fundamentals"
-      title="Lewis Structures"
-      description="Turn valence-electron counts into clear two-dimensional maps of bonds, lone pairs, and charge."
-      readingTime="14 min"
-      tableOfContents={tableOfContents}
-    >
+    <LessonPage lesson={lesson} tableOfContents={tableOfContents}>
       <LessonSection id="overview" title="Overview">
         <p>
           A Lewis structure represents valence electrons as dots and covalent
@@ -368,17 +362,6 @@ export default function LewisStructuresPage() {
           <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
         </ul>
       </LessonSection>
-
-      <LessonNavigation
-        previous={{
-          title: "Hybridization",
-          href: "/learn/fundamentals/hybridization",
-        }}
-        next={{
-          title: "Formal Charge",
-          href: "/learn/fundamentals/formal-charge",
-        }}
-      />
     </LessonPage>
   );
 }

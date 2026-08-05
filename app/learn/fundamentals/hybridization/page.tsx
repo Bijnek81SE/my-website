@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import LessonPage from "@/components/Lesson/LessonPage";
-import LessonSection from "@/components/Lesson/LessonSection";
-import LessonNavigation from "@/components/Lesson/LessonNavigation";
+import { LessonPage, LessonSection } from "@/components/Lesson";
+import { getLessonBySlug } from "@/content/lesson-registry";
+
+const lesson = getLessonBySlug("hybridization");
 
 export const metadata: Metadata = {
-  title: "Hybridization | Organic Chemistry Hub",
-  description:
-    "Learn sp3, sp2, and sp hybridization, molecular geometry, bond angles, sigma bonding, pi bonding, and how hybridization explains organic molecular structure.",
+  title: `${lesson.title} | Organic Chemistry Hub`,
+  description: lesson.description,
 };
 
 const tableOfContents = [
@@ -58,13 +58,7 @@ const comparison = [
 
 export default function HybridizationPage() {
   return (
-    <LessonPage
-      category="Fundamentals"
-      title="Hybridization"
-      description="Use hybrid orbitals to connect electron-group arrangement with molecular geometry, bond angles, and multiple bonding."
-      readingTime="13 min"
-      tableOfContents={tableOfContents}
-    >
+    <LessonPage lesson={lesson} tableOfContents={tableOfContents}>
       <LessonSection id="overview" title="Overview">
         <p>
           Hybridization is a bonding model that combines atomic orbitals on the
@@ -374,17 +368,6 @@ export default function HybridizationPage() {
           <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
         </ul>
       </LessonSection>
-
-      <LessonNavigation
-        previous={{
-          title: "Chemical Bonding",
-          href: "/learn/fundamentals/chemical-bonding",
-        }}
-        next={{
-          title: "Lewis Structures",
-          href: "/learn/fundamentals/lewis-structures",
-        }}
-      />
     </LessonPage>
   );
 }

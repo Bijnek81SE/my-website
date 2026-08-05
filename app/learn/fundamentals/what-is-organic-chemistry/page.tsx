@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import { LessonPage, LessonSection } from "@/components/Lesson";
+import { getLessonBySlug } from "@/content/lesson-registry";
 import MethaneDiagram from "@/components/diagrams/MethaneDiagram";
-import LessonPage from "@/components/Lesson/LessonPage";
-import LessonSection from "@/components/Lesson/LessonSection";
-import LessonNavigation from "@/components/Lesson/LessonNavigation";
+
+const lesson = getLessonBySlug("what-is-organic-chemistry");
 
 export const metadata: Metadata = {
-  title: "What Is Organic Chemistry? | Organic Chemistry Hub",
-  description:
-    "Learn what organic chemistry is, why carbon is unique, and why organic chemistry matters in medicine, biology, materials, and everyday life.",
+  title: `${lesson.title} | Organic Chemistry Hub`,
+  description: lesson.description,
 };
 
 const tableOfContents = [
@@ -25,13 +25,7 @@ const tableOfContents = [
 
 export default function WhatIsOrganicChemistryPage() {
   return (
-    <LessonPage
-      category="Fundamentals"
-      title="What Is Organic Chemistry?"
-      description="Organic chemistry is the study of carbon-containing compounds, their structures, properties, reactions, and synthesis."
-      readingTime="8 min"
-      tableOfContents={tableOfContents}
-    >
+    <LessonPage lesson={lesson} tableOfContents={tableOfContents}>
       <LessonSection id="overview" title="Overview">
         <p>
           Organic chemistry is the branch of chemistry concerned with the
@@ -272,17 +266,6 @@ export default function WhatIsOrganicChemistryPage() {
           <li>IUPAC Compendium of Chemical Terminology—the Gold Book.</li>
         </ul>
       </LessonSection>
-
-      <LessonNavigation
-        previous={{
-          title: "Curriculum",
-          href: "/learn",
-        }}
-        next={{
-          title: "Atomic Structure",
-          href: "/learn/fundamentals/atomic-structure",
-        }}
-      />
     </LessonPage>
   );
 }
