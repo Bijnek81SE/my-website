@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 export default function FunctionalGroupsLabPage() {
   return (
     <LabShell
+      accent="emerald"
       eyebrow="Organic Chemistry Lab"
       title="Functional Group Explorer"
       description="Recognise common functional groups from condensed structures, reveal the highlighted group, and review its naming pattern."
@@ -24,9 +25,6 @@ export default function FunctionalGroupsLabPage() {
               <li>Review the highlighted pattern and naming rules.</li>
             </ol>
           </div>
-          <Link href="/lab" className="block rounded-2xl border border-slate-200 p-4 font-semibold text-slate-900 transition hover:border-blue-400 hover:bg-blue-50">
-            ← Back to the Lab
-          </Link>
           <Link href="/functional-groups" className="block rounded-2xl border border-slate-200 p-4 font-semibold text-slate-900 transition hover:border-blue-400 hover:bg-blue-50">
             Read the functional-groups guide →
           </Link>

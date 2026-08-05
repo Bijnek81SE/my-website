@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import CurvedArrowDesigner from "@/components/chemistry/CurvedArrowDesigner";
+import { CurvedArrowDesigner } from "@/components/chemistry";
+import { LabWorkspaceShell } from "@/components/lab";
 
 export const metadata: Metadata = {
   title: "Curved Arrow Designer | Organic Chemistry Hub",
@@ -10,19 +10,8 @@ export const metadata: Metadata = {
 
 export default function CurvedArrowDesignerPage() {
   return (
-    <main className="min-h-screen bg-slate-50 py-12 sm:py-16">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/lab"
-          className="font-semibold text-violet-700 transition hover:text-violet-900"
-        >
-          ← Back to Lab
-        </Link>
-
-        <div className="mt-6">
-          <CurvedArrowDesigner />
-        </div>
-      </div>
-    </main>
+    <LabWorkspaceShell accent="violet" maxWidth="7xl">
+      <CurvedArrowDesigner />
+    </LabWorkspaceShell>
   );
 }

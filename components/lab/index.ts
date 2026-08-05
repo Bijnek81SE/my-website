@@ -13,3 +13,7 @@ export { default as MolecularGeometryTrainer } from "./MolecularGeometryTrainer"
 export { default as MolecularPolarityExplorer } from "./MolecularPolarityExplorer";
 export { default as MechanismLabShell } from "./MechanismLabShell";
 export type { MechanismLabAccent, MechanismLabShellProps } from "./MechanismLabShell";
+
+export { default as LabWorkspaceShell } from "./LabWorkspaceShell";
+export type { LabWorkspaceShellProps } from "./LabWorkspaceShell";
+export type { LabAccent, LabShellProps } from "./LabShell";

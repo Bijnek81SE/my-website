@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 export default function MolecularPolarityExplorerPage() {
   return (
     <LabShell
+      accent="rose"
       title="Molecular Polarity Explorer"
       description="Combine electronegativity and molecular geometry to decide whether bond dipoles cancel or produce a net molecular dipole."
       sidebar={

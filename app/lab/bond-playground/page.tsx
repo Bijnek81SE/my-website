@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { LabWorkspaceShell } from "@/components/lab";
 import {
   Bond,
   type BondOrder,
@@ -69,8 +70,7 @@ export default function BondPlaygroundPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 py-12">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <LabWorkspaceShell accent="blue" maxWidth="5xl">
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-9">
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-700">
             Chemistry component library
@@ -310,8 +310,7 @@ export default function BondPlaygroundPage() {
 />`}</pre>
           </div>
         </div>
-      </div>
-    </main>
+    </LabWorkspaceShell>
   );
 }
 

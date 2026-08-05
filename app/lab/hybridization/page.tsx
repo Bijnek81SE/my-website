@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 export default function HybridizationTrainerPage() {
   return (
     <LabShell
+      accent="violet"
       title="Hybridization Trainer"
       description="Count electron domains, connect hybridization to geometry, and recognise when π bonding or resonance changes the answer."
       sidebar={

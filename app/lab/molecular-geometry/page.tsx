@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 export default function MolecularGeometryTrainerPage() {
   return (
     <LabShell
+      accent="blue"
       title="Molecular Geometry Trainer"
       description="Use electron domains and lone pairs to predict molecular shape, hybridization, and bond angles."
       sidebar={

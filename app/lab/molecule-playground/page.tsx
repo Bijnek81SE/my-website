@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { LabWorkspaceShell } from "@/components/lab";
 import {
   Molecule,
   type MoleculeAtom,
@@ -192,8 +193,7 @@ export default function MoleculePlaygroundPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 py-12">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <LabWorkspaceShell accent="blue" maxWidth="6xl">
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-9">
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-700">
             Chemistry component library
@@ -319,7 +319,6 @@ export default function MoleculePlaygroundPage() {
 />`}</pre>
           </div>
         </div>
-      </div>
-    </main>
+    </LabWorkspaceShell>
   );
 }
