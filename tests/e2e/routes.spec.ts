@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
+import { reagents } from "@/content/reagents";
 
-const routes = [
+const routes: readonly (readonly [string, RegExp])[] = [
   ["/", /Organic Chemistry Hub/i],
   ["/learn", /Learn/i],
   ["/study", /Study dashboard/i],
@@ -21,8 +22,10 @@ const routes = [
   ["/calculators/percent-yield", /Percent yield calculator/i],
   ["/calculators/lewis-structure-builder", /Lewis/i],
   ["/functional-groups/alkene", /Alkene/i],
-  ["/reagents/bromine", /Bromine/i],
-] as const;
+  ...reagents
+    .filter((reagent) => reagent.capabilities.reference)
+    .map((reagent) => [`/reagents/${reagent.slug}`, new RegExp(reagent.name, "i")] as const),
+];
 
 for (const [path, heading] of routes) {
   test(`${path} renders`, async ({ page }) => {

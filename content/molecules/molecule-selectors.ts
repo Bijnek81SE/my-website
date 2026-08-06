@@ -1,6 +1,7 @@
 import { getPlatformFeature } from "@/content/platform";
 import { getReaction } from "@/content/reactions";
-import { getFunctionalGroup, getReagent } from "@/content/references";
+import { getFunctionalGroup } from "@/content/references";
+import { getReagent } from "@/content/reagents/reagent-registry";
 import { getLessonBySlug } from "@/content/lesson-registry";
 import { getMoleculesByCapability, requireMolecule } from "./molecule-registry";
 import type { MoleculeDefinition, MoleculeRelation } from "./molecule-types";

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { lessons } from "@/content/lesson-registry";
-import { functionalGroups, reagents } from "@/content/references";
+import { functionalGroups } from "@/content/references";
+import { reagents } from "@/content/reagents";
 import { absoluteUrl } from "@/lib/seo";
 
 const staticRoutes = [
@@ -65,7 +66,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticRoutes,
     ...lessons.map((lesson) => lesson.href),
     ...functionalGroups.map((entry) => `/functional-groups/${entry.slug}`),
-    ...reagents.map((entry) => `/reagents/${entry.slug}`),
+    ...reagents.filter((entry) => entry.capabilities.reference).map((entry) => `/reagents/${entry.slug}`),
   ];
   const uniqueRoutes = [...new Set(routes)];
 

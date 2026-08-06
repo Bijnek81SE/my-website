@@ -32,3 +32,4 @@ export * from "./synthesis";
 export * from "./workspace";
 
 export * from "./retrosynthesis";
+export * from "./reagents";

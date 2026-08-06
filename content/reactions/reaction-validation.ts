@@ -1,6 +1,7 @@
 import { lessons } from "@/content/lesson-registry";
 import { platformFeatures } from "@/content/platform";
-import { functionalGroups, reagents } from "@/content/references";
+import { functionalGroups } from "@/content/references";
+import { reagents } from "@/content/reagents/reagent-registry";
 import { mechanisms } from "@/content/mechanisms/mechanism-registry";
 import type { ReactionDefinition } from "./reaction-types";
 
@@ -19,7 +20,7 @@ export function validateReactions(values: readonly ReactionDefinition[]): readon
   const allIds = new Set(values.map((reaction) => reaction.id));
   const features = new Map(platformFeatures.map((feature) => [feature.id, feature]));
   const functionalGroupIds = new Set(functionalGroups.map((entry) => entry.slug));
-  const reagentIds = new Set(reagents.map((entry) => entry.slug));
+  const reagentIds = new Set<string>(reagents.map((entry) => entry.slug));
   const lessonNodeIds = new Set(lessons.map((lesson) => `lesson:${lesson.slug}`));
   const mechanismMap = new Map(mechanisms.map((mechanism) => [mechanism.id, mechanism]));
 

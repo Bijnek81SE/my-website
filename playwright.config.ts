@@ -3,7 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests/e2e",
 
-  // Keep tests parallel, but avoid overwhelming the Next.js dev server.
+  // Keep tests parallel, but avoid overwhelming the production test server.
   fullyParallel: true,
   workers: process.env.CI ? 2 : 4,
 
@@ -16,7 +16,7 @@ export default defineConfig({
   },
 
   webServer: {
-    command: "npm run dev -- --port 3100",
+    command: "npm run start -- --port 3100",
     url: "http://127.0.0.1:3100",
     reuseExistingServer: false,
     timeout: 120_000,

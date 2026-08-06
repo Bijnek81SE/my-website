@@ -1,3 +1,5 @@
+import type { ReagentCategory, ReagentDefinition } from "@/content/reagents/reagent-types";
+
 export type ReferenceKind = "functional-group" | "reagent";
 
 export type FunctionalGroupCategory =
@@ -6,15 +8,6 @@ export type FunctionalGroupCategory =
   | "Nitrogen"
   | "Halogen"
   | "Carbonyl";
-
-export type ReagentCategory =
-  | "Nucleophile"
-  | "Base"
-  | "Acid"
-  | "Electrophile"
-  | "Reducing agent"
-  | "Catalyst"
-  | "Radical initiator";
 
 export type ReferenceConnection = {
   label: string;
@@ -38,21 +31,5 @@ export type FunctionalGroupDefinition = {
   keywords: readonly string[];
 };
 
-export type ReagentDefinition = {
-  kind: "reagent";
-  slug: string;
-  name: string;
-  formula: string;
-  category: ReagentCategory;
-  summary: string;
-  purpose: string;
-  selectivity: string;
-  conditions: readonly string[];
-  limitations: readonly string[];
-  safety: string;
-  alternatives: readonly string[];
-  relatedReactions: readonly ReferenceConnection[];
-  keywords: readonly string[];
-};
-
+export type { ReagentCategory, ReagentDefinition };
 export type ChemistryReference = FunctionalGroupDefinition | ReagentDefinition;

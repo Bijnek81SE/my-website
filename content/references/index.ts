@@ -1,3 +1,8 @@
 export * from "./reference-types";
 export { functionalGroups, getFunctionalGroup } from "./functional-group-registry";
-export { reagents, getReagent } from "./reagent-registry";
+export {
+  findReagentByNameOrAlias,
+  getReagent,
+  reagents,
+  requireReagent,
+} from "@/content/reagents/reagent-registry";

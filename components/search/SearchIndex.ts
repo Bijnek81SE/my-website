@@ -1,5 +1,6 @@
 import { lessons } from "@/content/lesson-registry";
-import { functionalGroups, reagents } from "@/content/references";
+import { functionalGroups } from "@/content/references";
+import { reagents } from "@/content/reagents";
 
 export type SearchCategory =
   | "Lesson"
@@ -37,13 +38,13 @@ const referenceEntries: readonly SearchEntry[] = [
     category: "Reference" as const,
     keywords: [entry.formula, entry.category, ...entry.keywords],
   })),
-  ...reagents.map((entry) => ({
-    id: `reagent-${entry.slug}`,
+  ...reagents.filter((entry) => entry.capabilities.reference).map((entry) => ({
+    id: `reagent-${entry.id}`,
     title: entry.name,
     description: entry.summary,
     href: `/reagents/${entry.slug}`,
     category: "Reference" as const,
-    keywords: [entry.formula, entry.category, ...entry.keywords],
+    keywords: [entry.formula, entry.category, ...entry.aliases, ...entry.keywords],
   })),
 ];
 

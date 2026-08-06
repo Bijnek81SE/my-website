@@ -1,6 +1,7 @@
 import { lessons } from "./lesson-registry";
 import { reactions } from "./reactions";
-import { functionalGroups, reagents } from "./references";
+import { functionalGroups } from "./references";
+import { reagents } from "./reagents";
 import type {
   KnowledgeConnection,
   KnowledgeNode,
@@ -58,7 +59,7 @@ const referenceEntryNodes: KnowledgeNode[] = [
     keywords: entry.keywords,
   })),
   ...reagents.map((entry) => ({
-    id: `reagent:${entry.slug}`,
+    id: `reagent:${entry.id}`,
     kind: "reagent" as const,
     title: entry.name,
     description: entry.summary,
@@ -260,9 +261,14 @@ export const knowledgeRelations: readonly KnowledgeRelation[] = [
     { from: `functional-group:${entry.slug}`, to: "reference:functional-groups", kind: "reference" as const },
     ...entry.relatedLabs.map((item) => ({ from: `functional-group:${entry.slug}`, to: item.href.includes("functional-groups") ? "lab:functional-groups" : "lab:curved-arrow-designer", kind: "practice" as const })),
   ]),
-  ...reagents.map((entry) => ({ from: `reagent:${entry.slug}`, to: "reference:reagents", kind: "reference" as const })),
+  ...reagents.flatMap((entry) => [
+    { from: `reagent:${entry.id}`, to: "reference:reagents", kind: "reference" as const },
+    ...entry.reactionIds.map((id) => ({ from: `reagent:${entry.id}`, to: `reaction:${id}`, kind: "uses" as const })),
+    ...entry.mechanismIds.map((id) => ({ from: `reagent:${entry.id}`, to: `mechanism:${id}`, kind: "practice" as const })),
+    ...entry.lessonIds.map((id) => ({ from: `reagent:${entry.id}`, to: `lesson:${id}`, kind: "prerequisite" as const })),
+  ]),
   ...reactions.flatMap((reaction) => [
-    { from: `reaction:${reaction.id}`, to: `mechanism:${reaction.id}`, kind: "practice" as const },
+    { from: `reaction:${reaction.id}`, to: `mechanism:${reaction.mechanismId}`, kind: "practice" as const },
     { from: `reaction:${reaction.id}`, to: "reference:reagents", kind: "reference" as const },
     ...reaction.prerequisiteNodeIds.map((to) => ({ from: `reaction:${reaction.id}`, to, kind: "prerequisite" as const })),
     ...reaction.relatedReactionIds.map((id) => ({ from: `reaction:${reaction.id}`, to: `reaction:${id}`, kind: "related" as const })),

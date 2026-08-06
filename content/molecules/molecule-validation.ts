@@ -1,7 +1,8 @@
 import { lessons } from "@/content/lesson-registry";
 import { platformFeatures } from "@/content/platform";
 import { reactions } from "@/content/reactions";
-import { functionalGroups, reagents } from "@/content/references";
+import { functionalGroups } from "@/content/references";
+import { reagents } from "@/content/reagents/reagent-registry";
 import type { MoleculeDefinition } from "./molecule-types";
 
 export type MoleculeValidationIssueCode =
@@ -30,7 +31,7 @@ export function validateMolecules(
   const ids = new Set<string>();
   const aliases = new Map<string, string>();
   const functionalGroupIds = new Set(functionalGroups.map((entry) => entry.slug));
-  const reagentIds = new Set(reagents.map((entry) => entry.slug));
+  const reagentIds = new Set<string>(reagents.map((entry) => entry.slug));
   const reactionIds = new Set<string>(reactions.map((entry) => entry.id));
   const featureIds = new Set(platformFeatures.map((entry) => entry.id));
   const lessonIds = new Set(lessons.map((entry) => entry.slug));

@@ -145,3 +145,23 @@ Completed: shared formula parsing, unit conversion, validation, transparent calc
 - [x] Add typed molecule-specific functional-group, reagent, lab, reaction, and lesson connections.
 - [x] Link only to published routes and explain why every connection is relevant.
 - [x] Add component and E2E regression coverage for synchronized knowledge content.
+
+## Unified Chemistry Content & Extension Architecture
+
+- [x] Phase 1 — Canonical public feature catalog and generated platform integrations
+- [x] Phase 2 — Canonical molecule registry
+- [x] Phase 3 — Canonical reaction registry
+- [x] Phase 4 — Canonical mechanism registry
+- [x] Phase 5 — Canonical reagent registry
+- [ ] Phase 6 — Canonical spectroscopy registry
+- [ ] Phase 7 — Canonical lesson registry
+- [ ] Phase 8 — Workspace plugin architecture
+- [ ] Phase 9 — Import and dataset pipeline
+
+### Canonical Reagent Registry
+
+- Reagent identity and educational reference content now live in `content/reagents`.
+- Reactions, mechanisms, molecules, lessons, search, sitemap, knowledge graph, Workspace links, and public routes resolve reagents by stable IDs.
+- The old reagent reference registry is now a compatibility re-export rather than a second source of truth.
+- Validation detects duplicate IDs/slugs/aliases, broken relationships, and reaction/mechanism mismatches.
+- Adding a reagent automatically creates reference discovery, sitemap inclusion, knowledge nodes, and route smoke coverage when its capabilities enable those integrations.

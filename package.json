@@ -11,7 +11,9 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "quality": "npm run lint && npm run test && npm run build"
+    "quality": "npm run lint && npm run test && npm run test:e2e",
+    "clean:e2e": "node scripts/clean-e2e-state.mjs",
+    "pretest:e2e": "npm run clean:e2e && npm run build"
   },
   "dependencies": {
     "next": "16.2.11",
