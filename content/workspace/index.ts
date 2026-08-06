@@ -4,6 +4,7 @@ export {
   workspaceMolecules,
   workspaceTabs,
 } from "./workspace-registry";
+
 export type {
   WorkspaceDocument,
   WorkspaceKnowledgeLink,
@@ -12,3 +13,7 @@ export type {
   WorkspaceSnapshot,
   WorkspaceTab,
 } from "./workspace-types";
+
+export * from "./workspace-tool-types";
+export * from "./workspace-tool-registry";
+export * from "./workspace-tool-validation";

@@ -1,10 +1,12 @@
 "use client";
 
-import { workspaceTabs } from "@/content/workspace";
+import { getAvailableWorkspaceTools, getWorkspaceMolecule } from "@/content/workspace";
 import { useWorkspace } from "./WorkspaceProvider";
 
 export default function WorkspaceTabs() {
   const { snapshot, setActiveTab } = useWorkspace();
+  const molecule = getWorkspaceMolecule(snapshot.moleculeId);
+  const workspaceTabs = getAvailableWorkspaceTools(molecule);
 
   return (
     <div role="tablist" aria-label="Workspace tools" className="flex gap-2 overflow-x-auto border-b border-slate-200 bg-white px-4 py-3">

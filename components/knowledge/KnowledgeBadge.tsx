@@ -9,6 +9,9 @@ const labels: Record<KnowledgeNodeKind, string> = {
   reaction: "Reaction",
   reagent: "Reagent",
   reference: "Reference",
+  molecule: "Molecule",
+  spectroscopy: "Spectroscopy",
+  site: "Site",
 };
 
 export default function KnowledgeBadge({ kind }: { kind: KnowledgeNodeKind }) {

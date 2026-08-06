@@ -1,83 +1,18 @@
 import type { MetadataRoute } from "next";
-import { lessons } from "@/content/lesson-registry";
-import { functionalGroups } from "@/content/references";
+import { lessons } from "@/content/lessons";
+import { getSitemapPlatformFeatures } from "@/content/platform";
 import { reagents } from "@/content/reagents";
+import { functionalGroups } from "@/content/references";
 import { absoluteUrl } from "@/lib/seo";
 
-const staticRoutes = [
-  "/",
-  "/about",
-  "/calculators",
-  "/calculators/molecular-weight",
-  "/calculators/molarity",
-  "/calculators/dilution",
-  "/calculators/stoichiometry",
-  "/calculators/limiting-reagent",
-  "/calculators/percent-yield",
-  "/calculators/lewis-structure-builder",
-  "/contact",
-  "/editorial-policy",
-  "/functional-groups",
-  "/lab",
-  "/lab/bond-playground",
-  "/lab/curved-arrow-designer",
-  "/lab/curved-arrow-playground",
-  "/lab/e1-mechanism",
-  "/lab/e2-mechanism",
-  "/lab/electrophilic-addition",
-  "/lab/functional-groups",
-  "/lab/halogenation",
-  "/lab/hybridization",
-  "/lab/hydration",
-  "/lab/hydroboration-oxidation",
-  "/lab/hydrogenation",
-  "/lab/hydrohalogenation",
-  "/lab/lewis-structure-builder",
-  "/lab/molecular-geometry",
-  "/lab/molecular-polarity",
-  "/lab/molecule-playground",
-  "/lab/oxymercuration-demercuration",
-  "/lab/radical-hbr-addition",
-  "/lab/reaction-prediction",
-  "/lab/retrosynthesis",
-  "/lab/skeletal-molecule-builder",
-  "/lab/sn1-mechanism",
-  "/lab/sn2-mechanism",
-  "/lab/spectroscopy",
-  "/learn",
-  "/named-reactions",
-  "/reactions",
-  "/reagents",
-  "/resources",
-  "/study",
-  "/workspace",
-] as const;
-
-function priorityForRoute(route: string): number {
-  if (route === "/") return 1;
-  if (route === "/learn" || route === "/lab") return 0.9;
-  if (route.startsWith("/learn/fundamentals/")) return 0.8;
-  if (route.startsWith("/lab/")) return 0.7;
-  return 0.6;
-}
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    ...staticRoutes,
-    ...lessons.map((lesson) => lesson.href),
-    ...functionalGroups.map((entry) => `/functional-groups/${entry.slug}`),
-    ...reagents.filter((entry) => entry.capabilities.reference).map((entry) => `/reagents/${entry.slug}`),
+  const platform = getSitemapPlatformFeatures().map((feature) => ({ route: feature.href, priority: feature.sitemap?.priority ?? 0.6, changeFrequency: feature.sitemap?.changeFrequency ?? "weekly" }));
+  const content = [
+    ...lessons.filter((lesson) => lesson.capabilities.sitemap).map((lesson) => ({ route: lesson.href, priority: 0.8, changeFrequency: "monthly" as const })),
+    ...functionalGroups.map((entry) => ({ route: `/functional-groups/${entry.slug}`, priority: 0.6, changeFrequency: "monthly" as const })),
+    ...reagents.filter((entry) => entry.capabilities.reference).map((entry) => ({ route: `/reagents/${entry.slug}`, priority: 0.6, changeFrequency: "monthly" as const })),
   ];
-  const uniqueRoutes = [...new Set(routes)];
-
-  return uniqueRoutes.map((route) => {
-    const changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] =
-      route.startsWith("/learn/") ? "monthly" : "weekly";
-
-    return {
-      url: absoluteUrl(route),
-      changeFrequency,
-      priority: priorityForRoute(route),
-    };
-  });
+  const byRoute = new Map<string, { route: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] }>();
+  for (const item of [...platform, ...content]) byRoute.set(item.route, item);
+  return [...byRoute.values()].map((item) => ({ url: absoluteUrl(item.route), priority: item.priority, changeFrequency: item.changeFrequency }));
 }

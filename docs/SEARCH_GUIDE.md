@@ -8,7 +8,7 @@ Users can open search through the header button, `Command+K` on macOS, `Control+
 
 ## Adding searchable content
 
-Add stable public routes to `components/search/SearchIndex.ts`. Fundamentals lessons are indexed automatically from `content/lesson-registry.ts`.
+Add stable public routes to `components/search/SearchIndex.ts`. Fundamentals lessons are indexed automatically from `content/lessons`.
 
 Each entry requires a unique `id`, title, description, route, category, and useful chemistry keywords. Keywords should include common synonyms and learner phrasing.
 

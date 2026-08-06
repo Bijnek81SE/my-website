@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import type { LessonRecord } from "@/content/lesson-registry";
-import { getLessonPosition } from "@/content/lesson-registry";
+import type { LessonRecord } from "@/content/lessons";
+import { getLessonPosition } from "@/content/lessons";
 import { getKnowledgeNodeIdForLesson } from "@/content/knowledge-graph";
 import { Prerequisites, RelatedConcepts, StudyNext } from "@/components/knowledge";
 import { BreadcrumbJsonLd, LearningResourceJsonLd } from "@/components/seo";

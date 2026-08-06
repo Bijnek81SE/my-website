@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { getKnowledgeNode } from "@/content/knowledge-graph";
-import { lessons } from "@/content/lesson-registry";
+import { lessons } from "@/content/lessons";
 import {
   getDueReviewRecords,
   getProgressSummary,

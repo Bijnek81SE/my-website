@@ -1,4 +1,4 @@
-export type WorkspaceTab = "overview" | "spectra" | "reaction" | "calculations" | "notes";
+export type WorkspaceTab = string;
 
 export type WorkspaceKnowledgeLink = {
   label: string;

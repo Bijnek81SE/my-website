@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Badge, Container, ModuleCard } from "@/components/ui";
-import { getLessonsByModule } from "@/content/lesson-registry";
+import { getLessonsByModule } from "@/content/lessons";
 import { createPageMetadata } from "@/lib/seo";
 import { StudyRecommendations } from "@/components/learning";
 

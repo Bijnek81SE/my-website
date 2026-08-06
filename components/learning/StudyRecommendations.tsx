@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { lessons } from "@/content/lesson-registry";
+import { lessons } from "@/content/lessons";
 import { getDueReviewRecords, getProgressSummary } from "./ProgressEngine";
 import { useLearningProgress } from "./LearningEngine";
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LessonPage, LessonSection } from "@/components/Lesson";
-import { getLessonBySlug } from "@/content/lesson-registry";
+import { getLessonBySlug } from "@/content/lessons";
 import MethaneDiagram from "@/components/diagrams/MethaneDiagram";
 import { createPageMetadata } from "@/lib/seo";
 

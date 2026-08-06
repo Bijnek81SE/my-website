@@ -6,7 +6,10 @@ export type KnowledgeNodeKind =
   | "functional-group"
   | "reaction"
   | "reagent"
-  | "reference";
+  | "reference"
+  | "molecule"
+  | "spectroscopy"
+  | "site";
 
 export type KnowledgeRelationKind =
   | "prerequisite"
@@ -15,7 +18,10 @@ export type KnowledgeRelationKind =
   | "practice"
   | "uses"
   | "transforms"
-  | "reference";
+  | "reference"
+  | "molecule"
+  | "spectroscopy"
+  | "site";
 
 export type KnowledgeNode = {
   id: string;

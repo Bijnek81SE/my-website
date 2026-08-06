@@ -1,4 +1,4 @@
-import { lessons } from "@/content/lesson-registry";
+import { lessons } from "@/content/lessons";
 import { platformFeatures } from "@/content/platform";
 import { reactions } from "@/content/reactions";
 import type { MechanismDefinition } from "./mechanism-types";

@@ -1,4 +1,4 @@
-import { lessons } from "@/content/lesson-registry";
+import { lessons } from "@/content/lessons";
 import { mechanisms } from "@/content/mechanisms/mechanism-registry";
 import { molecules } from "@/content/molecules/molecule-registry";
 import { reactions } from "@/content/reactions/reaction-registry";

@@ -8,7 +8,7 @@ Existing lesson URLs and the shared lesson layout remain unchanged.
 ```text
 app/learn/fundamentals/atomic-structure/page.tsx
 content/fundamentals/atomic-structure.mdx
-content/lesson-registry.ts
+content/lessons
 mdx-components.tsx
 ```
 
@@ -35,7 +35,7 @@ description, reading time, and previous/next navigation lives in the registry.
 3. Use Markdown for paragraphs, emphasis, and simple lists.
 4. Use React lesson components for objectives, examples, callouts, practice,
    summaries, and references.
-5. Keep route metadata in `content/lesson-registry.ts` rather than duplicating it.
+5. Keep route metadata in `content/lessons` rather than duplicating it.
 6. Migrate one lesson at a time and run a production build after each migration.
 
 ## Adding MDX dependencies

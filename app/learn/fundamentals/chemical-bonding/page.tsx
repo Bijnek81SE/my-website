@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { LessonPage, LessonSection } from "@/components/Lesson";
-import { getLessonBySlug } from "@/content/lesson-registry";
+import { getLessonBySlug } from "@/content/lessons";
 import { createPageMetadata } from "@/lib/seo";
 
 const lesson = getLessonBySlug("chemical-bonding");

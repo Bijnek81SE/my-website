@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LessonPage } from "@/components/Lesson";
-import { getLessonBySlug } from "@/content/lesson-registry";
+import { getLessonBySlug } from "@/content/lessons";
 import AtomicStructureContent from "@/content/fundamentals/atomic-structure.mdx";
 import { createPageMetadata } from "@/lib/seo";
 

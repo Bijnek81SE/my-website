@@ -25,7 +25,7 @@ The helper adds a canonical URL, Open Graph metadata, Twitter metadata, and shar
 
 ## Discovery routes
 
-- `app/sitemap.ts` contains published static routes and derives lesson URLs from `content/lesson-registry.ts`.
+- `app/sitemap.ts` contains published static routes and derives lesson URLs from `content/lessons`.
 - `app/robots.ts` publishes crawler rules and the sitemap URL.
 - `app/manifest.ts` publishes the web-app manifest.
 

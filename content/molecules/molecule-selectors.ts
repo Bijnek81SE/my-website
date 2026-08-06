@@ -3,7 +3,7 @@ import { getReaction } from "@/content/reactions";
 import { getFunctionalGroup } from "@/content/references";
 import { getReagent } from "@/content/reagents/reagent-registry";
 import { selectReagents } from "@/content/reagents/reagent-selectors";
-import { getLessonBySlug } from "@/content/lesson-registry";
+import { getLessonBySlug } from "@/content/lessons";
 import { getMoleculesByCapability, requireMolecule } from "./molecule-registry";
 import type { MoleculeDefinition, MoleculeRelation } from "./molecule-types";
 

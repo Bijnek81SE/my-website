@@ -1,4 +1,4 @@
-import { lessons } from "@/content/lesson-registry";
+import { lessons } from "@/content/lessons";
 import { platformFeatures } from "@/content/platform";
 import { functionalGroups } from "@/content/references";
 import { reagents } from "@/content/reagents/reagent-registry";

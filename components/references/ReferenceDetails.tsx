@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { RelationshipSection } from "@/components/relationships";
-import { getLessonBySlug } from "@/content/lesson-registry";
+import { getLessonBySlug } from "@/content/lessons";
 import { getMechanism } from "@/content/mechanisms";
 import { getMolecule } from "@/content/molecules";
 import { getReaction } from "@/content/reactions";

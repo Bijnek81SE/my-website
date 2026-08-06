@@ -14,7 +14,7 @@ describe("knowledge connections", () => {
 
     expect(
       screen.getByRole("link", {
-        name: /Curved-arrow designer/i,
+        name: /curved arrow designer/i,
       }),
     ).toHaveAttribute(
       "href",

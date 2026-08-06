@@ -153,10 +153,11 @@ Completed: shared formula parsing, unit conversion, validation, transparent calc
 - [x] Phase 3 — Canonical reaction registry
 - [x] Phase 4 — Canonical mechanism registry
 - [x] Phase 5 — Canonical reagent registry
-- [ ] Phase 6 — Canonical spectroscopy registry
-- [ ] Phase 7 — Canonical lesson registry
-- [ ] Phase 8 — Workspace plugin architecture
-- [ ] Phase 9 — Import and dataset pipeline
+- [x] Phase 6 — Canonical spectroscopy registry
+- [x] Phase 7 — Canonical lesson registry
+- [x] Phase 8 — Workspace plugin architecture
+- [x] Phase 9 — Generated knowledge graph and platform validation
+- [x] Phase 10 — Import and dataset pipeline foundation
 
 ### Canonical Reagent Registry
 
@@ -169,3 +170,13 @@ Completed: shared formula parsing, unit conversion, validation, transparent calc
 ## Canonical Spectroscopy Registry
 
 Structured spectroscopy datasets now reference canonical molecules by stable ID and derive molecular identity and structure from the molecule registry. Technique assignments, selectors, source metadata, capabilities, and cross-registry validation prepare the platform for dataset-scale expansion and future JCAMP-DX imports.
+
+
+## Final extension foundation
+
+- Lessons are canonical entities with prerequisites, objectives, chemistry relationships, capabilities, generated navigation, selectors, and validation.
+- Workspace tools are capability-aware plugins with separate metadata and renderer registries.
+- The knowledge graph is generated from canonical registries rather than maintained as a large handwritten edge list.
+- A platform-wide validation pipeline checks all registries and generated knowledge relationships together.
+- JSON, CSV, and JCAMP-DX parsers establish the import boundary for dataset-scale expansion.
+- Search, sitemap, and route smoke coverage derive from canonical platform and content registries.
