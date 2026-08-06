@@ -1,0 +1,33 @@
+import { defineReaction } from "../reaction-types";
+
+export const halogenation = defineReaction({
+    id: "halogenation",
+    aliases: ["alkene bromination", "alkene chlorination"],
+    featureId: "halogenation",
+    substrateFunctionalGroupIds: ["alkene"],
+    productFunctionalGroupIds: ["alkyl-halide"],
+    reagentIds: ["bromine"],
+    capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
+    title: "Alkene halogenation",
+    shortTitle: "Halogenation",
+    description: "Addition of Br₂ or Cl₂ through a bridged halonium-ion intermediate.",
+    family: "Alkene addition",
+    mechanismClass: "Halonium ion",
+    substrate: "Alkene",
+    product: "Vicinal dihalide",
+    reagents: ["Br₂ or Cl₂"],
+    conditions: ["Inert solvent"],
+    steps: "Stepwise",
+    intermediate: "Halonium ion",
+    selectivity: {
+      regioselectivity: "Not usually the main issue",
+      stereochemistry: "Anti addition",
+      rearrangements: "Not possible",
+    },
+    keyIdea: "A bridged halonium ion blocks same-face attack and prevents carbocation rearrangement.",
+    competingReactionIds: [],
+    relatedReactionIds: ["electrophilic-addition"],
+    prerequisiteNodeIds: ["lesson:chemical-bonding"],
+    mechanismHref: "/lab/halogenation",
+    keywords: ["alkene", "halonium", "anti addition", "bromine"],
+  });

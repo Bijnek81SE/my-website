@@ -19,15 +19,28 @@ export type ReactionSelectivity = {
   rearrangements: string;
 };
 
+export type ReactionCapabilities = {
+  explorer: boolean;
+  mechanism: boolean;
+  prediction: boolean;
+  retrosynthesis: boolean;
+  workspace: boolean;
+};
+
 export type ReactionDefinition = {
   id: string;
   title: string;
   shortTitle: string;
+  aliases: readonly string[];
   description: string;
   family: ReactionFamily;
   mechanismClass: ReactionMechanismClass;
+  featureId: string;
   substrate: string;
   product: string;
+  substrateFunctionalGroupIds: readonly string[];
+  productFunctionalGroupIds: readonly string[];
+  reagentIds: readonly string[];
   reagents: readonly string[];
   conditions: readonly string[];
   steps: "Concerted" | "Stepwise";
@@ -37,6 +50,11 @@ export type ReactionDefinition = {
   competingReactionIds: readonly string[];
   relatedReactionIds: readonly string[];
   prerequisiteNodeIds: readonly string[];
-  mechanismHref: string;
+  mechanismHref: `/${string}`;
   keywords: readonly string[];
+  capabilities: ReactionCapabilities;
 };
+
+export function defineReaction<const T extends ReactionDefinition>(reaction: T): T {
+  return reaction;
+}

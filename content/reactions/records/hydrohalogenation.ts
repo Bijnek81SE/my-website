@@ -1,0 +1,33 @@
+import { defineReaction } from "../reaction-types";
+
+export const hydrohalogenation = defineReaction({
+    id: "hydrohalogenation",
+    aliases: ["HX addition"],
+    featureId: "hydrohalogenation",
+    substrateFunctionalGroupIds: ["alkene"],
+    productFunctionalGroupIds: ["alkyl-halide"],
+    reagentIds: [],
+    capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
+    title: "Hydrohalogenation",
+    shortTitle: "HX addition",
+    description: "Addition of HX across an alkene through protonation and halide attack.",
+    family: "Alkene addition",
+    mechanismClass: "Carbocation",
+    substrate: "Alkene",
+    product: "Alkyl halide",
+    reagents: ["HCl, HBr, or HI"],
+    conditions: ["No peroxide for the ionic pathway"],
+    steps: "Stepwise",
+    intermediate: "Carbocation",
+    selectivity: {
+      regioselectivity: "Markovnikov",
+      stereochemistry: "Not stereospecific",
+      rearrangements: "Possible",
+    },
+    keyIdea: "Protonation forms the most stable carbocation before halide capture.",
+    competingReactionIds: ["radical-hbr"],
+    relatedReactionIds: ["hydration", "oxymercuration-demercuration"],
+    prerequisiteNodeIds: ["lesson:resonance"],
+    mechanismHref: "/lab/hydrohalogenation",
+    keywords: ["alkene", "markovnikov", "carbocation", "halide"],
+  });

@@ -31,7 +31,7 @@ export function validateMolecules(
   const aliases = new Map<string, string>();
   const functionalGroupIds = new Set(functionalGroups.map((entry) => entry.slug));
   const reagentIds = new Set(reagents.map((entry) => entry.slug));
-  const reactionIds = new Set(reactions.map((entry) => entry.id));
+  const reactionIds = new Set<string>(reactions.map((entry) => entry.id));
   const featureIds = new Set(platformFeatures.map((entry) => entry.id));
   const lessonIds = new Set(lessons.map((entry) => entry.slug));
 

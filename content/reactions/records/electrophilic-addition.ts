@@ -1,0 +1,33 @@
+import { defineReaction } from "../reaction-types";
+
+export const electrophilic_addition = defineReaction({
+    id: "electrophilic-addition",
+    aliases: ["alkene electrophilic addition"],
+    featureId: "electrophilic-addition",
+    substrateFunctionalGroupIds: ["alkene"],
+    productFunctionalGroupIds: [],
+    reagentIds: [],
+    capabilities: { explorer: true, mechanism: true, prediction: false, retrosynthesis: false, workspace: true },
+    title: "Electrophilic addition",
+    shortTitle: "Electrophilic addition",
+    description: "A general alkene reaction pattern in which the pi bond attacks an electrophile.",
+    family: "Alkene addition",
+    mechanismClass: "Carbocation",
+    substrate: "Alkene",
+    product: "Two new sigma bonds",
+    reagents: ["Electrophile", "Nucleophile"],
+    conditions: ["Depends on reagent pair"],
+    steps: "Stepwise",
+    intermediate: "Carbocation or bridged cation",
+    selectivity: {
+      regioselectivity: "Depends on intermediate stability",
+      stereochemistry: "Depends on the reagent system",
+      rearrangements: "Possible when a free carbocation forms",
+    },
+    keyIdea: "The electron-rich pi bond is the nucleophile that initiates the reaction.",
+    competingReactionIds: [],
+    relatedReactionIds: ["hydrohalogenation", "hydration", "halogenation"],
+    prerequisiteNodeIds: ["lesson:chemical-bonding", "lesson:resonance"],
+    mechanismHref: "/lab/electrophilic-addition",
+    keywords: ["alkene", "pi bond", "electrophile", "addition"],
+  });

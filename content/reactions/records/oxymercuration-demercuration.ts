@@ -1,0 +1,33 @@
+import { defineReaction } from "../reaction-types";
+
+export const oxymercuration_demercuration = defineReaction({
+    id: "oxymercuration-demercuration",
+    aliases: ["oxymercuration demercuration"],
+    featureId: "oxymercuration-demercuration",
+    substrateFunctionalGroupIds: ["alkene"],
+    productFunctionalGroupIds: ["alcohol"],
+    reagentIds: [],
+    capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
+    title: "Oxymercuration–demercuration",
+    shortTitle: "Oxymercuration",
+    description: "Markovnikov hydration through a bridged organomercury intermediate without rearrangement.",
+    family: "Alkene addition",
+    mechanismClass: "Organomercury",
+    substrate: "Alkene",
+    product: "Alcohol",
+    reagents: ["1. Hg(OAc)₂, H₂O", "2. NaBH₄"],
+    conditions: ["Aqueous solvent then reductive workup"],
+    steps: "Stepwise",
+    intermediate: "Mercurinium ion",
+    selectivity: {
+      regioselectivity: "Markovnikov",
+      stereochemistry: "Often anti in the first stage; not strictly stereospecific overall",
+      rearrangements: "Not possible",
+    },
+    keyIdea: "The bridged intermediate gives Markovnikov hydration while avoiding a free carbocation.",
+    competingReactionIds: ["hydration", "hydroboration-oxidation"],
+    relatedReactionIds: ["halogenation"],
+    prerequisiteNodeIds: ["lesson:resonance"],
+    mechanismHref: "/lab/oxymercuration-demercuration",
+    keywords: ["alkene", "markovnikov", "alcohol", "no rearrangement"],
+  });

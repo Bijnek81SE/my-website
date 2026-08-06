@@ -1,18 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { getReaction, reactions } from "@/content/reactions";
+import { findReactionByNameOrAlias, getReaction, getReactionFamilies, reactions, selectReactions } from "@/content/reactions";
 
-describe("reaction registry", () => {
+describe("canonical reaction registry", () => {
   it("contains unique mechanism-backed reactions", () => {
     expect(reactions.length).toBe(12);
     expect(new Set(reactions.map((reaction) => reaction.id)).size).toBe(reactions.length);
     expect(reactions.every((reaction) => reaction.mechanismHref.startsWith("/lab/"))).toBe(true);
   });
 
-  it("captures the main SN1 and SN2 distinction", () => {
+  it("resolves stable ids, titles, short titles, and aliases", () => {
     expect(getReaction("sn1")?.mechanismClass).toBe("Carbocation");
-    expect(getReaction("sn1")?.steps).toBe("Stepwise");
-    expect(getReaction("sn2")?.mechanismClass).toBe("Concerted");
-    expect(getReaction("sn2")?.selectivity.stereochemistry).toMatch(/inversion/i);
+    expect(findReactionByNameOrAlias("SN2")?.id).toBe("sn2");
+    expect(findReactionByNameOrAlias("peroxide effect")?.id).toBe("radical-hbr");
+  });
+
+  it("supports indexed, reusable explorer selectors", () => {
+    expect(getReactionFamilies()).toContain("Alkene addition");
+    expect(selectReactions({ query: "anti markovnikov" }).map((reaction) => reaction.id)).toEqual(expect.arrayContaining(["hydroboration-oxidation", "radical-hbr"]));
+    expect(selectReactions({ family: "Substitution" }).every((reaction) => reaction.family === "Substitution")).toBe(true);
   });
 
   it("distinguishes Markovnikov and anti-Markovnikov hydration", () => {

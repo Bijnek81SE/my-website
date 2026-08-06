@@ -1,0 +1,33 @@
+import { defineReaction } from "../reaction-types";
+
+export const hydration = defineReaction({
+    id: "hydration",
+    aliases: ["acid-catalysed alkene hydration", "acid-catalyzed alkene hydration"],
+    featureId: "hydration",
+    substrateFunctionalGroupIds: ["alkene"],
+    productFunctionalGroupIds: ["alcohol"],
+    reagentIds: ["sulfuric-acid"],
+    capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
+    title: "Acid-catalysed hydration",
+    shortTitle: "Hydration",
+    description: "Addition of water across an alkene through a carbocation intermediate.",
+    family: "Alkene addition",
+    mechanismClass: "Carbocation",
+    substrate: "Alkene",
+    product: "Alcohol",
+    reagents: ["H₂O", "Dilute strong acid"],
+    conditions: ["Aqueous acid"],
+    steps: "Stepwise",
+    intermediate: "Carbocation",
+    selectivity: {
+      regioselectivity: "Markovnikov",
+      stereochemistry: "Not stereospecific",
+      rearrangements: "Possible",
+    },
+    keyIdea: "Acid activates the alkene; water traps the most stable carbocation.",
+    competingReactionIds: ["hydroboration-oxidation", "oxymercuration-demercuration"],
+    relatedReactionIds: ["hydrohalogenation"],
+    prerequisiteNodeIds: ["lesson:resonance"],
+    mechanismHref: "/lab/hydration",
+    keywords: ["alkene", "alcohol", "markovnikov", "acid"],
+  });

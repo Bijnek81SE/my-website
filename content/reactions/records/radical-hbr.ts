@@ -1,0 +1,33 @@
+import { defineReaction } from "../reaction-types";
+
+export const radical_hbr = defineReaction({
+    id: "radical-hbr",
+    aliases: ["peroxide effect", "anti-Markovnikov HBr addition"],
+    featureId: "radical-hbr-addition",
+    substrateFunctionalGroupIds: ["alkene"],
+    productFunctionalGroupIds: ["alkyl-halide"],
+    reagentIds: ["hbr-peroxide"],
+    capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
+    title: "Radical HBr addition",
+    shortTitle: "Radical HBr",
+    description: "Peroxide-initiated chain addition of HBr that gives anti-Markovnikov regiochemistry.",
+    family: "Alkene addition",
+    mechanismClass: "Radical",
+    substrate: "Alkene",
+    product: "Alkyl bromide",
+    reagents: ["HBr", "Peroxide initiator"],
+    conditions: ["Heat or light"],
+    steps: "Stepwise",
+    intermediate: "Carbon radical",
+    selectivity: {
+      regioselectivity: "Anti-Markovnikov",
+      stereochemistry: "Not stereospecific",
+      rearrangements: "Classical carbocation rearrangements do not occur",
+    },
+    keyIdea: "The radical chain is selective because bromine adds to form the more stable carbon radical.",
+    competingReactionIds: ["hydrohalogenation"],
+    relatedReactionIds: ["hydroboration-oxidation"],
+    prerequisiteNodeIds: ["lesson:chemical-bonding"],
+    mechanismHref: "/lab/radical-hbr-addition",
+    keywords: ["radical", "alkene", "anti markovnikov", "peroxide"],
+  });

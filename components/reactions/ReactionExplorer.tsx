@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { reactions, type ReactionDefinition, type ReactionFamily, type ReactionMechanismClass } from "@/content/reactions";
+import { getReaction, getReactionFamilies, getReactionMechanismClasses, selectReactions, type ReactionDefinition } from "@/content/reactions";
 import ReactionCard from "./ReactionCard";
 import ReactionComparison from "./ReactionComparison";
 import ReactionDetails from "./ReactionDetails";
@@ -14,18 +14,12 @@ export default function ReactionExplorer() {
   const [comparisonIds, setComparisonIds] = useState<readonly string[]>([]);
   const [detailsId, setDetailsId] = useState<string | null>(null);
 
-  const families = useMemo(() => [...new Set(reactions.map((reaction) => reaction.family))].sort() as ReactionFamily[], []);
-  const mechanismClasses = useMemo(() => [...new Set(reactions.map((reaction) => reaction.mechanismClass))].sort() as ReactionMechanismClass[], []);
-  const filteredReactions = useMemo(() => {
-    const query = filters.query.trim().toLowerCase();
-    return reactions.filter((reaction) => {
-      const searchable = [reaction.title, reaction.description, reaction.family, reaction.mechanismClass, reaction.substrate, reaction.product, ...reaction.reagents, ...reaction.keywords].join(" ").toLowerCase();
-      return (!query || searchable.includes(query)) && (filters.family === "All" || reaction.family === filters.family) && (filters.mechanismClass === "All" || reaction.mechanismClass === filters.mechanismClass) && (filters.steps === "All" || reaction.steps === filters.steps);
-    });
-  }, [filters]);
+  const families = useMemo(() => getReactionFamilies(), []);
+  const mechanismClasses = useMemo(() => getReactionMechanismClasses(), []);
+  const filteredReactions = useMemo(() => selectReactions(filters), [filters]);
 
-  const comparison = comparisonIds.map((id) => reactions.find((reaction) => reaction.id === id)).filter((reaction): reaction is ReactionDefinition => Boolean(reaction));
-  const details = reactions.find((reaction) => reaction.id === detailsId);
+  const comparison = comparisonIds.map((id) => getReaction(id)).filter((reaction): reaction is ReactionDefinition => Boolean(reaction));
+  const details = detailsId ? getReaction(detailsId) : undefined;
 
   function toggleComparison(reactionId: string) {
     setComparisonIds((current) => current.includes(reactionId) ? current.filter((id) => id !== reactionId) : current.length < 2 ? [...current, reactionId] : current);

@@ -1,0 +1,33 @@
+import { defineReaction } from "../reaction-types";
+
+export const e2 = defineReaction({
+    id: "e2",
+    aliases: ["bimolecular elimination"],
+    featureId: "e2",
+    substrateFunctionalGroupIds: ["alkyl-halide"],
+    productFunctionalGroupIds: ["alkene"],
+    reagentIds: ["hydroxide"],
+    capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
+    title: "E2 elimination",
+    shortTitle: "E2",
+    description: "A concerted elimination in which a strong base removes a beta proton as the leaving group departs.",
+    family: "Elimination",
+    mechanismClass: "Concerted",
+    substrate: "Alkyl halide with an accessible beta hydrogen",
+    product: "Alkene",
+    reagents: ["Strong base"],
+    conditions: ["Anti-periplanar geometry", "Heat often favours elimination"],
+    steps: "Concerted",
+    intermediate: "None",
+    selectivity: {
+      regioselectivity: "Zaitsev or Hofmann depending on base and substrate",
+      stereochemistry: "Anti-periplanar and stereospecific",
+      rearrangements: "Not possible",
+    },
+    keyIdea: "Base strength and anti-periplanar geometry are more important than carbocation stability.",
+    competingReactionIds: ["sn2", "e1"],
+    relatedReactionIds: ["sn2"],
+    prerequisiteNodeIds: ["lesson:chemical-bonding", "lesson:hybridization"],
+    mechanismHref: "/lab/e2-mechanism",
+    keywords: ["elimination", "anti periplanar", "strong base", "bimolecular"],
+  });
