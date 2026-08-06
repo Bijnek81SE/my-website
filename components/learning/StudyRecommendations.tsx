@@ -61,6 +61,14 @@ export default function StudyRecommendations() {
           <p className="mt-1 text-sm text-slate-600">Use mole ratios to connect balanced equations with reaction amounts.</p>
         </Link>
         <Link
+          href="/workspace"
+          className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 transition hover:border-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 sm:col-span-2"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Bring the tools together</p>
+          <p className="mt-1 font-semibold text-slate-950">Continue in the chemistry workspace</p>
+          <p className="mt-1 text-sm text-slate-600">Keep one molecule in context across spectra, reactions, calculations, references, and notes.</p>
+        </Link>
+        <Link
           href="/lab/reaction-prediction"
           className="rounded-xl border border-violet-200 bg-violet-50 p-4 transition hover:border-violet-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 sm:col-span-2"
         >

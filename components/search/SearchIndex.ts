@@ -283,6 +283,14 @@ const staticEntries: readonly SearchEntry[] = [
 ];
 
 export const searchEntries: readonly SearchEntry[] = [
+  {
+    id: "organic-chemistry-workspace",
+    title: "Organic Chemistry Workspace",
+    description: "Keep a molecule synchronized across spectra, reaction planning, calculations, references, and notes.",
+    href: "/workspace",
+    category: "Site",
+    keywords: ["workspace", "workbench", "molecule", "spectroscopy", "synthesis", "calculations", "notes"],
+  },
   ...lessonEntries,
   ...referenceEntries,
   ...staticEntries,

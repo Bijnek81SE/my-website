@@ -8,6 +8,7 @@ import { useSearch } from "@/components/search";
 const navigation = [
   { name: "Learn", href: "/learn" },
   { name: "Study", href: "/study" },
+  { name: "Workspace", href: "/workspace" },
   { name: "Reactions", href: "/reactions" },
   { name: "Lab", href: "/lab" },
   { name: "Named Reactions", href: "/named-reactions" },

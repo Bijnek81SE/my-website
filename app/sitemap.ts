@@ -48,6 +48,7 @@ const staticRoutes = [
   "/reagents",
   "/resources",
   "/study",
+  "/workspace",
 ] as const;
 
 function priorityForRoute(route: string): number {

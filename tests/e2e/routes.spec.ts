@@ -4,6 +4,7 @@ const routes = [
   ["/", /Organic Chemistry Hub/i],
   ["/learn", /Learn/i],
   ["/study", /Study dashboard/i],
+  ["/workspace", /Organic Chemistry Workspace/i],
   ["/reactions", /Compare mechanisms/i],
   ["/learn/fundamentals/resonance", /Resonance/i],
   ["/lab", /Lab/i],
@@ -409,4 +410,17 @@ test("reaction prediction scores product and mechanism decisions", async ({
       name: "Efficient route complete",
     }),
   ).toBeVisible();
+});
+
+test("workspace synchronizes molecule and calculation context", async ({ page }) => {
+  await page.goto("/workspace");
+  await page.getByLabel("Active molecule").selectOption("propene");
+  await expect(page.getByRole("heading", { name: "Propene" })).toBeVisible();
+  await page.getByRole("tab", { name: "Calculations" }).click();
+  await expect(page.getByText(/42\.08/)).toBeVisible();
+  await page.getByRole("tab", { name: "Notes" }).click();
+  await page.getByLabel("Workspace notes").fill("Check alkene regioselectivity.");
+  await expect(
+  page.getByLabel("Workspace notes"),
+).toHaveValue("Check alkene regioselectivity.");
 });

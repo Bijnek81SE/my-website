@@ -99,6 +99,13 @@ const sharedNodes: KnowledgeNode[] = [
     href: "/lab/curved-arrow-designer",
   },
   {
+    id: "workspace:organic-chemistry",
+    kind: "lab",
+    title: "Organic Chemistry Workspace",
+    description: "Keep molecule context synchronized across spectra, reactions, calculations, references, and notes.",
+    href: "/workspace",
+  },
+  {
     id: "calculator:molecular-weight",
     kind: "calculator",
     title: "Molecular weight calculator",
@@ -199,6 +206,11 @@ const lessonSequenceRelations: KnowledgeRelation[] = lessons.flatMap((lesson, in
 
 export const knowledgeRelations: readonly KnowledgeRelation[] = [
   ...lessonSequenceRelations,
+  { from: "lesson:atomic-structure", to: "workspace:organic-chemistry", kind: "study-next" },
+  { from: "workspace:organic-chemistry", to: "lab:spectroscopy", kind: "practice" },
+  { from: "workspace:organic-chemistry", to: "lab:reaction-prediction", kind: "practice" },
+  { from: "workspace:organic-chemistry", to: "calculator:molecular-weight", kind: "practice" },
+  { from: "workspace:organic-chemistry", to: "reference:functional-groups", kind: "reference" },
   { from: "lesson:atomic-structure", to: "calculator:molecular-weight", kind: "practice" },
   { from: "lesson:chemical-bonding", to: "calculator:molarity", kind: "practice" },
   { from: "lesson:chemical-bonding", to: "calculator:dilution", kind: "practice" },

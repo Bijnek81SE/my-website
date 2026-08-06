@@ -28,3 +28,5 @@ export * from "./references";
 export * from "./spectroscopy";
 
 export * from "./synthesis";
+
+export * from "./workspace";

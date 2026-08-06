@@ -122,3 +122,11 @@ Completed: shared formula parsing, unit conversion, validation, transparent calc
 - [x] Multi-step route validation and efficiency scoring
 - [x] Search, sitemap, knowledge graph, study, and lab integration
 - [x] Unit, component, and E2E regression coverage
+
+
+## Organic Chemistry Workspace — complete
+
+- Unified persistent workbench published at `/workspace`.
+- Molecule selection synchronizes overview, spectroscopy, reaction, calculations, references, and notes.
+- Browser-local persistence and bounded undo history.
+- Search, navigation, sitemap, knowledge graph, component tests, unit tests, and E2E coverage.
