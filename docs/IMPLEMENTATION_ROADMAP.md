@@ -98,3 +98,7 @@ npm run build
 - Added searchable reference landing pages and static detail routes.
 - Connected references to search, sitemap, knowledge graph, reactions, and labs.
 - Added unit, component, and E2E regression coverage.
+
+## Quantitative Chemistry Calculators Platform
+
+Completed: shared formula parsing, unit conversion, validation, transparent calculation steps, and six published quantitative calculators for molar mass, molarity, dilution, stoichiometry, limiting reagents, and percent yield.

@@ -53,6 +53,14 @@ export default function StudyRecommendations() {
           </Link>
         ) : null}
         <Link
+          href="/calculators/stoichiometry"
+          className="rounded-xl border border-blue-200 bg-blue-50 p-4 transition hover:border-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Practise quantitatively</p>
+          <p className="mt-1 font-semibold text-slate-950">Scale a reaction</p>
+          <p className="mt-1 text-sm text-slate-600">Use mole ratios to connect balanced equations with reaction amounts.</p>
+        </Link>
+        <Link
           href="/reactions"
           className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 transition hover:border-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 sm:col-span-2"
         >

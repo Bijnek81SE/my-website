@@ -9,6 +9,12 @@ const routes = [
   ["/lab", /Lab/i],
   ["/lab/sn2-mechanism", /SN2/i],
   ["/lab/hybridization", /Hybridization/i],
+  ["/calculators/molecular-weight", /Molecular weight calculator/i],
+  ["/calculators/molarity", /Molarity and solution preparation/i],
+  ["/calculators/dilution", /Dilution calculator/i],
+  ["/calculators/stoichiometry", /Stoichiometry calculator/i],
+  ["/calculators/limiting-reagent", /Limiting reagent calculator/i],
+  ["/calculators/percent-yield", /Percent yield calculator/i],
   ["/calculators/lewis-structure-builder", /Lewis/i],
   ["/functional-groups/alkene", /Alkene/i],
   ["/reagents/bromine", /Bromine/i],
@@ -165,4 +171,16 @@ test("reference library filters entries", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Alkene" })).toBeVisible();
   await page.getByRole("link", { name: /Alkene/i }).click();
   await expect(page).toHaveURL(/\/functional-groups\/alkene$/);
+});
+
+
+test("quantitative calculator updates a molar-mass result", async ({ page }) => {
+  await page.goto("/calculators/molecular-weight");
+  const formula = page.getByLabel("Molecular formula");
+  await formula.fill("H2O");
+  await expect(
+  page.getByText("18.0150 g/mol", {
+    exact: true,
+  }),
+).toBeVisible();
 });
