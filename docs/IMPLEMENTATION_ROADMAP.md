@@ -138,3 +138,10 @@ Completed: shared formula parsing, unit conversion, validation, transparent calc
 - Dead-end and depth-limit handling
 - Forward mechanism validation for every disconnection
 - Initial multi-step targets connected to the reaction prediction engine
+
+## Workspace Knowledge Panel
+
+- [x] Replace ambiguous generic reference buttons with labeled contextual cards.
+- [x] Add typed molecule-specific functional-group, reagent, lab, reaction, and lesson connections.
+- [x] Link only to published routes and explain why every connection is relevant.
+- [x] Add component and E2E regression coverage for synchronized knowledge content.

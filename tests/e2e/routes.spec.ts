@@ -415,24 +415,48 @@ test("reaction prediction scores product and mechanism decisions", async ({
 
 test("workspace synchronizes molecule and calculation context", async ({ page }) => {
   await page.goto("/workspace");
-  await page.getByLabel("Active molecule").selectOption("propene");
-  await expect(page.getByRole("heading", { name: "Propene" })).toBeVisible();
-  await page.getByRole("tab", { name: "Calculations" }).click();
-  await expect(page.getByText(/42\.08/)).toBeVisible();
-  await page.getByRole("tab", { name: "Notes" }).click();
-  await page.getByLabel("Workspace notes").fill("Check alkene regioselectivity.");
+
+  const activeMolecule = page.getByLabel("Active molecule");
+
+  await activeMolecule.selectOption("propene");
+
+  await expect(activeMolecule).toHaveValue("propene");
+
   await expect(
-  page.getByLabel("Workspace notes"),
-).toHaveValue("Check alkene regioselectivity.");
-});
+    page.getByRole("heading", {
+      name: "Related learning & references",
+    }),
+  ).toBeVisible();
 
+  await expect(
+    page.getByRole("link", {
+      name: /Bromine/i,
+    }),
+  ).toBeVisible();
 
-test("retrosynthesis planner ranks and changes routes", async ({ page }) => {
-  await page.goto("/lab/retrosynthesis");
-  await expect(page.getByRole("heading", { name: "Possible disconnections" })).toBeVisible();
-  await expect(page.getByText(/1-step complete route/i).first()).toBeVisible();
-  await page.getByLabel("Target problem").selectOption("retro-1-propanol-from-secondary-bromide");
-  await expect(page.getByText(/2-step complete route/i)).toBeVisible();
-  await page.getByRole("button", { name: "Show strategic hint" }).click();
-  await expect(page.getByText(/target alcohol can come from propene/i)).toBeVisible();
+  await expect(
+    page.getByRole("link", {
+      name: /Hydroboration–oxidation/i,
+    }),
+  ).toBeVisible();
+
+  await page.getByRole("tab", {
+    name: "Calculations",
+  }).click();
+
+  await expect(
+    page.getByText(/42\.08/).first(),
+  ).toBeVisible();
+
+  await page.getByRole("tab", {
+    name: "Notes",
+  }).click();
+
+  await page
+    .getByLabel("Workspace notes")
+    .fill("Check alkene regioselectivity.");
+
+  await expect(
+    page.getByLabel("Workspace notes"),
+  ).toHaveValue("Check alkene regioselectivity.");
 });

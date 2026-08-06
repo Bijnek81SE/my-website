@@ -1,5 +1,19 @@
 export type WorkspaceTab = "overview" | "spectra" | "reaction" | "calculations" | "notes";
 
+export type WorkspaceKnowledgeLink = {
+  label: string;
+  href: string;
+  description: string;
+};
+
+export type WorkspaceKnowledgePanel = {
+  functionalGroup: WorkspaceKnowledgeLink;
+  reagents: readonly WorkspaceKnowledgeLink[];
+  labs: readonly WorkspaceKnowledgeLink[];
+  reactions: readonly WorkspaceKnowledgeLink[];
+  lessons: readonly WorkspaceKnowledgeLink[];
+};
+
 export type WorkspaceMolecule = {
   id: string;
   name: string;
@@ -10,7 +24,7 @@ export type WorkspaceMolecule = {
   spectroscopyCompoundId?: string;
   predictionChallengeId?: string;
   mechanismHref?: string;
-  referenceHrefs: readonly string[];
+  knowledge: WorkspaceKnowledgePanel;
 };
 
 export type WorkspaceSnapshot = {

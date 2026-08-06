@@ -4,10 +4,129 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { calculateMolarMass } from "@/lib/calculators";
 import { getWorkspaceMolecule } from "@/content/workspace";
+import type { WorkspaceKnowledgeLink } from "@/content/workspace/workspace-types";
 import { useWorkspace } from "./WorkspaceProvider";
 
 function ToolLink({ href, children }: { href: string; children: ReactNode }) {
-  return <Link href={href} className="inline-flex rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800">{children}</Link>;
+  return (
+    <Link
+      href={href}
+      className="inline-flex rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function KnowledgeLinkList({ links }: { links: readonly WorkspaceKnowledgeLink[] }) {
+  return (
+    <ul className="mt-4 space-y-3">
+      {links.map((link) => (
+        <li key={`${link.href}-${link.label}`}>
+          <Link
+            href={link.href}
+            className="group block rounded-xl border border-slate-200 bg-white p-3 transition hover:border-emerald-300 hover:bg-emerald-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
+          >
+            <span className="flex items-start justify-between gap-3">
+              <span>
+                <span className="block text-sm font-bold text-slate-950">{link.label}</span>
+                <span className="mt-1 block text-xs leading-5 text-slate-600">{link.description}</span>
+              </span>
+              <span aria-hidden="true" className="text-emerald-700 transition group-hover:translate-x-0.5">
+                →
+              </span>
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function KnowledgePanel({ moleculeId }: { moleculeId: string }) {
+  const molecule = getWorkspaceMolecule(moleculeId);
+  const { knowledge } = molecule;
+
+  return (
+    <section className="mt-8" aria-labelledby="workspace-knowledge-heading">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-700">Contextual chemistry</p>
+          <h3 id="workspace-knowledge-heading" className="mt-1 text-2xl font-bold text-slate-950">
+            Related learning & references
+          </h3>
+        </div>
+        <p className="max-w-xl text-sm leading-6 text-slate-600">
+          These links are selected for {molecule.name}, so each destination explains a specific structural or reactivity connection.
+        </p>
+      </div>
+
+      <div className="mt-5 grid gap-4 lg:grid-cols-2 2xl:grid-cols-4">
+        <article className="rounded-2xl border border-violet-200 bg-violet-50/60 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-violet-700">Functional group</p>
+          <h4 className="mt-2 text-xl font-bold text-violet-950">{knowledge.functionalGroup.label}</h4>
+          <p className="mt-2 text-sm leading-6 text-slate-700">{knowledge.functionalGroup.description}</p>
+          <Link
+            href={knowledge.functionalGroup.href}
+            className="mt-5 inline-flex rounded-xl border border-violet-300 bg-white px-4 py-2.5 text-sm font-semibold text-violet-800 hover:bg-violet-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600"
+          >
+            Open functional-group reference →
+          </Link>
+          {knowledge.lessons.length > 0 ? (
+            <div className="mt-5 border-t border-violet-200 pt-4">
+              <p className="text-xs font-bold uppercase tracking-wide text-violet-700">Recommended lessons</p>
+              <KnowledgeLinkList links={knowledge.lessons} />
+            </div>
+          ) : null}
+        </article>
+
+        <article className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Common reagents</p>
+          <h4 className="mt-2 text-xl font-bold text-emerald-950">Chemistry around {molecule.name}</h4>
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            Published reagent references that explain useful transformations or conditions for this molecule.
+          </p>
+          <KnowledgeLinkList links={knowledge.reagents} />
+          <Link
+            href="/reagents"
+            className="mt-5 inline-flex rounded-xl border border-emerald-300 bg-white px-4 py-2.5 text-sm font-semibold text-emerald-800 hover:bg-emerald-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
+          >
+            Browse the reagent library →
+          </Link>
+        </article>
+
+        <article className="rounded-2xl border border-blue-200 bg-blue-50/60 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-700">Related labs</p>
+          <h4 className="mt-2 text-xl font-bold text-blue-950">Practise interactively</h4>
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            Launch hands-on labs where this structure, functional group, or mechanism is directly relevant.
+          </p>
+          <KnowledgeLinkList links={knowledge.labs} />
+          <Link
+            href="/lab"
+            className="mt-5 inline-flex rounded-xl border border-blue-300 bg-white px-4 py-2.5 text-sm font-semibold text-blue-800 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+          >
+            Browse all labs →
+          </Link>
+        </article>
+
+        <article className="rounded-2xl border border-amber-200 bg-amber-50/60 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-700">Related reactions</p>
+          <h4 className="mt-2 text-xl font-bold text-amber-950">Compare pathways</h4>
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            See where this molecule acts as a substrate, product, or strategic intermediate.
+          </p>
+          <KnowledgeLinkList links={knowledge.reactions} />
+          <Link
+            href="/reactions"
+            className="mt-5 inline-flex rounded-xl border border-amber-300 bg-white px-4 py-2.5 text-sm font-semibold text-amber-900 hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+          >
+            Open Reaction Explorer →
+          </Link>
+        </article>
+      </div>
+    </section>
+  );
 }
 
 export default function WorkspacePanel() {
@@ -89,7 +208,7 @@ export default function WorkspacePanel() {
         <div className="rounded-xl border border-slate-200 p-4"><dt className="text-xs font-bold uppercase text-slate-500">Functional group</dt><dd className="mt-2 text-lg font-bold">{molecule.functionalGroup}</dd></div>
         <div className="rounded-xl border border-slate-200 p-4"><dt className="text-xs font-bold uppercase text-slate-500">Molar mass</dt><dd className="mt-2 text-lg font-bold">{molarMass.toFixed(4)} g/mol</dd></div>
       </dl>
-      <div className="mt-6 flex flex-wrap gap-3">{molecule.referenceHrefs.map((href) => <Link key={href} href={href} className="rounded-lg border border-emerald-300 px-3 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-50">Open connected reference →</Link>)}</div>
+      <KnowledgePanel moleculeId={molecule.id} />
     </section>
   );
 }

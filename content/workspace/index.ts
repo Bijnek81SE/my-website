@@ -4,4 +4,11 @@ export {
   workspaceMolecules,
   workspaceTabs,
 } from "./workspace-registry";
-export type { WorkspaceDocument, WorkspaceMolecule, WorkspaceSnapshot, WorkspaceTab } from "./workspace-types";
+export type {
+  WorkspaceDocument,
+  WorkspaceKnowledgeLink,
+  WorkspaceKnowledgePanel,
+  WorkspaceMolecule,
+  WorkspaceSnapshot,
+  WorkspaceTab,
+} from "./workspace-types";
