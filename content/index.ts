@@ -30,3 +30,5 @@ export * from "./spectroscopy";
 export * from "./synthesis";
 
 export * from "./workspace";
+
+export * from "./retrosynthesis";

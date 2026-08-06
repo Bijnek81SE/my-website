@@ -69,6 +69,14 @@ const referenceEntryNodes: KnowledgeNode[] = [
 
 const sharedNodes: KnowledgeNode[] = [
   {
+    id: "lab:retrosynthesis",
+    kind: "lab",
+    title: "Retrosynthesis planner",
+    description: "Work backwards from target molecules and compare ranked synthetic disconnections.",
+    href: "/lab/retrosynthesis",
+    keywords: ["retrosynthesis", "disconnection", "precursor", "route search"],
+  },
+  {
     id: "lab:reaction-prediction",
     kind: "lab",
     title: "Reaction prediction and synthesis lab",
@@ -209,6 +217,8 @@ export const knowledgeRelations: readonly KnowledgeRelation[] = [
   { from: "lesson:atomic-structure", to: "workspace:organic-chemistry", kind: "study-next" },
   { from: "workspace:organic-chemistry", to: "lab:spectroscopy", kind: "practice" },
   { from: "workspace:organic-chemistry", to: "lab:reaction-prediction", kind: "practice" },
+  { from: "workspace:organic-chemistry", to: "lab:retrosynthesis", kind: "practice" },
+  { from: "lab:reaction-prediction", to: "lab:retrosynthesis", kind: "study-next" },
   { from: "workspace:organic-chemistry", to: "calculator:molecular-weight", kind: "practice" },
   { from: "workspace:organic-chemistry", to: "reference:functional-groups", kind: "reference" },
   { from: "lesson:atomic-structure", to: "calculator:molecular-weight", kind: "practice" },

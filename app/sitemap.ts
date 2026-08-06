@@ -38,6 +38,7 @@ const staticRoutes = [
   "/lab/oxymercuration-demercuration",
   "/lab/radical-hbr-addition",
   "/lab/reaction-prediction",
+  "/lab/retrosynthesis",
   "/lab/skeletal-molecule-builder",
   "/lab/sn1-mechanism",
   "/lab/sn2-mechanism",

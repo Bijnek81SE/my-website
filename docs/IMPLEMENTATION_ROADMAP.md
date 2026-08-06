@@ -130,3 +130,11 @@ Completed: shared formula parsing, unit conversion, validation, transparent calc
 - Molecule selection synchronizes overview, spectroscopy, reaction, calculations, references, and notes.
 - Browser-local persistence and bounded undo history.
 - Search, navigation, sitemap, knowledge graph, component tests, unit tests, and E2E coverage.
+
+## Retrosynthesis Planner
+
+- Graph-based reverse transformation rules
+- Ranked route search with reliability, difficulty, risk, and step-count scoring
+- Dead-end and depth-limit handling
+- Forward mechanism validation for every disconnection
+- Initial multi-step targets connected to the reaction prediction engine

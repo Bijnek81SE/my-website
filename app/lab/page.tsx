@@ -12,6 +12,12 @@ export const metadata: Metadata = createPageMetadata({
 
 const tools = [
   [
+    "Retrosynthesis Planner",
+    "/lab/retrosynthesis",
+    "Work backwards from targets and compare ranked disconnections.",
+    "violet",
+  ],
+  [
     "Reaction Prediction & Synthesis",
     "/lab/reaction-prediction",
     "Predict products and design multi-step routes with mechanistic feedback.",
@@ -195,18 +201,18 @@ export default function LabPage() {
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Interactive Spectroscopy Lab
+          Retrosynthesis Planner
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Link molecular structures to realistic simulated ¹H NMR, ¹³C NMR, IR, and mass spectra, then practise peak assignment.
+          Work backwards from a target molecule, compare route reliability, and validate every proposed disconnection with its forward mechanism.
         </p>
 
         <Link
-          href="/lab/spectroscopy"
+          href="/lab/retrosynthesis"
           className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
         >
-          Open spectroscopy lab →
+          Open retrosynthesis planner →
         </Link>
       </div>
 

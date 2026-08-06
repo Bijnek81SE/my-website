@@ -63,6 +63,23 @@ export default function Home() {
       </Section>
 
       <Section className="pt-0 sm:pt-0">
+        <div className="rounded-3xl border border-indigo-200 bg-[linear-gradient(135deg,#eef2ff_0%,#ecfdf5_100%)] p-6 shadow-sm sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
+          <div>
+            <Badge tone="violet">New: Retrosynthesis Planner</Badge>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+              Start with the target and reason backwards to viable starting materials.
+            </h2>
+            <p className="mt-3 max-w-2xl leading-7 text-slate-600">
+              Explore ranked disconnections, compare route reliability, and validate every reverse step with its forward mechanism.
+            </p>
+          </div>
+          <ButtonLink href="/lab/retrosynthesis" className="mt-6 shrink-0 lg:mt-0">
+            Open retrosynthesis planner →
+          </ButtonLink>
+        </div>
+      </Section>
+
+      <Section className="pt-0 sm:pt-0">
         <div className="rounded-3xl border border-violet-200 bg-[linear-gradient(135deg,#f5f3ff_0%,#ecfdf5_100%)] p-6 shadow-sm sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
           <div>
             <Badge tone="violet">New: Reaction Prediction &amp; Synthesis</Badge>

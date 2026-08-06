@@ -69,6 +69,14 @@ export default function StudyRecommendations() {
           <p className="mt-1 text-sm text-slate-600">Keep one molecule in context across spectra, reactions, calculations, references, and notes.</p>
         </Link>
         <Link
+          href="/lab/retrosynthesis"
+          className="rounded-xl border border-indigo-200 bg-indigo-50 p-4 transition hover:border-indigo-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 sm:col-span-2"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-indigo-700">Think backwards</p>
+          <p className="mt-1 font-semibold text-slate-950">Plan a retrosynthesis</p>
+          <p className="mt-1 text-sm text-slate-600">Compare disconnections and validate each proposed step with the forward mechanism.</p>
+        </Link>
+        <Link
           href="/lab/reaction-prediction"
           className="rounded-xl border border-violet-200 bg-violet-50 p-4 transition hover:border-violet-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 sm:col-span-2"
         >

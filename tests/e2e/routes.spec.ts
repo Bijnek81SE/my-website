@@ -12,6 +12,7 @@ const routes = [
   ["/lab/hybridization", /Hybridization/i],
   ["/lab/spectroscopy", /Interactive Spectroscopy Lab/i],
   ["/lab/reaction-prediction", /Reaction Prediction & Synthesis/i],
+  ["/lab/retrosynthesis", /Retrosynthesis Planner/i],
   ["/calculators/molecular-weight", /Molecular weight calculator/i],
   ["/calculators/molarity", /Molarity and solution preparation/i],
   ["/calculators/dilution", /Dilution calculator/i],
@@ -423,4 +424,15 @@ test("workspace synchronizes molecule and calculation context", async ({ page })
   await expect(
   page.getByLabel("Workspace notes"),
 ).toHaveValue("Check alkene regioselectivity.");
+});
+
+
+test("retrosynthesis planner ranks and changes routes", async ({ page }) => {
+  await page.goto("/lab/retrosynthesis");
+  await expect(page.getByRole("heading", { name: "Possible disconnections" })).toBeVisible();
+  await expect(page.getByText(/1-step complete route/i).first()).toBeVisible();
+  await page.getByLabel("Target problem").selectOption("retro-1-propanol-from-secondary-bromide");
+  await expect(page.getByText(/2-step complete route/i)).toBeVisible();
+  await page.getByRole("button", { name: "Show strategic hint" }).click();
+  await expect(page.getByText(/target alcohol can come from propene/i)).toBeVisible();
 });

@@ -49,6 +49,14 @@ const referenceEntries: readonly SearchEntry[] = [
 
 const staticEntries: readonly SearchEntry[] = [
   {
+    id: "retrosynthesis-planner",
+    title: "Retrosynthesis planner",
+    description: "Work backwards from target molecules, compare ranked disconnections, and validate routes with forward mechanisms.",
+    href: "/lab/retrosynthesis",
+    category: "Lab",
+    keywords: ["retrosynthesis", "disconnection", "route planning", "precursors", "starting materials", "synthesis"],
+  },
+  {
     id: "reaction-prediction-lab",
     title: "Reaction prediction and synthesis lab",
     description: "Predict major products, explain selectivity, and build multi-step synthesis routes.",
