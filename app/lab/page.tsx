@@ -12,6 +12,12 @@ export const metadata: Metadata = createPageMetadata({
 
 const tools = [
   [
+    "Interactive Spectroscopy Lab",
+    "/lab/spectroscopy",
+    "Assign realistic simulated NMR, IR, and mass spectra.",
+    "cyan",
+  ],
+  [
     "Lewis Structure Builder",
     "/lab/lewis-structure-builder",
     "Build H₂O, NH₃, and CO₂.",
@@ -183,18 +189,18 @@ export default function LabPage() {
         </p>
 
         <h2 className="mt-2 text-2xl font-bold text-slate-950">
-          Skeletal Molecule Builder
+          Interactive Spectroscopy Lab
         </h2>
 
         <p className="mt-3 max-w-2xl leading-7 text-slate-700">
-          Preview reusable line-angle structures generated from atom and bond data, including rings, multiple bonds, stereochemistry, charges, and radicals.
+          Link molecular structures to realistic simulated ¹H NMR, ¹³C NMR, IR, and mass spectra, then practise peak assignment.
         </p>
 
         <Link
-          href="/lab/skeletal-molecule-builder"
+          href="/lab/spectroscopy"
           className="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
         >
-          Open builder →
+          Open spectroscopy lab →
         </Link>
       </div>
 

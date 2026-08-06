@@ -61,6 +61,14 @@ export default function StudyRecommendations() {
           <p className="mt-1 text-sm text-slate-600">Use mole ratios to connect balanced equations with reaction amounts.</p>
         </Link>
         <Link
+          href="/lab/spectroscopy"
+          className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 transition hover:border-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 sm:col-span-2"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-cyan-700">Interpret experimental evidence</p>
+          <p className="mt-1 font-semibold text-slate-950">Open the spectroscopy lab</p>
+          <p className="mt-1 text-sm text-slate-600">Connect structures to NMR, IR, and mass-spectral signals.</p>
+        </Link>
+        <Link
           href="/reactions"
           className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 transition hover:border-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 sm:col-span-2"
         >

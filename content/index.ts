@@ -24,3 +24,5 @@ export { getReaction, getReactions, reactions } from "./reactions";
 export type { ReactionDefinition, ReactionFamily, ReactionMechanismClass, ReactionSelectivity } from "./reactions";
 
 export * from "./references";
+
+export * from "./spectroscopy";

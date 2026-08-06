@@ -49,6 +49,14 @@ const referenceEntries: readonly SearchEntry[] = [
 
 const staticEntries: readonly SearchEntry[] = [
   {
+    id: "spectroscopy-lab",
+    title: "Interactive spectroscopy lab",
+    description: "Link molecular structure to realistic simulated 1H NMR, 13C NMR, IR, and mass spectra.",
+    href: "/lab/spectroscopy",
+    category: "Lab",
+    keywords: ["spectroscopy", "NMR", "IR", "mass spectrometry", "peak assignment", "chemical shift"],
+  },
+  {
     id: "reaction-explorer",
     title: "Interactive reaction explorer",
     description: "Filter and compare substitution, elimination, and alkene addition reactions.",

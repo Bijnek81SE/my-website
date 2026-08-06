@@ -9,6 +9,7 @@ const routes = [
   ["/lab", /Lab/i],
   ["/lab/sn2-mechanism", /SN2/i],
   ["/lab/hybridization", /Hybridization/i],
+  ["/lab/spectroscopy", /Interactive Spectroscopy Lab/i],
   ["/calculators/molecular-weight", /Molecular weight calculator/i],
   ["/calculators/molarity", /Molarity and solution preparation/i],
   ["/calculators/dilution", /Dilution calculator/i],
@@ -183,4 +184,14 @@ test("quantitative calculator updates a molar-mass result", async ({ page }) => 
     exact: true,
   }),
 ).toBeVisible();
+});
+
+
+test("spectroscopy lab links structure and proton signals", async ({ page }) => {
+  await page.goto("/lab/spectroscopy");
+  await expect(page.getByRole("heading", { name: /Interactive Spectroscopy Lab/i })).toBeVisible();
+  await page.getByRole("button", { name: "CH₃ triplet", exact: true }).click();
+  await expect(page.getByText(/split by the two adjacent CH₂ protons/i)).toBeVisible();
+  await page.getByRole("tab", { name: /^IR\b/ }).click();
+  await expect(page.getByRole("button", { name: "O–H stretch", exact: true })).toBeVisible();
 });

@@ -102,3 +102,14 @@ npm run build
 ## Quantitative Chemistry Calculators Platform
 
 Completed: shared formula parsing, unit conversion, validation, transparent calculation steps, and six published quantitative calculators for molar mass, molarity, dilution, stoichiometry, limiting reagents, and percent yield.
+
+## Spectroscopy Engine
+
+- [x] Shared spectroscopy data model and trace simulation engine
+- [x] Realistic simulated ¹H NMR multiplicities and coupling spacing
+- [x] ¹³C NMR, IR envelope, and mass-stick renderers
+- [x] Structure-to-assignment bidirectional linking
+- [x] Interactive assignment challenge mode
+- [x] Lab, search, sitemap, knowledge-graph, and study integration
+- [ ] Experimental JCAMP-DX import
+- [ ] DEPT, COSY, HSQC, HMBC, and NOESY overlays

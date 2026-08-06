@@ -40,6 +40,7 @@ const staticRoutes = [
   "/lab/skeletal-molecule-builder",
   "/lab/sn1-mechanism",
   "/lab/sn2-mechanism",
+  "/lab/spectroscopy",
   "/learn",
   "/named-reactions",
   "/reactions",

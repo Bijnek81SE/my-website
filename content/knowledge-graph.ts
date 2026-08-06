@@ -69,6 +69,14 @@ const referenceEntryNodes: KnowledgeNode[] = [
 
 const sharedNodes: KnowledgeNode[] = [
   {
+    id: "lab:spectroscopy",
+    kind: "lab",
+    title: "Interactive spectroscopy lab",
+    description: "Connect molecular structures with realistic simulated NMR, IR, and mass spectra.",
+    href: "/lab/spectroscopy",
+    keywords: ["NMR", "IR", "mass spectrometry", "peak assignment"],
+  },
+  {
     id: "lab:functional-groups",
     kind: "lab",
     title: "Functional-group explorer",
@@ -192,6 +200,9 @@ export const knowledgeRelations: readonly KnowledgeRelation[] = [
   { from: "lesson:lewis-structures", to: "calculator:lewis-builder", kind: "practice" },
   { from: "lesson:formal-charge", to: "calculator:lewis-builder", kind: "practice" },
   { from: "lesson:resonance", to: "lab:curved-arrow-designer", kind: "practice" },
+  { from: "lesson:chemical-bonding", to: "lab:spectroscopy", kind: "study-next" },
+  { from: "lesson:hybridization", to: "lab:spectroscopy", kind: "practice" },
+  { from: "reference:functional-groups", to: "lab:spectroscopy", kind: "practice" },
   { from: "lesson:chemical-bonding", to: "lesson:hybridization", kind: "related" },
   { from: "lesson:hybridization", to: "lesson:resonance", kind: "related" },
   { from: "reference:functional-groups", to: "lab:functional-groups", kind: "practice" },
