@@ -12,6 +12,12 @@ export const metadata: Metadata = createPageMetadata({
 
 const tools = [
   [
+    "Reaction Prediction & Synthesis",
+    "/lab/reaction-prediction",
+    "Predict products and design multi-step routes with mechanistic feedback.",
+    "violet",
+  ],
+  [
     "Interactive Spectroscopy Lab",
     "/lab/spectroscopy",
     "Assign realistic simulated NMR, IR, and mass spectra.",

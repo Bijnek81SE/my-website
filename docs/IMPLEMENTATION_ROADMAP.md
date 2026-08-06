@@ -113,3 +113,12 @@ Completed: shared formula parsing, unit conversion, validation, transparent calc
 - [x] Lab, search, sitemap, knowledge-graph, and study integration
 - [ ] Experimental JCAMP-DX import
 - [ ] DEPT, COSY, HSQC, HMBC, and NOESY overlays
+
+## Reaction Prediction & Synthesis Engine
+
+- [x] Rule-based reagent, product, and mechanism evaluation
+- [x] Major-product prediction challenges with misconception feedback
+- [x] Directed transformation graph for synthesis planning
+- [x] Multi-step route validation and efficiency scoring
+- [x] Search, sitemap, knowledge graph, study, and lab integration
+- [x] Unit, component, and E2E regression coverage

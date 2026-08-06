@@ -26,3 +26,5 @@ export type { ReactionDefinition, ReactionFamily, ReactionMechanismClass, Reacti
 export * from "./references";
 
 export * from "./spectroscopy";
+
+export * from "./synthesis";

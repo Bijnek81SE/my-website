@@ -49,6 +49,14 @@ const referenceEntries: readonly SearchEntry[] = [
 
 const staticEntries: readonly SearchEntry[] = [
   {
+    id: "reaction-prediction-lab",
+    title: "Reaction prediction and synthesis lab",
+    description: "Predict major products, explain selectivity, and build multi-step synthesis routes.",
+    href: "/lab/reaction-prediction",
+    category: "Lab",
+    keywords: ["reaction prediction", "synthesis", "major product", "regioselectivity", "stereochemistry", "reagents"],
+  },
+  {
     id: "spectroscopy-lab",
     title: "Interactive spectroscopy lab",
     description: "Link molecular structure to realistic simulated 1H NMR, 13C NMR, IR, and mass spectra.",

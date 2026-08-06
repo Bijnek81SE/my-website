@@ -10,6 +10,7 @@ const routes = [
   ["/lab/sn2-mechanism", /SN2/i],
   ["/lab/hybridization", /Hybridization/i],
   ["/lab/spectroscopy", /Interactive Spectroscopy Lab/i],
+  ["/lab/reaction-prediction", /Reaction Prediction & Synthesis/i],
   ["/calculators/molecular-weight", /Molecular weight calculator/i],
   ["/calculators/molarity", /Molarity and solution preparation/i],
   ["/calculators/dilution", /Dilution calculator/i],
@@ -24,6 +25,7 @@ const routes = [
 for (const [path, heading] of routes) {
   test(`${path} renders`, async ({ page }) => {
     await page.goto(path);
+
     await expect(page.getByRole("main")).toBeVisible();
     await expect(page.getByText(heading).first()).toBeVisible();
   });
@@ -33,13 +35,19 @@ test("global search opens and navigates to a result", async ({ page }) => {
   await page.goto("/");
 
   const searchButton = page
-    .getByRole("button", { name: /search organic chemistry hub/i })
+    .getByRole("button", {
+      name: /search organic chemistry hub/i,
+    })
     .first();
 
   await expect(searchButton).toBeVisible();
+
   await page.waitForFunction(
-    () => document.documentElement.dataset.searchReady === "true",
+    () =>
+      document.documentElement.dataset.searchReady ===
+      "true",
   );
+
   await searchButton.click();
 
   const search = page.getByRole("combobox", {
@@ -50,22 +58,31 @@ test("global search opens and navigates to a result", async ({ page }) => {
   await search.fill("resonance");
 
   const result = page.getByRole("option", {
-  name: /^Lesson\s+Resonance/i,
-});
+    name: /^Lesson\s+Resonance/i,
+  });
+
   await expect(result).toBeVisible();
   await result.click();
 
-  await expect(page).toHaveURL(/\/learn\/fundamentals\/resonance$/);
-  await expect(page.getByText(/Resonance/i).first()).toBeVisible();
+  await expect(page).toHaveURL(
+    /\/learn\/fundamentals\/resonance$/,
+  );
+
+  await expect(
+    page.getByText(/Resonance/i).first(),
+  ).toBeVisible();
 });
 
-test("Resonance lesson hydrates without semantic HTML errors", async ({ page }) => {
+test("Resonance lesson hydrates without semantic HTML errors", async ({
+  page,
+}) => {
   const hydrationErrors: string[] = [];
 
   page.on("console", (message) => {
     if (message.type() !== "error") return;
 
     const text = message.text();
+
     if (
       text.includes("cannot be a descendant of") ||
       text.includes("cannot contain a nested") ||
@@ -88,11 +105,15 @@ test("Resonance lesson hydrates without semantic HTML errors", async ({ page }) 
   expect(hydrationErrors).toEqual([]);
 });
 
-
-test("lesson exposes canonical and learning-resource structured data", async ({ page }) => {
+test("lesson exposes canonical and learning-resource structured data", async ({
+  page,
+}) => {
   await page.goto("/learn/fundamentals/resonance");
 
-  const canonical = page.locator('link[rel="canonical"]');
+  const canonical = page.locator(
+    'link[rel="canonical"]',
+  );
+
   await expect(canonical).toHaveAttribute(
     "href",
     "https://bijan.se/learn/fundamentals/resonance",
@@ -102,24 +123,48 @@ test("lesson exposes canonical and learning-resource structured data", async ({ 
     .locator('script[type="application/ld+json"]')
     .allTextContents();
 
-  expect(jsonLd.some((value) => value.includes('"LearningResource"'))).toBe(true);
-  expect(jsonLd.some((value) => value.includes('"BreadcrumbList"'))).toBe(true);
+  expect(
+    jsonLd.some((value) =>
+      value.includes('"LearningResource"'),
+    ),
+  ).toBe(true);
+
+  expect(
+    jsonLd.some((value) =>
+      value.includes('"BreadcrumbList"'),
+    ),
+  ).toBe(true);
 });
 
-test("sitemap, robots, and manifest are published", async ({ request }) => {
-  const sitemapResponse = await request.get("/sitemap.xml");
+test("sitemap, robots, and manifest are published", async ({
+  request,
+}) => {
+  const sitemapResponse =
+    await request.get("/sitemap.xml");
+
   expect(sitemapResponse.ok()).toBe(true);
+
   expect(await sitemapResponse.text()).toContain(
     "https://bijan.se/learn/fundamentals/resonance",
   );
 
-  const robotsResponse = await request.get("/robots.txt");
-  expect(robotsResponse.ok()).toBe(true);
-  expect(await robotsResponse.text()).toContain("Sitemap: https://bijan.se/sitemap.xml");
+  const robotsResponse =
+    await request.get("/robots.txt");
 
-  const manifestResponse = await request.get("/manifest.webmanifest");
+  expect(robotsResponse.ok()).toBe(true);
+
+  expect(await robotsResponse.text()).toContain(
+    "Sitemap: https://bijan.se/sitemap.xml",
+  );
+
+  const manifestResponse =
+    await request.get("/manifest.webmanifest");
+
   expect(manifestResponse.ok()).toBe(true);
-  expect(await manifestResponse.text()).toContain("Organic Chemistry Hub");
+
+  expect(await manifestResponse.text()).toContain(
+    "Organic Chemistry Hub",
+  );
 });
 
 test("lesson progress is saved locally", async ({ page }) => {
@@ -128,70 +173,240 @@ test("lesson progress is saved locally", async ({ page }) => {
   const completeButton = page.getByRole("button", {
     name: /mark lesson complete/i,
   });
+
   await expect(completeButton).toBeVisible();
   await completeButton.click();
 
-  await expect(page.getByRole("heading", { name: "Completed" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Completed",
+    }),
+  ).toBeVisible();
+
   const stored = await page.evaluate(() =>
-    window.localStorage.getItem("organic-chemistry-hub:learning-progress:v1"),
+    window.localStorage.getItem(
+      "organic-chemistry-hub:learning-progress:v1",
+    ),
   );
+
   expect(stored).toContain("lesson:resonance");
 });
 
-
-test("study dashboard reflects locally saved lesson progress", async ({ page }) => {
+test("study dashboard reflects locally saved lesson progress", async ({
+  page,
+}) => {
   await page.goto("/learn/fundamentals/resonance");
-  await page.getByRole("button", { name: /mark lesson complete/i }).click();
+
+  await page
+    .getByRole("button", {
+      name: /mark lesson complete/i,
+    })
+    .click();
 
   await page.goto("/study");
-  await expect(page.getByRole("heading", { name: /study dashboard/i })).toBeVisible();
-  await expect(page.getByText("Resonance").first()).toBeVisible();
-  await expect(page.getByText(/1 of 7 lessons completed/i)).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", {
+      name: /study dashboard/i,
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByText("Resonance").first(),
+  ).toBeVisible();
+
+  await expect(
+    page.getByText(/1 of 7 lessons completed/i),
+  ).toBeVisible();
 });
 
-
-test("reaction explorer filters and compares pathways", async ({ page }) => {
+test("reaction explorer filters and compares pathways", async ({
+  page,
+}) => {
   await page.goto("/reactions");
-  await page.getByRole("searchbox").fill("SN2");
-  await expect(page.getByRole("heading", { name: "SN2 substitution" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "SN1 substitution" })).toHaveCount(0);
 
-  await page.getByRole("button", { name: "Reset" }).click();
-  const compareButtons = page.getByRole("button", { name: "Compare" });
+  await page.getByRole("searchbox").fill("SN2");
+
+  await expect(
+    page.getByRole("heading", {
+      name: "SN2 substitution",
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", {
+      name: "SN1 substitution",
+    }),
+  ).toHaveCount(0);
+
+  await page
+    .getByRole("button", {
+      name: "Reset",
+    })
+    .click();
+
+  const compareButtons = page.getByRole("button", {
+    name: "Compare",
+  });
+
   await compareButtons.nth(0).click();
   await compareButtons.nth(1).click();
-  await expect(page.getByRole("heading", { name: /Compare selected reactions/i })).toBeVisible();
-  await expect(page.getByRole("rowheader", { name: "Regioselectivity" })).toBeVisible();
-});
 
+  await expect(
+    page.getByRole("heading", {
+      name: /Compare selected reactions/i,
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("rowheader", {
+      name: "Regioselectivity",
+    }),
+  ).toBeVisible();
+});
 
 test("reference library filters entries", async ({ page }) => {
   await page.goto("/functional-groups");
-  const input = page.getByPlaceholder("Search names, formulas, or reactivity");
+
+  const input = page.getByPlaceholder(
+    "Search names, formulas, or reactivity",
+  );
+
   await input.fill("alkene");
-  await expect(page.getByRole("heading", { name: "Alkene" })).toBeVisible();
-  await page.getByRole("link", { name: /Alkene/i }).click();
-  await expect(page).toHaveURL(/\/functional-groups\/alkene$/);
-});
 
-
-test("quantitative calculator updates a molar-mass result", async ({ page }) => {
-  await page.goto("/calculators/molecular-weight");
-  const formula = page.getByLabel("Molecular formula");
-  await formula.fill("H2O");
   await expect(
-  page.getByText("18.0150 g/mol", {
-    exact: true,
-  }),
-).toBeVisible();
+    page.getByRole("heading", {
+      name: "Alkene",
+    }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("link", {
+      name: /Alkene/i,
+    })
+    .click();
+
+  await expect(page).toHaveURL(
+    /\/functional-groups\/alkene$/,
+  );
 });
 
+test("quantitative calculator updates a molar-mass result", async ({
+  page,
+}) => {
+  await page.goto("/calculators/molecular-weight");
 
-test("spectroscopy lab links structure and proton signals", async ({ page }) => {
+  const formula = page.getByLabel("Molecular formula");
+
+  await formula.fill("H2O");
+
+  await expect(
+    page.getByText("18.0150 g/mol", {
+      exact: true,
+    }),
+  ).toBeVisible();
+});
+
+test("spectroscopy lab links structure and proton signals", async ({
+  page,
+}) => {
   await page.goto("/lab/spectroscopy");
-  await expect(page.getByRole("heading", { name: /Interactive Spectroscopy Lab/i })).toBeVisible();
-  await page.getByRole("button", { name: "CH₃ triplet", exact: true }).click();
-  await expect(page.getByText(/split by the two adjacent CH₂ protons/i)).toBeVisible();
-  await page.getByRole("tab", { name: /^IR\b/ }).click();
-  await expect(page.getByRole("button", { name: "O–H stretch", exact: true })).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", {
+      name: /Interactive Spectroscopy Lab/i,
+    }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("button", {
+      name: "CH₃ triplet",
+      exact: true,
+    })
+    .click();
+
+  await expect(
+    page.getByText(
+      /split by the two adjacent CH₂ protons/i,
+    ),
+  ).toBeVisible();
+
+  await page
+    .getByRole("tab", {
+      name: /^IR\b/,
+    })
+    .click();
+
+  await expect(
+    page.getByRole("button", {
+      name: "O–H stretch",
+      exact: true,
+    }),
+  ).toBeVisible();
+});
+
+test("reaction prediction scores product and mechanism decisions", async ({
+  page,
+}) => {
+  await page.goto("/lab/reaction-prediction");
+
+  await page
+    .getByRole("radio", {
+      name: /^HBr No peroxide/i,
+    })
+    .click();
+
+  await page
+    .getByRole("radio", {
+      name: /2-Bromopropane/i,
+    })
+    .click();
+
+  await page
+    .getByRole("radio", {
+      name: /more stable secondary carbocation/i,
+    })
+    .click();
+
+  await page
+    .getByRole("button", {
+      name: "Check prediction",
+    })
+    .click();
+
+  await expect(
+    page.getByRole("heading", {
+      name: "3/3 decisions correct",
+    }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("tab", {
+      name: "Plan a synthesis",
+    })
+    .click();
+
+  await page
+    .getByLabel("Target problem")
+    .selectOption(
+      "secondary-bromide-to-primary-alcohol",
+    );
+
+  await page
+    .getByRole("button", {
+      name: /Dehydrohalogenation/i,
+    })
+    .click();
+
+  await page
+    .getByRole("button", {
+      name: /Hydroboration–oxidation/i,
+    })
+    .click();
+
+  await expect(
+    page.getByRole("heading", {
+      name: "Efficient route complete",
+    }),
+  ).toBeVisible();
 });

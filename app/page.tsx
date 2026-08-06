@@ -46,6 +46,23 @@ export default function Home() {
       <Hero />
 
       <Section className="pt-8 sm:pt-10">
+        <div className="rounded-3xl border border-violet-200 bg-[linear-gradient(135deg,#f5f3ff_0%,#ecfdf5_100%)] p-6 shadow-sm sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
+          <div>
+            <Badge tone="violet">New: Reaction Prediction &amp; Synthesis</Badge>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+              Predict the major product, then plan how to make it.
+            </h2>
+            <p className="mt-3 max-w-2xl leading-7 text-slate-600">
+              Choose reagents, justify regioselectivity and stereochemistry, and assemble multi-step routes with mechanism-based feedback.
+            </p>
+          </div>
+          <ButtonLink href="/lab/reaction-prediction" className="mt-6 shrink-0 lg:mt-0">
+            Open prediction lab →
+          </ButtonLink>
+        </div>
+      </Section>
+
+      <Section className="pt-0 sm:pt-0">
         <div className="rounded-3xl border border-cyan-200 bg-[linear-gradient(135deg,#ecfeff_0%,#f5f3ff_100%)] p-6 shadow-sm sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
           <div>
             <Badge tone="violet">New: Spectroscopy Engine</Badge>

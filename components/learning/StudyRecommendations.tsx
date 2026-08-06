@@ -61,6 +61,14 @@ export default function StudyRecommendations() {
           <p className="mt-1 text-sm text-slate-600">Use mole ratios to connect balanced equations with reaction amounts.</p>
         </Link>
         <Link
+          href="/lab/reaction-prediction"
+          className="rounded-xl border border-violet-200 bg-violet-50 p-4 transition hover:border-violet-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 sm:col-span-2"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide text-violet-700">Build synthetic reasoning</p>
+          <p className="mt-1 font-semibold text-slate-950">Predict a product and plan a route</p>
+          <p className="mt-1 text-sm text-slate-600">Apply mechanisms, reagents, regioselectivity, and stereochemistry together.</p>
+        </Link>
+        <Link
           href="/lab/spectroscopy"
           className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 transition hover:border-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600 sm:col-span-2"
         >

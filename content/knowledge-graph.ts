@@ -69,6 +69,14 @@ const referenceEntryNodes: KnowledgeNode[] = [
 
 const sharedNodes: KnowledgeNode[] = [
   {
+    id: "lab:reaction-prediction",
+    kind: "lab",
+    title: "Reaction prediction and synthesis lab",
+    description: "Predict products from mechanism and build multi-step synthetic routes.",
+    href: "/lab/reaction-prediction",
+    keywords: ["major product", "synthesis", "regioselectivity", "stereochemistry"],
+  },
+  {
     id: "lab:spectroscopy",
     kind: "lab",
     title: "Interactive spectroscopy lab",
@@ -201,6 +209,10 @@ export const knowledgeRelations: readonly KnowledgeRelation[] = [
   { from: "lesson:formal-charge", to: "calculator:lewis-builder", kind: "practice" },
   { from: "lesson:resonance", to: "lab:curved-arrow-designer", kind: "practice" },
   { from: "lesson:chemical-bonding", to: "lab:spectroscopy", kind: "study-next" },
+  { from: "lesson:resonance", to: "lab:reaction-prediction", kind: "study-next" },
+  { from: "lab:reaction-prediction", to: "reference:reagents", kind: "reference" },
+  { from: "lab:reaction-prediction", to: "reference:named-reactions", kind: "reference" },
+  { from: "lab:reaction-prediction", to: "lab:curved-arrow-designer", kind: "related" },
   { from: "lesson:hybridization", to: "lab:spectroscopy", kind: "practice" },
   { from: "reference:functional-groups", to: "lab:spectroscopy", kind: "practice" },
   { from: "lesson:chemical-bonding", to: "lesson:hybridization", kind: "related" },
