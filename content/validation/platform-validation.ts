@@ -8,6 +8,7 @@ import { reactions, validateReactions } from "@/content/reactions";
 import { reagents, validateReagents } from "@/content/reagents";
 import { spectroscopyDatasets, validateSpectroscopyDatasets } from "@/content/spectroscopy";
 import { validateWorkspaceTools, workspaceTools } from "@/content/workspace";
+import { chemistryRelationships, validateChemistryRelationships } from "@/content/relationships";
 
 export type PlatformValidationReport = { valid: boolean; issues: readonly { domain: string; code: string; message: string }[] };
 export function validateCanonicalPlatform(): PlatformValidationReport {
@@ -20,6 +21,7 @@ export function validateCanonicalPlatform(): PlatformValidationReport {
     ["spectroscopy", validateSpectroscopyDatasets(spectroscopyDatasets)],
     ["lessons", validateLessons(lessons)],
     ["workspace", validateWorkspaceTools(workspaceTools)],
+    ["relationships", validateChemistryRelationships(chemistryRelationships)],
     ["knowledge", validateKnowledgeGraph(knowledgeNodes, knowledgeRelations)],
   ] as const;
   const issues = groups.flatMap(([domain, domainIssues]) => domainIssues.map((issue) => ({ domain, code: issue.code, message: issue.message })));

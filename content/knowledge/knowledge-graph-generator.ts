@@ -7,6 +7,7 @@ import { reagents } from "@/content/reagents";
 import { functionalGroups } from "@/content/references";
 import { spectroscopyDatasets } from "@/content/spectroscopy";
 import type { KnowledgeNode, KnowledgeNodeKind, KnowledgeRelation } from "@/content/knowledge-types";
+import { chemistryRelationships } from "@/content/relationships";
 
 
 function platformNodeId(feature: (typeof platformFeatures)[number]): string {
@@ -47,56 +48,51 @@ export function generateKnowledgeNodes(): readonly KnowledgeNode[] {
   });
 }
 
+function relationshipKind(
+  semantic: import("@/content/relationships").ChemistryRelationshipSemantic,
+): import("@/content/knowledge-types").KnowledgeRelationKind {
+  if (semantic === "requires-prerequisite") return "prerequisite";
+  if (semantic === "prerequisite-of") return "study-next";
+  if (semantic === "study-next") return "study-next";
+  if (semantic === "teaches" || semantic === "taught-by" || semantic === "related-lesson") return "related";
+  if (semantic === "uses-reagent" || semantic === "enables-reaction" || semantic === "uses-substrate") return "uses";
+  if (semantic === "uses-mechanism" || semantic === "mechanism-for" || semantic === "has-spectrum") return "practice";
+  if (semantic === "substrate-for" || semantic === "transforms-functional-group" || semantic === "transformed-by") return "transforms";
+  if (semantic === "spectrum-of" || semantic === "has-functional-group" || semantic === "functional-group-of") return "reference";
+  return "related";
+}
+
 export function generateKnowledgeRelations(): readonly KnowledgeRelation[] {
   const relations: KnowledgeRelation[] = [];
   const add = (relation: KnowledgeRelation) => relations.push(relation);
 
-  for (const lesson of lessons) {
-    for (const id of lesson.prerequisiteLessonIds) add({ from: `lesson:${lesson.id}`, to: `lesson:${id}`, kind: "prerequisite" });
-    for (const id of lesson.moleculeIds) add({ from: `lesson:${lesson.id}`, to: `molecule:${id}`, kind: "related" });
-    for (const id of lesson.reactionIds) add({ from: `lesson:${lesson.id}`, to: `reaction:${id}`, kind: "related" });
-    for (const id of lesson.mechanismIds) add({ from: `lesson:${lesson.id}`, to: `mechanism:${id}`, kind: "practice" });
-    for (const id of lesson.reagentIds) add({ from: `lesson:${lesson.id}`, to: `reagent:${id}`, kind: "uses" });
-    for (const id of lesson.spectroscopyDatasetIds) add({ from: `lesson:${lesson.id}`, to: `spectroscopy:${id}`, kind: "practice" });
-    if (lesson.next) {
-      const next = lessons.find((candidate) => candidate.href === lesson.next?.href);
-      if (next) add({ from: `lesson:${lesson.id}`, to: `lesson:${next.id}`, kind: "study-next" });
+  // Canonical chemistry relationships are generated once by the relationship
+  // engine and then adapted for graph presentation. Only direct facts are
+  // emitted here; inverse discovery remains available through the engine.
+  for (const relationship of chemistryRelationships) {
+    if (relationship.inferred) continue;
+    add({
+      from: relationship.from,
+      to: relationship.to,
+      kind: relationshipKind(relationship.semantic),
+      label: relationship.label,
+    });
+  }
+
+  // Platform-only practice and prerequisite connections do not belong to a
+  // chemistry entity registry, so they remain graph integrations.
+  for (const mechanism of mechanisms) {
+    add({ from: `mechanism:${mechanism.id}`, to: "lab:curved-arrow-designer", kind: "practice" });
+    add({ from: `mechanism:${mechanism.id}`, to: "reference:reagents", kind: "reference" });
+    for (const nodeId of mechanism.prerequisiteNodeIds) {
+      add({ from: `mechanism:${mechanism.id}`, to: nodeId, kind: "prerequisite" });
     }
   }
 
-  for (const mechanism of mechanisms) {
-    add({ from: `mechanism:${mechanism.id}`, to: `reaction:${mechanism.reactionId}`, kind: "related" });
-    add({ from: `mechanism:${mechanism.id}`, to: "lab:curved-arrow-designer", kind: "practice" });
-    add({ from: `mechanism:${mechanism.id}`, to: "reference:reagents", kind: "reference" });
-    for (const nodeId of mechanism.prerequisiteNodeIds) add({ from: `mechanism:${mechanism.id}`, to: nodeId, kind: "prerequisite" });
-  }
-
   for (const reaction of reactions) {
-    add({ from: `reaction:${reaction.id}`, to: `mechanism:${reaction.mechanismId}`, kind: "practice" });
-    for (const id of reaction.reagentIds) add({ from: `reaction:${reaction.id}`, to: `reagent:${id}`, kind: "uses" });
-    for (const id of reaction.relatedReactionIds) add({ from: `reaction:${reaction.id}`, to: `reaction:${id}`, kind: "related" });
-    for (const id of reaction.competingReactionIds) add({ from: `reaction:${reaction.id}`, to: `reaction:${id}`, kind: "related", label: "Competing pathway" });
-    for (const nodeId of reaction.prerequisiteNodeIds) add({ from: `reaction:${reaction.id}`, to: nodeId, kind: "prerequisite" });
-  }
-
-  for (const reagent of reagents) {
-    for (const id of reagent.reactionIds) add({ from: `reagent:${reagent.id}`, to: `reaction:${id}`, kind: "uses" });
-    for (const id of reagent.mechanismIds) add({ from: `reagent:${reagent.id}`, to: `mechanism:${id}`, kind: "practice" });
-    for (const id of reagent.moleculeIds) add({ from: `reagent:${reagent.id}`, to: `molecule:${id}`, kind: "uses", label: "Typical substrate" });
-    for (const id of reagent.lessonIds) add({ from: `reagent:${reagent.id}`, to: `lesson:${id}`, kind: "prerequisite" });
-  }
-
-  for (const molecule of molecules) {
-    for (const relation of molecule.reagentRelations) add({ from: `molecule:${molecule.id}`, to: `reagent:${relation.id}`, kind: "uses", label: "label" in relation && typeof relation.label === "string" ? relation.label : undefined });
-    for (const relation of molecule.reactionRelations) add({ from: `molecule:${molecule.id}`, to: `reaction:${relation.id}`, kind: "transforms", label: "label" in relation && typeof relation.label === "string" ? relation.label : undefined });
-    for (const relation of molecule.lessonRelations) add({ from: `molecule:${molecule.id}`, to: `lesson:${relation.id}`, kind: "prerequisite", label: "label" in relation && typeof relation.label === "string" ? relation.label : undefined });
-    if (molecule.capabilities.spectroscopy) add({ from: `molecule:${molecule.id}`, to: `spectroscopy:${molecule.id}`, kind: "practice" });
-  }
-
-  for (const dataset of spectroscopyDatasets) {
-    add({ from: `spectroscopy:${dataset.id}`, to: `molecule:${dataset.moleculeId}`, kind: "reference", label: "Assigned molecule" });
-    for (const id of dataset.relatedLessonIds) add({ from: `spectroscopy:${dataset.id}`, to: `lesson:${id}`, kind: "prerequisite" });
-    for (const id of dataset.relatedFunctionalGroupIds) add({ from: `spectroscopy:${dataset.id}`, to: `functional-group:${id}`, kind: "related" });
+    for (const nodeId of reaction.prerequisiteNodeIds) {
+      add({ from: `reaction:${reaction.id}`, to: nodeId, kind: "prerequisite" });
+    }
   }
 
   for (const entry of functionalGroups) {

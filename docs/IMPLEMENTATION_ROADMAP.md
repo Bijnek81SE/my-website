@@ -180,3 +180,12 @@ Structured spectroscopy datasets now reference canonical molecules by stable ID 
 - A platform-wide validation pipeline checks all registries and generated knowledge relationships together.
 - JSON, CSV, and JCAMP-DX parsers establish the import boundary for dataset-scale expansion.
 - Search, sitemap, and route smoke coverage derive from canonical platform and content registries.
+
+## Chemistry Relationship Engine
+
+- [x] Generate typed direct relationships from canonical chemistry registries.
+- [x] Infer inverse relationships without requiring reciprocal record edits.
+- [x] Index relationships by entity, direction, semantic role, and target kind.
+- [x] Validate relationship endpoints against canonical entity IDs.
+- [x] Feed the generated knowledge graph from the shared relationship engine.
+- [x] Include relationship validation in the platform-wide quality pipeline.
