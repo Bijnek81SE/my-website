@@ -165,3 +165,7 @@ Completed: shared formula parsing, unit conversion, validation, transparent calc
 - The old reagent reference registry is now a compatibility re-export rather than a second source of truth.
 - Validation detects duplicate IDs/slugs/aliases, broken relationships, and reaction/mechanism mismatches.
 - Adding a reagent automatically creates reference discovery, sitemap inclusion, knowledge nodes, and route smoke coverage when its capabilities enable those integrations.
+
+## Canonical Spectroscopy Registry
+
+Structured spectroscopy datasets now reference canonical molecules by stable ID and derive molecular identity and structure from the molecule registry. Technique assignments, selectors, source metadata, capabilities, and cross-registry validation prepare the platform for dataset-scale expansion and future JCAMP-DX imports.

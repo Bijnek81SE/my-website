@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { calculateMolarMass } from "@/lib/calculators";
 import { getWorkspaceMolecule } from "@/content/workspace";
+import { requireRelationshipPresentation } from "@/content/relationships";
 import type { WorkspaceKnowledgeLink } from "@/content/workspace/workspace-types";
 import { useWorkspace } from "./WorkspaceProvider";
 
@@ -46,6 +47,10 @@ function KnowledgeLinkList({ links }: { links: readonly WorkspaceKnowledgeLink[]
 function KnowledgePanel({ moleculeId }: { moleculeId: string }) {
   const molecule = getWorkspaceMolecule(moleculeId);
   const { knowledge } = molecule;
+  const lessonsPresentation = requireRelationshipPresentation("molecule:recommended-lessons");
+  const reagentsPresentation = requireRelationshipPresentation("molecule:common-reagents");
+  const labsPresentation = requireRelationshipPresentation("molecule:practice-tools");
+  const reactionsPresentation = requireRelationshipPresentation("molecule:common-reactions");
 
   return (
     <section className="mt-8" aria-labelledby="workspace-knowledge-heading">
@@ -53,7 +58,7 @@ function KnowledgePanel({ moleculeId }: { moleculeId: string }) {
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-700">Contextual chemistry</p>
           <h3 id="workspace-knowledge-heading" className="mt-1 text-2xl font-bold text-slate-950">
-            Related learning & references
+            Chemistry around {molecule.name}
           </h3>
         </div>
         <p className="max-w-xl text-sm leading-6 text-slate-600">
@@ -63,7 +68,7 @@ function KnowledgePanel({ moleculeId }: { moleculeId: string }) {
 
       <div className="mt-5 grid gap-4 lg:grid-cols-2 2xl:grid-cols-4">
         <article className="rounded-2xl border border-violet-200 bg-violet-50/60 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-violet-700">Functional group</p>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-violet-700">Structural identity</p>
           <h4 className="mt-2 text-xl font-bold text-violet-950">{knowledge.functionalGroup.label}</h4>
           <p className="mt-2 text-sm leading-6 text-slate-700">{knowledge.functionalGroup.description}</p>
           <Link
@@ -74,17 +79,17 @@ function KnowledgePanel({ moleculeId }: { moleculeId: string }) {
           </Link>
           {knowledge.lessons.length > 0 ? (
             <div className="mt-5 border-t border-violet-200 pt-4">
-              <p className="text-xs font-bold uppercase tracking-wide text-violet-700">Recommended lessons</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-violet-700">{lessonsPresentation.heading}</p>
               <KnowledgeLinkList links={knowledge.lessons} />
             </div>
           ) : null}
         </article>
 
         <article className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">Common reagents</p>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">{reagentsPresentation.heading}</p>
           <h4 className="mt-2 text-xl font-bold text-emerald-950">Chemistry around {molecule.name}</h4>
           <p className="mt-2 text-sm leading-6 text-slate-700">
-            Published reagent references that explain useful transformations or conditions for this molecule.
+            {reagentsPresentation.description}
           </p>
           <KnowledgeLinkList links={knowledge.reagents} />
           <Link
@@ -96,10 +101,10 @@ function KnowledgePanel({ moleculeId }: { moleculeId: string }) {
         </article>
 
         <article className="rounded-2xl border border-blue-200 bg-blue-50/60 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-700">Related labs</p>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-700">{labsPresentation.heading}</p>
           <h4 className="mt-2 text-xl font-bold text-blue-950">Practise interactively</h4>
           <p className="mt-2 text-sm leading-6 text-slate-700">
-            Launch hands-on labs where this structure, functional group, or mechanism is directly relevant.
+            {labsPresentation.description}
           </p>
           <KnowledgeLinkList links={knowledge.labs} />
           <Link
@@ -111,10 +116,10 @@ function KnowledgePanel({ moleculeId }: { moleculeId: string }) {
         </article>
 
         <article className="rounded-2xl border border-amber-200 bg-amber-50/60 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-700">Related reactions</p>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-700">{reactionsPresentation.heading}</p>
           <h4 className="mt-2 text-xl font-bold text-amber-950">Compare pathways</h4>
           <p className="mt-2 text-sm leading-6 text-slate-700">
-            See where this molecule acts as a substrate, product, or strategic intermediate.
+            {reactionsPresentation.description}
           </p>
           <KnowledgeLinkList links={knowledge.reactions} />
           <Link
@@ -160,7 +165,7 @@ export default function WorkspacePanel() {
         <p className="mt-3 max-w-2xl leading-7 text-slate-600">Carry this molecule into the prediction and synthesis engine, or open its closest mechanism context.</p>
         <div className="mt-6 flex flex-wrap gap-3">
           <ToolLink href="/lab/reaction-prediction">Open prediction & synthesis →</ToolLink>
-          {molecule.mechanismHref ? <Link href={molecule.mechanismHref} className="inline-flex rounded-xl border border-violet-300 px-4 py-2.5 text-sm font-semibold text-violet-800 hover:bg-violet-50">Open related mechanism →</Link> : null}
+          {molecule.mechanismHref ? <Link href={molecule.mechanismHref} className="inline-flex rounded-xl border border-violet-300 px-4 py-2.5 text-sm font-semibold text-violet-800 hover:bg-violet-50">Study the reaction mechanism →</Link> : null}
           <Link href="/reactions" className="inline-flex rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">Compare reactions →</Link>
         </div>
       </section>

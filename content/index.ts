@@ -33,3 +33,5 @@ export * from "./workspace";
 
 export * from "./retrosynthesis";
 export * from "./reagents";
+
+export * from "./relationships";

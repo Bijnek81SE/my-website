@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { SpectralAssignment, SpectrumKind } from "@/components/chemistry/spectroscopy";
-import { spectroscopyCompounds } from "@/content/spectroscopy";
+import { getSpectroscopyDatasetsByCapability } from "@/content/spectroscopy";
 import AssignmentChallenge from "./AssignmentChallenge";
 import AssignmentPanel from "./AssignmentPanel";
 import MoleculeSpectrumLink from "./MoleculeSpectrumLink";
@@ -15,12 +15,14 @@ const techniques: readonly { id: SpectrumKind; label: string; description: strin
   { id: "mass", label: "MS", description: "Molecular ions, isotope/fragment sticks, and base peaks." },
 ];
 
+const labDatasets = getSpectroscopyDatasetsByCapability("lab");
+
 export default function SpectroscopyLab() {
-  const [compoundId, setCompoundId] = useState(spectroscopyCompounds[0].id);
+  const [compoundId, setCompoundId] = useState(labDatasets[0].id);
   const [kind, setKind] = useState<SpectrumKind>("proton-nmr");
   const [assignment, setAssignment] = useState<SpectralAssignment>();
   const [atomIds, setAtomIds] = useState<readonly string[]>([]);
-  const compound = spectroscopyCompounds.find((item) => item.id === compoundId) ?? spectroscopyCompounds[0];
+  const compound = labDatasets.find((item) => item.id === compoundId) ?? labDatasets[0];
   const atomLabels = useMemo(() => compound.atoms.filter((atom) => assignment?.atomIds.includes(atom.id)).map((atom) => atom.label ?? atom.element), [assignment, compound]);
 
   function selectAssignment(next: SpectralAssignment) {
@@ -50,7 +52,7 @@ export default function SpectroscopyLab() {
               onChange={(event) => { setCompoundId(event.target.value); setAssignment(undefined); setAtomIds([]); }}
               className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3"
             >
-              {spectroscopyCompounds.map((item) => <option key={item.id} value={item.id}>{item.name} — {item.formula}</option>)}
+              {labDatasets.map((item) => <option key={item.id} value={item.id}>{item.name} — {item.formula}</option>)}
             </select>
           </label>
         </div>

@@ -426,10 +426,8 @@ test("workspace synchronizes molecule and calculation context", async ({ page })
   await expect(activeMolecule).toHaveValue("propene");
 
   await expect(
-    page.getByRole("heading", {
-      name: "Related learning & references",
-    }),
-  ).toBeVisible();
+  page.locator("#workspace-knowledge-heading"),
+).toHaveText("Chemistry around Propene");
 
   await expect(
     page.getByRole("link", {

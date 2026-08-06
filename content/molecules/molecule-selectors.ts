@@ -2,6 +2,7 @@ import { getPlatformFeature } from "@/content/platform";
 import { getReaction } from "@/content/reactions";
 import { getFunctionalGroup } from "@/content/references";
 import { getReagent } from "@/content/reagents/reagent-registry";
+import { selectReagents } from "@/content/reagents/reagent-selectors";
 import { getLessonBySlug } from "@/content/lesson-registry";
 import { getMoleculesByCapability, requireMolecule } from "./molecule-registry";
 import type { MoleculeDefinition, MoleculeRelation } from "./molecule-types";
@@ -67,10 +68,22 @@ export function getMoleculeKnowledge(molecule: MoleculeDefinition): MoleculeKnow
       href: `/functional-groups/${functionalGroup.slug}`,
       description: functionalGroup.summary,
     },
-    reagents: mapRelations(molecule.reagentRelations, (id) => {
-      const reagent = getReagent(id);
-      return reagent ? { label: reagent.name, href: `/reagents/${reagent.slug}` } : undefined;
-    }),
+    reagents: (() => {
+      const explicitRelations = mapRelations(molecule.reagentRelations, (id) => {
+        const reagent = getReagent(id);
+        return reagent ? { label: reagent.name, href: `/reagents/${reagent.slug}` } : undefined;
+      });
+      const explicitIds = new Set(explicitRelations.map((relation) => relation.id));
+      const discoveredRelations = selectReagents({ moleculeId: molecule.id, capability: "workspace" })
+        .filter((reagent) => !explicitIds.has(reagent.id))
+        .map((reagent) => ({
+          id: reagent.id,
+          label: reagent.name,
+          href: `/reagents/${reagent.slug}`,
+          description: reagent.purpose,
+        }));
+      return [...explicitRelations, ...discoveredRelations];
+    })(),
     labs: mapRelations(molecule.labRelations, (id) => {
       const feature = resolveFeature(id);
       return feature ? { label: feature.title, href: feature.href } : undefined;

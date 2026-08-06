@@ -3,11 +3,13 @@ import { bromine } from "./records/bromine";
 import { hbrPeroxide } from "./records/hbr-peroxide";
 import { hydrogenPalladium } from "./records/hydrogen-palladium";
 import { hydroxide } from "./records/hydroxide";
+import { potassiumTertButoxide } from "./records/potassium-tert-butoxide";
 import { sulfuricAcid } from "./records/sulfuric-acid";
 import type { ReagentDefinition } from "./reagent-types";
 
 export const reagents = [
   hydroxide,
+  potassiumTertButoxide,
   sulfuricAcid,
   bromine,
   hydrogenPalladium,

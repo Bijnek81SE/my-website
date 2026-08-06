@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getKnowledgeNode } from "@/content/knowledge-graph";
+import { requireRelationshipPresentation } from "@/content/relationships";
 import { getReactions, type ReactionDefinition } from "@/content/reactions";
 
 type ReactionDetailsProps = { reaction: ReactionDefinition; onClose: () => void };
@@ -8,6 +9,9 @@ export default function ReactionDetails({ reaction, onClose }: ReactionDetailsPr
   const competing = getReactions(reaction.competingReactionIds);
   const related = getReactions(reaction.relatedReactionIds);
   const prerequisites = reaction.prerequisiteNodeIds.map(getKnowledgeNode).filter(Boolean);
+  const prerequisitePresentation = requireRelationshipPresentation("reaction:prerequisites");
+  const competingPresentation = requireRelationshipPresentation("reaction:competing-pathways");
+  const relatedPresentation = requireRelationshipPresentation("reaction:alternative-pathways");
 
   return (
     <div className="fixed inset-0 z-[90] overflow-y-auto bg-slate-950/50 p-4 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
@@ -23,15 +27,15 @@ export default function ReactionDetails({ reaction, onClose }: ReactionDetailsPr
 
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           <Panel title="Reaction setup" items={[`Substrate: ${reaction.substrate}`, `Product: ${reaction.product}`, `Timing: ${reaction.steps}`, `Intermediate: ${reaction.intermediate}`]} />
-          <Panel title="Reagents and conditions" items={[...reaction.reagents, ...reaction.conditions]} />
+          <Panel title="Typical reagents and conditions" items={[...reaction.reagents, ...reaction.conditions]} />
           <Panel title="Selectivity" items={[reaction.selectivity.regioselectivity, reaction.selectivity.stereochemistry, `Rearrangements: ${reaction.selectivity.rearrangements}`]} />
-          <Panel title="Prerequisites" items={prerequisites.map((node) => node?.title ?? "")} />
+          <Panel title={prerequisitePresentation.heading} items={prerequisites.map((node) => node?.title ?? "")} description={prerequisitePresentation.description} />
         </div>
 
         {(competing.length > 0 || related.length > 0) ? (
           <div className="mt-8 grid gap-5 md:grid-cols-2">
-            <ReactionLinks title="Competing pathways" reactions={competing} />
-            <ReactionLinks title="Related reactions" reactions={related} />
+            <ReactionLinks title={competingPresentation.heading} description={competingPresentation.description} reactions={competing} />
+            <ReactionLinks title={relatedPresentation.heading} description={relatedPresentation.description} reactions={related} />
           </div>
         ) : null}
 
@@ -44,10 +48,10 @@ export default function ReactionDetails({ reaction, onClose }: ReactionDetailsPr
   );
 }
 
-function Panel({ title, items }: { title: string; items: readonly string[] }) {
-  return <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5"><h3 className="font-bold text-slate-950">{title}</h3><ul className="mt-3 space-y-2 text-sm leading-6 text-slate-600">{items.filter(Boolean).map((item) => <li key={item}>• {item}</li>)}</ul></section>;
+function Panel({ title, items, description }: { title: string; items: readonly string[]; description?: string }) {
+  return <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5"><h3 className="font-bold text-slate-950">{title}</h3>{description ? <p className="mt-1 text-sm leading-6 text-slate-600">{description}</p> : null}<ul className="mt-3 space-y-2 text-sm leading-6 text-slate-600">{items.filter(Boolean).map((item) => <li key={item}>• {item}</li>)}</ul></section>;
 }
 
-function ReactionLinks({ title, reactions }: { title: string; reactions: readonly ReactionDefinition[] }) {
-  return <section><h3 className="font-bold text-slate-950">{title}</h3><div className="mt-3 flex flex-wrap gap-2">{reactions.map((reaction) => <Link key={reaction.id} href={reaction.mechanismHref} className="rounded-full border border-violet-200 bg-violet-50 px-3 py-1.5 text-sm font-semibold text-violet-800 hover:border-violet-400">{reaction.shortTitle}</Link>)}</div></section>;
+function ReactionLinks({ title, description, reactions }: { title: string; description: string; reactions: readonly ReactionDefinition[] }) {
+  return <section><h3 className="font-bold text-slate-950">{title}</h3><p className="mt-1 text-sm leading-6 text-slate-600">{description}</p><div className="mt-3 flex flex-wrap gap-2">{reactions.map((reaction) => <Link key={reaction.id} href={reaction.mechanismHref} className="rounded-full border border-violet-200 bg-violet-50 px-3 py-1.5 text-sm font-semibold text-violet-800 hover:border-violet-400">{reaction.shortTitle}</Link>)}</div></section>;
 }

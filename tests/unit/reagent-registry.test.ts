@@ -12,6 +12,7 @@ import {
     expect(getReagent("bromine")?.formula).toBe("Br₂");
     expect(findReagentByNameOrAlias("peroxide effect")?.id).toBe("hbr-peroxide");
     expect(findReagentByNameOrAlias("H2/Pd")?.id).toBe("hydrogen-palladium");
+    expect(findReagentByNameOrAlias("KOtBu")?.id).toBe("potassium-tert-butoxide");
   });
 
   it("selects reagents by chemistry relationships and capabilities", () => {
@@ -21,6 +22,7 @@ import {
     );
     expect(getReagentsByCapability("workspace").length).toBeGreaterThan(0);
     expect(getReagentCategories()).toContain("Reducing agent");
+    expect(selectReagents({ reactionId: "e2" }).map((entry) => entry.id)).toContain("potassium-tert-butoxide");
   });
 
   it("supports indexed text search without UI-owned reagent lists", () => {

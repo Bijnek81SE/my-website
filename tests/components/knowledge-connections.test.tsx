@@ -5,8 +5,18 @@ import { RelatedConcepts } from "@/components/knowledge";
 describe("knowledge connections", () => {
   it("renders linked concepts for a mechanism", () => {
     render(<RelatedConcepts nodeId="mechanism:sn2" />);
-    expect(screen.getByRole("heading", { name: "Related concepts" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Curved-arrow designer/i })).toHaveAttribute(
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Apply this mechanism",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("link", {
+        name: /Curved-arrow designer/i,
+      }),
+    ).toHaveAttribute(
       "href",
       "/lab/curved-arrow-designer",
     );

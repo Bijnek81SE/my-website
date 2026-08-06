@@ -1,58 +1,46 @@
 import Link from "next/link";
+import { RelationshipSection } from "@/components/relationships";
 import { getLessonBySlug } from "@/content/lesson-registry";
 import { getMechanism } from "@/content/mechanisms";
 import { getMolecule } from "@/content/molecules";
 import { getReaction } from "@/content/reactions";
 import type { ChemistryReference } from "@/content/references";
+import type { RelationshipItem } from "@/content/relationships";
 
 function ReagentConnections({ entry }: { entry: Extract<ChemistryReference, { kind: "reagent" }> }) {
-  const reactions = entry.reactionIds.flatMap((id) => {
+  const reactions: RelationshipItem[] = entry.reactionIds.flatMap((id) => {
     const reaction = getReaction(id);
-    return reaction ? [{ id, label: reaction.shortTitle, href: "/reactions", description: reaction.description }] : [];
+    return reaction ? [{ id, label: reaction.shortTitle, href: "/reactions", description: reaction.description, badge: reaction.family }] : [];
   });
-  const mechanisms = entry.mechanismIds.flatMap((id) => {
+  const mechanisms: RelationshipItem[] = entry.mechanismIds.flatMap((id) => {
     const mechanism = getMechanism(id);
-    return mechanism ? [{ id, label: mechanism.title, href: mechanism.href, description: mechanism.description }] : [];
+    return mechanism ? [{ id, label: mechanism.title, href: mechanism.href, description: mechanism.description, badge: mechanism.mechanismClass }] : [];
   });
-  const molecules = entry.moleculeIds.flatMap((id) => {
+  const molecules: RelationshipItem[] = entry.moleculeIds.flatMap((id) => {
     const molecule = getMolecule(id);
-    return molecule ? [{ id, label: molecule.name, href: `/workspace?molecule=${molecule.id}`, description: molecule.workspace?.summary ?? molecule.condensedFormula }] : [];
+    return molecule ? [{ id, label: molecule.name, href: `/workspace?molecule=${molecule.id}`, description: molecule.workspace?.summary ?? molecule.condensedFormula, badge: molecule.formula }] : [];
   });
-  const lessons = entry.lessonIds.flatMap((id) => {
+  const lessons: RelationshipItem[] = entry.lessonIds.flatMap((id) => {
     try {
       const lesson = getLessonBySlug(id);
-      return [{ id, label: lesson.title, href: lesson.href, description: lesson.description }];
+      return [{ id, label: lesson.title, href: lesson.href, description: lesson.description, badge: lesson.module }];
     } catch {
       return [];
     }
   });
 
-  const groups = [
-    { title: "Related reactions", items: reactions },
-    { title: "Mechanism labs", items: mechanisms },
-    { title: "Example molecules", items: molecules },
-    { title: "Recommended lessons", items: lessons },
-  ].filter((group) => group.items.length > 0);
-
   return (
-    <section className="mt-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-6">
-      <h2 className="text-xl font-bold">Connected learning</h2>
+    <section className="mt-8" aria-labelledby="reagent-use-heading">
+      <div>
+        <p className="text-sm font-semibold uppercase tracking-[0.14em] text-emerald-700">Chemistry context</p>
+        <h2 id="reagent-use-heading" className="mt-1 text-2xl font-bold text-slate-950">How this reagent is used</h2>
+        <p className="mt-2 max-w-3xl leading-7 text-slate-600">Each connection explains a practical role for {entry.name}, rather than showing a generic database link.</p>
+      </div>
       <div className="mt-5 grid gap-5 md:grid-cols-2">
-        {groups.map((group) => (
-          <div key={group.title}>
-            <h3 className="font-bold text-slate-900">{group.title}</h3>
-            <ul className="mt-3 space-y-2">
-              {group.items.map((item) => (
-                <li key={`${group.title}:${item.id}`}>
-                  <Link href={item.href} className="block rounded-xl border border-emerald-200 bg-white p-3 hover:border-emerald-400">
-                    <span className="font-semibold text-emerald-800">{item.label}</span>
-                    <span className="mt-1 block text-sm leading-6 text-slate-600">{item.description}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <RelationshipSection presentationId="reagent:typical-reactions" items={reactions} />
+        <RelationshipSection presentationId="reagent:mechanism-labs" items={mechanisms} />
+        <RelationshipSection presentationId="reagent:typical-substrates" items={molecules} />
+        <RelationshipSection presentationId="reagent:recommended-lessons" items={lessons} />
       </div>
     </section>
   );
@@ -90,20 +78,17 @@ export default function ReferenceDetails({ entry }: { entry: ChemistryReference 
                   <p className="mt-3 leading-7 text-slate-600">{text}</p>
                 </section>
               ))}
-              <section className="rounded-2xl border border-slate-200 bg-white p-6 md:col-span-2">
-                <h2 className="text-xl font-bold">Common reactions</h2>
-                <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-                  {entry.commonReactions.map((item) => <li key={item} className="rounded-lg bg-slate-50 px-3 py-2">{item}</li>)}
-                </ul>
-              </section>
             </div>
-            <section className="mt-8 rounded-2xl border border-emerald-200 bg-emerald-50 p-6">
-              <h2 className="text-xl font-bold">Connected learning</h2>
-              <div className="mt-4 flex flex-wrap gap-3">
-                {entry.relatedReactions.map((item) => <Link key={item.href} href={item.href} className="rounded-xl bg-emerald-700 px-4 py-2.5 font-semibold text-white">{item.label}</Link>)}
-                {entry.relatedLabs.map((item) => <Link key={item.href} href={item.href} className="rounded-xl border border-emerald-300 bg-white px-4 py-2.5 font-semibold text-emerald-800">{item.label}</Link>)}
-              </div>
-            </section>
+            <div className="mt-8 grid gap-5 md:grid-cols-2">
+              <RelationshipSection
+                presentationId="functional-group:common-reactions"
+                items={entry.commonReactions.map((label) => ({ id: label, label, description: `A characteristic transformation associated with the ${entry.name.toLowerCase()} functional group.` }))}
+              />
+              <RelationshipSection
+                presentationId="functional-group:practice-tools"
+                items={entry.relatedLabs.map((item) => ({ id: item.href, label: item.label, href: item.href, description: `Practise recognising or applying ${entry.name.toLowerCase()} chemistry interactively.` }))}
+              />
+            </div>
           </>
         ) : (
           <>
@@ -123,7 +108,7 @@ export default function ReferenceDetails({ entry }: { entry: ChemistryReference 
                 <ul className="mt-3 list-disc space-y-2 pl-5">{entry.limitations.map((item) => <li key={item}>{item}</li>)}</ul>
               </section>
               <section className="rounded-2xl border border-slate-200 bg-white p-6">
-                <h2 className="text-xl font-bold">Alternatives</h2>
+                <h2 className="text-xl font-bold">Alternative names and reagents</h2>
                 <ul className="mt-3 list-disc space-y-2 pl-5">{entry.alternativeNames.map((item) => <li key={item}>{item}</li>)}</ul>
               </section>
             </div>
