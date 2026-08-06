@@ -1,11 +1,12 @@
 import { lessons } from "@/content/lesson-registry";
 import { platformFeatures } from "@/content/platform";
 import { functionalGroups, reagents } from "@/content/references";
+import { mechanisms } from "@/content/mechanisms/mechanism-registry";
 import type { ReactionDefinition } from "./reaction-types";
 
 export type ReactionValidationIssueCode =
   | "duplicate-id" | "duplicate-alias" | "duplicate-route" | "missing-feature"
-  | "route-mismatch" | "missing-functional-group" | "missing-reagent"
+  | "route-mismatch" | "missing-mechanism" | "mechanism-mismatch" | "missing-functional-group" | "missing-reagent"
   | "missing-related-reaction" | "missing-prerequisite" | "self-reference";
 
 export type ReactionValidationIssue = { code: ReactionValidationIssueCode; reactionId: string; message: string };
@@ -20,6 +21,7 @@ export function validateReactions(values: readonly ReactionDefinition[]): readon
   const functionalGroupIds = new Set(functionalGroups.map((entry) => entry.slug));
   const reagentIds = new Set(reagents.map((entry) => entry.slug));
   const lessonNodeIds = new Set(lessons.map((lesson) => `lesson:${lesson.slug}`));
+  const mechanismMap = new Map(mechanisms.map((mechanism) => [mechanism.id, mechanism]));
 
   for (const reaction of values) {
     if (ids.has(reaction.id)) issues.push({ code: "duplicate-id", reactionId: reaction.id, message: `Duplicate reaction id: ${reaction.id}` });
@@ -30,6 +32,9 @@ export function validateReactions(values: readonly ReactionDefinition[]): readon
       if (owner && owner !== reaction.id) issues.push({ code: "duplicate-alias", reactionId: reaction.id, message: `Alias ${alias} is already used by ${owner}.` });
       else aliases.set(key, reaction.id);
     }
+    const mechanism = mechanismMap.get(reaction.mechanismId);
+    if (!mechanism) issues.push({ code: "missing-mechanism", reactionId: reaction.id, message: `Unknown mechanism ${reaction.mechanismId}.` });
+    else if (mechanism.reactionId !== reaction.id || mechanism.href !== reaction.mechanismHref) issues.push({ code: "mechanism-mismatch", reactionId: reaction.id, message: `Mechanism ${mechanism.id} does not point back to reaction ${reaction.id} and route ${reaction.mechanismHref}.` });
     const feature = features.get(reaction.featureId);
     if (!feature) issues.push({ code: "missing-feature", reactionId: reaction.id, message: `Unknown platform feature ${reaction.featureId}.` });
     else if (feature.href !== reaction.mechanismHref) issues.push({ code: "route-mismatch", reactionId: reaction.id, message: `Feature ${reaction.featureId} points to ${feature.href}, not ${reaction.mechanismHref}.` });

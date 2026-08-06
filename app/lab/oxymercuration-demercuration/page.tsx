@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { OxymercurationDemercurationMechanismPlayer } from "@/components/chemistry/mechanism";
-import { MechanismLabShell } from "@/components/lab";
+import { MechanismLabPage } from "@/components/chemistry/mechanism";
+import { requireMechanism } from "@/content/mechanisms";
 import { createPageMetadata } from "@/lib/seo";
 
+const mechanism = requireMechanism("oxymercuration-demercuration");
+
 export const metadata: Metadata = createPageMetadata({
-  title: 'Oxymercuration–Demercuration Mechanism',
-  description: 'Explore Markovnikov hydration of an alkene through a bridged mercurinium ion and reductive demercuration.',
-  path: '/lab/oxymercuration-demercuration',
+  title: mechanism.title,
+  description: mechanism.description,
+  path: mechanism.href,
 });
 
-export default function OxymercurationDemercurationPage() {
-  return (
-    <MechanismLabShell title="Oxymercuration–demercuration" accent="violet">
-      <OxymercurationDemercurationMechanismPlayer />
-    </MechanismLabShell>
-  );
+export default function Page() {
+  return <MechanismLabPage mechanismId="oxymercuration-demercuration" />;
 }

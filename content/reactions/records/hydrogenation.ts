@@ -12,6 +12,7 @@ export const hydrogenation = defineReaction({
     shortTitle: "Hydrogenation",
     description: "Reduction of an alkene on a metal surface using molecular hydrogen.",
     family: "Reduction",
+    mechanismId: "hydrogenation",
     mechanismClass: "Surface catalysis",
     substrate: "Alkene",
     product: "Alkane",

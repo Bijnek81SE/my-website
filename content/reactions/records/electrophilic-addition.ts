@@ -12,6 +12,7 @@ export const electrophilic_addition = defineReaction({
     shortTitle: "Electrophilic addition",
     description: "A general alkene reaction pattern in which the pi bond attacks an electrophile.",
     family: "Alkene addition",
+    mechanismId: "electrophilic-addition",
     mechanismClass: "Carbocation",
     substrate: "Alkene",
     product: "Two new sigma bonds",

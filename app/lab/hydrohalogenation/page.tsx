@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { HydrohalogenationMechanismPlayer } from "@/components/chemistry/mechanism";
-import { MechanismLabShell } from "@/components/lab";
+import { MechanismLabPage } from "@/components/chemistry/mechanism";
+import { requireMechanism } from "@/content/mechanisms";
 import { createPageMetadata } from "@/lib/seo";
 
+const mechanism = requireMechanism("hydrohalogenation");
+
 export const metadata: Metadata = createPageMetadata({
-  title: 'Hydrohalogenation Mechanism',
-  description: 'Explore Markovnikov addition of HCl to an alkene with an interactive mechanism player, practice questions, and exam mode.',
-  path: '/lab/hydrohalogenation',
+  title: mechanism.title,
+  description: mechanism.description,
+  path: mechanism.href,
 });
 
-export default function HydrohalogenationPage() {
-  return (
-    <MechanismLabShell title="Hydrohalogenation" accent="cyan">
-      <HydrohalogenationMechanismPlayer />
-    </MechanismLabShell>
-  );
+export default function Page() {
+  return <MechanismLabPage mechanismId="hydrohalogenation" />;
 }

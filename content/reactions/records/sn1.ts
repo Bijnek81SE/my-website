@@ -12,6 +12,7 @@ export const sn1 = defineReaction({
     shortTitle: "SN1",
     description: "A stepwise substitution that forms a carbocation before nucleophile capture.",
     family: "Substitution",
+    mechanismId: "sn1",
     mechanismClass: "Carbocation",
     substrate: "Tertiary or resonance-stabilised alkyl halide",
     product: "Substitution product",

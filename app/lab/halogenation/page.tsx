@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { HalogenationMechanismPlayer } from "@/components/chemistry/mechanism";
-import { MechanismLabShell } from "@/components/lab";
+import { MechanismLabPage } from "@/components/chemistry/mechanism";
+import { requireMechanism } from "@/content/mechanisms";
 import { createPageMetadata } from "@/lib/seo";
 
+const mechanism = requireMechanism("halogenation");
+
 export const metadata: Metadata = createPageMetadata({
-  title: 'Halogenation of Alkenes',
-  description: 'Explore bromonium-ion formation and anti addition of bromine to cyclohexene with an interactive mechanism player.',
-  path: '/lab/halogenation',
+  title: mechanism.title,
+  description: mechanism.description,
+  path: mechanism.href,
 });
 
-export default function HalogenationPage() {
-  return (
-    <MechanismLabShell title="Halogenation" accent="violet">
-      <HalogenationMechanismPlayer />
-    </MechanismLabShell>
-  );
+export default function Page() {
+  return <MechanismLabPage mechanismId="halogenation" />;
 }

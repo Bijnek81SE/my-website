@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { RadicalHBrMechanismPlayer } from "@/components/chemistry/mechanism";
-import { MechanismLabShell } from "@/components/lab";
+import { MechanismLabPage } from "@/components/chemistry/mechanism";
+import { requireMechanism } from "@/content/mechanisms";
 import { createPageMetadata } from "@/lib/seo";
 
+const mechanism = requireMechanism("radical-hbr");
+
 export const metadata: Metadata = createPageMetadata({
-  title: 'Radical HBr Addition Mechanism',
-  description: 'Explore anti-Markovnikov addition of HBr to an alkene through a peroxide-initiated radical chain mechanism.',
-  path: '/lab/radical-hbr-addition',
+  title: mechanism.title,
+  description: mechanism.description,
+  path: mechanism.href,
 });
 
-export default function RadicalHBrAdditionPage() {
-  return (
-    <MechanismLabShell title="Radical HBr addition" accent="rose">
-      <RadicalHBrMechanismPlayer />
-    </MechanismLabShell>
-  );
+export default function Page() {
+  return <MechanismLabPage mechanismId="radical-hbr" />;
 }

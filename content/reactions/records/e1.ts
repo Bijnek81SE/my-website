@@ -12,6 +12,7 @@ export const e1 = defineReaction({
     shortTitle: "E1",
     description: "A stepwise elimination that forms a carbocation before loss of a beta proton.",
     family: "Elimination",
+    mechanismId: "e1",
     mechanismClass: "Carbocation",
     substrate: "Tertiary or resonance-stabilised alkyl halide",
     product: "Alkene",

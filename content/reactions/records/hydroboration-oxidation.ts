@@ -12,6 +12,7 @@ export const hydroboration_oxidation = defineReaction({
     shortTitle: "Hydroboration",
     description: "Two-step conversion of an alkene to an anti-Markovnikov alcohol.",
     family: "Alkene addition",
+    mechanismId: "hydroboration-oxidation",
     mechanismClass: "Organoborane",
     substrate: "Alkene",
     product: "Alcohol",

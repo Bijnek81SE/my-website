@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { HydroborationOxidationMechanismPlayer } from "@/components/chemistry/mechanism";
-import { MechanismLabShell } from "@/components/lab";
+import { MechanismLabPage } from "@/components/chemistry/mechanism";
+import { requireMechanism } from "@/content/mechanisms";
 import { createPageMetadata } from "@/lib/seo";
 
+const mechanism = requireMechanism("hydroboration-oxidation");
+
 export const metadata: Metadata = createPageMetadata({
-  title: 'Hydroboration–Oxidation Mechanism',
-  description: 'Explore anti-Markovnikov, syn hydration of an alkene through hydroboration and oxidation.',
-  path: '/lab/hydroboration-oxidation',
+  title: mechanism.title,
+  description: mechanism.description,
+  path: mechanism.href,
 });
 
-export default function HydroborationOxidationPage() {
-  return (
-    <MechanismLabShell title="Hydroboration–oxidation" accent="cyan">
-      <HydroborationOxidationMechanismPlayer />
-    </MechanismLabShell>
-  );
+export default function Page() {
+  return <MechanismLabPage mechanismId="hydroboration-oxidation" />;
 }

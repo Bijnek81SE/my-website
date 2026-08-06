@@ -12,6 +12,7 @@ export const e2 = defineReaction({
     shortTitle: "E2",
     description: "A concerted elimination in which a strong base removes a beta proton as the leaving group departs.",
     family: "Elimination",
+    mechanismId: "e2",
     mechanismClass: "Concerted",
     substrate: "Alkyl halide with an accessible beta hydrogen",
     product: "Alkene",

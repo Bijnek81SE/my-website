@@ -12,6 +12,7 @@ export const oxymercuration_demercuration = defineReaction({
     shortTitle: "Oxymercuration",
     description: "Markovnikov hydration through a bridged organomercury intermediate without rearrangement.",
     family: "Alkene addition",
+    mechanismId: "oxymercuration-demercuration",
     mechanismClass: "Organomercury",
     substrate: "Alkene",
     product: "Alcohol",

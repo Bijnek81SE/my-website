@@ -35,6 +35,7 @@ export type ReactionDefinition = {
   description: string;
   family: ReactionFamily;
   mechanismClass: ReactionMechanismClass;
+  mechanismId: string;
   featureId: string;
   substrate: string;
   product: string;

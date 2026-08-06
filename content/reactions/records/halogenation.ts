@@ -12,6 +12,7 @@ export const halogenation = defineReaction({
     shortTitle: "Halogenation",
     description: "Addition of Br₂ or Cl₂ through a bridged halonium-ion intermediate.",
     family: "Alkene addition",
+    mechanismId: "halogenation",
     mechanismClass: "Halonium ion",
     substrate: "Alkene",
     product: "Vicinal dihalide",

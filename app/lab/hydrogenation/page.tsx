@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { HydrogenationMechanismPlayer } from "@/components/chemistry/mechanism";
-import { MechanismLabShell } from "@/components/lab";
+import { MechanismLabPage } from "@/components/chemistry/mechanism";
+import { requireMechanism } from "@/content/mechanisms";
 import { createPageMetadata } from "@/lib/seo";
 
+const mechanism = requireMechanism("hydrogenation");
+
 export const metadata: Metadata = createPageMetadata({
-  title: 'Catalytic Hydrogenation of Alkenes',
-  description: 'Explore syn addition of hydrogen to cyclohexene on a metal catalyst with an interactive mechanism player.',
-  path: '/lab/hydrogenation',
+  title: mechanism.title,
+  description: mechanism.description,
+  path: mechanism.href,
 });
 
-export default function HydrogenationPage() {
-  return (
-    <MechanismLabShell title="Catalytic hydrogenation" accent="emerald">
-      <HydrogenationMechanismPlayer />
-    </MechanismLabShell>
-  );
+export default function Page() {
+  return <MechanismLabPage mechanismId="hydrogenation" />;
 }

@@ -12,6 +12,7 @@ export const hydrohalogenation = defineReaction({
     shortTitle: "HX addition",
     description: "Addition of HX across an alkene through protonation and halide attack.",
     family: "Alkene addition",
+    mechanismId: "hydrohalogenation",
     mechanismClass: "Carbocation",
     substrate: "Alkene",
     product: "Alkyl halide",

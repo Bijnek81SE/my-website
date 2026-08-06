@@ -12,6 +12,7 @@ export const hydration = defineReaction({
     shortTitle: "Hydration",
     description: "Addition of water across an alkene through a carbocation intermediate.",
     family: "Alkene addition",
+    mechanismId: "hydration",
     mechanismClass: "Carbocation",
     substrate: "Alkene",
     product: "Alcohol",

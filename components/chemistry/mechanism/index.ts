@@ -115,4 +115,5 @@ export type {
   MechanismStepIssueCode,
   MechanismStepKind,
   MechanismStepValidationResult,
-} from "./MechanismStep";
+} from "./MechanismStep";export { default as MechanismLabPage } from "./MechanismLabPage";
+export { MechanismPlayerRenderer, hasMechanismPlayer } from "./MechanismPlayerRegistry";

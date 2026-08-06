@@ -12,6 +12,7 @@ export const sn2 = defineReaction({
     shortTitle: "SN2",
     description: "A one-step backside attack in which bond formation and leaving-group departure occur together.",
     family: "Substitution",
+    mechanismId: "sn2",
     mechanismClass: "Concerted",
     substrate: "Methyl or primary alkyl halide",
     product: "Substitution product",

@@ -12,6 +12,7 @@ export const radical_hbr = defineReaction({
     shortTitle: "Radical HBr",
     description: "Peroxide-initiated chain addition of HBr that gives anti-Markovnikov regiochemistry.",
     family: "Alkene addition",
+    mechanismId: "radical-hbr",
     mechanismClass: "Radical",
     substrate: "Alkene",
     product: "Alkyl bromide",
