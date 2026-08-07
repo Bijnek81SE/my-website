@@ -117,3 +117,4 @@ export type {
   MechanismStepValidationResult,
 } from "./MechanismStep";export { default as MechanismLabPage } from "./MechanismLabPage";
 export { MechanismPlayerRenderer, hasMechanismPlayer } from "./MechanismPlayerRegistry";
+export { default as AlkeneOxidationReactionCanvas } from "./AlkeneOxidationReactionCanvas";

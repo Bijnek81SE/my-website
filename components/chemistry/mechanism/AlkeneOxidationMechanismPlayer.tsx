@@ -1,6 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import AlkeneOxidationReactionCanvas, {
+  type AlkeneOxidationMechanismId,
+} from "./AlkeneOxidationReactionCanvas";
 
 type MechanismStep = {
   title: string;
@@ -156,8 +159,6 @@ const profiles = {
   },
 } as const satisfies Readonly<Record<string, MechanismProfile>>;
 
-export type AlkeneOxidationMechanismId = keyof typeof profiles;
-
 export default function AlkeneOxidationMechanismPlayer({
   mechanismId,
 }: {
@@ -209,6 +210,12 @@ export default function AlkeneOxidationMechanismPlayer({
             ))}
           </div>
         </div>
+
+        <AlkeneOxidationReactionCanvas
+          mechanismId={mechanismId}
+          stepIndex={activeStep}
+          stepTitle={step.title}
+        />
 
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
           <article className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
