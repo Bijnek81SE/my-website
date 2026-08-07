@@ -10,6 +10,9 @@ export type {
   WorkspaceKnowledgeLink,
   WorkspaceKnowledgePanel,
   WorkspaceMolecule,
+  WorkspaceProject,
+  WorkspaceProjectCollection,
+  WorkspaceProjectExport,
   WorkspaceSnapshot,
   WorkspaceTab,
 } from "./workspace-types";

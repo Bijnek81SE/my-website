@@ -189,3 +189,13 @@ Structured spectroscopy datasets now reference canonical molecules by stable ID 
 - [x] Validate relationship endpoints against canonical entity IDs.
 - [x] Feed the generated knowledge graph from the shared relationship engine.
 - [x] Include relationship validation in the platform-wide quality pipeline.
+
+## Workspace Project System
+
+- [x] Upgrade the single Workspace snapshot to a versioned multi-project collection.
+- [x] Keep molecule, active tool, calculations, and notes isolated per project.
+- [x] Add project creation, selection, renaming, and safe deletion.
+- [x] Add project-scoped bounded undo and redo history.
+- [x] Migrate browser-local version-one Workspace documents automatically.
+- [x] Add normalized JSON project import and export.
+- [x] Add unit, component, and E2E regression coverage.

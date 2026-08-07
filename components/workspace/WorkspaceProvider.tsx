@@ -1,13 +1,32 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react";
-import type { WorkspaceTab } from "@/content/workspace";
 import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
+import type { WorkspaceProject, WorkspaceTab } from "@/content/workspace";
+import {
+  canRedoWorkspace,
   canUndoWorkspace,
-  getWorkspaceServerSnapshot,
+  createWorkspaceProject,
+  deleteWorkspaceProject,
+  exportWorkspaceProject,
+  getActiveWorkspaceProject,
+  getWorkspaceProjects,
+  getWorkspaceRevision,
+  getWorkspaceServerRevision,
   getWorkspaceSnapshot,
   hydrateWorkspace,
+  importWorkspaceProject,
+  redoWorkspace,
+  renameWorkspaceProject,
   resetWorkspace,
+  selectWorkspaceProject,
   subscribeToWorkspace,
   undoWorkspace,
   updateWorkspace,
@@ -15,49 +34,98 @@ import {
 
 type WorkspaceContextValue = {
   snapshot: ReturnType<typeof getWorkspaceSnapshot>;
+  projects: readonly WorkspaceProject[];
+  activeProject: WorkspaceProject;
   canUndo: boolean;
+  canRedo: boolean;
   setMolecule: (moleculeId: string) => void;
   setActiveTab: (tab: WorkspaceTab) => void;
   setAmountMmol: (amount: number) => void;
   setNotes: (notes: string) => void;
+  createProject: (name?: string) => void;
+  selectProject: (projectId: string) => void;
+  renameProject: (projectId: string, name: string) => void;
+  deleteProject: (projectId: string) => void;
+  exportProject: () => string;
+  importProject: (value: string) => void;
   reset: () => void;
   undo: () => void;
+  redo: () => void;
 };
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
 
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
-  const snapshot = useSyncExternalStore(
+  useSyncExternalStore(
     subscribeToWorkspace,
-    getWorkspaceSnapshot,
-    getWorkspaceServerSnapshot,
+    getWorkspaceRevision,
+    getWorkspaceServerRevision,
   );
 
   useEffect(() => {
     hydrateWorkspace();
   }, []);
 
-  const setMolecule = useCallback((moleculeId: string) => updateWorkspace({ moleculeId, activeTab: "overview" }), []);
-  const setActiveTab = useCallback((activeTab: WorkspaceTab) => updateWorkspace({ activeTab }), []);
-  const setAmountMmol = useCallback((amountMmol: number) => updateWorkspace({ amountMmol }), []);
-  const setNotes = useCallback((notes: string) => updateWorkspace({ notes }), []);
+  const snapshot = getWorkspaceSnapshot();
+  const projects = getWorkspaceProjects();
+  const activeProject = getActiveWorkspaceProject();
 
-  const value = useMemo<WorkspaceContextValue>(() => ({
-    snapshot,
-    canUndo: canUndoWorkspace(),
-    setMolecule,
-    setActiveTab,
-    setAmountMmol,
-    setNotes,
-    reset: resetWorkspace,
-    undo: undoWorkspace,
-  }), [setActiveTab, setAmountMmol, setMolecule, setNotes, snapshot]);
+  const setMolecule = useCallback(
+    (moleculeId: string) => updateWorkspace({ moleculeId, activeTab: "overview" }),
+    [],
+  );
+  const setActiveTab = useCallback(
+    (activeTab: WorkspaceTab) => updateWorkspace({ activeTab }),
+    [],
+  );
+  const setAmountMmol = useCallback(
+    (amountMmol: number) => updateWorkspace({ amountMmol }),
+    [],
+  );
+  const setNotes = useCallback(
+    (notes: string) => updateWorkspace({ notes }),
+    [],
+  );
 
-  return <WorkspaceContext.Provider value={value}>{children}</WorkspaceContext.Provider>;
+  const value = useMemo<WorkspaceContextValue>(
+    () => ({
+      snapshot,
+      projects,
+      activeProject,
+      canUndo: canUndoWorkspace(),
+      canRedo: canRedoWorkspace(),
+      setMolecule,
+      setActiveTab,
+      setAmountMmol,
+      setNotes,
+      createProject: (name) => {
+        createWorkspaceProject(name);
+      },
+      selectProject: selectWorkspaceProject,
+      renameProject: renameWorkspaceProject,
+      deleteProject: deleteWorkspaceProject,
+      exportProject: exportWorkspaceProject,
+      importProject: (value) => {
+        importWorkspaceProject(value);
+      },
+      reset: resetWorkspace,
+      undo: undoWorkspace,
+      redo: redoWorkspace,
+    }),
+    [activeProject, projects, setActiveTab, setAmountMmol, setMolecule, setNotes, snapshot],
+  );
+
+  return (
+    <WorkspaceContext.Provider value={value}>
+      {children}
+    </WorkspaceContext.Provider>
+  );
 }
 
 export function useWorkspace(): WorkspaceContextValue {
   const context = useContext(WorkspaceContext);
-  if (!context) throw new Error("useWorkspace must be used within WorkspaceProvider.");
+  if (!context) {
+    throw new Error("useWorkspace must be used within WorkspaceProvider.");
+  }
   return context;
 }

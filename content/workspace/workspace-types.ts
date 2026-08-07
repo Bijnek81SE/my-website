@@ -38,3 +38,24 @@ export type WorkspaceSnapshot = {
 export type WorkspaceDocument = WorkspaceSnapshot & {
   version: 1;
 };
+
+export type WorkspaceProject = {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  snapshot: WorkspaceSnapshot;
+};
+
+export type WorkspaceProjectCollection = {
+  version: 2;
+  activeProjectId: string;
+  projects: readonly WorkspaceProject[];
+};
+
+export type WorkspaceProjectExport = {
+  format: "organic-chemistry-hub-workspace";
+  version: 1;
+  exportedAt: string;
+  project: WorkspaceProject;
+};
