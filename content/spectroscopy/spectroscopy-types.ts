@@ -15,6 +15,15 @@ export type SpectrumPoint = {
   y: number;
 };
 
+export type RawSpectrumTrace = {
+  id: string;
+  kind: SpectrumKind;
+  axis: SpectrumAxis;
+  points: readonly SpectrumPoint[];
+  sourceLabel?: string;
+  metadata?: Readonly<Record<string, string>>;
+};
+
 export type SpectralAssignment = {
   id: string;
   label: string;
@@ -54,7 +63,7 @@ export type MassSignal = SpectralAssignment & {
 export type SpectroscopySource = {
   kind: "simulated" | "experimental" | "imported";
   citation?: string;
-  importedFormat?: "jcamp-dx" | "json" | "csv";
+  importedFormat?: "jcamp-dx" | "json" | "yaml" | "csv";
 };
 
 export type SpectroscopyCapabilities = {
@@ -73,6 +82,7 @@ export type SpectroscopyDatasetInput = {
   carbonNmr: readonly CarbonSignal[];
   ir: readonly IrBand[];
   mass: readonly MassSignal[];
+  rawSpectra?: readonly RawSpectrumTrace[];
   relatedLessonIds?: readonly string[];
   relatedFunctionalGroupIds?: readonly string[];
   source?: SpectroscopySource;
@@ -86,6 +96,7 @@ export type SpectroscopyDataset = SpectroscopyDatasetInput & {
   bonds: readonly MoleculeBond[];
   relatedLessonIds: readonly string[];
   relatedFunctionalGroupIds: readonly string[];
+  rawSpectra: readonly RawSpectrumTrace[];
   source: SpectroscopySource;
   capabilities: SpectroscopyCapabilities;
 };

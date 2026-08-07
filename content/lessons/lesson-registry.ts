@@ -5,7 +5,8 @@ import hybridization from "./records/hybridization";
 import lewisStructures from "./records/lewis-structures";
 import resonance from "./records/resonance";
 import whatIsOrganicChemistry from "./records/what-is-organic-chemistry";
-import type { LessonDefinition, LessonDefinitionInput, LessonLink, LessonModule } from "./lesson-types";
+import { materializeLessons } from "./lesson-materializer";
+import type { LessonDefinition, LessonDefinitionInput, LessonModule } from "./lesson-types";
 
 const lessonInputs: readonly LessonDefinitionInput[] = [
   whatIsOrganicChemistry,
@@ -17,17 +18,7 @@ const lessonInputs: readonly LessonDefinitionInput[] = [
   resonance,
 ].sort((a, b) => a.order - b.order);
 
-function linkFor(lesson: LessonDefinitionInput): LessonLink {
-  return { title: lesson.title, href: `/learn/${lesson.moduleId}/${lesson.slug}` };
-}
-
-export const lessons: readonly LessonDefinition[] = lessonInputs.map((lesson, index) => ({
-  ...lesson,
-  readingTime: `${lesson.estimatedMinutes} min`,
-  href: `/learn/${lesson.moduleId}/${lesson.slug}`,
-  previous: index === 0 ? { title: "Curriculum", href: "/learn" } : linkFor(lessonInputs[index - 1]),
-  next: index < lessonInputs.length - 1 ? linkFor(lessonInputs[index + 1]) : undefined,
-}));
+export const lessons: readonly LessonDefinition[] = materializeLessons(lessonInputs);
 
 const byId = new Map(lessons.map((lesson) => [lesson.id, lesson]));
 const bySlug = new Map(lessons.map((lesson) => [lesson.slug, lesson]));

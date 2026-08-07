@@ -1,4 +1,4 @@
-import { requireMolecule } from "@/content/molecules";
+import { materializeSpectroscopyDataset } from "./spectroscopy-materializer";
 import {
   defineSpectroscopyDataset,
   type SpectroscopyDataset,
@@ -529,38 +529,8 @@ const spectroscopyDatasetInputs: readonly SpectroscopyDatasetInput[] = [
   }),
 ];
 
-const defaultCapabilities = {
-  lab: true,
-  workspace: true,
-  assignments: true,
-  challenges: true,
-  importReady: true,
-} as const;
-
 export const spectroscopyDatasets: readonly SpectroscopyDataset[] =
-  spectroscopyDatasetInputs.map((input) => {
-    const molecule = requireMolecule(input.moleculeId);
-
-    return {
-      ...input,
-      name: molecule.name,
-      formula: molecule.displayFormula,
-      atoms: molecule.structure.atoms,
-      bonds: molecule.structure.bonds,
-      relatedLessonIds:
-        input.relatedLessonIds ??
-        molecule.lessonRelations.map((relation) => relation.id),
-      relatedFunctionalGroupIds:
-        input.relatedFunctionalGroupIds ?? molecule.functionalGroupIds,
-      source: input.source ?? {
-        kind: "simulated",
-      },
-      capabilities: {
-        ...defaultCapabilities,
-        ...input.capabilities,
-      },
-    };
-  });
+  spectroscopyDatasetInputs.map(materializeSpectroscopyDataset);
 
 export const spectroscopyCompounds = spectroscopyDatasets;
 

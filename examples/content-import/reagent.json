@@ -1,0 +1,27 @@
+{
+  "id": "sodium-ethoxide",
+  "slug": "sodium-ethoxide",
+  "name": "Sodium ethoxide",
+  "aliases": ["NaOEt"],
+  "formula": "C2H5ONa",
+  "category": "Base",
+  "summary": "A strong alkoxide base and nucleophile.",
+  "purpose": "Promotes elimination and nucleophilic substitution depending on substrate and conditions.",
+  "selectivity": "Secondary substrates under heated basic conditions commonly favor E2.",
+  "conditions": ["Ethanol or another compatible solvent", "Heat when elimination is desired"],
+  "limitations": ["Competes with substitution on less hindered substrates"],
+  "safety": "Corrosive and moisture sensitive; handle using appropriate laboratory controls.",
+  "alternativeNames": ["sodium ethanolate"],
+  "reactionIds": ["e2"],
+  "mechanismIds": ["e2"],
+  "moleculeIds": ["2-bromopropane"],
+  "lessonIds": ["hybridization"],
+  "keywords": ["alkoxide", "base", "E2"],
+  "capabilities": {
+    "reference": true,
+    "workspace": true,
+    "reactionExplorer": true,
+    "prediction": true,
+    "retrosynthesis": true
+  }
+}

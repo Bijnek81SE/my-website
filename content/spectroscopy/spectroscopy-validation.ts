@@ -9,7 +9,10 @@ export type SpectroscopyValidationIssueCode =
   | "duplicate-assignment-id"
   | "unknown-assigned-atom"
   | "invalid-proton-integration"
-  | "invalid-mass-intensity";
+  | "invalid-mass-intensity"
+  | "duplicate-raw-spectrum-id"
+  | "empty-raw-spectrum"
+  | "invalid-raw-spectrum-point";
 
 export type SpectroscopyValidationIssue = {
   code: SpectroscopyValidationIssueCode;
@@ -52,6 +55,13 @@ export function validateSpectroscopyDatasets(
     }
     for (const signal of dataset.mass) {
       if (signal.intensity < 0 || signal.intensity > 100) issues.push({ code: "invalid-mass-intensity", datasetId: dataset.id, message: `Mass signal ${signal.id} intensity must be between 0 and 100.` });
+    }
+    const rawSpectrumIds = new Set<string>();
+    for (const trace of dataset.rawSpectra) {
+      if (rawSpectrumIds.has(trace.id)) issues.push({ code: "duplicate-raw-spectrum-id", datasetId: dataset.id, message: `Duplicate raw spectrum id: ${trace.id}` });
+      rawSpectrumIds.add(trace.id);
+      if (trace.points.length === 0) issues.push({ code: "empty-raw-spectrum", datasetId: dataset.id, message: `Raw spectrum ${trace.id} contains no points.` });
+      if (trace.points.some((point) => !Number.isFinite(point.x) || !Number.isFinite(point.y))) issues.push({ code: "invalid-raw-spectrum-point", datasetId: dataset.id, message: `Raw spectrum ${trace.id} contains a non-finite point.` });
     }
   }
 

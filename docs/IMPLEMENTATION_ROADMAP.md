@@ -199,3 +199,16 @@ Structured spectroscopy datasets now reference canonical molecules by stable ID 
 - [x] Migrate browser-local version-one Workspace documents automatically.
 - [x] Add normalized JSON project import and export.
 - [x] Add unit, component, and E2E regression coverage.
+
+## Phase 10 — Canonical Import & Dataset Pipeline
+
+- [x] Separate parsing, normalization, conflict planning, and canonical validation.
+- [x] Support JSON, YAML, quoted/multiline CSV, and JCAMP-DX inputs.
+- [x] Add canonical adapters for molecules, reactions, mechanisms, reagents, spectroscopy, and lessons.
+- [x] Reject or explicitly plan collisions with existing canonical IDs.
+- [x] Reuse domain validators so imported records cannot bypass relationship constraints.
+- [x] Store raw imported spectroscopy traces alongside curated assignments.
+- [x] Parse JCAMP factors, peak tables, and packed XYDATA conservatively with diagnostics.
+- [x] Add import examples and regression tests.
+- [ ] Add repository-side generation/approval CLI when bulk content publishing begins.
+- [ ] Add vendor-specific compressed JCAMP codecs only as validated codecs are needed.
