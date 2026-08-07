@@ -1,4 +1,4 @@
-import { getMolecule } from "@/content/molecules";
+import { getMolecule } from "@/content/molecules/molecule-registry";
 import type { SpectroscopyDataset } from "./spectroscopy-types";
 
 export type SpectroscopyValidationIssueCode =

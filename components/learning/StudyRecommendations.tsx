@@ -1,17 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { lessons } from "@/content/lessons";
-import { getDueReviewRecords, getProgressSummary } from "./ProgressEngine";
+import { getLesson } from "@/content/lessons";
+import { recommendNextLessonIds } from "@/content/knowledge";
+import { getCompletedNodeIds, getDueReviewRecords, getProgressSummary } from "./ProgressEngine";
 import { useLearningProgress } from "./LearningEngine";
 
 export default function StudyRecommendations() {
   const { progress } = useLearningProgress();
   const summary = getProgressSummary(progress);
   const due = getDueReviewRecords(progress).slice(0, 2);
-  const nextLesson = lessons.find(
-    (lesson) => progress.records[`lesson:${lesson.slug}`]?.status !== "completed",
-  );
+  const completedNodeIds = getCompletedNodeIds(progress);
+  const studiedNodeIds = Object.values(progress.records)
+    .sort((left, right) => right.lastStudiedAt.localeCompare(left.lastStudiedAt))
+    .map((record) => record.nodeId);
+  const nextLessonNodeId = recommendNextLessonIds(
+    studiedNodeIds,
+    completedNodeIds,
+    1,
+  )[0];
+  const nextLesson = nextLessonNodeId
+    ? getLesson(nextLessonNodeId.replace(/^lesson:/, ""))
+    : undefined;
 
   if (summary.total === 0) return null;
 

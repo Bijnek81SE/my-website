@@ -1,4 +1,4 @@
-import { requireMolecule } from "@/content/molecules";
+import { requireMolecule } from "@/content/molecules/molecule-registry";
 import type { SpectroscopyDataset, SpectroscopyDatasetInput } from "./spectroscopy-types";
 
 const defaultCapabilities = {

@@ -212,3 +212,16 @@ Structured spectroscopy datasets now reference canonical molecules by stable ID 
 - [x] Add import examples and regression tests.
 - [ ] Add repository-side generation/approval CLI when bulk content publishing begins.
 - [ ] Add vendor-specific compressed JCAMP codecs only as validated codecs are needed.
+
+## Knowledge Graph 2.0 — Semantic Graph Unification
+
+- [x] Unify canonical chemistry entities and platform features into one typed semantic graph.
+- [x] Preserve exact chemistry semantics, provenance, inferred/direct status, categories, and weighted edges.
+- [x] Add indexed outgoing, incoming, bidirectional, semantic, category, and target-kind queries.
+- [x] Add bounded explainable path discovery across chemistry domains.
+- [x] Add multi-source ranked graph recommendations.
+- [x] Drive lesson progression from graph relationships plus prerequisite eligibility.
+- [x] Drive Workspace molecule context from the semantic graph while preserving curated presentation overrides.
+- [x] Make the legacy knowledge graph a compatibility adapter over the semantic graph.
+- [x] Add semantic graph validation to the platform-wide validation pipeline.
+- [x] Add regression coverage for cross-domain discovery, path explanation, and lesson recommendations.

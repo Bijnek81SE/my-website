@@ -1,4 +1,4 @@
-import { validateKnowledgeGraph } from "@/content/knowledge";
+import { semanticGraph, validateKnowledgeGraph, validateSemanticGraph } from "@/content/knowledge";
 import { knowledgeNodes, knowledgeRelations } from "@/content/knowledge-graph";
 import { lessons, validateLessons } from "@/content/lessons";
 import { mechanisms, validateMechanisms } from "@/content/mechanisms";
@@ -23,6 +23,7 @@ export function validateCanonicalPlatform(): PlatformValidationReport {
     ["workspace", validateWorkspaceTools(workspaceTools)],
     ["relationships", validateChemistryRelationships(chemistryRelationships)],
     ["knowledge", validateKnowledgeGraph(knowledgeNodes, knowledgeRelations)],
+    ["semantic-graph", validateSemanticGraph(semanticGraph)],
   ] as const;
   const issues = groups.flatMap(([domain, domainIssues]) => domainIssues.map((issue) => ({ domain, code: issue.code, message: issue.message })));
   const moleculeIds = new Set<string>(molecules.map((entry) => entry.id));

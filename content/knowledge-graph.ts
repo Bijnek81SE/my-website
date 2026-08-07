@@ -1,16 +1,69 @@
-import { generateKnowledgeNodes, generateKnowledgeRelations } from "./knowledge";
+import {
+  getSemanticGraphConnections,
+  getSemanticGraphNode,
+  semanticGraph,
+} from "./knowledge";
 import type { KnowledgeConnection, KnowledgeRelationKind } from "./knowledge-types";
 
-export const knowledgeNodes = generateKnowledgeNodes();
-export const knowledgeRelations = generateKnowledgeRelations();
-const nodesById = new Map(knowledgeNodes.map((node) => [node.id, node]));
+export const knowledgeNodes = semanticGraph.nodes.map((node) => ({
+  id: node.id,
+  kind: node.kind,
+  title: node.title,
+  description: node.description,
+  href: node.href,
+  keywords: node.keywords,
+}));
 
-export function getKnowledgeNode(id: string) { return nodesById.get(id); }
-export function getKnowledgeConnections(id: string, kinds?: readonly KnowledgeRelationKind[]): readonly KnowledgeConnection[] {
-  const allowed = kinds ? new Set(kinds) : null;
-  return knowledgeRelations
-    .filter((relation) => relation.from === id && (!allowed || allowed.has(relation.kind)))
-    .map((relation) => ({ relation, node: nodesById.get(relation.to) }))
-    .filter((connection): connection is KnowledgeConnection => Boolean(connection.node));
+export const knowledgeRelations = semanticGraph.edges
+  .filter((edge) => !edge.inferred)
+  .map((edge) => ({
+    from: edge.from,
+    to: edge.to,
+    kind: edge.category,
+    label: edge.label,
+  }));
+
+export function getKnowledgeNode(id: string) {
+  const node = getSemanticGraphNode(id);
+  return node
+    ? {
+        id: node.id,
+        kind: node.kind,
+        title: node.title,
+        description: node.description,
+        href: node.href,
+        keywords: node.keywords,
+      }
+    : undefined;
 }
-export function getKnowledgeNodeIdForLesson(slug: string): string { return `lesson:${slug}`; }
+
+export function getKnowledgeConnections(
+  id: string,
+  kinds?: readonly KnowledgeRelationKind[],
+): readonly KnowledgeConnection[] {
+  return getSemanticGraphConnections({
+    entityId: id,
+    direction: "outgoing",
+    categories: kinds,
+    includeInferred: false,
+  }).map(({ edge, node }) => ({
+    relation: {
+      from: edge.from,
+      to: edge.to,
+      kind: edge.category,
+      label: edge.label,
+    },
+    node: {
+      id: node.id,
+      kind: node.kind,
+      title: node.title,
+      description: node.description,
+      href: node.href,
+      keywords: node.keywords,
+    },
+  }));
+}
+
+export function getKnowledgeNodeIdForLesson(slug: string): string {
+  return `lesson:${slug}`;
+}

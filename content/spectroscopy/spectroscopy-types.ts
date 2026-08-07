@@ -1,4 +1,4 @@
-import type { MoleculeAtom, MoleculeBond, MoleculeId } from "@/content/molecules";
+import type { MoleculeAtom, MoleculeBond, MoleculeId } from "@/content/molecules/molecule-types";
 
 export type SpectrumKind = "proton-nmr" | "carbon-nmr" | "ir" | "mass";
 

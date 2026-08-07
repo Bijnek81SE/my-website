@@ -1,9 +1,6 @@
+import { getSemanticGraphConnections } from "@/content/knowledge/semantic-graph-selectors";
 import { getPlatformFeature } from "@/content/platform";
-import { getReaction } from "@/content/reactions";
 import { getFunctionalGroup } from "@/content/references";
-import { getReagent } from "@/content/reagents/reagent-registry";
-import { selectReagents } from "@/content/reagents/reagent-selectors";
-import { getLessonBySlug } from "@/content/lessons";
 import { getMoleculesByCapability, requireMolecule } from "./molecule-registry";
 import type { MoleculeDefinition, MoleculeRelation } from "./molecule-types";
 
@@ -43,15 +40,35 @@ export type WorkspaceMoleculeView = {
   knowledge: MoleculeKnowledgePanel;
 };
 
-function mapRelations(
-  relations: readonly MoleculeRelation[],
-  resolver: (id: string) => { label: string; href: string } | undefined,
-): readonly MoleculeKnowledgeLink[] {
-  return relations.flatMap((relation) => {
-    const target = resolver(relation.id);
-    return target
-      ? [{ id: relation.id, label: relation.label ?? target.label, href: target.href, description: relation.description }]
-      : [];
+function relationById(relations: readonly MoleculeRelation[]): ReadonlyMap<string, MoleculeRelation> {
+  return new Map(relations.map((relation) => [relation.id, relation]));
+}
+
+function graphKnowledgeLinks(input: {
+  molecule: MoleculeDefinition;
+  targetKinds: readonly ("reagent" | "reaction" | "lesson" | "lab" | "mechanism")[];
+  relations: readonly MoleculeRelation[];
+}): readonly MoleculeKnowledgeLink[] {
+  const explicit = relationById(input.relations);
+  const seen = new Set<string>();
+
+  return getSemanticGraphConnections({
+    entityId: `molecule:${input.molecule.id}`,
+    direction: "both",
+    targetKinds: input.targetKinds,
+    includeInferred: true,
+  }).flatMap(({ edge, node }) => {
+    if (!node.href || seen.has(node.id)) return [];
+    seen.add(node.id);
+
+    const localId = node.id.slice(node.id.indexOf(":") + 1);
+    const override = explicit.get(localId);
+    return [{
+      id: localId,
+      label: override?.label ?? node.title,
+      href: node.href,
+      description: override?.description ?? edge.description ?? node.description,
+    }];
   });
 }
 
@@ -68,37 +85,25 @@ export function getMoleculeKnowledge(molecule: MoleculeDefinition): MoleculeKnow
       href: `/functional-groups/${functionalGroup.slug}`,
       description: functionalGroup.summary,
     },
-    reagents: (() => {
-      const explicitRelations = mapRelations(molecule.reagentRelations, (id) => {
-        const reagent = getReagent(id);
-        return reagent ? { label: reagent.name, href: `/reagents/${reagent.slug}` } : undefined;
-      });
-      const explicitIds = new Set(explicitRelations.map((relation) => relation.id));
-      const discoveredRelations = selectReagents({ moleculeId: molecule.id, capability: "workspace" })
-        .filter((reagent) => !explicitIds.has(reagent.id))
-        .map((reagent) => ({
-          id: reagent.id,
-          label: reagent.name,
-          href: `/reagents/${reagent.slug}`,
-          description: reagent.purpose,
-        }));
-      return [...explicitRelations, ...discoveredRelations];
-    })(),
-    labs: mapRelations(molecule.labRelations, (id) => {
-      const feature = resolveFeature(id);
-      return feature ? { label: feature.title, href: feature.href } : undefined;
+    reagents: graphKnowledgeLinks({
+      molecule,
+      targetKinds: ["reagent"],
+      relations: molecule.reagentRelations,
     }),
-    reactions: mapRelations(molecule.reactionRelations, (id) => {
-      const reaction = getReaction(id);
-      return reaction ? { label: reaction.shortTitle, href: "/reactions" } : undefined;
+    labs: graphKnowledgeLinks({
+      molecule,
+      targetKinds: ["lab", "mechanism"],
+      relations: molecule.labRelations,
     }),
-    lessons: mapRelations(molecule.lessonRelations, (id) => {
-      try {
-        const lesson = getLessonBySlug(id);
-        return { label: lesson.title, href: lesson.href };
-      } catch {
-        return undefined;
-      }
+    reactions: graphKnowledgeLinks({
+      molecule,
+      targetKinds: ["reaction"],
+      relations: molecule.reactionRelations,
+    }),
+    lessons: graphKnowledgeLinks({
+      molecule,
+      targetKinds: ["lesson"],
+      relations: molecule.lessonRelations,
     }),
   };
 }

@@ -1,10 +1,10 @@
-import { lessons } from "@/content/lessons";
-import { mechanisms } from "@/content/mechanisms";
-import { molecules } from "@/content/molecules";
-import { reactions } from "@/content/reactions";
-import { reagents } from "@/content/reagents";
-import { functionalGroups } from "@/content/references";
-import { spectroscopyDatasets } from "@/content/spectroscopy";
+import { lessons } from "@/content/lessons/lesson-registry";
+import { mechanisms } from "@/content/mechanisms/mechanism-registry";
+import { molecules } from "@/content/molecules/molecule-registry";
+import { reactions } from "@/content/reactions/reaction-registry";
+import { reagents } from "@/content/reagents/reagent-registry";
+import { functionalGroups } from "@/content/references/functional-group-registry";
+import { spectroscopyDatasets } from "@/content/spectroscopy/spectroscopy-registry";
 import type {
   ChemistryEntityId,
   ChemistryRelationship,
