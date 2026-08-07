@@ -8,8 +8,12 @@ import type {
 import MechanismPlayerEngine from "../MechanismPlayerEngine";
 import Sn2ReactionCanvas, { type Sn2PracticeTarget } from "../Sn2ReactionCanvas";
 import E2ReactionCanvas, { type E2MechanismStep, type E2PracticeTarget } from "../E2ReactionCanvas";
-import { e2Questions, sn2Questions } from "../MechanismQuestions";
-import { e2ReactionData, sn2ReactionData } from "../MechanismReactionData";
+import HalogenationReactionCanvas, {
+  type HalogenationMechanismStep,
+  type HalogenationPracticeTarget,
+} from "../HalogenationReactionCanvas";
+import { e2Questions, halogenationQuestions, sn2Questions } from "../MechanismQuestions";
+import { e2ReactionData, halogenationReactionData, sn2ReactionData } from "../MechanismReactionData";
 import type { MechanismStep } from "../types";
 import type { PracticeQuestion } from "../PracticeTypes";
 import type { ReactionDataDefinition } from "../ReactionDataEngine";
@@ -121,6 +125,52 @@ const familyAdapters: Readonly<Record<CompiledMechanismDefinition["family"], Fam
       );
     },
   },
+
+  "alkene-halogenation": {
+    questions: asGeneratedQuestions<HalogenationPracticeTarget>(halogenationQuestions),
+    reactionData: asGeneratedReactionData(halogenationReactionData),
+    getSceneForStep: (step) =>
+      step.scene === "products"
+        ? "products"
+        : step.scene === "bromonium"
+          ? "bromonium"
+          : step.scene === "bromide-attack"
+            ? "bromide-attack"
+            : "reactants",
+    getRevealMessage: (step, index, total) =>
+      step.arrows.length > 0
+        ? "The correct electron movement is now shown on the reaction diagram."
+        : index === total - 1
+          ? "You have identified the anti-addition product."
+          : "You have identified the correct intermediate or reactive feature.",
+    renderCanvas: ({ step, mode, animated, answered, interactive, onTargetClick }) => {
+      const showAnswer = mode === "practice" && answered;
+      const authoredStep: HalogenationMechanismStep = {
+        id: step.id,
+        title: step.title,
+        description: step.description,
+        note: step.note,
+        highlight: step.scene as HalogenationMechanismStep["highlight"],
+        arrows: mode === "learn" || showAnswer ? [...step.arrows] : [],
+      };
+
+      return (
+        <HalogenationReactionCanvas
+          step={authoredStep}
+          animated={animated}
+          interactive={interactive}
+          showProductChoices={
+            step.scene === "products" &&
+            mode !== "learn" &&
+            !(mode === "practice" && answered)
+          }
+          onTargetClick={
+            onTargetClick as ((target: HalogenationPracticeTarget) => void) | undefined
+          }
+        />
+      );
+    },
+  },
 };
 
 export default function GeneratedMechanismPlayer({
@@ -140,7 +190,7 @@ export default function GeneratedMechanismPlayer({
       questions={[...adapter.questions]}
       playbackInterval={definition.playbackInterval}
       validation={{
-        id: definition.family,
+        id: definition.mechanismId ?? definition.family,
         reactionData: adapter.reactionData,
         getSceneForStep: adapter.getSceneForStep,
       }}

@@ -14,6 +14,10 @@ const demoOptions = [
     id: "e2",
     label: "Generated E2",
   },
+  {
+    id: "halogenation",
+    label: "Generated halogenation",
+  },
 ] as const;
 
 type DemoId =
@@ -42,7 +46,7 @@ export default function MechanismAuthoringDemo() {
           authoring and family-geometry layer, then rendered through
           the existing high-quality mechanism player and reaction
           canvases. Compare them directly with the original SN2 and
-          E2 pages before deciding whether to adopt the authoring
+          E2, and halogenation pages before deciding whether to adopt the authoring
           system.
         </p>
       </div>
@@ -64,6 +68,13 @@ export default function MechanismAuthoringDemo() {
           className="font-semibold text-orange-700 hover:text-orange-900"
         >
           Original E2
+        </Link>
+
+        <Link
+          href="/lab/halogenation"
+          className="font-semibold text-violet-700 hover:text-violet-900"
+        >
+          Original halogenation
         </Link>
       </div>
 

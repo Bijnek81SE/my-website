@@ -144,6 +144,14 @@ export function resolveMechanismFamily(
     return "e2";
   }
 
+  if (
+    request.substrateClass === "alkene" &&
+    request.reagentClass === "halogen" &&
+    request.productClass === "vicinal-dihalide"
+  ) {
+    return "alkene-halogenation";
+  }
+
   return undefined;
 }
 
@@ -191,6 +199,37 @@ export function compileMechanismRequest(
         { role: "leaving-group", label: "Br⁻" },
       ],
       steps: E2_STEPS,
+    };
+  }
+
+  if (family === "alkene-halogenation") {
+    return {
+      id,
+      family,
+      title: "Halogenation of alkenes",
+      description:
+        "Follow bromonium-ion formation, backside bromide attack, and anti addition.",
+      accent: "violet",
+      playbackInterval: 3000,
+      geometry: { antiAddition: true },
+      participants: [
+        { role: "substrate", structureId: "cyclohexene" },
+        { role: "electrophile", structureId: "bromine" },
+        { role: "product", structureId: "trans-1-2-dibromocyclohexane" },
+      ],
+      steps: [
+        { id: "identify-pi-bond", title: "The alkene π bond is the nucleophile", description: "The electron-rich π bond attacks bromine.", note: "The π bond is the electron source.", scene: "alkene", arrows: [] },
+        { id: "bromonium-formation", title: "A cyclic bromonium ion forms", description: "The π bond attacks Br₂ as the Br–Br bond breaks.", note: "A bridged bromonium ion forms instead of a free carbocation.", scene: "bromonium-formation", arrows: [
+          { id: "pi-to-bromine", start: { x: 220, y: 226 }, control: { x: 332, y: 105 }, end: { x: 490, y: 180 }, colour: "#7c3aed", label: "The alkene pi electrons attack bromine" },
+          { id: "brbr-to-bromine", start: { x: 570, y: 194 }, control: { x: 610, y: 120 }, end: { x: 642, y: 180 }, colour: "#dc2626", label: "The bromine bromine bond electrons move to bromide" },
+        ] },
+        { id: "bromonium", title: "The bromonium ion blocks one face", description: "The bridge prevents attack from the same face.", note: "The cyclic bromonium ion explains anti addition.", scene: "bromonium", arrows: [] },
+        { id: "bromide-attack", title: "Bromide opens the bromonium ion", description: "Bromide attacks from the opposite face while the bridge bond opens.", note: "Backside opening places the bromines on opposite faces.", scene: "bromide-attack", arrows: [
+          { id: "bromide-to-carbon", start: { x: 566, y: 155 }, control: { x: 465, y: 304 }, end: { x: 340, y: 225 }, colour: "#dc2626", label: "Bromide attacks from the opposite face" },
+          { id: "bridge-to-bromine", start: { x: 328, y: 190 }, control: { x: 318, y: 138 }, end: { x: 294, y: 132 }, colour: "#7c3aed", label: "The carbon bromine bridge bond opens" },
+        ] },
+        { id: "products", title: "The anti vicinal dibromide forms", description: "The two bromines finish on opposite faces.", note: "Cyclohexene + Br₂ gives trans-1,2-dibromocyclohexane.", scene: "products", arrows: [] },
+      ],
     };
   }
 

@@ -1,4 +1,4 @@
-export type SupportedMechanismFamily = "sn2" | "e2";
+export type SupportedMechanismFamily = "sn2" | "e2" | "alkene-halogenation";
 
 export type MechanismParticipantRole =
   | "substrate"
@@ -6,7 +6,8 @@ export type MechanismParticipantRole =
   | "base"
   | "product"
   | "conjugate-acid"
-  | "leaving-group";
+  | "leaving-group"
+  | "electrophile";
 
 export type MechanismStructureId =
   | "methyl-bromide"
@@ -14,12 +15,15 @@ export type MechanismStructureId =
   | "methanol"
   | "e2-anti-periplanar-substrate"
   | "water"
-  | "2-butene";
+  | "2-butene"
+  | "cyclohexene"
+  | "bromine"
+  | "trans-1-2-dibromocyclohexane";
 
 export type MechanismAuthoringRequest = {
-  substrateClass: "primary-alkyl-halide" | "secondary-alkyl-halide";
-  reagentClass: "strong-nucleophile" | "strong-base";
-  productClass: "substitution-product" | "alkene";
+  substrateClass: "primary-alkyl-halide" | "secondary-alkyl-halide" | "alkene";
+  reagentClass: "strong-nucleophile" | "strong-base" | "halogen";
+  productClass: "substitution-product" | "alkene" | "vicinal-dihalide";
   nucleophileId?: "hydroxide";
   leavingGroupId?: "bromide";
 };
@@ -53,12 +57,13 @@ export type CompiledMechanismDefinition = {
   family: SupportedMechanismFamily;
   title: string;
   description: string;
-  accent: "blue" | "orange";
+  accent: "blue" | "orange" | "violet";
   playbackInterval: number;
   participants: readonly MechanismParticipant[];
   geometry: {
     backsideAttackDegrees?: number;
     antiPeriplanarDihedralDegrees?: number;
+    antiAddition?: boolean;
   };
   steps: readonly MechanismFamilyStep[];
 };

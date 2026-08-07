@@ -1,4 +1,5 @@
 import {
+  cyclohexeneMolecule,
   e2AntiPeriplanarMolecule,
   hydroxideMolecule,
   methylBromideMolecule,
@@ -12,9 +13,50 @@ import type {
   StructurePlacement,
 } from "./types";
 
+
+const bromineMolecule: SkeletalMoleculeDefinition = {
+  id: "bromine",
+  name: "Bromine",
+  atoms: [
+    { id: "br1", element: "Br", position: { x: 0, y: 0 } },
+    { id: "br2", element: "Br", position: { x: 130, y: 0 } },
+  ],
+  bonds: [
+    { id: "br-br", from: "br1", to: "br2", type: "single" },
+  ],
+};
+
+const bromideMolecule: SkeletalMoleculeDefinition = {
+  id: "bromide",
+  name: "Bromide",
+  atoms: [
+    { id: "br", element: "Br", position: { x: 0, y: 0 }, charge: -1 },
+  ],
+  bonds: [],
+};
+
+const halogenationBromoniumMolecule: SkeletalMoleculeDefinition = {
+  id: "halogenation-bromonium",
+  name: "Halogenation bromonium ion",
+  atoms: [
+    { id: "c-left", element: "C", position: { x: 225, y: 220 } },
+    { id: "c-right", element: "C", position: { x: 345, y: 220 } },
+    { id: "br-bridge", element: "Br", position: { x: 285, y: 125 }, charge: 1 },
+  ],
+  bonds: [
+    { id: "left-bridge", from: "c-left", to: "br-bridge", type: "single" },
+    { id: "right-bridge", from: "c-right", to: "br-bridge", type: "single" },
+    { id: "c-c", from: "c-left", to: "c-right", type: "single" },
+  ],
+};
+
 const structures: Readonly<
   Record<string, SkeletalMoleculeDefinition>
 > = {
+  cyclohexene: cyclohexeneMolecule,
+  bromine: bromineMolecule,
+  bromide: bromideMolecule,
+  "halogenation-bromonium": halogenationBromoniumMolecule,
   hydroxide: hydroxideMolecule,
   "methyl-bromide": methylBromideMolecule,
   "e2-anti-periplanar-substrate":

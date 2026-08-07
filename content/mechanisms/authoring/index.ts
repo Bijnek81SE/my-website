@@ -2,10 +2,12 @@ import {
   compileE2Mechanism,
   compileSn2Mechanism,
 } from "./compiler";
+import { compileAlkeneHalogenationMechanism } from "./families/alkene-halogenation";
 
 export {
   compileE2Mechanism,
   compileSn2Mechanism,
+  compileAlkeneHalogenationMechanism,
 };
 
 export {
@@ -37,6 +39,7 @@ export {
 export const mechanismAuthoringExamples = {
   sn2: compileSn2Mechanism(),
   e2: compileE2Mechanism(),
+  halogenation: compileAlkeneHalogenationMechanism(),
 } as const;
 
 export type {

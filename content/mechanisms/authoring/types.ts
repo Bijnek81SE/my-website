@@ -1,6 +1,6 @@
 import type { MechanismArrow, MechanismPoint } from "@/components/chemistry/mechanism/types";
 
-export type MechanismFamilyId = "sn2" | "e2";
+export type MechanismFamilyId = "sn2" | "e2" | "alkene-halogenation";
 
 export type StructurePlacement = {
   structureId: string;
@@ -38,6 +38,7 @@ export type SemanticArrowDefinition = {
   colour: string;
   label: string;
   bend: number;
+  controlOffset?: MechanismPoint;
 };
 
 export type MechanismGeometryContract =
@@ -55,6 +56,13 @@ export type MechanismGeometryContract =
       secondBond: SemanticAnchorRef;
       expectedDegrees: 180;
       toleranceDegrees: number;
+    }
+  | {
+      type: "anti-addition";
+      nucleophile: SemanticAnchorRef;
+      attackedCenter: SemanticAnchorRef;
+      bridgeAtom: SemanticAnchorRef;
+      productRelationship: "opposite-faces";
     };
 
 export type MechanismFamilyStep = {
@@ -67,10 +75,11 @@ export type MechanismFamilyStep = {
 };
 
 export type CompiledMechanismDefinition = {
+  mechanismId?: string;
   family: MechanismFamilyId;
   title: string;
   description: string;
-  accent: "blue" | "orange";
+  accent: "blue" | "orange" | "violet";
   playbackInterval: number;
   steps: readonly MechanismFamilyStep[];
   geometryContracts: readonly MechanismGeometryContract[];

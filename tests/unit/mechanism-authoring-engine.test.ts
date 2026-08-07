@@ -22,6 +22,14 @@ describe("mechanism authoring engine experiment", () => {
         productClass: "alkene",
       }),
     ).toBe("e2");
+
+    expect(
+      resolveMechanismFamily({
+        substrateClass: "alkene",
+        reagentClass: "halogen",
+        productClass: "vicinal-dihalide",
+      }),
+    ).toBe("alkene-halogenation");
   });
 
   it("refuses unsupported combinations instead of inventing chemistry", () => {
@@ -47,6 +55,12 @@ describe("mechanism authoring engine experiment", () => {
       productClass: "alkene",
     });
 
+    const halogenation = compileMechanismRequest("test-halogenation", {
+      substrateClass: "alkene",
+      reagentClass: "halogen",
+      productClass: "vicinal-dihalide",
+    });
+
     expect(sn2?.steps.map((step) => step.id)).toEqual([
       "identify-nucleophile",
       "backside-attack",
@@ -65,5 +79,17 @@ describe("mechanism authoring engine experiment", () => {
     expect(e2?.steps[1].arrows).toHaveLength(3);
     expect(e2?.geometry.antiPeriplanarDihedralDegrees).toBe(180);
     expect(e2 ? validateCompiledMechanism(e2) : []).toEqual([]);
+
+    expect(halogenation?.steps.map((step) => step.id)).toEqual([
+      "identify-pi-bond",
+      "bromonium-formation",
+      "bromonium",
+      "bromide-attack",
+      "products",
+    ]);
+    expect(halogenation?.steps[1].arrows).toHaveLength(2);
+    expect(halogenation?.steps[3].arrows).toHaveLength(2);
+    expect(halogenation?.geometry.antiAddition).toBe(true);
+    expect(halogenation ? validateCompiledMechanism(halogenation) : []).toEqual([]);
   });
 });

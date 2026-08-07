@@ -28,5 +28,12 @@ export function validateCompiledMechanism(
     });
   }
 
+  if (definition.family === "alkene-halogenation" && definition.geometry.antiAddition !== true) {
+    issues.push({
+      code: "geometry-contract",
+      message: `${definition.id} must encode anti addition through bromonium-ion backside opening.`,
+    });
+  }
+
   return issues;
 }

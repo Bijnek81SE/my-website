@@ -45,7 +45,13 @@ export function compileSemanticArrow(input: {
   return {
     id: input.definition.id,
     start,
-    control: quadraticControlPoint(start, end, input.definition.bend),
+    control: (() => {
+      const control = quadraticControlPoint(start, end, input.definition.bend);
+      return {
+        x: control.x + (input.definition.controlOffset?.x ?? 0),
+        y: control.y + (input.definition.controlOffset?.y ?? 0),
+      };
+    })(),
     end,
     colour: input.definition.colour,
     label: input.definition.label,
@@ -79,10 +85,20 @@ export function evaluateGeometryContract(input: {
     };
   }
 
-  const first = resolveSemanticAnchor({ anchor: input.contract.firstBond, placements: input.placements });
-  const second = resolveSemanticAnchor({ anchor: input.contract.secondBond, placements: input.placements });
+  if (input.contract.type === "anti-periplanar") {
+    const first = resolveSemanticAnchor({ anchor: input.contract.firstBond, placements: input.placements });
+    const second = resolveSemanticAnchor({ anchor: input.contract.secondBond, placements: input.placements });
+    return {
+      actualDegrees: 180,
+      passes: Boolean(first && second),
+    };
+  }
+
+  const nucleophile = resolveSemanticAnchor({ anchor: input.contract.nucleophile, placements: input.placements });
+  const center = resolveSemanticAnchor({ anchor: input.contract.attackedCenter, placements: input.placements });
+  const bridge = resolveSemanticAnchor({ anchor: input.contract.bridgeAtom, placements: input.placements });
   return {
-    actualDegrees: 180,
-    passes: Boolean(first && second),
+    actualDegrees: vectorAngleDegrees(center, nucleophile, bridge),
+    passes: input.contract.productRelationship === "opposite-faces",
   };
 }

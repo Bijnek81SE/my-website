@@ -96,4 +96,31 @@ describe("generated mechanism player experiment", () => {
       }),
     ).toBeVisible();
   });
+
+  it("renders compiled alkene halogenation through the trusted bromonium canvas", async () => {
+    const user = userEvent.setup();
+    const definition = mechanismAuthoringExamples.halogenation;
+
+    expect(definition).toBeDefined();
+    if (!definition) return;
+
+    renderWithLearningEngine(
+      <GeneratedMechanismPlayer definition={definition} />,
+    );
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Halogenation of alkenes",
+        level: 2,
+      }),
+    ).toBeVisible();
+    expect(screen.getByText("Step 1 of 5")).toBeVisible();
+    expect(
+      screen.getByRole("img", { name: /Halogenation mechanism/i }),
+    ).toBeVisible();
+
+    await user.click(screen.getByRole("button", { name: "Next →" }));
+    expect(screen.getByText("Step 2 of 5")).toBeVisible();
+  });
+
 });

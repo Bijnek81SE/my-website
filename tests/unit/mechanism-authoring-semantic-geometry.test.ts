@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  compileAlkeneHalogenationMechanism,
   compileE2Mechanism,
   compileSn2Mechanism,
 } from "@/content/mechanisms/authoring";
@@ -248,5 +249,59 @@ describe(
         ).toBeLessThanOrEqual(8);
       },
     );
+
+    it(
+      "compiles alkene halogenation arrows from semantic anchors close to the trusted reference geometry",
+      () => {
+        const mechanism = compileAlkeneHalogenationMechanism();
+        const [piToBromine, brbrToBromine] = mechanism.steps[1].arrows;
+        const [bromideToCarbon, bridgeToBromine] = mechanism.steps[3].arrows;
+
+        expect(piToBromine).toBeDefined();
+        expect(brbrToBromine).toBeDefined();
+        expect(bromideToCarbon).toBeDefined();
+        expect(bridgeToBromine).toBeDefined();
+
+        if (!piToBromine || !brbrToBromine || !bromideToCarbon || !bridgeToBromine) {
+          return;
+        }
+
+        expectWithin(piToBromine.start.x, 220);
+        expectWithin(piToBromine.start.y, 226);
+        expectWithin(piToBromine.end.x, 490);
+        expectWithin(piToBromine.end.y, 180);
+        expectWithin(piToBromine.control.x, 332);
+        expectWithin(piToBromine.control.y, 105);
+
+        expectWithin(brbrToBromine.start.x, 570);
+        expectWithin(brbrToBromine.start.y, 194);
+        expectWithin(brbrToBromine.end.x, 642);
+        expectWithin(brbrToBromine.end.y, 180);
+        expectWithin(brbrToBromine.control.x, 610);
+        expectWithin(brbrToBromine.control.y, 120);
+
+        expectWithin(bromideToCarbon.start.x, 566);
+        expectWithin(bromideToCarbon.start.y, 155);
+        expectWithin(bromideToCarbon.end.x, 340);
+        expectWithin(bromideToCarbon.end.y, 225);
+        expectWithin(bromideToCarbon.control.x, 465);
+        expectWithin(bromideToCarbon.control.y, 304);
+
+        expectWithin(bridgeToBromine.start.x, 328);
+        expectWithin(bridgeToBromine.start.y, 190);
+        expectWithin(bridgeToBromine.end.x, 294);
+        expectWithin(bridgeToBromine.end.y, 132);
+        expectWithin(bridgeToBromine.control.x, 318);
+        expectWithin(bridgeToBromine.control.y, 138);
+
+        const contract = mechanism.geometryContracts[0];
+        expect(contract).toBeDefined();
+        expect(contract?.type).toBe("anti-addition");
+        if (contract?.type === "anti-addition") {
+          expect(contract.productRelationship).toBe("opposite-faces");
+        }
+      },
+    );
+
   },
 );
