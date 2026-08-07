@@ -1,3 +1,14 @@
+import { hydrogenBromide } from "./records/hydrogen-bromide";
+import { hydrogenChloride } from "./records/hydrogen-chloride";
+import { hydrogenIodide } from "./records/hydrogen-iodide";
+import { chlorine } from "./records/chlorine";
+import { mcpba } from "./records/mcpba";
+import { mercuricAcetate } from "./records/mercuric-acetate";
+import { osmiumTetroxide } from "./records/osmium-tetroxide";
+import { ozone } from "./records/ozone";
+import { potassiumPermanganate } from "./records/potassium-permanganate";
+import { sodiumBorohydride } from "./records/sodium-borohydride";
+import { zinc } from "./records/zinc";
 import { boranePeroxide } from "./records/borane-peroxide";
 import { bromine } from "./records/bromine";
 import { hbrPeroxide } from "./records/hbr-peroxide";
@@ -11,10 +22,21 @@ export const reagents = [
   hydroxide,
   potassiumTertButoxide,
   sulfuricAcid,
+  hydrogenChloride,
+  hydrogenBromide,
+  hydrogenIodide,
   bromine,
+  chlorine,
   hydrogenPalladium,
   boranePeroxide,
   hbrPeroxide,
+  mercuricAcetate,
+  sodiumBorohydride,
+  mcpba,
+  osmiumTetroxide,
+  ozone,
+  zinc,
+  potassiumPermanganate,
 ] as const satisfies readonly ReagentDefinition[];
 
 const byId = new Map<string, ReagentDefinition>();

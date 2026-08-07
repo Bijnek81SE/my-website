@@ -6,6 +6,7 @@ export type ReagentCategory =
   | "Acid"
   | "Electrophile"
   | "Reducing agent"
+  | "Oxidizing agent"
   | "Catalyst"
   | "Radical initiator";
 

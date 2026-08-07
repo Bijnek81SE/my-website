@@ -6,7 +6,7 @@ export const halogenation = defineReaction({
     featureId: "halogenation",
     substrateFunctionalGroupIds: ["alkene"],
     productFunctionalGroupIds: ["alkyl-halide"],
-    reagentIds: ["bromine"],
+    reagentIds: ["bromine", "chlorine"],
     capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
     title: "Alkene halogenation",
     shortTitle: "Halogenation",

@@ -2,6 +2,7 @@ export type ReactionFamily =
   | "Substitution"
   | "Elimination"
   | "Alkene addition"
+  | "Alkene oxidation"
   | "Reduction";
 
 export type ReactionMechanismClass =
@@ -11,7 +12,12 @@ export type ReactionMechanismClass =
   | "Organoborane"
   | "Organomercury"
   | "Radical"
-  | "Surface catalysis";
+  | "Surface catalysis"
+  | "Peracid concerted"
+  | "Osmate ester"
+  | "Epoxide opening"
+  | "Ozonide cleavage"
+  | "Permanganate oxidation";
 
 export type ReactionSelectivity = {
   regioselectivity: string;

@@ -17,7 +17,7 @@ export const bromine = defineReagent({
   alternativeNames: ["NBS for allylic bromination", "Cl₂ for chlorination"],
   reactionIds: ["halogenation"],
   mechanismIds: ["halogenation"],
-  moleculeIds: ["propene"],
+  moleculeIds: ["ethene", "propene", "1-butene", "cis-2-butene", "trans-2-butene", "cyclohexene", "styrene"],
   lessonIds: ["chemical-bonding", "formal-charge"],
   keywords: ["halogen", "bromonium", "anti addition", "alkene", "dibromide"],
   capabilities: { reference: true, workspace: true, reactionExplorer: true, prediction: true, retrosynthesis: true },

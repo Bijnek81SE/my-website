@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { molecules } from "@/content/molecules";
+import { getPlatformRouteSmokeCases } from "@/content/platform";
 import { reagents } from "@/content/reagents";
 
-const routes: readonly (readonly [string, RegExp])[] = [
+const baseRoutes: readonly (readonly [string, RegExp])[] = [
   ["/", /Organic Chemistry Hub/i],
   ["/learn", /Learn/i],
   ["/study", /Study dashboard/i],
@@ -23,9 +25,28 @@ const routes: readonly (readonly [string, RegExp])[] = [
   ["/calculators/lewis-structure-builder", /Lewis/i],
   ["/functional-groups/alkene", /Alkene/i],
   ...reagents
-    .filter((reagent) => reagent.capabilities.reference)
-    .map((reagent) => [`/reagents/${reagent.slug}`, new RegExp(reagent.name, "i")] as const),
+  .filter((reagent) => reagent.capabilities.reference)
+  .map(
+    (reagent) =>
+      [
+        `/reagents/${reagent.slug}`,
+        new RegExp(
+          reagent.name.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&",
+          ),
+          "i",
+        ),
+      ] as const,
+  ),
+  ...molecules.map((molecule) => [`/molecules/${molecule.id}`, new RegExp(molecule.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i")] as const),
 ];
+
+const routeMap = new Map<string, RegExp>(baseRoutes);
+for (const route of getPlatformRouteSmokeCases()) {
+  if (!routeMap.has(route.path)) routeMap.set(route.path, route.expectedText);
+}
+const routes = [...routeMap.entries()] as readonly (readonly [string, RegExp])[];
 
 for (const [path, heading] of routes) {
   test(`${path} renders`, async ({ page }) => {
@@ -286,10 +307,10 @@ test("reference library filters entries", async ({ page }) => {
   ).toBeVisible();
 
   await page
-    .getByRole("link", {
-      name: /Alkene/i,
-    })
-    .click();
+  .locator(
+    'a[href="/functional-groups/alkene"]',
+  )
+  .click();
 
   await expect(page).toHaveURL(
     /\/functional-groups\/alkene$/,
@@ -436,10 +457,13 @@ test("workspace synchronizes molecule and calculation context", async ({ page })
   ).toBeVisible();
 
   await expect(
-    page.getByRole("link", {
-      name: /Hydroboration–oxidation/i,
-    }),
-  ).toBeVisible();
+  page.getByRole("link", {
+    name: /^Hydroboration–oxidation\b/i,
+  }),
+).toHaveAttribute(
+  "href",
+  "/reactions",
+);
 
   await page.getByRole("tab", {
     name: "Calculations",

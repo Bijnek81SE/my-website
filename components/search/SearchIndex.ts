@@ -1,4 +1,5 @@
 import { lessons } from "@/content/lessons";
+import { molecules } from "@/content/molecules";
 import { getSearchablePlatformFeatures } from "@/content/platform";
 import { reagents } from "@/content/reagents";
 import { functionalGroups } from "@/content/references";
@@ -9,6 +10,14 @@ export type SearchEntry = { id: string; title: string; description: string; href
 const lessonEntries: readonly SearchEntry[] = lessons.filter((lesson) => lesson.capabilities.searchable).map((lesson) => ({
   id: `lesson-${lesson.id}`, title: lesson.title, description: lesson.description, href: lesson.href, category: "Lesson", keywords: [lesson.module, lesson.slug.replaceAll("-", " "), ...lesson.keywords],
 }));
+const moleculeEntries: readonly SearchEntry[] = molecules.map((molecule) => ({
+  id: `molecule-${molecule.id}`,
+  title: molecule.name,
+  description: molecule.workspace?.summary ?? `${molecule.name} (${molecule.displayFormula})`,
+  href: `/molecules/${molecule.id}`,
+  category: "Reference" as const,
+  keywords: [molecule.formula, molecule.condensedFormula, ...molecule.aliases, ...molecule.functionalGroupIds],
+}));
 const referenceEntries: readonly SearchEntry[] = [
   ...functionalGroups.map((entry) => ({ id: `functional-group-${entry.slug}`, title: entry.name, description: entry.summary, href: `/functional-groups/${entry.slug}`, category: "Reference" as const, keywords: [entry.formula, entry.category, ...entry.keywords] })),
   ...reagents.filter((entry) => entry.capabilities.reference).map((entry) => ({ id: `reagent-${entry.id}`, title: entry.name, description: entry.summary, href: `/reagents/${entry.slug}`, category: "Reference" as const, keywords: [entry.formula, entry.category, ...entry.aliases, ...entry.keywords] })),
@@ -17,7 +26,7 @@ const platformEntries: readonly SearchEntry[] = getSearchablePlatformFeatures().
   id: `feature-${feature.id}`, title: feature.title, description: feature.description, href: feature.href, category: feature.search!.category, keywords: feature.search!.keywords,
 }));
 
-export const searchEntries: readonly SearchEntry[] = [...lessonEntries, ...referenceEntries, ...platformEntries]
+export const searchEntries: readonly SearchEntry[] = [...lessonEntries, ...moleculeEntries, ...referenceEntries, ...platformEntries]
   .filter((entry, index, entries) => entries.findIndex((candidate) => candidate.href === entry.href && candidate.title === entry.title) === index);
 
 function normalize(value: string): string { return value.toLocaleLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim(); }

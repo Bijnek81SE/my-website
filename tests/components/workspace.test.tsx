@@ -32,10 +32,13 @@ describe("Organic Chemistry Workspace", () => {
     ).toBeVisible();
 
     expect(
-      screen.getByRole("link", {
-        name: /Hydroboration–oxidation/i,
-      }),
-    ).toBeVisible();
+  screen.getByRole("link", {
+    name: /^Hydroboration–oxidation\b/i,
+  }),
+).toHaveAttribute(
+  "href",
+  "/reactions",
+);
 
     expect(
       screen.queryByText("Open connected reference →"),
@@ -86,10 +89,13 @@ describe("Organic Chemistry Workspace", () => {
     ).toBeVisible();
 
     expect(
-  screen.getAllByRole("link", {
-    name: /E2 elimination/i,
-  }).length,
-).toBeGreaterThan(0);
+      screen.getByRole("link", {
+        name: /^E2 elimination\b/i,
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/reactions",
+    );
   });
 
   it("persists notes in the workspace UI", async () => {

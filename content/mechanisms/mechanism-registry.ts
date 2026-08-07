@@ -1,3 +1,8 @@
+import { antiDihydroxylation } from "./records/anti-dihydroxylation";
+import { epoxidation } from "./records/epoxidation";
+import { oxidativeCleavage } from "./records/oxidative-cleavage";
+import { ozonolysis } from "./records/ozonolysis";
+import { synDihydroxylation } from "./records/syn-dihydroxylation";
 import { e1 } from "./records/e1";
 import { e2 } from "./records/e2";
 import { electrophilic_addition } from "./records/electrophilic-addition";
@@ -16,6 +21,7 @@ export const mechanisms: readonly MechanismDefinition[] = [
   sn1, sn2, e1, e2, electrophilic_addition, hydrohalogenation, hydration,
   halogenation, hydrogenation, hydroboration_oxidation,
   oxymercuration_demercuration, radical_hbr,
+  epoxidation, synDihydroxylation, antiDihydroxylation, ozonolysis, oxidativeCleavage,
 ];
 
 const byId = new Map(mechanisms.map((mechanism) => [mechanism.id, mechanism]));

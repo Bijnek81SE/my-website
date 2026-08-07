@@ -1,6 +1,13 @@
 "use client";
 
 import type { ComponentType } from "react";
+import {
+  AntiDihydroxylationMechanismPlayer,
+  EpoxidationMechanismPlayer,
+  OxidativeCleavageMechanismPlayer,
+  OzonolysisMechanismPlayer,
+  SynDihydroxylationMechanismPlayer,
+} from "./AlkeneOxidationMechanismPlayer";
 import E1MechanismPlayer from "./E1MechanismPlayer";
 import E2MechanismPlayer from "./E2MechanismPlayer";
 import ElectrophilicAdditionMechanismPlayer from "./ElectrophilicAdditionMechanismPlayer";
@@ -27,6 +34,11 @@ const mechanismPlayers: Readonly<Record<string, ComponentType>> = {
   "hydroboration-oxidation": HydroborationOxidationMechanismPlayer,
   "oxymercuration-demercuration": OxymercurationDemercurationMechanismPlayer,
   "radical-hbr": RadicalHBrMechanismPlayer,
+  epoxidation: EpoxidationMechanismPlayer,
+  "syn-dihydroxylation": SynDihydroxylationMechanismPlayer,
+  "anti-dihydroxylation": AntiDihydroxylationMechanismPlayer,
+  ozonolysis: OzonolysisMechanismPlayer,
+  "oxidative-cleavage": OxidativeCleavageMechanismPlayer,
 };
 
 export function hasMechanismPlayer(playerId: string): boolean {

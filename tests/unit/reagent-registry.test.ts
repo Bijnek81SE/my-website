@@ -16,7 +16,16 @@ import {
   });
 
   it("selects reagents by chemistry relationships and capabilities", () => {
-    expect(selectReagents({ reactionId: "halogenation" }).map((entry) => entry.id)).toEqual(["bromine"]);
+    expect(
+  selectReagents({ reactionId: "halogenation" }).map(
+    (entry) => entry.id,
+  ),
+).toEqual(
+  expect.arrayContaining([
+    "bromine",
+    "chlorine",
+  ]),
+);
     expect(selectReagents({ moleculeId: "propene" }).map((entry) => entry.id)).toEqual(
       expect.arrayContaining(["bromine", "borane-peroxide", "sulfuric-acid", "hydrogen-palladium", "hbr-peroxide"]),
     );

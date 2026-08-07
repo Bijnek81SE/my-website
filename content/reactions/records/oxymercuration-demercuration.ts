@@ -6,7 +6,7 @@ export const oxymercuration_demercuration = defineReaction({
     featureId: "oxymercuration-demercuration",
     substrateFunctionalGroupIds: ["alkene"],
     productFunctionalGroupIds: ["alcohol"],
-    reagentIds: [],
+    reagentIds: ["mercuric-acetate", "sodium-borohydride"],
     capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
     title: "Oxymercuration–demercuration",
     shortTitle: "Oxymercuration",

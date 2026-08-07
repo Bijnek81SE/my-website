@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { lessons } from "@/content/lessons";
+import { molecules } from "@/content/molecules";
 import { getSitemapPlatformFeatures } from "@/content/platform";
 import { reagents } from "@/content/reagents";
 import { functionalGroups } from "@/content/references";
@@ -10,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const content = [
     ...lessons.filter((lesson) => lesson.capabilities.sitemap).map((lesson) => ({ route: lesson.href, priority: 0.8, changeFrequency: "monthly" as const })),
     ...functionalGroups.map((entry) => ({ route: `/functional-groups/${entry.slug}`, priority: 0.6, changeFrequency: "monthly" as const })),
+    ...molecules.map((molecule) => ({ route: `/molecules/${molecule.id}`, priority: 0.6, changeFrequency: "monthly" as const })),
     ...reagents.filter((entry) => entry.capabilities.reference).map((entry) => ({ route: `/reagents/${entry.slug}`, priority: 0.6, changeFrequency: "monthly" as const })),
   ];
   const byRoute = new Map<string, { route: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] }>();

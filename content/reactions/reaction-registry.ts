@@ -1,3 +1,8 @@
+import { antiDihydroxylation } from "./records/anti-dihydroxylation";
+import { epoxidation } from "./records/epoxidation";
+import { oxidativeCleavage } from "./records/oxidative-cleavage";
+import { ozonolysis } from "./records/ozonolysis";
+import { synDihydroxylation } from "./records/syn-dihydroxylation";
 import { sn1 } from "./records/sn1";
 import { sn2 } from "./records/sn2";
 import { e1 } from "./records/e1";
@@ -14,7 +19,8 @@ import { radical_hbr } from "./records/radical-hbr";
 import type { ReactionDefinition } from "./reaction-types";
 
 export const reactions: readonly ReactionDefinition[] = [
-  sn1, sn2, e1, e2, electrophilic_addition, hydrohalogenation, hydration, halogenation, hydrogenation, hydroboration_oxidation, oxymercuration_demercuration, radical_hbr
+  sn1, sn2, e1, e2, electrophilic_addition, hydrohalogenation, hydration, halogenation, hydrogenation, hydroboration_oxidation, oxymercuration_demercuration, radical_hbr,
+  epoxidation, synDihydroxylation, antiDihydroxylation, ozonolysis, oxidativeCleavage
 ];
 
 const reactionsById = new Map(reactions.map((reaction) => [reaction.id, reaction]));

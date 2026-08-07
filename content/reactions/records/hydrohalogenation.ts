@@ -6,7 +6,7 @@ export const hydrohalogenation = defineReaction({
     featureId: "hydrohalogenation",
     substrateFunctionalGroupIds: ["alkene"],
     productFunctionalGroupIds: ["alkyl-halide"],
-    reagentIds: [],
+    reagentIds: ["hydrogen-chloride", "hydrogen-bromide", "hydrogen-iodide"],
     capabilities: { explorer: true, mechanism: true, prediction: true, retrosynthesis: true, workspace: true },
     title: "Hydrohalogenation",
     shortTitle: "HX addition",

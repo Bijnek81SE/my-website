@@ -1,6 +1,7 @@
 export { platformFeatures } from "./feature-catalog";
 export {
   getPlatformFeature,
+  getLabPlatformFeatures,
   getPlatformRouteSmokeCases,
   getSearchablePlatformFeatures,
   getSitemapPlatformFeatures,

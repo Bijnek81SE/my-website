@@ -32,3 +32,7 @@ export function getPlatformRouteSmokeCases(): readonly PlatformRouteSmokeCase[] 
     }];
   });
 }
+
+export function getLabPlatformFeatures(): readonly PlatformFeature[] {
+  return platformFeatures.filter((feature) => feature.id !== "lab" && (feature.kind === "lab" || feature.kind === "mechanism"));
+}

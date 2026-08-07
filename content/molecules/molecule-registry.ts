@@ -1,3 +1,15 @@
+import { alphaMethylstyrene } from "./records/alpha-methylstyrene";
+import { cisTwoButene } from "./records/cis-two-butene";
+import { cyclohexene } from "./records/cyclohexene";
+import { cyclopentene } from "./records/cyclopentene";
+import { ethene } from "./records/ethene";
+import { oneButene } from "./records/one-butene";
+import { oneHexene } from "./records/one-hexene";
+import { onePentene } from "./records/one-pentene";
+import { styrene } from "./records/styrene";
+import { transTwoButene } from "./records/trans-two-butene";
+import { twoMethylpropene } from "./records/two-methylpropene";
+import { twoMethylTwoButene } from "./records/two-methyl-two-butene";
 import { acetone } from "./records/acetone";
 import { ethanol } from "./records/ethanol";
 import { ethylAcetate } from "./records/ethyl-acetate";
@@ -11,7 +23,19 @@ export const molecules = [
   acetone,
   ethylAcetate,
   toluene,
+  ethene,
   propene,
+  oneButene,
+  cisTwoButene,
+  transTwoButene,
+  twoMethylpropene,
+  onePentene,
+  oneHexene,
+  twoMethylTwoButene,
+  cyclopentene,
+  cyclohexene,
+  styrene,
+  alphaMethylstyrene,
   twoBromopropane,
 ] as const satisfies readonly MoleculeDefinition[];
 

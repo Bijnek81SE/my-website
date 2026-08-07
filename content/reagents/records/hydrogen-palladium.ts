@@ -17,7 +17,7 @@ export const hydrogenPalladium = defineReagent({
   alternativeNames: ["Pt or Ni catalysts", "Diimide for metal-free alkene reduction"],
   reactionIds: ["hydrogenation"],
   mechanismIds: ["hydrogenation"],
-  moleculeIds: ["propene", "toluene"],
+  moleculeIds: ["ethene", "propene", "1-butene", "cyclohexene", "styrene", "toluene"],
   lessonIds: ["chemical-bonding", "hybridization"],
   keywords: ["reduction", "catalyst", "hydrogenation", "syn", "palladium"],
   capabilities: { reference: true, workspace: true, reactionExplorer: true, prediction: true, retrosynthesis: true },

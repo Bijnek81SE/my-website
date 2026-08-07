@@ -225,3 +225,23 @@ Structured spectroscopy datasets now reference canonical molecules by stable ID 
 - [x] Make the legacy knowledge graph a compatibility adapter over the semantic graph.
 - [x] Add semantic graph validation to the platform-wide validation pipeline.
 - [x] Add regression coverage for cross-domain discovery, path explanation, and lesson recommendations.
+
+## Phase 12 — Chemistry Expansion
+
+Governing rule: complete one coherent chemistry domain end-to-end before moving to the next domain.
+
+### Wave 1 — Alkene ecosystem
+
+- [x] 12.1 Canonical alkene dataset: representative molecule family, oxidation reactions, mechanisms, reagents, public molecule library, generated discovery, semantic integration, and validation coverage.
+- [ ] 12.2 Complete alkene learning path.
+- [ ] 12.3 Alkene spectroscopy atlas.
+- [ ] 12.4 Alkene prediction and retrosynthesis expansion.
+- [ ] 12.5 Ecosystem verification and content-quality audit.
+
+### Later waves
+
+- [ ] Wave 2 — Alcohol ecosystem.
+- [ ] Wave 3 — Carbonyl ecosystem.
+- [ ] Wave 4 — Aromatic ecosystem.
+- [ ] Wave 5 — Carboxylic-acid and derivative ecosystem.
+- [ ] Wave 6 — Amines and nitrogen chemistry.

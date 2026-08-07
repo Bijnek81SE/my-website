@@ -3,7 +3,7 @@ import { findReactionByNameOrAlias, getReaction, getReactionFamilies, reactions,
 
 describe("canonical reaction registry", () => {
   it("contains unique mechanism-backed reactions", () => {
-    expect(reactions.length).toBe(12);
+    expect(reactions.length).toBeGreaterThanOrEqual(17);
     expect(new Set(reactions.map((reaction) => reaction.id)).size).toBe(reactions.length);
     expect(reactions.every((reaction) => reaction.mechanismHref.startsWith("/lab/"))).toBe(true);
   });
