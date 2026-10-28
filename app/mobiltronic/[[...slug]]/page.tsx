@@ -52,6 +52,47 @@ function BackendNotice() {
   return <main dir="rtl" lang="fa" className="mobiltronic-backend-notice"><h1>این بخش به سامانه فروش اصلی وابسته است</h1><p>نسخه محلی، کاتالوگ و اطلاعات عمومی را نمایش می‌دهد. ورود، سبد سفارش، موجودی زنده، پرداخت و ثبت سفارش آنلاین به اتصال و دسترسی به سامانه اصلی نیاز دارند و در این نسخه فعال نیستند.</p><Link href="/mobiltronic/contact">مشاهده راه‌های تماس</Link></main>;
 }
 
+function desktopNavigationFromBody(body: string) {
+  const rootList = /<ul\b[^>]*class=["'][^"']*(?:\boffcanvas-nav\b|\bnavbar-nav\b)[^"']*["'][^>]*>/i.exec(body);
+  if (!rootList || rootList.index === undefined) return '';
+
+  const start = rootList.index;
+  const listTags = /<\/?ul\b[^>]*>/gi;
+  listTags.lastIndex = start;
+  let depth = 0;
+  let end = -1;
+  for (let match = listTags.exec(body); match; match = listTags.exec(body)) {
+    if (/^<\//.test(match[0])) depth -= 1;
+    else depth += 1;
+    if (depth === 0) {
+      end = listTags.lastIndex;
+      break;
+    }
+  }
+  if (end < 0) return '';
+
+  let menu = body.slice(start, end)
+    .replace(/\s*<button\b(?=[^>]*\boffcanvas-nav-toggle\b)[^>]*>[\s\S]*?<\/button>/gi, '')
+    .replaceAll('offcanvas-nav-subset', 'nav-subset')
+    .replaceAll('offcanvas-nav-item', 'nav-item')
+    .replaceAll('offcanvas-nav', 'navbar-nav');
+
+  let listDepth = 0;
+  menu = menu.replace(/<\/?ul\b[^>]*>|<a\b[^>]*\boffcanvas-nav-link\b[^>]*>/gi, (tag) => {
+    if (/^<\//.test(tag)) {
+      listDepth -= 1;
+      return tag;
+    }
+    if (/^<ul\b/i.test(tag)) {
+      listDepth += 1;
+      return tag;
+    }
+    return tag.replace('offcanvas-nav-link', listDepth === 1 ? 'nav-link' : 'nav-subset-link');
+  });
+
+  return `<nav class="mobiltronic-desktop-navigation" dir="rtl" aria-label="منوی اصلی"><div class="container">${menu}</div></nav>`;
+}
+
 export default async function MobiltronicPage({ params, searchParams }: PageProps) {
   const route = routeFor((await params).slug);
   const query = await searchParams;
@@ -66,21 +107,27 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
     <style>{`@font-face{font-family:FontAwesome;src:url('/mobiltronic/fontawesome-webfont.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
       .mobiltronic-source-copy, .mobiltronic-source-copy * { font-family: Tahoma, Arial, sans-serif !important; }
       .mobiltronic-source-copy .fa,.mobiltronic-source-copy .fa:before{font-family:FontAwesome!important}
+      .mobiltronic-desktop-navigation{background:#fafafa;border-bottom:1px solid #e8e8e8;margin-top:-30px;margin-bottom:30px;position:relative;z-index:20}
+      .mobiltronic-desktop-navigation>.container{max-width:1140px;margin:auto;display:flex;justify-content:flex-start;padding:0 15px}
+      .mobiltronic-desktop-navigation .navbar-nav{display:flex;flex-direction:row;margin:0;padding:0}
+      .mobiltronic-desktop-navigation .nav-item{position:relative;list-style:none}
+      .mobiltronic-desktop-navigation .nav-subset{display:none;min-width:250px;list-style:none;position:absolute;top:100%;right:0;background:#fff;padding:10px;white-space:nowrap;z-index:21;box-shadow:0 5px 35px rgba(0,0,0,.07);border-radius:.3125rem}
+      .mobiltronic-desktop-navigation .nav-subset-item{position:relative;list-style:none}
+      .mobiltronic-desktop-navigation .nav-subset-item>.nav-subset{top:-1px;right:100%}
+      .mobiltronic-desktop-navigation .nav-subset-link{display:block;padding:9px 15px 9px 30px;color:#6e6e75;font-size:14px;text-decoration:none}
+      .mobiltronic-desktop-navigation .nav-subset-link:after{content:'\\f053';font-family:FontAwesome;position:absolute;left:10px;font-size:.7em;top:1px;bottom:0;height:1em;line-height:1em;margin:auto 0}
+      .mobiltronic-desktop-navigation .nav-subset-item[data-subset="0"]>.nav-subset-link:after{content:''}
+      .mobiltronic-desktop-navigation .nav-item:hover>.nav-subset,
+      .mobiltronic-desktop-navigation .nav-item:focus-within>.nav-subset,
+      .mobiltronic-desktop-navigation .nav-subset-item:hover>.nav-subset,
+      .mobiltronic-desktop-navigation .nav-subset-item:focus-within>.nav-subset{display:block!important}
+      .mobiltronic-desktop-navigation a:focus-visible{outline:2px solid #f9a233;outline-offset:2px}
       .mobiltronic-source-copy .index-slider .owl-carousel{display:block;overflow:hidden}
       .mobiltronic-source-copy .index-slider .owl-carousel>a:not(:first-child){display:none!important}
       .mobiltronic-source-copy .index-products-carousel.owl-carousel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:hidden}
       .mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+5){display:none}
-      @media(min-width:992px){
-        .mobiltronic-source-copy .navbar-collapse.collapse{display:flex!important}
-        .mobiltronic-source-copy .navbar-nav{display:flex!important;flex-direction:row;margin-top:0}
-        .mobiltronic-source-copy .navbar-nav .nav-item:hover>.nav-subset,
-        .mobiltronic-source-copy .navbar-nav .nav-item:focus-within>.nav-subset,
-        .mobiltronic-source-copy .navbar-nav .nav-subset-item:hover>.nav-subset,
-        .mobiltronic-source-copy .navbar-nav .nav-subset-item:focus-within>.nav-subset{display:block}
-        .mobiltronic-source-copy .navbar-nav a:focus-visible{outline:2px solid #f9a233;outline-offset:2px}
-      }
-      @media(max-width:991px){.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:repeat(2,minmax(0,1fr))}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+3){display:none}}
+      @media(max-width:991px){.mobiltronic-desktop-navigation{display:none}.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:repeat(2,minmax(0,1fr))}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+3){display:none}}
       @media(max-width:575px){.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:1fr}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+2){display:none}}`}</style>
-    <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body }} />
+    <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body.replace('<!--/navigation-->', `<!--/navigation-->${desktopNavigationFromBody(page.body)}`) }} />
   </>;
 }
