@@ -1,43 +1,68 @@
 import type { Metadata } from 'next';
-type Props = {
-    params: Promise<{
-        slug?: string[];
-    }>;
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import mirror from '@/lib/mobiltronic/generated-mirror.json';
+
+type PageProps = {
+  params: Promise<{ slug?: string[] }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
-const publicPreviewHost = 'bijan.se';
-export async function generateMetadata({ params }: Props): Promise<Metadata> { const path = (await params).slug ?? []; return { title: path.length ? 'موبایل ترونیک' : 'خانه موبایل ترونیک', robots: { index: false, follow: false }, alternates: { canonical: `https://${publicPreviewHost}/mobiltronic/${path.join('/')}` } }; }
-function rewriteInternalLinks(html: string, sourceUrl: string) {
-    return html.replace(/<a\b[^>]*>/gi, tag => {
-        const href = tag.match(/\shref\s*=\s*(["'])(.*?)\1/i);
-        if (!href || href[2].startsWith('#') || href[2].includes('{{')) return tag;
-        let url: URL;
-        try { url = new URL(href[2].replace(/&amp;/gi, '&'), sourceUrl); }
-        catch { return tag; }
-        if (!['http:', 'https:'].includes(url.protocol) || url.hostname.replace(/^www\./, '') !== 'mobiltronic.ir') return tag;
-        const destination = `https://${publicPreviewHost}/mobiltronic${url.pathname}${url.search}${url.hash}`.replace(/&/g, '&amp;');
-        const linked = tag.replace(href[0], ` href="${destination}"`);
-        return /\starget\s*=\s*(["']).*?\1/i.test(linked)
-            ? linked.replace(/\starget\s*=\s*(["']).*?\1/i, ' target="_top"')
-            : linked.replace(/>$/, ' target="_top">');
-    });
+type Snapshot = { body: string; title: string; description: string; styles: string[]; localOnly?: boolean };
+type SearchEntry = { route: string; title: string; text: string };
+const data = mirror as unknown as { pages: Record<string, Snapshot>; searchIndex: SearchEntry[]; capturedAt: string; pageCount: number; assetCount: number };
+const publicOrigin = 'https://bijan.se';
+const basePath = '/mobiltronic';
+
+function routeFor(slug?: string[]) { return `/${(slug ?? []).join('/')}`.replace(/\/{2,}/g, '/') || '/'; }
+function queryString(values: Record<string, string | string[] | undefined>) {
+  const params = new URLSearchParams();
+  for (const key of Object.keys(values).sort()) {
+    if (key === 'q') continue;
+    const value = values[key];
+    if (Array.isArray(value)) for (const item of value) params.append(key, item);
+    else if (typeof value === 'string') params.append(key, value);
+  }
+  return params.toString();
 }
-export default async function Page({ params }: Props) {
-    const path = (await params).slug ?? [];
-    const sourcePath = path.length ? `/${path.join('/')}` : '/';
-    let mirrorHtml: string | undefined;
-    try {
-        const response = await fetch(`https://mobiltronic.ir${sourcePath}`, { next: { revalidate: 3600 } });
-        if (response.ok && response.headers.get('content-type')?.includes('text/html')) {
-            const source = (await response.text()).replaceAll('https://ecf92b.portal.ir/uploads/editor/d2023c.jpg', 'https://bijan.se/mobiltronic/network-design-coverage.webp');
-            const bridge = `<script>document.addEventListener('click',function(event){var link=event.target.closest('a[href]');if(!link)return;var url=new URL(link.getAttribute('href'),document.baseURI);if(url.hostname.replace(/^www\\./,'')==='mobiltronic.ir'){event.preventDefault();window.top.location.href='https://bijan.se/mobiltronic'+url.pathname+url.search+url.hash;}},true);</script>`;
-            mirrorHtml = rewriteInternalLinks(source, `https://mobiltronic.ir${sourcePath}`)
-                .replace(/<head([^>]*)>/i, `<head$1><base href="https://mobiltronic.ir${sourcePath}">`)
-                .replace(/<\/body>/i, `${bridge}</body>`);
-        }
-    } catch {
-        // Keep the original iframe available if the source site is unavailable.
-    }
-    if (mirrorHtml) return <iframe title="وب‌سایت موبایل ترونیک" srcDoc={mirrorHtml} sandbox="allow-scripts allow-forms allow-top-navigation-by-user-activation allow-popups" style={{ display: 'block', width: '100%', height: '100vh', minHeight: '100vh', border: 0 }} />;
-    return <iframe title="وب‌سایت موبایل ترونیک" src={`https://mobiltronic.ir${sourcePath}`} style={{ display: 'block', width: '100%', height: '100vh', minHeight: '100vh', border: 0 }} />;
+function canonical(route: string, search: string) { return `${publicOrigin}${basePath}${route === '/' ? '/' : route}${search ? `?${search}` : ''}`; }
+function lookup(route: string, search: string): Snapshot | undefined { return data.pages[`${route}${search ? `?${search}` : ''}`] || data.pages[route]; }
+
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+  const route = routeFor((await params).slug);
+  const search = queryString(await searchParams);
+  const page = lookup(route, search);
+  return {
+    title: page?.title || 'موبایل ترونیک',
+    description: page?.description || 'نسخه محلی وب‌سایت موبایل ترونیک در Bijan.se.',
+    robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+    alternates: { canonical: canonical(route, search) },
+  };
 }
 
+function LocalSearch({ query }: { query: string }) {
+  const normalized = query.toLowerCase().replaceAll('ي', 'ی').replaceAll('ك', 'ک').trim();
+  const results = normalized ? data.searchIndex.filter((item) => `${item.title} ${item.text}`.toLowerCase().replaceAll('ي', 'ی').replaceAll('ك', 'ک').includes(normalized)).slice(0, 60) : [];
+  return <main dir="rtl" lang="fa" className="mobiltronic-search-results">
+    <h1>نتایج جستجو</h1><p>جستجو برای: <strong>{query}</strong></p>
+    {results.length ? <ul>{results.map((item) => <li key={item.route}><h2><Link href={`${basePath}${item.route === '/' ? '/' : item.route}`}>{item.title}</Link></h2><p>{item.text.slice(0, 220)}</p></li>)}</ul> : <p>موردی پیدا نشد. عبارت دیگری را جستجو کنید.</p>}
+  </main>;
+}
+
+function BackendNotice() {
+  return <main dir="rtl" lang="fa" className="mobiltronic-backend-notice"><h1>این بخش به سامانه فروش اصلی وابسته است</h1><p>نسخه محلی، کاتالوگ و اطلاعات عمومی را نمایش می‌دهد. ورود، سبد سفارش، موجودی زنده، پرداخت و ثبت سفارش آنلاین به اتصال و دسترسی به سامانه اصلی نیاز دارند و در این نسخه فعال نیستند.</p><Link href="/mobiltronic/contact">مشاهده راه‌های تماس</Link></main>;
+}
+
+export default async function MobiltronicPage({ params, searchParams }: PageProps) {
+  const route = routeFor((await params).slug);
+  const query = await searchParams;
+  if (route === '/site/search') return <LocalSearch query={typeof query.q === 'string' ? query.q : ''} />;
+  if (['/site/cart', '/site/signin', '/site/signup', '/site/checkout'].includes(route)) return <BackendNotice />;
+
+  const search = queryString(query);
+  const page = lookup(route, search);
+  if (!page) notFound();
+  return <>
+    {page.styles.map((href) => <link key={href} rel="stylesheet" href={href} />)}
+    <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body }} />
+  </>;
+}
