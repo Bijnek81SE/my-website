@@ -79,7 +79,9 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
   return <>
     <SnapshotNotice />
     {page.styles.map((href) => <link key={href} rel="stylesheet" href={href} />)}
-    <style>{`.mobiltronic-source-copy, .mobiltronic-source-copy * { font-family: Tahoma, Arial, sans-serif !important; }
+    <style>{`@font-face{font-family:FontAwesome;src:url('/mobiltronic/fontawesome-webfont.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
+      .mobiltronic-source-copy, .mobiltronic-source-copy * { font-family: Tahoma, Arial, sans-serif !important; }
+      .mobiltronic-source-copy .fa,.mobiltronic-source-copy .fa:before{font-family:FontAwesome!important}
       .mobiltronic-desktop-navigation{background:#fafafa;border-bottom:1px solid #e8e8e8;margin-top:-30px;margin-bottom:30px;position:relative;z-index:2}
       .mobiltronic-desktop-navigation>div{max-width:1140px;margin:auto;display:flex;justify-content:flex-start;gap:34px;padding:13px 15px}
       .mobiltronic-desktop-navigation a{color:#666;text-decoration:none;font:16px Tahoma,Arial,sans-serif}
