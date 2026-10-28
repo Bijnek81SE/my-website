@@ -44,6 +44,7 @@ function resolveUrl(value, base) {
 function sourcePageUrl(value, base = origin) {
   const url = resolveUrl(value, base);
   if (!url || !['http:', 'https:'].includes(url.protocol) || url.hostname.replace(/^www\./, '') !== 'mobiltronic.ir') return null;
+  if (url.pathname.includes('{{') || url.pathname.includes('}}')) return null;
   if (ignoredRoute.test(url.pathname) || assetPath.test(url.pathname) || /\/(?:uploads|themes|site\/resources)\//i.test(url.pathname)) return null;
   for (const key of [...url.searchParams.keys()]) if (key !== 'page') url.searchParams.delete(key);
   return url;
@@ -123,14 +124,22 @@ function descriptionFrom(html) { return html.match(/<meta\s+name=["']description
 function parseLocations(xml) { return [...xml.matchAll(/<loc\b[^>]*>\s*([^<\s]+)\s*<\/loc>/gi)].map((m) => m[1].replace(/&amp;/g, '&')); }
 async function fetchResponse(url, accept = '*/*') {
   let lastError;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 5; attempt++) {
     try {
       const response = await fetch(url, { headers: { 'user-agent': 'Mobiltronic-public-copy/1.0 (+https://bijan.se/mobiltronic)', accept }, redirect: 'follow', signal: AbortSignal.timeout(30000) });
+      if (response.status === 429) {
+        lastError = new Error(`HTTP 429 for ${url}`);
+        const retryAfter = Number(response.headers.get('retry-after'));
+        const delay = Number.isFinite(retryAfter) && retryAfter > 0 ? Math.min(retryAfter * 1000, 30000) : Math.min(30000, 10000 * (attempt + 1));
+        console.warn(`[Mobiltronic mirror] Rate limited; retrying ${url} in ${delay}ms.`);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        continue;
+      }
       if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
       return response;
     } catch (error) {
       lastError = error;
-      await new Promise((resolve) => setTimeout(resolve, 350 * (attempt + 1)));
+      if (attempt < 4) await new Promise((resolve) => setTimeout(resolve, Math.min(5000, 1000 * (attempt + 1))));
     }
   }
   throw lastError;
@@ -231,6 +240,7 @@ while (queue.length && pages.size < maxPages) {
   const route = cleanRoute(url);
   if (pages.has(route)) continue;
   try {
+    await new Promise((resolve) => setTimeout(resolve, 650));
     const record = await capturePage(url);
     pages.set(record.route, record);
     for (const link of record.links) enqueuePage(link);
