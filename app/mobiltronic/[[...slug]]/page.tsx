@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import HeroCarouselEnhancer from '../HeroCarouselEnhancer';
 import mirror from '@/lib/mobiltronic/generated-mirror.json';
 
 type PageProps = {
@@ -123,11 +124,20 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
       .mobiltronic-desktop-navigation .nav-subset-item:focus-within>.nav-subset{display:block!important}
       .mobiltronic-desktop-navigation a:focus-visible{outline:2px solid #f9a233;outline-offset:2px}
       .mobiltronic-source-copy .index-slider .owl-carousel{display:block;overflow:hidden}
-      .mobiltronic-source-copy .index-slider .owl-carousel>a:not(:first-child){display:none!important}
+      .mobiltronic-source-copy .index-slider .owl-carousel:not(.mobiltronic-hero-carousel)>a:not(:first-child){display:none}
+      .mobiltronic-source-copy .index-slider .mobiltronic-hero-carousel{position:relative;display:grid;grid-template-areas:'slide';overflow:hidden}
+      .mobiltronic-source-copy .mobiltronic-hero-slide{grid-area:slide;opacity:0;visibility:hidden;transition:opacity .5s ease;pointer-events:none}
+      .mobiltronic-source-copy .mobiltronic-hero-slide.is-active{opacity:1;visibility:visible;pointer-events:auto}
+      .mobiltronic-source-copy .mobiltronic-hero-dots{position:absolute;z-index:2;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:7px;pointer-events:none}
+      .mobiltronic-source-copy .mobiltronic-hero-dots button{pointer-events:auto;width:12px;height:12px;min-width:12px;padding:0;border:0;border-radius:50%;background:#5d6265;cursor:pointer}
+      .mobiltronic-source-copy .mobiltronic-hero-dots button.is-active{background:#ffa332}
+      .mobiltronic-source-copy .mobiltronic-hero-dots button:focus-visible{outline:2px solid #4a246f;outline-offset:3px}
+      @media(prefers-reduced-motion:reduce){.mobiltronic-source-copy .mobiltronic-hero-slide{transition:none}}
       .mobiltronic-source-copy .index-products-carousel.owl-carousel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:hidden}
       .mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+5){display:none}
       @media(max-width:991px){.mobiltronic-desktop-navigation{display:none}.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:repeat(2,minmax(0,1fr))}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+3){display:none}}
       @media(max-width:575px){.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:1fr}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+2){display:none}}`}</style>
     <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body.replace('<!--/navigation-->', `<!--/navigation-->${desktopNavigationFromBody(page.body)}`) }} />
+    <HeroCarouselEnhancer route={route} />
   </>;
 }
