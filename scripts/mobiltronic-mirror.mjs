@@ -20,6 +20,7 @@ const assetMap = new Map();
 const assetQueue = [];
 const failedRoutes = [];
 const failedAssets = [];
+const unavailableFonts = new Set();
 let downloadedBytes = 0;
 
 function cleanRoute(url) {
@@ -52,6 +53,11 @@ function sourcePageUrl(value, base = origin) {
 function addAsset(value, base) {
   const url = resolveUrl(value, base);
   if (!url || !['http:', 'https:'].includes(url.protocol)) return;
+  if (/\.(?:eot|ttf|woff2?)$/i.test(url.pathname)) {
+    unavailableFonts.add(url.href);
+    return;
+  }
+  if (/%7b%7b|%7d%7d/i.test(url.pathname)) return;
   if (!assetMap.has(url.href)) {
     const local = `/mobiltronic-mirror/assets/${assetName(url)}`;
     assetMap.set(url.href, local);
@@ -81,6 +87,8 @@ function extractAnchors(html, baseUrl) {
 function extractBody(html) {
   const body = html.match(/<body\b[^>]*>([\s\S]*?)<\/body\s*>/i);
   return (body ? body[1] : html)
+    .replace(/<(?:img|source|video|audio)\b[^>]*(?:\{\{|%7b%7b)[^>]*>/gi, '')
+    .replace(/\s+href\s*=\s*(["'])[^"']*(?:\{\{|%7b%7b)[^"']*\1/gi, '')
     .replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '')
     .replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe\s*>/gi, '<div class="mirror-unavailable">محتوای جاسازی‌شده در نسخه محلی نمایش داده نمی‌شود.</div>')
     .replace(/<(?:object|embed|applet)\b[^>]*>[\s\S]*?<\/(?:object|embed|applet)\s*>/gi, '')
@@ -197,7 +205,10 @@ async function fetchAsset(entry) {
       const css = buffer.toString('utf8');
       matches(css, /url\(\s*(["']?)(.*?)\1\s*\)/gi, (_quote, value) => addAsset(value, entry.url));
       matches(css, /@import\s+(?:url\()?\s*(["'])(.*?)\1/gi, (_quote, value) => addAsset(value, entry.url));
-      const updated = css.replace(/url\(\s*(["']?)(.*?)\1\s*\)/gi, (all, quote, value) => `url(${quote}${localAssetUrl(value, entry.url) || value}${quote})`).replace(/@import\s+(?:url\()?\s*(["'])(.*?)\1/gi, (all, quote, value) => all.replace(value, localAssetUrl(value, entry.url) || value));
+      const updated = css.replace(/@font-face\s*\{[^}]*\}/gi, '').replace(/url\(\s*(["']?)(.*?)\1\s*\)/gi, (all, quote, value) => {
+        if (/\.(?:eot|ttf|woff2?)(?:$|[?#])/i.test(value)) return 'url("")';
+        return `url(${quote}${localAssetUrl(value, entry.url) || value}${quote})`;
+      }).replace(/@import\s+(?:url\()?\s*(["'])(.*?)\1/gi, (all, quote, value) => all.replace(value, localAssetUrl(value, entry.url) || value));
       await writeFile(path.join(assetRoot, filename), updated);
     }
     return true;
@@ -257,7 +268,7 @@ while (assetQueue.length) {
   await Promise.all(batch.map(fetchAsset));
 }
 
-const manifest = { source: origin, capturedAt: new Date().toISOString(), pageCount: pages.size, assetCount: assetMap.size, pages: {}, searchIndex: [] };
+const manifest = { source: origin, capturedAt: new Date().toISOString(), pageCount: pages.size, assetCount: assetMap.size, unavailableFontCount: unavailableFonts.size, pages: {}, searchIndex: [] };
 for (const [route, record] of pages) {
   let body = extractBody(record.html || record.body || '');
   body = rewriteHtml(body, record.sourceUrl ? new URL(record.sourceUrl) : new URL(origin));
@@ -267,6 +278,6 @@ for (const [route, record] of pages) {
   manifest.searchIndex.push({ route, title: record.title || 'موبایل ترونیک', text: text.slice(0, 4000) });
 }
 await writeFile(manifestFile, JSON.stringify(manifest));
-const report = `# Mobiltronic public copy build report\n\n- Captured at: ${manifest.capturedAt}\n- HTML pages: ${manifest.pageCount}\n- Local assets: ${manifest.assetCount}\n- Asset bytes: ${downloadedBytes}\n- Routes that failed capture: ${failedRoutes.length}\n- Assets that failed download: ${failedAssets.length}\n\n## Routes needing an original backend\n\nCart, sign-in, sign-up, and checkout paths are preserved with a clear notice. Their CMS, customer account, inventory, payment, and order APIs were not copied.\n\n${failedRoutes.length ? `## Routes that did not load\n\n${failedRoutes.map((item) => `- \`${item.route}\`: ${item.error}`).join('\n')}\n` : ''}${failedAssets.length ? `## Assets that did not download\n\n${failedAssets.map((item) => `- ${item.url}: ${item.error}`).join('\n')}\n` : ''}`;
+const report = `# Mobiltronic public copy build report\n\n- Captured at: ${manifest.capturedAt}\n- HTML pages: ${manifest.pageCount}\n- Local assets: ${manifest.assetCount}\n- Asset bytes: ${downloadedBytes}\n- Source font URLs unavailable: ${unavailableFonts.size}\n- Routes that failed capture: ${failedRoutes.length}\n- Assets that failed download: ${failedAssets.length}\n\n## Routes needing an original backend\n\nCart, sign-in, sign-up, and checkout paths are preserved with a clear notice. Their CMS, customer account, inventory, payment, and order APIs were not copied.\n\n${failedRoutes.length ? `## Routes that did not load\n\n${failedRoutes.map((item) => `- \`${item.route}\`: ${item.error}`).join('\n')}\n` : ''}${failedAssets.length ? `## Assets that did not download\n\n${failedAssets.map((item) => `- ${item.url}: ${item.error}`).join('\n')}\n` : ''}`;
 await writeFile(path.join(root, 'MOBILTRONIC-MIRROR-REPORT.md'), report);
 console.log(`[Mobiltronic mirror] Complete: ${manifest.pageCount} pages, ${assetMap.size} local assets (${downloadedBytes} bytes).`);
