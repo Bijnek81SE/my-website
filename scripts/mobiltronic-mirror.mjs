@@ -209,7 +209,7 @@ async function capturePage(url) {
   }
   collectAssets(html, url);
   const styles = [];
-  matches(html, /<link\b[^>]*>/gi, (tag) => {
+  matches(html, /(<link\b[^>]*>)/gi, (tag) => {
     if (!/\bstylesheet\b/i.test(tag)) return;
     const href = tag.match(/\bhref\s*=\s*(["'])(.*?)\1/i)?.[2];
     if (!href) return;
