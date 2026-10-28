@@ -52,13 +52,6 @@ function BackendNotice() {
   return <main dir="rtl" lang="fa" className="mobiltronic-backend-notice"><h1>این بخش به سامانه فروش اصلی وابسته است</h1><p>نسخه محلی، کاتالوگ و اطلاعات عمومی را نمایش می‌دهد. ورود، سبد سفارش، موجودی زنده، پرداخت و ثبت سفارش آنلاین به اتصال و دسترسی به سامانه اصلی نیاز دارند و در این نسخه فعال نیستند.</p><Link href="/mobiltronic/contact">مشاهده راه‌های تماس</Link></main>;
 }
 
-const primaryNavigation = [
-  ['خانه', '/'], ['محصولات', '/products'], ['تجهیزات جانبی و قطعات', '/accessories-and-parts'],
-  ['خدمات', '/services'], ['مطالب آموزشی', '/educational-contents'], ['تماس با ما', '/contact-us'],
-] as const;
-
-const desktopNavigation = `<nav class="mobiltronic-desktop-navigation" dir="rtl" aria-label="منوی اصلی"><div>${primaryNavigation.map(([label, path]) => `<a href="${basePath}${path}">${label}</a>`).join('')}</div></nav>`;
-
 export default async function MobiltronicPage({ params, searchParams }: PageProps) {
   const route = routeFor((await params).slug);
   const query = await searchParams;
@@ -73,16 +66,21 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
     <style>{`@font-face{font-family:FontAwesome;src:url('/mobiltronic/fontawesome-webfont.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
       .mobiltronic-source-copy, .mobiltronic-source-copy * { font-family: Tahoma, Arial, sans-serif !important; }
       .mobiltronic-source-copy .fa,.mobiltronic-source-copy .fa:before{font-family:FontAwesome!important}
-      .mobiltronic-desktop-navigation{background:#fafafa;border-bottom:1px solid #e8e8e8;margin-top:-30px;margin-bottom:30px;position:relative;z-index:2}
-      .mobiltronic-desktop-navigation>div{max-width:1140px;margin:auto;display:flex;justify-content:flex-start;gap:34px;padding:13px 15px}
-      .mobiltronic-desktop-navigation a{color:#666;text-decoration:none;font:16px Tahoma,Arial,sans-serif}
-      .mobiltronic-desktop-navigation a:hover{color:#f9a233}
       .mobiltronic-source-copy .index-slider .owl-carousel{display:block;overflow:hidden}
       .mobiltronic-source-copy .index-slider .owl-carousel>a:not(:first-child){display:none!important}
       .mobiltronic-source-copy .index-products-carousel.owl-carousel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:hidden}
       .mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+5){display:none}
-      @media(max-width:991px){.mobiltronic-desktop-navigation{display:none}.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:repeat(2,minmax(0,1fr))}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+3){display:none}}
+      @media(min-width:992px){
+        .mobiltronic-source-copy .navbar-collapse.collapse{display:flex!important}
+        .mobiltronic-source-copy .navbar-nav{display:flex!important;flex-direction:row;margin-top:0}
+        .mobiltronic-source-copy .navbar-nav .nav-item:hover>.nav-subset,
+        .mobiltronic-source-copy .navbar-nav .nav-item:focus-within>.nav-subset,
+        .mobiltronic-source-copy .navbar-nav .nav-subset-item:hover>.nav-subset,
+        .mobiltronic-source-copy .navbar-nav .nav-subset-item:focus-within>.nav-subset{display:block}
+        .mobiltronic-source-copy .navbar-nav a:focus-visible{outline:2px solid #f9a233;outline-offset:2px}
+      }
+      @media(max-width:991px){.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:repeat(2,minmax(0,1fr))}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+3){display:none}}
       @media(max-width:575px){.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:1fr}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+2){display:none}}`}</style>
-    <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body.replace('<!--/navigation-->', `<!--/navigation-->${desktopNavigation}`) }} />
+    <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body }} />
   </>;
 }
