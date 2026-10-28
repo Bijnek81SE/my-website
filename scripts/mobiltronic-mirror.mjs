@@ -5,6 +5,7 @@ import path from 'node:path';
 const origin = 'https://mobiltronic.ir';
 const publicOrigin = 'https://bijan.se';
 const root = process.cwd();
+const allowedSourceHosts = new Set(['mobiltronic.ir', 'www.mobiltronic.ir', 'ecf92b.portal.ir']);
 const mirrorRoot = path.join(root, 'public', 'mobiltronic-mirror');
 const assetRoot = path.join(mirrorRoot, 'assets');
 const manifestFile = path.join(root, 'lib', 'mobiltronic', 'generated-mirror.json');
@@ -42,9 +43,14 @@ function resolveUrl(value, base) {
   if (!value || /^(?:data:|blob:|javascript:|mailto:|tel:|#)/i.test(value.trim())) return null;
   try { return new URL(value.trim().replace(/&amp;/gi, '&'), base); } catch { return null; }
 }
+function isAllowedSourceUrl(url) {
+  return url.protocol === 'https:' && !url.username && !url.password && (!url.port || url.port === '443') && allowedSourceHosts.has(url.hostname.toLowerCase());
+}
 function sourcePageUrl(value, base = origin) {
   const url = resolveUrl(value, base);
-  if (!url || !['http:', 'https:'].includes(url.protocol) || url.hostname.replace(/^www\./, '') !== 'mobiltronic.ir') return null;
+  if (!url || !['http:', 'https:'].includes(url.protocol) || url.username || url.password || (url.port && url.port !== '80' && url.port !== '443') || url.hostname.replace(/^www\./, '') !== 'mobiltronic.ir') return null;
+  url.protocol = 'https:';
+  url.port = '';
   if (/%7b%7b|%7d%7d/i.test(url.pathname) || url.pathname.includes('{{') || url.pathname.includes('}}')) return null;
   if (ignoredRoute.test(url.pathname) || assetPath.test(url.pathname) || /\/(?:uploads|themes|site\/resources)\//i.test(url.pathname)) return null;
   for (const key of [...url.searchParams.keys()]) if (key !== 'page') url.searchParams.delete(key);
@@ -52,7 +58,7 @@ function sourcePageUrl(value, base = origin) {
 }
 function addAsset(value, base) {
   const url = resolveUrl(value, base);
-  if (!url || !['http:', 'https:'].includes(url.protocol)) return;
+  if (!url || !isAllowedSourceUrl(url)) return;
   if (/\.(?:eot|ttf|woff2?)$/i.test(url.pathname)) {
     unavailableFonts.add(url.href);
     return;
@@ -114,49 +120,71 @@ function rewriteHtml(html, baseUrl) {
     .replace(/\b(src|poster|href|action)\s*=\s*(["'])(.*?)\2/gi, (all, attr, quote, value) => {
       const url = resolveUrl(value, baseUrl);
       if (!url) return all;
-      if (attr.toLowerCase() === 'action' || attr.toLowerCase() === 'formaction') {
-        if (url.hostname.replace(/^www\./, '') === 'mobiltronic.ir') return `${attr}=${quote}${publicOrigin}/mobiltronic${url.pathname}${url.search}${quote}`;
+      const attribute = attr.toLowerCase();
+      const internalPage = ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password && (!url.port || url.port === '80' || url.port === '443') && url.hostname.replace(/^www\./, '') === 'mobiltronic.ir';
+      if (attribute === 'action' || attribute === 'formaction') {
+        if (internalPage) return `${attr}=${quote}${publicOrigin}/mobiltronic${url.pathname}${url.search}${quote}`;
         return all;
       }
-      const isAnchor = attr.toLowerCase() === 'href' && !assetPath.test(url.pathname) && !/\/(?:uploads|themes|site\/resources)\//i.test(url.pathname);
-      if (isAnchor && url.hostname.replace(/^www\./, '') === 'mobiltronic.ir') {
+      const isAnchor = attribute === 'href' && !assetPath.test(url.pathname) && !/\/(?:uploads|themes|site\/resources)\//i.test(url.pathname);
+      if (isAnchor && internalPage) {
         return `${attr}=${quote}${publicOrigin}/mobiltronic${url.pathname}${url.search}${url.hash}${quote}`;
       }
       const local = localAssetUrl(value, baseUrl);
-      return local ? `${attr}=${quote}${local}${quote}` : all;
+      if (local) return `${attr}=${quote}${local}${quote}`;
+      if (attribute === 'src' || attribute === 'poster') return url.hostname === 'bijan.se' ? all : '';
+      if (attribute === 'href' && internalPage && (assetPath.test(url.pathname) || /\/(?:uploads|themes|site\/resources)\//i.test(url.pathname))) return '';
+      return all;
     })
-    .replace(/\bsrcset\s*=\s*(["'])(.*?)\1/gi, (_all, quote, value) => `srcset=${quote}${value.split(',').map((item) => { const [url, ...rest] = item.trim().split(/\s+/); return `${localAssetUrl(url, baseUrl) || url}${rest.length ? ` ${rest.join(' ')}` : ''}`; }).join(', ')}${quote}`)
+    .replace(/\bsrcset\s*=\s*(["'])(.*?)\1/gi, (_all, quote, value) => `srcset=${quote}${value.split(',').map((item) => { const [rawUrl, ...rest] = item.trim().split(/\s+/); const url = resolveUrl(rawUrl, baseUrl); const local = localAssetUrl(rawUrl, baseUrl); if (local) return `${local}${rest.length ? ` ${rest.join(' ')}` : ''}`; if (!url || url.protocol === 'data:' || url.hostname === 'bijan.se') return item.trim(); return ''; }).filter(Boolean).join(', ')}${quote}`)
     .replace(/url\(\s*(["']?)(.*?)\1\s*\)/gi, (all, quote, value) => {
       if (/\.(?:eot|ttf|woff2?)(?:$|[?#])/i.test(value)) return 'url("")';
-      return `url(${quote}${localAssetUrl(value, baseUrl) || value}${quote})`;
+      if (/^data:/i.test(value.trim())) return all;
+      const local = localAssetUrl(value, baseUrl);
+      if (local) return `url(${quote}${local}${quote})`;
+      const url = resolveUrl(value, baseUrl);
+      return url && url.protocol === 'data:' ? all : 'url("")';
     });
 }
 function titleFrom(html) { return (html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); }
 function descriptionFrom(html) { return html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)/i)?.[1] || html.match(/<meta\s+content=["']([^"']*)["']\s+name=["']description/i)?.[1] || ''; }
 function parseLocations(xml) { return [...xml.matchAll(/<loc\b[^>]*>\s*([^<\s]+)\s*<\/loc>/gi)].map((m) => m[1].replace(/&amp;/g, '&')); }
-async function fetchResponse(url, accept = '*/*') {
+async function fetchResponse(url, accept = '*/*', attempts = 5, timeoutMs = 30000) {
   let lastError;
-  for (let attempt = 0; attempt < 5; attempt++) {
+  let requestUrl = url;
+  let redirects = 0;
+  for (let attempt = 0; attempt < attempts; attempt++) {
     try {
-      const response = await fetch(url, { headers: { 'user-agent': 'Mobiltronic-public-copy/1.0 (+https://bijan.se/mobiltronic)', accept }, redirect: 'follow', signal: AbortSignal.timeout(30000) });
+      const response = await fetch(requestUrl, { headers: { 'user-agent': 'Mobiltronic-public-copy/1.0 (+https://bijan.se/mobiltronic)', accept }, redirect: 'manual', signal: AbortSignal.timeout(timeoutMs) });
+      if (response.status >= 300 && response.status < 400) {
+        const location = response.headers.get('location');
+        const next = location ? resolveUrl(location, requestUrl) : null;
+        if (!next || !isAllowedSourceUrl(next) || ++redirects > 5) throw new Error(`Blocked redirect outside approved source hosts: ${requestUrl}`);
+        requestUrl = next.href;
+        attempt--;
+        continue;
+      }
       if (response.status === 429) {
-        lastError = new Error(`HTTP 429 for ${url}`);
+        lastError = new Error(`HTTP 429 for ${requestUrl}`);
         const retryAfter = Number(response.headers.get('retry-after'));
         const delay = Number.isFinite(retryAfter) && retryAfter > 0 ? Math.min(retryAfter * 1000, 30000) : Math.min(30000, 10000 * (attempt + 1));
         console.warn(`[Mobiltronic mirror] Rate limited; retrying ${url} in ${delay}ms.`);
         await new Promise((resolve) => setTimeout(resolve, delay));
         continue;
       }
-      if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status} for ${requestUrl}`);
       return response;
     } catch (error) {
       lastError = error;
-      if (attempt < 4) await new Promise((resolve) => setTimeout(resolve, Math.min(5000, 1000 * (attempt + 1))));
+      if (attempt + 1 < attempts) await new Promise((resolve) => setTimeout(resolve, Math.min(5000, 1000 * (attempt + 1))));
     }
   }
   throw lastError;
 }
-async function enqueueSitemap(url, sitemapQueue, seen) {
+async function enqueueSitemap(value, sitemapQueue, seen) {
+  const parsed = resolveUrl(value, origin);
+  if (!parsed || !isAllowedSourceUrl(parsed)) return;
+  const url = parsed.href;
   if (seen.has(url)) return;
   seen.add(url);
   const response = await fetchResponse(url, 'application/xml,text/xml,text/plain,*/*');
@@ -192,7 +220,7 @@ async function capturePage(url) {
 }
 async function fetchAsset(entry) {
   try {
-    const response = await fetchResponse(entry.url.href);
+    const response = await fetchResponse(entry.url.href, '*/*', 2, 15000);
     const type = response.headers.get('content-type') || 'application/octet-stream';
     const buffer = Buffer.from(await response.arrayBuffer());
     if (buffer.byteLength > maxAssetBytes) throw new Error(`Asset too large (${buffer.byteLength} bytes)`);
@@ -211,8 +239,13 @@ async function fetchAsset(entry) {
       matches(css, /@import\s+(?:url\()?\s*(["'])(.*?)\1/gi, (_quote, value) => addAsset(value, entry.url));
       const updated = css.replace(/@font-face\s*\{[^}]*\}/gi, '').replace(/url\(\s*(["']?)(.*?)\1\s*\)/gi, (all, quote, value) => {
         if (/\.(?:eot|ttf|woff2?)(?:$|[?#])/i.test(value)) return 'url("")';
-        return `url(${quote}${localAssetUrl(value, entry.url) || value}${quote})`;
-      }).replace(/@import\s+(?:url\()?\s*(["'])(.*?)\1/gi, (all, quote, value) => all.replace(value, localAssetUrl(value, entry.url) || value));
+        if (/^data:/i.test(value.trim())) return all;
+        const local = localAssetUrl(value, entry.url);
+        return local ? `url(${quote}${local}${quote})` : 'url("")';
+      }).replace(/@import\s+(?:url\()?\s*(["'])(.*?)\1/gi, (all, quote, value) => {
+        const local = localAssetUrl(value, entry.url);
+        return local ? all.replace(value, local) : '';
+      });
       await writeFile(path.join(assetRoot, filename), updated);
     }
     return true;
