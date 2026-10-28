@@ -8,6 +8,21 @@ type Props = {
 };
 const publicPreviewHost = 'bijan.se';
 export async function generateMetadata({ params }: Props): Promise<Metadata> { const path = (await params).slug ?? []; return { title: path.length ? 'موبایل ترونیک' : 'خانه موبایل ترونیک', robots: { index: false, follow: false }, alternates: { canonical: `https://${publicPreviewHost}/mobiltronic/${path.join('/')}` } }; }
+function rewriteInternalLinks(html: string, sourceUrl: string) {
+    return html.replace(/<a\b[^>]*>/gi, tag => {
+        const href = tag.match(/\shref\s*=\s*(["'])(.*?)\1/i);
+        if (!href || href[2].startsWith('#') || href[2].includes('{{')) return tag;
+        let url: URL;
+        try { url = new URL(href[2].replace(/&amp;/gi, '&'), sourceUrl); }
+        catch { return tag; }
+        if (!['http:', 'https:'].includes(url.protocol) || url.hostname.replace(/^www\./, '') !== 'mobiltronic.ir') return tag;
+        const destination = `https://${publicPreviewHost}/mobiltronic${url.pathname}${url.search}${url.hash}`.replace(/&/g, '&amp;');
+        const linked = tag.replace(href[0], ` href="${destination}"`);
+        return /\starget\s*=\s*(["']).*?\1/i.test(linked)
+            ? linked.replace(/\starget\s*=\s*(["']).*?\1/i, ' target="_top"')
+            : linked.replace(/>$/, ' target="_top">');
+    });
+}
 function ConsultingPage() {
     const benefits = ['بهینه‌سازی پوشش سیگنال', 'افزایش کیفیت خدمات (QoS)', 'مدیریت تداخل فرکانسی', 'کاهش هزینه‌ها', 'تطابق با نیازهای کاربران', 'آمادگی برای رشد شبکه'];
     const steps = ['جمع‌آوری اطلاعات اولیه', 'شبیه‌سازی رادیویی', 'تحلیل تداخل و ظرفیت', 'بهینه‌سازی مکان سایت‌ها و تنظیمات آنتن‌ها', 'اندازه‌گیری و تست نهایی', 'تأیید نهایی و اخذ مجوز رسمی'];
@@ -34,7 +49,9 @@ export default async function Page({ params }: Props) {
         if (response.ok && response.headers.get('content-type')?.includes('text/html')) {
             const source = await response.text();
             const bridge = `<script>document.addEventListener('click',function(event){var link=event.target.closest('a[href]');if(!link)return;var url=new URL(link.getAttribute('href'),document.baseURI);if(url.hostname.replace(/^www\\./,'')==='mobiltronic.ir'){event.preventDefault();window.top.location.href='https://bijan.se/mobiltronic'+url.pathname+url.search+url.hash;}},true);</script>`;
-            mirrorHtml = source.replace(/<head([^>]*)>/i, `<head$1><base href="https://mobiltronic.ir${sourcePath}">`).replace(/<\/body>/i, `${bridge}</body>`);
+            mirrorHtml = rewriteInternalLinks(source, `https://mobiltronic.ir${sourcePath}`)
+                .replace(/<head([^>]*)>/i, `<head$1><base href="https://mobiltronic.ir${sourcePath}">`)
+                .replace(/<\/body>/i, `${bridge}</body>`);
         }
     } catch {
         // Keep the original iframe available if the source site is unavailable.
