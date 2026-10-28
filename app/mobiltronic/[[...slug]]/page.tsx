@@ -74,8 +74,7 @@ function desktopNavigationFromBody(body: string) {
   let menu = body.slice(start, end)
     .replace(/\s*<button\b(?=[^>]*\boffcanvas-nav-toggle\b)[^>]*>[\s\S]*?<\/button>/gi, '')
     .replaceAll('offcanvas-nav-subset', 'nav-subset')
-    .replaceAll('offcanvas-nav-item', 'nav-item')
-    .replaceAll('offcanvas-nav', 'navbar-nav');
+    .replaceAll('offcanvas-nav-item', 'nav-item');
 
   let listDepth = 0;
   menu = menu.replace(/<\/?ul\b[^>]*>|<a\b[^>]*\boffcanvas-nav-link\b[^>]*>/gi, (tag) => {
@@ -89,6 +88,7 @@ function desktopNavigationFromBody(body: string) {
     }
     return tag.replace('offcanvas-nav-link', listDepth === 1 ? 'nav-link' : 'nav-subset-link');
   });
+  menu = menu.replace(/(<ul\b[^>]*class=["'])offcanvas-nav(["'])/i, '$1navbar-nav$2');
 
   return `<nav class="mobiltronic-desktop-navigation" dir="rtl" aria-label="منوی اصلی"><div class="container">${menu}</div></nav>`;
 }
