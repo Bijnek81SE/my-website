@@ -73,11 +73,10 @@ function desktopNavigationFromBody(body: string) {
 
   let menu = body.slice(start, end)
     .replace(/\s*<button\b(?=[^>]*\boffcanvas-nav-toggle\b)[^>]*>[\s\S]*?<\/button>/gi, '')
-    .replaceAll('offcanvas-nav-subset', 'nav-subset')
-    .replaceAll('offcanvas-nav-item', 'nav-item');
+    .replaceAll('offcanvas-nav-subset', 'nav-subset');
 
   let listDepth = 0;
-  menu = menu.replace(/<\/?ul\b[^>]*>|<a\b[^>]*\boffcanvas-nav-link\b[^>]*>/gi, (tag) => {
+  menu = menu.replace(/<\/?ul\b[^>]*>|<li\b[^>]*\boffcanvas-nav-item\b[^>]*>|<a\b[^>]*\boffcanvas-nav-link\b[^>]*>/gi, (tag) => {
     if (/^<\//.test(tag)) {
       listDepth -= 1;
       return tag;
@@ -86,6 +85,7 @@ function desktopNavigationFromBody(body: string) {
       listDepth += 1;
       return tag;
     }
+    if (/^<li\b/i.test(tag)) return tag.replace('offcanvas-nav-item', listDepth === 1 ? 'nav-item' : 'nav-subset-item');
     return tag.replace('offcanvas-nav-link', listDepth === 1 ? 'nav-link' : 'nav-subset-link');
   });
   menu = menu.replace(/(<ul\b[^>]*class=["'])offcanvas-nav(["'])/i, '$1navbar-nav$2');
