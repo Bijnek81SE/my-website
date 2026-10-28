@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
         const response = await fetch(`https://mobiltronic.ir${sourcePath}`, { next: { revalidate: 3600 } });
         if (response.ok && response.headers.get('content-type')?.includes('text/html')) {
             const source = await response.text();
-            const bridge = `<script>document.addEventListener('click',function(event){var link=event.target.closest('a[href]');if(!link)return;var url=new URL(link.getAttribute('href'),document.baseURI);if(url.hostname.replace(/^www\\./,'')==='mobiltronic.ir'){event.preventDefault();window.top.location.href='/mobiltronic'+url.pathname+url.search+url.hash;}},true);</script>`;
+            const bridge = `<script>document.addEventListener('click',function(event){var link=event.target.closest('a[href]');if(!link)return;var url=new URL(link.getAttribute('href'),document.baseURI);if(url.hostname.replace(/^www\\./,'')==='mobiltronic.ir'){event.preventDefault();window.top.location.href='https://bijan.se/mobiltronic'+url.pathname+url.search+url.hash;}},true);</script>`;
             mirrorHtml = source.replace(/<head([^>]*)>/i, `<head$1><base href="https://mobiltronic.ir${sourcePath}">`).replace(/<\/body>/i, `${bridge}</body>`);
         }
     } catch {
