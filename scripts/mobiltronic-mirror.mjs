@@ -44,7 +44,7 @@ function resolveUrl(value, base) {
 function sourcePageUrl(value, base = origin) {
   const url = resolveUrl(value, base);
   if (!url || !['http:', 'https:'].includes(url.protocol) || url.hostname.replace(/^www\./, '') !== 'mobiltronic.ir') return null;
-  if (url.pathname.includes('{{') || url.pathname.includes('}}')) return null;
+  if (/%7b%7b|%7d%7d/i.test(url.pathname) || url.pathname.includes('{{') || url.pathname.includes('}}')) return null;
   if (ignoredRoute.test(url.pathname) || assetPath.test(url.pathname) || /\/(?:uploads|themes|site\/resources)\//i.test(url.pathname)) return null;
   for (const key of [...url.searchParams.keys()]) if (key !== 'page') url.searchParams.delete(key);
   return url;
