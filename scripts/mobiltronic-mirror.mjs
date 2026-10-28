@@ -8,14 +8,14 @@ const root = process.cwd();
 const mirrorRoot = path.join(root, 'public', 'mobiltronic-mirror');
 const assetRoot = path.join(mirrorRoot, 'assets');
 const manifestFile = path.join(root, 'lib', 'mobiltronic', 'generated-mirror.json');
-const maxPages = Number(process.env.MOBILTRONIC_MIRROR_MAX_PAGES || 1000);
+const maxPages = Number(process.env.MOBILTRONIC_MIRROR_MAX_PAGES || 300);
 const maxAssetBytes = 40 * 1024 * 1024;
 const maxTotalAssetBytes = 600 * 1024 * 1024;
 const ignoredRoute = /\/(?:admin|dashboard|site\/(?:admin|api|payment|cart|signin|signup|checkout|orders?))(?:\/|$)/i;
 const assetPath = /\.(?:avif|css|gif|ico|jpe?g|js|m4v|mp3|mp4|otf|pdf|png|svg|ttf|webm|webp|woff2?|eot)(?:$)/i;
 const backendPaths = ['/site/cart', '/site/signin', '/site/signup', '/site/checkout'];
 const pages = new Map();
-const queuedPages = new Set();
+const scheduledPages = new Set();
 const assetMap = new Map();
 const assetQueue = [];
 const failedRoutes = [];
@@ -212,7 +212,16 @@ const robots = await robotsResponse.text();
 const sitemapUrl = robots.match(/^\s*Sitemap:\s*(\S+)/im)?.[1] || `${origin}/site/sitemap`;
 await enqueueSitemap(sitemapUrl, sitemapSeeds, seenSitemaps);
 const home = new URL('/', origin);
-const queue = [home, ...sitemapSeeds];
+const queue = [];
+function enqueuePage(url) {
+  const route = cleanRoute(url);
+  if (!scheduledPages.has(route) && !pages.has(route)) {
+    scheduledPages.add(route);
+    queue.push(url);
+  }
+}
+enqueuePage(home);
+for (const url of sitemapSeeds) enqueuePage(url);
 const backendHtml = '<main class="mirror-backend-notice" dir="rtl" lang="fa"><h1>این بخش به سامانه فروش اصلی وابسته است</h1><p>نسخه محلی، کاتالوگ و اطلاعات عمومی را نمایش می‌دهد. ورود، سبد سفارش، پرداخت و ثبت سفارش آنلاین به اتصال و دسترسی به سامانه اصلی نیاز دارند و در این نسخه فعال نیستند.</p><a href="https://bijan.se/mobiltronic/contact">راه‌های تماس</a></main>';
 for (const route of backendPaths) pages.set(route, { route, title: 'بخش نیازمند سامانه فروش', description: 'این مسیر به سامانه اصلی فروش وابسته است.', body: backendHtml, styles: [], sourceUrl: null, localOnly: true });
 
@@ -220,15 +229,11 @@ while (queue.length && pages.size < maxPages) {
   const url = queue.shift();
   if (!url) continue;
   const route = cleanRoute(url);
-  if (queuedPages.has(route) || pages.has(route)) continue;
-  queuedPages.add(route);
+  if (pages.has(route)) continue;
   try {
     const record = await capturePage(url);
     pages.set(record.route, record);
-    for (const link of record.links) {
-      const linkedRoute = cleanRoute(link);
-      if (!queuedPages.has(linkedRoute) && !pages.has(linkedRoute)) queue.push(link);
-    }
+    for (const link of record.links) enqueuePage(link);
     if (pages.size % 25 === 0) console.log(`[Mobiltronic mirror] Captured ${pages.size} pages; ${queue.length} queued.`);
   } catch (error) {
     failedRoutes.push({ route, error: String(error.message || error) });
