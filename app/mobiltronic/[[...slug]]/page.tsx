@@ -1,20 +1,13 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import Store from '@/components/mobiltronic/Store';
-import { categories, findProduct, pageTitles } from '@/lib/mobiltronic/catalog';
 type Props = {
     params: Promise<{
         slug?: string[];
     }>;
 };
 const publicPreviewHost = 'bijan.se';
-export async function generateMetadata({ params }: Props): Promise<Metadata> { const path = (await params).slug ?? []; const product = path[0] === 'products' ? findProduct(path[1]) : undefined; return { title: product?.seo.title ?? pageTitles[path[0] ?? ''] ?? 'محصولات', robots: { index: false, follow: false }, alternates: { canonical: `https://${publicPreviewHost}/mobiltronic/${path.join('/')}` }, description: product?.seo.description }; }
+export async function generateMetadata({ params }: Props): Promise<Metadata> { const path = (await params).slug ?? []; return { title: path.length ? 'موبایل ترونیک' : 'خانه موبایل ترونیک', robots: { index: false, follow: false }, alternates: { canonical: `https://${publicPreviewHost}/mobiltronic/${path.join('/')}` } }; }
 export default async function Page({ params }: Props) {
     const path = (await params).slug ?? [];
-    const route = path.join('/');
-    const valid = path.length <= 1 && Object.hasOwn(pageTitles, route) || path.length === 2 && (path[0] === 'products' && !!findProduct(path[1]) || path[0] === 'categories' && categories.some(c => c.id === path[1]));
-    if (!valid)
-        notFound();
-    const product = path[0] === 'products' ? findProduct(path[1]) : undefined;
-    return <>{product && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'Product', name: `Hytera ${product.model}`, sku: product.sku, model: product.model, brand: { '@type': 'Brand', name: product.brand }, description: product.description, url: `https://${publicPreviewHost}/mobiltronic/products/${product.id}` }).replaceAll('<', '\\u003c') }}/>}<Store route={route} base="/mobiltronic"/></>;
+    const sourcePath = path.length ? `/${path.join('/')}` : '/';
+    return <iframe title="وب‌سایت موبایل ترونیک" src={`https://mobiltronic.ir${sourcePath}`} style={{ display: 'block', width: '100%', height: '100vh', minHeight: '100vh', border: 0 }} />;
 }
