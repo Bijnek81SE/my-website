@@ -27,6 +27,20 @@ function ConsultingPage() {
 export default async function Page({ params }: Props) {
     const path = (await params).slug ?? [];
     if (path.join('/') === 'services/consulting-and-network-design') return <ConsultingPage />;
+    if (path.length === 0) {
+        let mirrorHtml: string | undefined;
+        try {
+            const response = await fetch('https://mobiltronic.ir/', { next: { revalidate: 3600 } });
+            if (response.ok) {
+                const source = await response.text();
+                const bridge = `<script>document.addEventListener('click',function(event){var link=event.target.closest('a[href]');if(!link)return;var url=new URL(link.getAttribute('href'),document.baseURI);if(url.hostname==='mobiltronic.ir'&&url.pathname.replace(/\\/$/,'')==='/services/consulting-and-network-design'){event.preventDefault();window.top.location.href='/mobiltronic/services/consulting-and-network-design';}},true);</script>`;
+                mirrorHtml = source.replace(/<head([^>]*)>/i, '<head$1><base href="https://mobiltronic.ir/">').replace(/<\/body>/i, `${bridge}</body>`);
+            }
+        } catch {
+            // Fall through to the original site when its HTML is unavailable.
+        }
+        if (mirrorHtml) return <iframe title="وب‌سایت موبایل ترونیک" srcDoc={mirrorHtml} sandbox="allow-scripts allow-forms allow-top-navigation-by-user-activation allow-popups" style={{ display: 'block', width: '100%', height: '100vh', minHeight: '100vh', border: 0 }} />;
+    }
     const sourcePath = path.length ? `/${path.join('/')}` : '/';
     return <iframe title="وب‌سایت موبایل ترونیک" src={`https://mobiltronic.ir${sourcePath}`} style={{ display: 'block', width: '100%', height: '100vh', minHeight: '100vh', border: 0 }} />;
 }
