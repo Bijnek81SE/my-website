@@ -13,7 +13,8 @@
     "test:e2e": "playwright test",
     "quality": "npm run lint && npm run test && npm run test:e2e",
     "clean:e2e": "node -e \"for (const p of ['test-results','playwright-report']) require('node:fs').rmSync(p,{recursive:true,force:true})\"",
-    "pretest:e2e": "npm run clean:e2e && npm run build"
+    "pretest:e2e": "npm run clean:e2e && npm run build",
+    "prebuild": "node scripts/mobiltronic-mirror.mjs"
   },
   "dependencies": {
     "next": "16.2.11",
