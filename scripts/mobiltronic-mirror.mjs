@@ -110,6 +110,7 @@ function localAssetUrl(value, baseUrl) {
 }
 function rewriteHtml(html, baseUrl) {
   return html
+    .replace(/@font-face\s*\{[^}]*\}/gi, '')
     .replace(/\b(src|poster|href|action)\s*=\s*(["'])(.*?)\2/gi, (all, attr, quote, value) => {
       const url = resolveUrl(value, baseUrl);
       if (!url) return all;
@@ -125,7 +126,10 @@ function rewriteHtml(html, baseUrl) {
       return local ? `${attr}=${quote}${local}${quote}` : all;
     })
     .replace(/\bsrcset\s*=\s*(["'])(.*?)\1/gi, (_all, quote, value) => `srcset=${quote}${value.split(',').map((item) => { const [url, ...rest] = item.trim().split(/\s+/); return `${localAssetUrl(url, baseUrl) || url}${rest.length ? ` ${rest.join(' ')}` : ''}`; }).join(', ')}${quote}`)
-    .replace(/url\(\s*(["']?)(.*?)\1\s*\)/gi, (all, quote, value) => `url(${quote}${localAssetUrl(value, baseUrl) || value}${quote})`);
+    .replace(/url\(\s*(["']?)(.*?)\1\s*\)/gi, (all, quote, value) => {
+      if (/\.(?:eot|ttf|woff2?)(?:$|[?#])/i.test(value)) return 'url("")';
+      return `url(${quote}${localAssetUrl(value, baseUrl) || value}${quote})`;
+    });
 }
 function titleFrom(html) { return (html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); }
 function descriptionFrom(html) { return html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)/i)?.[1] || html.match(/<meta\s+content=["']([^"']*)["']\s+name=["']description/i)?.[1] || ''; }
