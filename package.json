@@ -12,7 +12,7 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "quality": "npm run lint && npm run test && npm run test:e2e",
-    "clean:e2e": "node scripts/clean-e2e-state.mjs",
+    "clean:e2e": "node -e \"for (const p of ['test-results','playwright-report']) require('node:fs').rmSync(p,{recursive:true,force:true})\"",
     "pretest:e2e": "npm run clean:e2e && npm run build"
   },
   "dependencies": {
