@@ -39,10 +39,18 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   };
 }
 
+function SnapshotNotice() {
+  const date = data.capturedAt?.slice(0, 10) || 'نامشخص';
+  return <aside role="note" dir="rtl" lang="fa" style={{ padding: '10px 16px', textAlign: 'center', background: '#fff3cd', color: '#664d03', fontSize: 14, borderBottom: '1px solid #ffecb5' }}>
+    نسخهٔ اطلاعات عمومی ثبت‌شده در {date}. قیمت و موجودی لحظه‌ای، ثبت سفارش و پرداخت در این نسخه قابل تأیید نیست؛ برای استعلام از <Link href="/mobiltronic/contact-us" style={{ color: 'inherit', fontWeight: 700 }}>راه‌های تماس</Link> استفاده کنید.
+  </aside>;
+}
+
 function LocalSearch({ query }: { query: string }) {
   const normalized = query.toLowerCase().replaceAll('ي', 'ی').replaceAll('ك', 'ک').trim();
   const results = normalized ? data.searchIndex.filter((item) => `${item.title} ${item.text}`.toLowerCase().replaceAll('ي', 'ی').replaceAll('ك', 'ک').includes(normalized)).slice(0, 60) : [];
   return <main dir="rtl" lang="fa" className="mobiltronic-search-results">
+    <SnapshotNotice />
     <h1>نتایج جستجو</h1><p>جستجو برای: <strong>{query}</strong></p>
     {results.length ? <ul>{results.map((item) => <li key={item.route}><h2><Link href={`${basePath}${item.route === '/' ? '/' : item.route}`}>{item.title}</Link></h2><p>{item.text.slice(0, 220)}</p></li>)}</ul> : <p>موردی پیدا نشد. عبارت دیگری را جستجو کنید.</p>}
   </main>;
@@ -62,6 +70,7 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
   const page = lookup(route, search);
   if (!page) notFound();
   return <>
+    <SnapshotNotice />
     {page.styles.map((href) => <link key={href} rel="stylesheet" href={href} />)}
     <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body }} />
   </>;
