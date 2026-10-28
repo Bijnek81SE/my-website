@@ -9,7 +9,7 @@ type PageProps = {
 };
 type Snapshot = { body: string; title: string; description: string; styles: string[]; localOnly?: boolean };
 type SearchEntry = { route: string; title: string; text: string };
-const data = mirror as unknown as { pages: Record<string, Snapshot>; searchIndex: SearchEntry[]; capturedAt: string; pageCount: number; assetCount: number };
+const data = mirror as unknown as { pages: Record<string, Snapshot>; searchIndex: SearchEntry[]; capturedAt: string; pageCount: number; assetCount: number; unavailableFontCount?: number };
 const publicOrigin = 'https://bijan.se';
 const basePath = '/mobiltronic';
 
@@ -42,7 +42,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 function SnapshotNotice() {
   const date = data.capturedAt?.slice(0, 10) || 'نامشخص';
   return <aside role="note" dir="rtl" lang="fa" style={{ padding: '10px 16px', textAlign: 'center', background: '#fff3cd', color: '#664d03', fontSize: 14, borderBottom: '1px solid #ffecb5' }}>
-    نسخهٔ اطلاعات عمومی ثبت‌شده در {date}. قیمت و موجودی لحظه‌ای، ثبت سفارش و پرداخت در این نسخه قابل تأیید نیست؛ برای استعلام از <Link href="/mobiltronic/contact-us" style={{ color: 'inherit', fontWeight: 700 }}>راه‌های تماس</Link> استفاده کنید.
+    نسخهٔ اطلاعات عمومی ثبت‌شده در {date}. قیمت و موجودی لحظه‌ای، ثبت سفارش و پرداخت در این نسخه قابل تأیید نیست؛ برای استعلام از <Link href="/mobiltronic/contact-us" style={{ color: 'inherit', fontWeight: 700 }}>راه‌های تماس</Link> استفاده کنید.{data.unavailableFontCount ? ' قلم اختصاصی سایت در دسترس نبود و قلم جایگزین به کار می‌رود.' : ''}
   </aside>;
 }
 
@@ -72,6 +72,7 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
   return <>
     <SnapshotNotice />
     {page.styles.map((href) => <link key={href} rel="stylesheet" href={href} />)}
+    <style>{`.mobiltronic-source-copy, .mobiltronic-source-copy * { font-family: Tahoma, Arial, sans-serif !important; }`}</style>
     <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body }} />
   </>;
 }
