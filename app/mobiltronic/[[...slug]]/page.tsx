@@ -105,6 +105,7 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
   if (!page) notFound();
   return <>
     {page.styles.map((href) => <link key={href} rel="stylesheet" href={href} />)}
+    <link rel="stylesheet" href="/mobiltronic-polish.css" />
     <style>{`@font-face{font-family:FontAwesome;src:url('/mobiltronic/fontawesome-webfont.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
       .mobiltronic-source-copy, .mobiltronic-source-copy * { font-family: Tahoma, Arial, sans-serif !important; }
       .mobiltronic-source-copy .fa,.mobiltronic-source-copy .fa:before{font-family:FontAwesome!important}
