@@ -105,9 +105,7 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
   if (!page) notFound();
   return <>
     {page.styles.map((href) => <link key={href} rel="stylesheet" href={href} />)}
-    <link rel="stylesheet" href="/mobiltronic-polish.css" />
     <style>{`@font-face{font-family:FontAwesome;src:url('/mobiltronic/fontawesome-webfont.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
-      .mobiltronic-source-copy, .mobiltronic-source-copy * { font-family: Tahoma, Arial, sans-serif !important; }
       .mobiltronic-source-copy .fa,.mobiltronic-source-copy .fa:before{font-family:FontAwesome!important}
       .mobiltronic-desktop-navigation{background:#fafafa;border-bottom:1px solid #e8e8e8;margin-top:-30px;margin-bottom:30px;position:relative;z-index:20}
       .mobiltronic-desktop-navigation>.container{max-width:1140px;margin:auto;display:flex;justify-content:flex-start;padding:0 15px}
@@ -138,6 +136,7 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
       .mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+5){display:none}
       @media(max-width:991px){.mobiltronic-desktop-navigation{display:none}.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:repeat(2,minmax(0,1fr))}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+3){display:none}}
       @media(max-width:575px){.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:1fr}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+2){display:none}}`}</style>
+    <link rel="stylesheet" href="/mobiltronic-polish.css" />
     <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body.replace('<!--/navigation-->', `<!--/navigation-->${desktopNavigationFromBody(page.body)}`) }} />
     <HeroCarouselEnhancer route={route} />
   </>;
