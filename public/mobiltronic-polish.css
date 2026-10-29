@@ -94,3 +94,7 @@
 .mobiltronic-source-copy .mobiltronic-category-label{position:absolute;right:10px;bottom:10px;left:10px;padding:9px 12px;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:linear-gradient(110deg,rgba(26,34,52,.82),rgba(64,39,91,.76));color:#fff;font-size:15px;font-weight:700;line-height:1.5;text-align:center;backdrop-filter:blur(6px)}
 @media(max-width:575px){.mobiltronic-source-copy .mobiltronic-category-card{border-radius:14px}.mobiltronic-source-copy .mobiltronic-category-label{right:7px;bottom:7px;left:7px;padding:7px 8px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){.mobiltronic-source-copy .mobiltronic-category-card,.mobiltronic-source-copy .mobiltronic-category-generated-image,.mobiltronic-source-copy .store-product-image-element,.mobiltronic-source-copy .store-compact-product-image-element,.mobiltronic-source-copy .product-image-element,.mobiltronic-source-copy .product-relates-item-image-element{transition:none}}
+
+/* Light color correction for remaining storefront illustrations; preserve the logo and animated badge. */
+.mt img{filter:saturate(1.06) contrast(1.025);transition:filter .25s ease,transform .25s ease}
+.mt img.header-logo-image,.mt img[src$=".gif"]{filter:none}
