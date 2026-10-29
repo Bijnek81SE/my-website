@@ -98,3 +98,13 @@
 /* Light color correction for remaining storefront illustrations; preserve the logo and animated badge. */
 .mt img{filter:saturate(1.06) contrast(1.025);transition:filter .25s ease,transform .25s ease}
 .mt img.header-logo-image,.mt img[src$=".gif"]{filter:none}
+
+/* Stronger shared image depth across every route. Respect reduced-motion preferences below. */
+.mt img{filter:saturate(1.12) contrast(1.035) drop-shadow(0 8px 11px rgba(21,34,53,.16));transition:filter .28s ease,transform .28s ease}
+.mt img.header-logo-image,.mt img[src$=".gif"]{filter:none}
+.mobiltronic-source-copy .store-product-image-element,.mobiltronic-source-copy .store-compact-product-image-element,.mobiltronic-source-copy .product-image-element,.mobiltronic-source-copy .product-relates-item-image-element{filter:drop-shadow(0 15px 18px rgba(22,35,55,.23)) saturate(1.12) contrast(1.035);transform:perspective(1100px) translateZ(0)}
+.mobiltronic-source-copy .store-product:hover .store-product-image-element,.mobiltronic-source-copy .store-compact-product:hover .store-compact-product-image-element,.mobiltronic-source-copy .product-relates-item:hover .product-relates-item-image-element{transform:perspective(950px) rotateY(-2deg) rotateX(1deg) translateY(-4px) scale(1.04);filter:drop-shadow(0 19px 20px rgba(22,35,55,.26)) saturate(1.15) contrast(1.04)}
+.mobiltronic-source-copy .store-product:hover,.mobiltronic-source-copy .store-compact-product:hover,.mobiltronic-source-copy .product-relates-item:hover{transform:perspective(1200px) rotateY(-1deg) translateY(-5px);box-shadow:0 18px 36px rgba(31,38,55,.15)}
+.mobiltronic-source-copy .product-images-slider-item:hover,.mobiltronic-source-copy .product-images-item:hover{transform:perspective(1000px) rotateY(-1deg) translateY(-3px);box-shadow:0 12px 26px rgba(29,43,64,.13)}
+.mobiltronic-source-copy .blog-post:hover,.mobiltronic-source-copy .blog-compact-post:hover{transform:perspective(1100px) rotateY(-1deg) translateY(-5px)}
+@media(prefers-reduced-motion:reduce){.mt img,.mobiltronic-source-copy .store-product,.mobiltronic-source-copy .store-compact-product,.mobiltronic-source-copy .product-relates-item,.mobiltronic-source-copy .product-images-slider-item,.mobiltronic-source-copy .product-images-item,.mobiltronic-source-copy .blog-post,.mobiltronic-source-copy .blog-compact-post{transition:none!important;transform:none!important}}
