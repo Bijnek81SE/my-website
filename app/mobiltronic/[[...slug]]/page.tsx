@@ -113,13 +113,13 @@ function addHomeCategoryArtwork(body: string) {
     if (anchorStart < 0 || anchorOpenEnd < 0 || anchorCloseEnd < 0) continue;
 
     let anchor = body.slice(anchorStart, anchorOpenEnd + 1);
-    const title = /\btitle=(["'])(.*?)\\1/i.exec(anchor)?.[2] || /\balt=(["'])(.*?)\\1/i.exec(imageMatch[0])?.[2] || '';
-    anchor = /\bclass=(["'])(.*?)\\1/i.test(anchor)
-      ? anchor.replace(/\bclass=(["'])(.*?)\\1/i, (_match, quote: string, value: string) => `class=${quote}${value} mobiltronic-category-card${quote}`)
+    const title = /\btitle=(["'])(.*?)\1/i.exec(anchor)?.[2] || /\balt=(["'])(.*?)\1/i.exec(imageMatch[0])?.[2] || '';
+    anchor = /\bclass=(["'])(.*?)\1/i.test(anchor)
+      ? anchor.replace(/\bclass=(["'])(.*?)\1/i, (_match, quote: string, value: string) => `class=${quote}${value} mobiltronic-category-card${quote}`)
       : anchor.replace('<a', '<a class="mobiltronic-category-card"');
     const image = imageMatch[0]
-      .replace(/\bsrc=(["'])[^"']*\\1/i, `src="/mobiltronic-artwork/categories/${artwork}"`)
-      .replace(/\bclass=(["'])(.*?)\\1/i, (_match, quote: string, value: string) => `class=${quote}${value} mobiltronic-category-generated-image${quote}`);
+      .replace(/\bsrc=(["'])[^"']*\1/i, `src="/mobiltronic-artwork/categories/${artwork}"`)
+      .replace(/\bclass=(["'])(.*?)\1/i, (_match, quote: string, value: string) => `class=${quote}${value} mobiltronic-category-generated-image${quote}`);
     const inner = `${image}<span class="mobiltronic-category-label">${title}</span>`;
     body = body.slice(0, anchorStart) + anchor + inner + body.slice(anchorCloseEnd);
   }
