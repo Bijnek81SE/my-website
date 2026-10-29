@@ -94,6 +94,38 @@ function desktopNavigationFromBody(body: string) {
   return `<nav class="mobiltronic-desktop-navigation" dir="rtl" aria-label="منوی اصلی"><div class="container">${menu}</div></nav>`;
 }
 
+
+function addHomeCategoryArtwork(body: string) {
+  const artworks = [
+    ['3362ed10c3961914d205dbd3.png', 'analyzer.webp'],
+    ['21632ce07abaa7eb8a564bf0.png', 'cable-connectors.webp'],
+    ['9a27114c7cbfbc8a048104d7.png', 'power-supply.webp'],
+    ['38d74ca2ca786ce70e25db03.png', 'walkie-talkie.webp'],
+  ] as const;
+
+  for (const [source, artwork] of artworks) {
+    const imageMatch = new RegExp(`<img\\b(?=[^>]*\\bsrc=(["'])[^"']*${source}\\1)[^>]*>`, 'i').exec(body);
+    if (!imageMatch || imageMatch.index === undefined) continue;
+    const imageIndex = imageMatch.index;
+    const anchorStart = body.lastIndexOf('<a', imageIndex);
+    const anchorOpenEnd = body.indexOf('>', anchorStart);
+    const anchorCloseEnd = body.indexOf('</a>', imageIndex);
+    if (anchorStart < 0 || anchorOpenEnd < 0 || anchorCloseEnd < 0) continue;
+
+    let anchor = body.slice(anchorStart, anchorOpenEnd + 1);
+    const title = /\\btitle=(["'])(.*?)\\1/i.exec(anchor)?.[2] || /\\balt=(["'])(.*?)\\1/i.exec(imageMatch[0])?.[2] || '';
+    anchor = /\\bclass=(["'])(.*?)\\1/i.test(anchor)
+      ? anchor.replace(/\\bclass=(["'])(.*?)\\1/i, (_match, quote: string, value: string) => `class=${quote}${value} mobiltronic-category-card${quote}`)
+      : anchor.replace('<a', '<a class="mobiltronic-category-card"');
+    const image = imageMatch[0]
+      .replace(/\\bsrc=(["'])[^"']*\\1/i, `src="/mobiltronic-artwork/categories/${artwork}"`)
+      .replace(/\\bclass=(["'])(.*?)\\1/i, (_match, quote: string, value: string) => `class=${quote}${value} mobiltronic-category-generated-image${quote}`);
+    const inner = `${image}<span class="mobiltronic-category-label">${title}</span>`;
+    body = body.slice(0, anchorStart) + anchor + inner + body.slice(anchorCloseEnd);
+  }
+  return body;
+}
+
 export default async function MobiltronicPage({ params, searchParams }: PageProps) {
   const route = routeFor((await params).slug);
   const query = await searchParams;
@@ -103,6 +135,7 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
   const search = queryString(query);
   const page = lookup(route, search);
   if (!page) notFound();
+  const renderedBody = route === '/' ? addHomeCategoryArtwork(page.body) : page.body;
   return <>
     {page.styles.map((href) => <link key={href} rel="stylesheet" href={href} />)}
     <style>{`@font-face{font-family:FontAwesome;src:url('/mobiltronic/fontawesome-webfont.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
@@ -137,7 +170,7 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
       @media(max-width:991px){.mobiltronic-desktop-navigation{display:none}.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:repeat(2,minmax(0,1fr))}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+3){display:none}}
       @media(max-width:575px){.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:1fr}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+2){display:none}}`}</style>
     <link rel="stylesheet" href="/mobiltronic-polish.css" />
-    <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: page.body.replace('<!--/navigation-->', `<!--/navigation-->${desktopNavigationFromBody(page.body)}`) }} />
+    <div className="mobiltronic-source-copy" dir="rtl" lang="fa" dangerouslySetInnerHTML={{ __html: renderedBody.replace('<!--/navigation-->', `<!--/navigation-->${desktopNavigationFromBody(renderedBody)}`) }} />
     <HeroCarouselEnhancer route={route} />
   </>;
 }
