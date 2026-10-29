@@ -1,0 +1,110 @@
+/* Mobiltronic storefront refresh — presentation only; source copy and product assets stay intact. */
+@font-face{font-family:FontAwesome;src:url('/mobiltronic/fontawesome-webfont.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
+.mobiltronic-source-copy{--mt-ink:#182438;--mt-muted:#647184;--mt-brand:#54217d;--mt-accent:#ed922c;--mt-line:#e5eaf0;--mt-surface:#fff;--mt-bg:#f4f7fa;color:var(--mt-ink);font-family:Vazirmatn,"Noto Sans Arabic",Tahoma,Arial,sans-serif!important;font-size:15px;line-height:1.85}
+.mobiltronic-source-copy *{font-family:inherit!important}
+.mobiltronic-source-copy .fa,.mobiltronic-source-copy .fa:before{font-family:FontAwesome!important}
+.mobiltronic-source-copy .container{max-width:1200px}
+.mobiltronic-source-copy .navbar-container{background:#fff!important;border-bottom:1px solid var(--mt-line);box-shadow:0 5px 20px rgba(19,35,56,.045)!important;margin-bottom:24px!important}
+.mobiltronic-source-copy .navbar-container>.bg-white{padding-top:22px!important;padding-bottom:22px!important}
+.mobiltronic-source-copy .header-logo-image{max-height:72px;width:auto;object-fit:contain}
+.mobiltronic-source-copy .quicksearch-query-input{min-height:46px;padding-inline:16px;border:1px solid var(--mt-line);border-radius:9px;background:#f7f9fc;color:var(--mt-ink);font-size:15px}
+.mobiltronic-source-copy .quicksearch-query-button{min-width:46px;min-height:46px;border-radius:9px!important;background:var(--mt-accent)!important;border-color:var(--mt-accent)!important;color:white!important}
+.mobiltronic-desktop-navigation{background:#fff!important;border-bottom:1px solid var(--mt-line)!important;margin-top:-24px!important;margin-bottom:26px!important;box-shadow:0 5px 18px rgba(19,35,56,.035);z-index:20}
+.mobiltronic-desktop-navigation>.container{max-width:1200px!important;min-height:58px;align-items:center}
+.mobiltronic-desktop-navigation .navbar-nav{width:100%;justify-content:flex-start;gap:6px}
+.mobiltronic-desktop-navigation .nav-item{position:relative;list-style:none}
+.mobiltronic-desktop-navigation .nav-link{display:block;padding:13px 16px;color:#354256;font-weight:600;font-size:14px;text-decoration:none;border-radius:8px;transition:background .18s ease,color .18s ease}
+.mobiltronic-desktop-navigation .nav-item:hover>.nav-link,.mobiltronic-desktop-navigation .nav-item:focus-within>.nav-link{background:#f5eff9;color:var(--mt-brand)}
+.mobiltronic-desktop-navigation .nav-subset{display:none;min-width:250px;list-style:none;position:absolute;top:calc(100% - 2px);right:0;background:#fff;padding:10px;white-space:nowrap;z-index:21;box-shadow:0 15px 38px rgba(23,37,58,.14);border:1px solid var(--mt-line);border-radius:12px}
+.mobiltronic-desktop-navigation .nav-subset-item{position:relative;list-style:none}
+.mobiltronic-desktop-navigation .nav-subset-item>.nav-subset{top:-1px;right:100%}
+.mobiltronic-desktop-navigation .nav-subset-link{display:block;padding:9px 15px 9px 30px;color:var(--mt-muted);font-size:14px;text-decoration:none;border-radius:7px}
+.mobiltronic-desktop-navigation .nav-subset-link:hover{background:#f5eff9;color:var(--mt-brand)}
+.mobiltronic-desktop-navigation .nav-subset-link:after{content:'\f053';font-family:FontAwesome;position:absolute;left:10px;font-size:.7em;top:1px;bottom:0;height:1em;line-height:1em;margin:auto 0}
+.mobiltronic-desktop-navigation .nav-subset-item[data-subset="0"]>.nav-subset-link:after{content:''}
+.mobiltronic-desktop-navigation .nav-item:hover>.nav-subset,.mobiltronic-desktop-navigation .nav-item:focus-within>.nav-subset,.mobiltronic-desktop-navigation .nav-subset-item:hover>.nav-subset,.mobiltronic-desktop-navigation .nav-subset-item:focus-within>.nav-subset{display:block!important}
+.mobiltronic-desktop-navigation a:focus-visible,.mobiltronic-source-copy a:focus-visible{outline:3px solid #ec9a3d;outline-offset:3px}
+.mobiltronic-source-copy .index-slider .owl-carousel{display:block;overflow:hidden}
+.mobiltronic-source-copy .index-slider .owl-carousel:not(.mobiltronic-hero-carousel)>a:not(:first-child){display:none}
+.mobiltronic-source-copy .index-slider .mobiltronic-hero-carousel{position:relative;display:grid;grid-template-areas:'slide';overflow:hidden;border-radius:18px}
+.mobiltronic-source-copy .mobiltronic-hero-slide{grid-area:slide;opacity:0;visibility:hidden;transition:opacity .45s ease,transform .45s ease;pointer-events:none;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 12px 35px rgba(18,34,55,.10)}
+.mobiltronic-source-copy .mobiltronic-hero-slide.is-active{opacity:1;visibility:visible;pointer-events:auto}
+.mobiltronic-source-copy .mobiltronic-hero-slide img{display:block;max-height:390px;object-fit:contain;background:#fff}
+.mobiltronic-source-copy .mobiltronic-hero-dots{position:absolute;z-index:2;left:0;right:0;bottom:14px;display:flex;justify-content:center;gap:8px;pointer-events:none}
+.mobiltronic-source-copy .mobiltronic-hero-dots button{pointer-events:auto;width:10px;height:10px;min-width:10px;padding:0;border:0;border-radius:50%;background:#8792a0;cursor:pointer;transition:all .2s ease}
+.mobiltronic-source-copy .mobiltronic-hero-dots button.is-active{width:24px;border-radius:8px;background:var(--mt-accent)}
+.mobiltronic-source-copy .index-slider img{image-rendering:auto}
+.mobiltronic-source-copy .index-products-carousel.owl-carousel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;overflow:hidden}
+.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+5){display:none}
+.mobiltronic-source-copy .index-products-carousel-item{padding:0!important}
+.mobiltronic-source-copy .store-product,.mobiltronic-source-copy .store-compact-product,.mobiltronic-source-copy .blog-post,.mobiltronic-source-copy .blog-compact-post,.mobiltronic-source-copy .product-relates-item{height:100%;overflow:hidden;border:1px solid var(--mt-line);border-radius:14px;background:var(--mt-surface);box-shadow:0 5px 18px rgba(23,37,58,.055);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.mobiltronic-source-copy .store-product:hover,.mobiltronic-source-copy .store-compact-product:hover,.mobiltronic-source-copy .blog-post:hover,.mobiltronic-source-copy .blog-compact-post:hover,.mobiltronic-source-copy .product-relates-item:hover{transform:translateY(-4px);border-color:#d6c3e5;box-shadow:0 14px 30px rgba(31,38,55,.12)}
+.mobiltronic-source-copy .store-product-image,.mobiltronic-source-copy .store-compact-product-image,.mobiltronic-source-copy .product-image{background:linear-gradient(145deg,#fff,#f6f8fb);padding:14px;border-radius:12px}
+.mobiltronic-source-copy .store-product-image-element,.mobiltronic-source-copy .store-compact-product-image-element,.mobiltronic-source-copy .product-image-element,.mobiltronic-source-copy .product-relates-item-image-element{max-height:250px;width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(21,35,54,.12));transition:transform .25s ease}
+.mobiltronic-source-copy .store-product:hover .store-product-image-element,.mobiltronic-source-copy .store-compact-product:hover .store-compact-product-image-element{transform:scale(1.035)}
+.mobiltronic-source-copy .store-product-title,.mobiltronic-source-copy .store-compact-product-title,.mobiltronic-source-copy .product-title,.mobiltronic-source-copy .blog-post-title{color:var(--mt-ink);font-size:16px;font-weight:700;line-height:1.7}
+.mobiltronic-source-copy .store-product-link,.mobiltronic-source-copy .store-compact-product-link,.mobiltronic-source-copy .product-relates-item-link{color:inherit;text-decoration:none}
+.mobiltronic-source-copy .store-product-price,.mobiltronic-source-copy .store-compact-product-price{color:var(--mt-brand);font-size:17px;font-weight:700}
+.mobiltronic-source-copy .breadcrumb{padding:14px 18px;background:#fff;border:1px solid var(--mt-line);border-radius:11px;box-shadow:0 3px 12px rgba(20,34,54,.035)}
+.mobiltronic-source-copy .page-title,.mobiltronic-source-copy .store-title,.mobiltronic-source-copy .blog-title{margin:24px 0 18px;color:var(--mt-ink);font-size:clamp(24px,3vw,34px);font-weight:800;line-height:1.45;letter-spacing:-.02em}
+.mobiltronic-source-copy .index-products-carousel-title,.mobiltronic-source-copy .product-relates-title,.mobiltronic-source-copy .store-filters-categories-title,.mobiltronic-source-copy .site-footer-title{color:var(--mt-ink);font-weight:750}
+.mobiltronic-source-copy .product-container{padding:24px;border:1px solid var(--mt-line);border-radius:16px;background:#fff;box-shadow:0 8px 28px rgba(19,35,56,.06)}
+.mobiltronic-source-copy .product-image-element{max-height:430px}
+.mobiltronic-source-copy .product-description-content,.mobiltronic-source-copy .product-fields{line-height:2;color:#435064}
+.mobiltronic-source-copy .product-details-tabs{border-bottom:1px solid var(--mt-line)}
+.mobiltronic-source-copy .blog-post-excerpt,.mobiltronic-source-copy .blog-compact-post-excerpt{color:#5c6878;line-height:1.9}
+.mobiltronic-source-copy .site-footer{margin-top:40px;padding-top:44px;background:#fff;border-top:1px solid var(--mt-line);color:#596678}
+.mobiltronic-source-copy .site-footer-title{font-size:17px;margin-bottom:16px}
+.mobiltronic-source-copy .site-footer a{color:#596678;text-decoration:none}
+.mobiltronic-source-copy .site-footer a:hover{color:var(--mt-brand)}
+.mobiltronic-source-copy .index-products{padding:20px 0}
+.mobiltronic-source-copy .index-products-carousel-title{font-size:20px;padding:16px 20px}
+.mobiltronic-source-copy .btn-primary,.mobiltronic-source-copy .btn-primary:hover{background:var(--mt-accent);border-color:var(--mt-accent);border-radius:8px;color:#fff}
+.mobiltronic-source-copy .header-minicart-button,.mobiltronic-source-copy .btn-light{border-radius:9px}
+.mobiltronic-source-copy .store-products,.mobiltronic-source-copy .store-compact-products,.mobiltronic-source-copy .blog-posts-holder{gap:16px}
+.mobiltronic-source-copy .store-products .store-product{margin-bottom:16px}
+.mobiltronic-source-copy .store-filters-categories-item a{display:block;padding:8px 11px;border-radius:7px;color:#4b586b}
+.mobiltronic-source-copy .store-filters-categories-item a:hover{background:#f5eff9;color:var(--mt-brand)}
+.mobiltronic-source-copy .store-product-image-link,.mobiltronic-source-copy .store-compact-product-image-link,.mobiltronic-source-copy .product-image-link{display:flex;align-items:center;justify-content:center;min-height:210px}
+.mobiltronic-source-copy .store-product-compare-price,.mobiltronic-source-copy .store-compact-product-compare-price{color:#8a94a2}
+.mobiltronic-source-copy .store-product-discount{border-radius:20px}
+.mobiltronic-source-copy .contact-us,.mobiltronic-source-copy table{border-radius:12px}
+@media(max-width:991px){.mobiltronic-desktop-navigation{display:none!important}.mobiltronic-source-copy .navbar-container>.bg-white{padding-top:16px!important;padding-bottom:16px!important}.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:repeat(2,minmax(0,1fr))}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+3){display:none}.mobiltronic-source-copy .mobiltronic-hero-slide img{max-height:320px}}
+@media(max-width:575px){.mobiltronic-source-copy{font-size:14px}.mobiltronic-source-copy .container{padding-inline:14px}.mobiltronic-source-copy .header-logo-image{max-height:54px}.mobiltronic-source-copy .index-products-carousel.owl-carousel{grid-template-columns:1fr}.mobiltronic-source-copy .index-products-carousel.owl-carousel>.index-products-carousel-item:nth-child(n+2){display:none}.mobiltronic-source-copy .mobiltronic-hero-slide img{max-height:240px}.mobiltronic-source-copy .product-container{padding:14px}.mobiltronic-source-copy .breadcrumb{padding:11px 12px}}
+@media(prefers-reduced-motion:reduce){.mobiltronic-source-copy *,.mobiltronic-desktop-navigation *{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+/* Site-wide picture treatment. Product photos stay accurate; the depth comes from lighting, framing and the card surface. */
+.mt{background:#f3f6fa}
+.mobiltronic-source-copy .index-slider{border:1px solid #e7eaf0;border-radius:18px!important;box-shadow:0 14px 34px rgba(28,39,60,.10)!important;overflow:hidden}
+.mobiltronic-source-copy .index-slider .owl-carousel a{overflow:hidden;border-radius:14px}
+.mobiltronic-source-copy .index-slider .owl-carousel a img{filter:none;transition:transform .35s ease}
+.mobiltronic-source-copy .index-slider .owl-carousel a:hover img{transform:scale(1.015)}
+.mobiltronic-source-copy .store-product-image,.mobiltronic-source-copy .store-compact-product-image,.mobiltronic-source-copy .product-image,.mobiltronic-source-copy .product-relates-item-image{position:relative;overflow:hidden;border:1px solid #e7ebf1;border-radius:14px;background:radial-gradient(ellipse at 18% 18%,rgba(112,89,190,.14),transparent 42%),radial-gradient(ellipse at 84% 82%,rgba(49,174,201,.14),transparent 44%),linear-gradient(145deg,#fbfcff 0%,#f0f5fa 100%)}
+.mobiltronic-source-copy .store-product-image-element,.mobiltronic-source-copy .store-compact-product-image-element,.mobiltronic-source-copy .product-image-element,.mobiltronic-source-copy .product-relates-item-image-element{filter:drop-shadow(0 12px 14px rgba(22,35,55,.19)) saturate(1.08) contrast(1.025);transform:translateZ(0);transition:transform .28s ease,filter .28s ease}
+.mobiltronic-source-copy .store-product:hover .store-product-image-element,.mobiltronic-source-copy .store-compact-product:hover .store-compact-product-image-element,.mobiltronic-source-copy .product-relates-item:hover .product-relates-item-image-element{transform:translateY(-3px) scale(1.035);filter:drop-shadow(0 17px 17px rgba(22,35,55,.24)) saturate(1.12) contrast(1.03)}
+.mobiltronic-source-copy .product-images-slider-item,.mobiltronic-source-copy .product-images-item{border:1px solid #e5e9f0;border-radius:12px;background:linear-gradient(145deg,#fff,#f2f5fa);box-shadow:0 5px 16px rgba(29,43,64,.07);overflow:hidden}
+.mobiltronic-source-copy .blog-post-image,.mobiltronic-source-copy .blog-compact-post-image,.mobiltronic-source-copy .post-image,.mobiltronic-source-copy .post-full-image{border-radius:14px;overflow:hidden;background:linear-gradient(145deg,#f5f1fb,#edf7fa);box-shadow:0 9px 24px rgba(25,39,60,.10)}
+.mobiltronic-source-copy .blog-post-image-element,.mobiltronic-source-copy .blog-compact-post-image-element,.mobiltronic-source-copy .post-image-element,.mobiltronic-source-copy .post-full-image-element{display:block;border-radius:12px;filter:saturate(1.08) contrast(1.025);transition:transform .35s ease,filter .35s ease}
+.mobiltronic-source-copy .blog-post:hover .blog-post-image-element,.mobiltronic-source-copy .blog-compact-post:hover .blog-compact-post-image-element{transform:scale(1.025);filter:saturate(1.14) contrast(1.04)}
+.mobiltronic-source-copy img.d-block.h-100{border-radius:16px;filter:drop-shadow(0 12px 18px rgba(28,43,62,.15))}
+.mobiltronic-source-copy .mobiltronic-category-card{position:relative;display:block!important;overflow:hidden;border:1px solid #e3e8ef;border-radius:18px;background:#fff;box-shadow:0 7px 22px rgba(28,40,60,.09);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.mobiltronic-source-copy .mobiltronic-category-card:hover{transform:translateY(-5px);border-color:#d7c7e5;box-shadow:0 16px 34px rgba(33,38,58,.16)}
+.mobiltronic-source-copy .mobiltronic-category-generated-image{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .4s ease}
+.mobiltronic-source-copy .mobiltronic-category-card:hover .mobiltronic-category-generated-image{transform:scale(1.045)}
+.mobiltronic-source-copy .mobiltronic-category-label{position:absolute;right:10px;bottom:10px;left:10px;padding:9px 12px;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:linear-gradient(110deg,rgba(26,34,52,.82),rgba(64,39,91,.76));color:#fff;font-size:15px;font-weight:700;line-height:1.5;text-align:center;backdrop-filter:blur(6px)}
+@media(max-width:575px){.mobiltronic-source-copy .mobiltronic-category-card{border-radius:14px}.mobiltronic-source-copy .mobiltronic-category-label{right:7px;bottom:7px;left:7px;padding:7px 8px;font-size:13px}}
+@media(prefers-reduced-motion:reduce){.mobiltronic-source-copy .mobiltronic-category-card,.mobiltronic-source-copy .mobiltronic-category-generated-image,.mobiltronic-source-copy .store-product-image-element,.mobiltronic-source-copy .store-compact-product-image-element,.mobiltronic-source-copy .product-image-element,.mobiltronic-source-copy .product-relates-item-image-element{transition:none}}
+
+/* Light color correction for remaining storefront illustrations; preserve the logo and animated badge. */
+.mt img{filter:saturate(1.06) contrast(1.025);transition:filter .25s ease,transform .25s ease}
+.mt img.header-logo-image,.mt img[src$=".gif"]{filter:none}
+
+/* Stronger shared image depth across every route. Respect reduced-motion preferences below. */
+.mt img{filter:saturate(1.12) contrast(1.035) drop-shadow(0 8px 11px rgba(21,34,53,.16));transition:filter .28s ease,transform .28s ease}
+.mt img.header-logo-image,.mt img[src$=".gif"]{filter:none}
+.mobiltronic-source-copy .store-product-image-element,.mobiltronic-source-copy .store-compact-product-image-element,.mobiltronic-source-copy .product-image-element,.mobiltronic-source-copy .product-relates-item-image-element{filter:drop-shadow(0 15px 18px rgba(22,35,55,.23)) saturate(1.12) contrast(1.035);transform:perspective(1100px) translateZ(0)}
+.mobiltronic-source-copy .store-product:hover .store-product-image-element,.mobiltronic-source-copy .store-compact-product:hover .store-compact-product-image-element,.mobiltronic-source-copy .product-relates-item:hover .product-relates-item-image-element{transform:perspective(950px) rotateY(-2deg) rotateX(1deg) translateY(-4px) scale(1.04);filter:drop-shadow(0 19px 20px rgba(22,35,55,.26)) saturate(1.15) contrast(1.04)}
+.mobiltronic-source-copy .store-product:hover,.mobiltronic-source-copy .store-compact-product:hover,.mobiltronic-source-copy .product-relates-item:hover{transform:perspective(1200px) rotateY(-1deg) translateY(-5px);box-shadow:0 18px 36px rgba(31,38,55,.15)}
+.mobiltronic-source-copy .product-images-slider-item:hover,.mobiltronic-source-copy .product-images-item:hover{transform:perspective(1000px) rotateY(-1deg) translateY(-3px);box-shadow:0 12px 26px rgba(29,43,64,.13)}
+.mobiltronic-source-copy .blog-post:hover,.mobiltronic-source-copy .blog-compact-post:hover{transform:perspective(1100px) rotateY(-1deg) translateY(-5px)}
+@media(prefers-reduced-motion:reduce){.mt img,.mobiltronic-source-copy .store-product,.mobiltronic-source-copy .store-compact-product,.mobiltronic-source-copy .product-relates-item,.mobiltronic-source-copy .product-images-slider-item,.mobiltronic-source-copy .product-images-item,.mobiltronic-source-copy .blog-post,.mobiltronic-source-copy .blog-compact-post{transition:none!important;transform:none!important}}
