@@ -120,7 +120,7 @@ function addHomeCategoryArtwork(body: string) {
     const image = imageMatch[0]
       .replace(/\bsrc=(["'])[^"']*\1/i, `src="/mobiltronic-artwork/categories/${artwork}"`)
       .replace(/\bclass=(["'])(.*?)\1/i, (_match, quote: string, value: string) => `class=${quote}${value} mobiltronic-category-generated-image${quote}`);
-    const inner = `${image}<span class="mobiltronic-category-label">${title}</span>`;
+    const inner = `${image}<span class="mobiltronic-category-label">${title}</span><span class="mobiltronic-watermark" aria-hidden="true">MOBILTRONIC</span>`;
     body = body.slice(0, anchorStart) + anchor + inner + body.slice(anchorCloseEnd);
   }
   return body;
@@ -135,7 +135,11 @@ export default async function MobiltronicPage({ params, searchParams }: PageProp
   const search = queryString(query);
   const page = lookup(route, search);
   if (!page) notFound();
-  const renderedBody = route === '/' ? addHomeCategoryArtwork(page.body) : page.body;
+  const withCategoryArtwork = route === '/' ? addHomeCategoryArtwork(page.body) : page.body;
+  const renderedBody = withCategoryArtwork.replace(
+    /<(div|a)\b([^>]*\bclass=(?:"[^"]*\b(?:store-product-image|store-compact-product-image|product-image|product-relates-item-image|blog-post-image|blog-compact-post-image|post-image|post-full-image)\b[^"]*"|'[^']*\b(?:store-product-image|store-compact-product-image|product-image|product-relates-item-image|blog-post-image|blog-compact-post-image|post-image|post-full-image)\b[^']*')[^>]*)>/gi,
+    (match, tag: string, attributes: string) => `${match}<span class="mobiltronic-watermark" aria-hidden="true">MOBILTRONIC</span>`,
+  );
   return <>
     {page.styles.map((href) => <link key={href} rel="stylesheet" href={href} />)}
     <style>{`@font-face{font-family:FontAwesome;src:url('/mobiltronic/fontawesome-webfont.woff2') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
