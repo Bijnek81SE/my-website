@@ -22,6 +22,11 @@ export default function HeroCarouselEnhancer({ route }: { route: string }) {
       slide.classList.add('mobiltronic-hero-slide');
       slide.setAttribute('aria-roledescription', 'slide');
       slide.setAttribute('aria-label', `${index + 1} از ${slides.length}`);
+      const watermark = document.createElement('span');
+      watermark.className = 'mobiltronic-watermark';
+      watermark.setAttribute('aria-hidden', 'true');
+      watermark.textContent = 'mobiltronic.ir';
+      slide.append(watermark);
       const button = document.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-label', `نمایش اسلاید ${index + 1}`);
